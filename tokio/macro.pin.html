@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Pins a value on the stack."><title>pin in tokio - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">pin</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">pin</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#examples" title="Examples">示例</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">tokio</a></div><h1>宏 <span class="macro">pin</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/macros/pin.rs.html#125-144">源代码</a> </span></div><pre class="rust item-decl"><code>macro_rules! pin {
+    ($($x:ident),*) =&gt; { ... };
+    ($(
+            let $x:ident = $init:expr;
+    )*) =&gt; { ... };
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>在栈上 pin 一个值。</p>
+<p>对 <code>async fn</code> 的调用返回的是匿名的 <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future"><code>Future</code></a> 值，这些值是 <code>!Unpin</code> 的。必须先将这些值 pin 才能 poll。调用 <code>.await</code> 会处理这一点，但会消费 future。如果需要在 <code>&amp;mut _</code> 引用上调用 <code>.await</code>，则调用者负责 pin 该 future。</p>
+<p>可以通过使用 <a href="https://doc.rust-lang.org/1.95.0/alloc/boxed/struct.Box.html#method.pin" title="associated function alloc::boxed::Box::pin"><code>Box::pin</code></a> 分配来 pin，也可以使用 <code>pin!</code> 宏在栈上 pin。</p>
+<p>下面的代码将<strong>无法编译</strong>：</p>
+
+<div class="example-wrap compile_fail"><a href="#" class="tooltip" title="This example deliberately fails to compile">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>my_async_fn() {
+    <span class="comment">// 这里是异步逻辑
+</span>}
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    <span class="kw">let </span><span class="kw-2">mut </span>future = my_async_fn();
+    (<span class="kw-2">&amp;mut </span>future).<span class="kw">await</span>;
+}</code></pre></div>
+<p>要使其工作，需要 pin：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::pin;
+
+<span class="kw">async fn </span>my_async_fn() {
+    <span class="comment">// 这里是异步逻辑
+</span>}
+
+<span class="kw">let </span>future = my_async_fn();
+<span class="macro">pin!</span>(future);
+
+(<span class="kw-2">&amp;mut </span>future).<span class="kw">await</span>;</code></pre></div>
+<p>在使用需要 <code>T: Stream + Unpin</code> 的 <code>select!</code> 和流操作符时，pin 很有用。</p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p><code>pin!</code> 宏以<strong>标识符</strong>作为参数。它<strong>不能</strong>与表达式一起使用。</p>
+<p>下面的代码无法编译，因为将表达式传递给了 <code>pin!</code>。</p>
+
+<div class="example-wrap compile_fail"><a href="#" class="tooltip" title="This example deliberately fails to compile">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>my_async_fn() {
+    <span class="comment">// 这里是异步逻辑
+</span>}
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    <span class="kw">let </span><span class="kw-2">mut </span>future = <span class="macro">pin!</span>(my_async_fn());
+    (<span class="kw-2">&amp;mut </span>future).<span class="kw">await</span>;
+}</code></pre></div><h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
+<p>与 select 一起使用：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::{pin, select};
+<span class="kw">use </span>tokio_stream::{<span class="self">self </span><span class="kw">as </span>stream, StreamExt};
+
+<span class="kw">async fn </span>my_async_fn() {
+    <span class="comment">// 这里是异步逻辑
+</span>}
+
+<span class="kw">let </span><span class="kw-2">mut </span>stream = stream::iter(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
+
+<span class="kw">let </span>future = my_async_fn();
+<span class="macro">pin!</span>(future);
+
+<span class="kw">loop </span>{
+    <span class="macro">select!</span> {
+        <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future =&gt; {
+            <span class="comment">// Stop looping `future` will be polled after completion
+            </span><span class="kw">break</span>;
+        }
+        <span class="prelude-val">Some</span>(val) = stream.next() =&gt; {
+            <span class="macro">println!</span>(<span class="string">"got value = {}"</span>, val);
+        }
+    }
+}</code></pre></div>
+<p>由于先赋值给变量然后 pin 很常见，所以该宏还有一个变体，支持一次性完成这两个操作。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::{pin, select};
+
+<span class="kw">async fn </span>my_async_fn() {
+    <span class="comment">// 这里是异步逻辑
+</span>}
+
+<span class="macro">pin!</span> {
+    <span class="kw">let </span>future1 = my_async_fn();
+    <span class="kw">let </span>future2 = my_async_fn();
+}
+
+<span class="macro">select!</span> {
+    <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future1 =&gt; {}
+    <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future2 =&gt; {}
+}</code></pre></div></div></details></section></div></main></body></html>

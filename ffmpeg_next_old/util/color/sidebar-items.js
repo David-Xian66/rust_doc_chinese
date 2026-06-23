@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["primaries","range","space","transfer_characteristic"]};

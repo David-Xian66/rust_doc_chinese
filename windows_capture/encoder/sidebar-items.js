@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AudioEncoderSource","AudioSettingsSubType","ContainerSettingsSubType","ImageEncoderError","ImageEncoderPixelFormat","ImageFormat","VideoEncoderError","VideoEncoderSource","VideoSettingsSubType"],"struct":["AudioSettingsBuilder","ContainerSettingsBuilder","ImageEncoder","VideoEncoder","VideoSettingsBuilder"]};

@@ -1,0 +1,9 @@
+/target
+.idea
+Cargo.lock
+dup.png
+CLAUDE.md
+REVIEW.md
+/STRUCTURE.md
+.claude
+__pycache__

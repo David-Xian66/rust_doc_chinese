@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CaptureControlError","GraphicsCaptureApiError"],"struct":["CaptureControl","Context"],"trait":["GraphicsCaptureApiHandler"]};

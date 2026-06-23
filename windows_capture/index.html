@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Windows 截图 Rust 库"><title>windows_capture - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="windows_capture" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳转到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate windows_capture</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../windows_capture/index.html">windows_<wbr>capture</a><span class="version">2.0.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">所有条目</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#windows-capture-rust-library" title="Windows 截图 Rust 库">Windows 截图 Rust 库</a><ul><li><a href="#features" title="特性">特性</a></li><li><a href="#installation" title="安装">安装</a></li><li><a href="#usage" title="用法">用法</a></li></ul></li></ul><h3><a href="#modules">Crate 条目</a></h3><ul class="block"><li><a href="#modules" title="模块">模块</a></li><li><a href="#structs" title="结构体">结构体</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏大小"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>Crate <span>windows_<wbr>capture</span>&nbsp;<button id="copy-path" title="复制条目路径到剪贴板">复制条目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/windows_capture/lib.rs.html#1-193">源码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><h2 id="windows-capture-rust-library"><a class="doc-anchor" href="#windows-capture-rust-library">§</a>Windows 截图 Rust 库</h2>
+<p><strong>Windows Capture</strong> 是一个高效的 Rust 和 Python 库，可让您使用 Graphics Capture API
+轻松地捕获屏幕。该库让您能够轻松地捕获基于 Windows 的计算机屏幕，并将其用于各种用途，
+例如制作教学视频、截图或录制游戏过程。凭借其直观的界面和强大的功能，Windows Capture
+是任何寻求可靠且易用的屏幕捕获解决方案的人的绝佳选择。</p>
+<h3 id="features"><a class="doc-anchor" href="#features">§</a>特性</h3>
+<ul>
+<li>仅在需要时更新帧</li>
+<li>高性能</li>
+<li>易于使用</li>
+<li>使用最新的 Windows Graphics Capture API</li>
+<li>支持 DXGI Desktop Duplication API</li>
+<li>经过增强的、硬件加速的视频编码器，具有稳定的音频时序</li>
+</ul>
+<h3 id="installation"><a class="doc-anchor" href="#installation">§</a>安装</h3>
+<p>将此库添加到您的 <code>Cargo.toml</code>：</p>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+windows-capture = &quot;2.0.0&quot;</code></pre></div>
+<p>或运行以下命令：</p>
+<div class="example-wrap"><pre class="language-text"><code>cargo add windows-capture</code></pre></div><h3 id="usage"><a class="doc-anchor" href="#usage">§</a>用法</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
+<span class="kw">use </span>std::time::Instant;
+
+<span class="kw">use </span>windows_capture::capture::{Context, GraphicsCaptureApiHandler};
+<span class="kw">use </span>windows_capture::encoder::{
+    AudioSettingsBuilder, ContainerSettingsBuilder, VideoEncoder, VideoSettingsBuilder,
+};
+<span class="kw">use </span>windows_capture::frame::Frame;
+<span class="kw">use </span>windows_capture::graphics_capture_api::InternalCaptureControl;
+<span class="kw">use </span>windows_capture::graphics_capture_picker::GraphicsCapturePicker;
+<span class="kw">use </span>windows_capture::settings::{
+    ColorFormat, CursorCaptureSettings, DirtyRegionSettings, DrawBorderSettings,
+    MinimumUpdateIntervalSettings, SecondaryWindowSettings, Settings,
+};
+
+<span class="comment">// 处理捕获事件。
+</span><span class="kw">struct </span>Capture {
+    <span class="comment">// 用于编码帧的视频编码器。
+    </span>encoder: <span class="prelude-ty">Option</span>&lt;VideoEncoder&gt;,
+    <span class="comment">// 用于测量捕获已运行的时间
+    </span>start: Instant,
+}
+
+<span class="kw">impl </span>GraphicsCaptureApiHandler <span class="kw">for </span>Capture {
+    <span class="comment">// 用于从设置中获取值的类型标志，此处为宽度和高度。
+    </span><span class="kw">type </span>Flags = (i32, i32);
+
+    <span class="comment">// `CaptureControl` 和 `start` 函数可能返回的错误类型。
+    </span><span class="kw">type </span>Error = Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync&gt;;
+
+    <span class="comment">// 创建新实例时调用的函数。标志可以从设置中传递。
+    </span><span class="kw">fn </span>new(ctx: Context&lt;<span class="self">Self</span>::Flags&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+        <span class="comment">// 如果我们不想从设置中获取尺寸，可以在 on_frame_arrived 函数中使用
+        // frame.width() 和 frame.height()，但需要在其中创建编码器。
+        </span><span class="kw">let </span>encoder = VideoEncoder::new(
+            VideoSettingsBuilder::new(ctx.flags.<span class="number">0 </span><span class="kw">as </span>u32, ctx.flags.<span class="number">1 </span><span class="kw">as </span>u32),
+            AudioSettingsBuilder::default().disabled(<span class="bool-val">true</span>),
+            ContainerSettingsBuilder::default(),
+            <span class="string">"video.mp4"</span>,
+        )<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ encoder: <span class="prelude-val">Some</span>(encoder), start: Instant::now() })
+    }
+
+    <span class="comment">// 每当有新帧可用时被调用。
+    </span><span class="kw">fn </span>on_frame_arrived(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        frame: <span class="kw-2">&amp;mut </span>Frame,
+        capture_control: InternalCaptureControl,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt; {
+        <span class="macro">print!</span>(<span class="string">"\r录制时长: {} 秒"</span>, <span class="self">self</span>.start.elapsed().as_secs());
+        io::stdout().flush()<span class="question-mark">?</span>;
+
+        <span class="comment">// 将帧发送到视频编码器
+        </span><span class="self">self</span>.encoder.as_mut().unwrap().send_frame(frame)<span class="question-mark">?</span>;
+
+        <span class="comment">// 该帧还有其他用途，例如，您可以按如下方式将单帧保存到文件：
+        // frame.save_as_image("frame.png", ImageFormat::Png)?;
+        // 或者按如下方式获取原始数据以便完全控制：let data = frame.buffer()?;
+
+        // 6 秒后停止捕获
+    </span><span class="kw">if </span><span class="self">self</span>.start.elapsed().as_secs() &gt;= <span class="number">6 </span>{
+            <span class="comment">// 完成编码器并保存视频。
+            </span><span class="self">self</span>.encoder.take().unwrap().finish()<span class="question-mark">?</span>;
+
+            capture_control.stop();
+
+            <span class="comment">// 因为之前的 print 没有包含换行符。
+            </span><span class="macro">println!</span>();
+        }
+
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="comment">// 当捕获项（通常是窗口）关闭时调用的可选处理函数。
+    </span><span class="kw">fn </span>on_closed(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt; {
+        <span class="macro">println!</span>(<span class="string">"捕获会话已结束"</span>);
+
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="comment">// 打开一个对话框以选择要捕获的窗口或屏幕；其他捕获项请参考文档。
+</span><span class="kw">let </span>item = GraphicsCapturePicker::pick_item().expect(<span class="string">"选择项目失败"</span>);
+
+<span class="comment">// 如果用户取消了选择，则退出。
+</span><span class="kw">let </span><span class="prelude-val">Some</span>(item) = item <span class="kw">else </span>{
+    <span class="macro">println!</span>(<span class="string">"未选择任何项目"</span>);
+    <span class="kw">return</span>;
+};
+
+<span class="comment">// 获取项目的大小以传递给设置。
+</span><span class="kw">let </span>size = item.size().expect(<span class="string">"获取项目大小失败"</span>);
+
+<span class="kw">let </span>settings = Settings::new(
+    <span class="comment">// 要捕获的项目
+    </span>item,
+    <span class="comment">// 捕获光标设置
+    </span>CursorCaptureSettings::Default,
+    <span class="comment">// 绘制边框设置
+    </span>DrawBorderSettings::Default,
+    <span class="comment">// 次级窗口设置，如果要将次级窗口包含在捕获中
+    </span>SecondaryWindowSettings::Default,
+    <span class="comment">// 最小更新间隔，如果要更改帧率限制（默认为 60 FPS 或 16.67 毫秒）
+    </span>MinimumUpdateIntervalSettings::Default,
+    <span class="comment">// 脏区域设置
+    </span>DirtyRegionSettings::Default,
+    <span class="comment">// 捕获帧所需的颜色格式。
+    </span>ColorFormat::Rgba8,
+    <span class="comment">// 将传递给用户定义的 `new` 函数的捕获设置的附加标志。
+    </span>size,
+);
+
+<span class="comment">// 启动捕获并接管当前线程。
+// 处理函数 trait 中的错误将出现在这里。
+</span>Capture::start(settings).expect(<span class="string">"屏幕捕获失败"</span>);</code></pre></div></div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="capture/index.html" title="mod windows_capture::capture">capture</a></dt><dd>包含主要的捕获功能，包括
+<a href="capture/trait.GraphicsCaptureApiHandler.html" title="trait windows_capture::capture::GraphicsCaptureApiHandler"><code>crate::capture::GraphicsCaptureApiHandler</code></a> trait 和相关类型。</dd><dt><a class="mod" href="d3d11/index.html" title="mod windows_capture::d3d11">d3d11</a></dt><dd>Direct3D 11 相关功能的内部模块。</dd><dt><a class="mod" href="dxgi_duplication_api/index.html" title="mod windows_capture::dxgi_duplication_api">dxgi_<wbr>duplication_<wbr>api</a></dt><dd>包含与 DXGI Desktop Duplication API 相关的类型和函数。
+DXGI Desktop Duplication API 封装层。</dd><dt><a class="mod" href="encoder/index.html" title="mod windows_capture::encoder">encoder</a></dt><dd>包含用于编码捕获帧的编码器功能，包括
+<a href="encoder/struct.VideoEncoder.html" title="struct windows_capture::encoder::VideoEncoder"><code>crate::encoder::VideoEncoder</code></a>。</dd><dt><a class="mod" href="frame/index.html" title="mod windows_capture::frame">frame</a></dt><dd>包含 <a href="frame/struct.Frame.html" title="struct windows_capture::frame::Frame"><code>crate::frame::Frame</code></a> 结构体以及用于表示捕获帧的相关类型。</dd><dt><a class="mod" href="graphics_capture_api/index.html" title="mod windows_capture::graphics_capture_api">graphics_<wbr>capture_<wbr>api</a></dt><dd>包含与 Graphics Capture API 相关的类型和函数。</dd><dt><a class="mod" href="graphics_capture_picker/index.html" title="mod windows_capture::graphics_capture_picker">graphics_<wbr>capture_<wbr>picker</a></dt><dd>包含用于显示选择器以选择要捕获的窗口或屏幕的功能：
+<a href="graphics_capture_picker/struct.GraphicsCapturePicker.html" title="struct windows_capture::graphics_capture_picker::GraphicsCapturePicker"><code>crate::graphics_capture_picker::GraphicsCapturePicker</code></a>。</dd><dt><a class="mod" href="monitor/index.html" title="mod windows_capture::monitor">monitor</a></dt><dd>包含用于处理显示器和屏幕信息的功能：
+<a href="monitor/struct.Monitor.html" title="struct windows_capture::monitor::Monitor"><code>crate::monitor::Monitor</code></a>。
+用于查询和操作显示显示器的实用工具。</dd><dt><a class="mod" href="settings/index.html" title="mod windows_capture::settings">settings</a></dt><dd>包含 <a href="settings/struct.Settings.html" title="struct windows_capture::settings::Settings"><code>crate::settings::Settings</code></a> 结构体以及用于配置捕获设置的相关类型。</dd><dt><a class="mod" href="window/index.html" title="mod windows_capture::window">window</a></dt><dd>包含用于处理窗口和捕获特定窗口的功能：
+<a href="window/struct.Window.html" title="struct windows_capture::window::Window"><code>crate::window::Window</code></a>。
+用于查询和操作顶级窗口的实用工具。</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.GraphicsCaptureItem.html" title="struct windows_capture::GraphicsCaptureItem">Graphics<wbr>Capture<wbr>Item</a></dt><dd>为 trait 约束而导出</dd></dl></section></div></main></body></html>

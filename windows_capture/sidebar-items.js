@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["capture","d3d11","dxgi_duplication_api","encoder","frame","graphics_capture_api","graphics_capture_picker","monitor","settings","window"],"struct":["GraphicsCaptureItem"]};

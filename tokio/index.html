@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="一个用于编写可靠网络应用程序且不妥协性能的运行时。"><title>tokio - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">crate tokio</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">所有项</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#a-tour-of-tokio" title="Tokio 概览">Tokio 概览</a><ul><li><a href="#authoring-applications" title="编写应用程序">编写应用程序</a></li><li><a href="#authoring-libraries" title="编写库">编写库</a></li><li><a href="#working-with-tasks" title="使用任务">使用任务</a></li><li><a href="#cpu-bound-tasks-and-blocking-code" title="CPU 密集型任务与阻塞代码">CPU 密集型任务与阻塞代码</a></li><li><a href="#asynchronous-io" title="异步 I/O">异步 I/O</a></li></ul></li><li><a href="#examples" title="示例">示例</a></li><li><a href="#feature-flags" title="特性标志">特性标志</a><ul><li><a href="#unstable-features" title="不稳定特性">不稳定特性</a></li></ul></li><li><a href="#supported-platforms" title="支持的平台">支持的平台</a><ul><li><a href="#wasm-support" title="`WASM` 支持"><code>WASM</code> support</a></li><li><a href="#unstable-wasm-support" title="不稳定的 `WASM` 支持">Unstable <code>WASM</code> support</a></li></ul></li></ul><h3><a href="#reexports">crate 项</a></h3><ul class="block"><li><a href="#reexports" title="重新导出">重新导出</a></li><li><a href="#modules" title="模块">模块</a></li><li><a href="#macros" title="宏">宏</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>crate <span>tokio</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/lib.rs.html#1-694">源代码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>用于编写可靠的网络应用程序而不影响速度的运行时。</p>
+<p>Tokio 是一个事件驱动、非阻塞的 I/O 平台，用于使用 Rust 编程语言编写异步应用程序。从高层次上讲，它提供了几个主要组件：</p>
+<ul>
+<li>用于<a href="#working-with-tasks">使用异步任务</a>的工具，包括<a href="sync/index.html" title="mod tokio::sync">同步原语和通道</a>以及<a href="time/index.html" title="mod tokio::time">超时、休眠和
+定时器</a>。</li>
+<li>用于<a href="#asynchronous-io">执行异步 I/O</a>的 API，包括 <a href="net/index.html" title="mod tokio::net">TCP 和 UDP</a> 套接字、
+<a href="crate::fs">文件系统</a>操作，以及 <a href="crate::process">进程</a>和 <a href="crate::signal">信号</a>管理。</li>
+<li>用于执行异步代码的<a href="runtime/index.html" title="mod tokio::runtime">运行时</a>，包括任务调度器、由操作系统事件队列（<code>epoll</code>、<code>kqueue</code>、
+<code>IOCP</code> 等）支持的 I/O 驱动，以及一个高性能定时器。</li>
+</ul>
+<p>指南级文档可在<a href="https://tokio.rs/tokio/tutorial">官网</a>上找到。</p>
+<h2 id="a-tour-of-tokio"><a class="doc-anchor" href="#a-tour-of-tokio">§</a>Tokio 概览</h2>
+<p>Tokio 由许多模块组成，这些模块提供了在 Rust 中实现异步应用程序所需的各种功能。在本节中，我们将简要地浏览 Tokio，概括其主要 API 及其用途。</p>
+<p>最简单的上手方式是启用所有特性。请通过启用 <code>full</code> 特性标志来实现：</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-applications"><a class="doc-anchor" href="#authoring-applications">§</a>编写应用程序</h4>
+<p>Tokio 非常适合编写应用程序，对于大多数用户来说，不需要过于担心应该选择哪些特性。如果你不确定，我们建议使用 <code>full</code>，以确保在构建应用程序时不会遇到任何阻碍。</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>示例</h5>
+<p>本示例展示使用 Tokio 最快速的上手方法。</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-libraries"><a class="doc-anchor" href="#authoring-libraries">§</a>编写库</h4>
+<p>作为库的作者，你的目标应该是提供基于 Tokio 的最轻量级 crate。为此，你应该确保只启用你需要的特性。这样用户就可以使用你的 crate，而无需启用不必要的特性。</p>
+<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>示例</h5>
+<p>本示例展示对于一个只需要 <code>tokio::spawn</code> 并使用 <code>TcpStream</code> 的库，应当如何引入特性。</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;rt&quot;, &quot;net&quot;] }</code></pre></div><h3 id="working-with-tasks"><a class="doc-anchor" href="#working-with-tasks">§</a>使用任务</h3>
+<p>Rust 中的异步程序围绕轻量级、非阻塞的执行单元（即<a href="#working-with-tasks"><em>任务</em></a>）构建。<a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块提供了处理任务的重要工具：</p>
+<ul>
+<li><a href="task/fn.spawn.html" title="fn tokio::task::spawn"><code>spawn</code></a> 函数和 <a href="task/struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 类型，分别用于在 Tokio 运行时上调度一个新任务
+以及等待已生成任务的输出，</li>
+<li>用于在异步任务上下文中<a href="task/index.html#blocking-and-yielding">运行阻塞操作</a>的函数。</li>
+</ul>
+<p><a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块仅在启用了 “rt” 特性标志时可用。</p>
+<p><a href="sync/index.html" title="mod tokio::sync"><code>tokio::sync</code></a> 模块包含在需要通信或共享数据时使用的同步原语。其中包括：</p>
+<ul>
+<li>通道（<a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a>、<a href="sync/mpsc/index.html" title="mod tokio::sync::mpsc"><code>mpsc</code></a>、<a href="sync/watch/index.html" title="mod tokio::sync::watch"><code>watch</code></a> 和 <a href="sync/broadcast/index.html" title="mod tokio::sync::broadcast"><code>broadcast</code></a>），用于在任务之间
+发送值，</li>
+<li>一个非阻塞的 <a href="sync/struct.Mutex.html" title="struct tokio::sync::Mutex"><code>Mutex</code></a>，用于控制对共享可变值的访问，</li>
+<li>一个异步的 <a href="sync/struct.Barrier.html" title="struct tokio::sync::Barrier"><code>Barrier</code></a> 类型，用于在开始计算前让多个任务同步。</li>
+</ul>
+<p><code>tokio::sync</code> 模块仅在启用了 “sync” 特性标志时可用。</p>
+<p><a href="time/index.html" title="mod tokio::time"><code>tokio::time</code></a> 模块提供了跟踪时间和调度工作的工具。这包括为任务设置<a href="time/fn.timeout.html" title="fn tokio::time::timeout">超时</a>、
+将工作<a href="time/fn.sleep.html" title="fn tokio::time::sleep">休眠</a>到将来某个时间再运行，或<a href="time/fn.interval.html" title="fn tokio::time::interval">以固定间隔重复执行某个操作</a>的函数。</p>
+<p>要使用 <code>tokio::time</code>，必须启用 “time” 特性标志。</p>
+<p>最后，Tokio 提供了一个用于执行异步任务的<em>运行时</em>。大多数应用程序可以使用 <a href="attr.main.html"><code>#[tokio::main]</code></a> 宏来在 Tokio 运行时上运行它们的代码。但是，该宏只提供基本的配置选项。作为替代方案，<a href="runtime/index.html" title="mod tokio::runtime"><code>tokio::runtime</code></a> 模块提供了更强大的 API 来配置和管理运行时。如果 <code>#[tokio::main]</code> 宏不能满足你的需求，应当使用该模块。</p>
+<p>使用运行时需要 “rt” 或 “rt-multi-thread” 特性标志，分别用于启用当前线程的<a href="runtime/index.html#current-thread-scheduler">单线程调度器</a>和<a href="runtime/index.html#multi-thread-scheduler">多线程
+调度器</a>。详情请参阅<a href="runtime/index.html#runtime-scheduler"><code>runtime</code> 模块文档</a>。此外，“macros” 特性
+标志会启用 <code>#[tokio::main]</code> 和 <code>#[tokio::test]</code> 属性。</p>
+<h3 id="cpu-bound-tasks-and-blocking-code"><a class="doc-anchor" href="#cpu-bound-tasks-and-blocking-code">§</a>CPU 密集型任务与阻塞代码</h3>
+<p>Tokio 能够通过在线程上反复切换当前正在运行的任务，在少量线程上并发运行大量任务。但是，这种切换只能发生在 <code>.await</code> 处，因此长时间无法到达 <code>.await</code> 的代码会阻止其他任务运行。为了解决这一问题，Tokio 提供了两种线程：核心线程和阻塞线程。</p>
+<p>核心线程是所有异步代码运行的地方，Tokio 默认会为每个 CPU 核心派生一个核心线程。你可以使用环境变量 <code>TOKIO_WORKER_THREADS</code> 来覆盖默认值。</p>
+<p>阻塞线程按需派生，可用于运行那些否则会阻塞其他任务运行的
+阻塞代码。它们在一段时间内未被使用时会被保留，该时间可以通过 <a href="runtime/struct.Builder.html#method.thread_keep_alive" title="method tokio::runtime::Builder::thread_keep_alive"><code>thread_keep_alive</code></a>
+进行配置。由于 Tokio 不可能像对异步代码那样换出阻塞任务，阻塞线程数量的上限非常大。这些限制可以在 <a href="runtime/struct.Builder.html" title="struct tokio::runtime::Builder"><code>Builder</code></a> 上配置。</p>
+<p>要派生一个阻塞任务，应当使用 <a href="task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 函数。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    <span class="comment">// 这段代码运行在核心线程上。
+
+    </span><span class="kw">let </span>blocking_task = tokio::task::spawn_blocking(|| {
+        <span class="comment">// 这段代码运行在阻塞线程上。
+        // 在这里阻塞是允许的。
+    </span>});
+
+    <span class="comment">// 我们可以像这样等待阻塞任务完成：
+    // 如果阻塞任务 panic，下面的 unwrap 将传播该 panic。
+    </span>blocking_task.<span class="kw">await</span>.unwrap();
+}</code></pre></div>
+<p>如果你的代码是 CPU 密集型的，并且希望限制用于运行它的线程数量，则应使用专用于 CPU 密集型任务的单独线程池。例如，可以考虑使用 <a href="https://docs.rs/rayon">rayon</a> 库来处理 CPU 密集型任务。也可以创建一个专用于 CPU 密集型任务的额外 Tokio 运行时，但如果这样做，需要小心，让该额外运行时<em>仅</em>运行 CPU 密集型任务，因为在该运行时上运行 I/O 密集型任务时表现会很差。</p>
+<p>提示：如果使用 rayon，可以在 rayon 任务完成时使用 <a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a> 通道将结果发送回 Tokio。</p>
+<h3 id="asynchronous-io"><a class="doc-anchor" href="#asynchronous-io">§</a>异步 I/O</h3>
+<p>除了调度和运行任务外，Tokio 还提供了异步执行输入和输出所需的一切功能。</p>
+<p><a href="io/index.html" title="mod tokio::io"><code>tokio::io</code></a> 模块提供了 Tokio 的异步核心 I/O 原语，即 <a href="io/trait.AsyncRead.html" title="trait tokio::io::AsyncRead"><code>AsyncRead</code></a>、<a href="io/trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> 和 <a href="io/trait.AsyncBufRead.html" title="trait tokio::io::AsyncBufRead"><code>AsyncBufRead</code></a> 这些 trait。此外，当启用了 “io-util” 特性标志时，它还提供了用于处理这些 trait 的组合子和函数，作为 <a href="https://doc.rust-lang.org/1.95.0/std/io/index.html" title="mod std::io"><code>std::io</code></a> 的异步对应物。</p>
+<p>Tokio 还包含用于执行各种 I/O 以及与操作系统异步交互的 API。其中包括：</p>
+<ul>
+<li><a href="net/index.html" title="mod tokio::net"><code>tokio::net</code></a>，包含 <a href="net/tcp/index.html" title="mod tokio::net::tcp">TCP</a>、<a href="net/struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UDP</a> 和
+<a href="crate::net::unix">Unix 域套接字</a>的非阻塞版本（通过 “net” 特性标志启用），</li>
+<li><a href="crate::fs"><code>tokio::fs</code></a>，类似于 <a href="https://doc.rust-lang.org/1.95.0/std/fs/index.html" title="mod std::fs"><code>std::fs</code></a>，但用于异步执行文件系统 I/O
+（通过 “fs” 特性标志启用），</li>
+<li><a href="crate::signal"><code>tokio::signal</code></a>，用于异步处理 Unix 和 Windows 操作系统的信号
+（通过 “signal” 特性标志启用），</li>
+<li><a href="crate::process"><code>tokio::process</code></a>，用于派生和管理子进程（通过
+“process” 特性标志启用）。</li>
+</ul>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
+<p>一个简单的 TCP 回显服务器：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::TcpListener;
+<span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    <span class="kw">let </span>listener = TcpListener::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>(<span class="kw-2">mut </span>socket, <span class="kw">_</span>) = listener.accept().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        tokio::spawn(<span class="kw">async move </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+            <span class="comment">// 在循环中，从套接字读取数据并将其写回。
+            </span><span class="kw">loop </span>{
+                <span class="kw">let </span>n = <span class="kw">match </span>socket.read(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await </span>{
+                    <span class="comment">// 套接字已关闭
+                    </span><span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return</span>,
+                    <span class="prelude-val">Ok</span>(n) =&gt; n,
+                    <span class="prelude-val">Err</span>(e) =&gt; {
+                        <span class="macro">eprintln!</span>(<span class="string">"failed to read from socket; err = {:?}"</span>, e);
+                        <span class="kw">return</span>;
+                    }
+                };
+
+                <span class="comment">// 将数据写回
+                </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = socket.write_all(<span class="kw-2">&amp;</span>buf[<span class="number">0</span>..n]).<span class="kw">await </span>{
+                    <span class="macro">eprintln!</span>(<span class="string">"failed to write to socket; err = {:?}"</span>, e);
+                    <span class="kw">return</span>;
+                }
+            }
+        });
+    }
+}</code></pre></div><h2 id="feature-flags"><a class="doc-anchor" href="#feature-flags">§</a>特性标志</h2>
+<p>Tokio 使用一组<a href="https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section">特性标志</a>来减少编译代码量。可以只启用其中某些特性而不启用其他特性。默认情况下，Tokio 不会启用任何特性，但允许你为用例启用一个子集。下面是可用特性标志的列表。你可能还会注意到在每个函数、结构体和 trait 上方会列出使用该项所需的一个或多个特性标志。如果你是 Tokio 的新手，建议使用 <code>full</code> 特性标志，它会启用所有公开 API。但请注意，这会引入许多你可能不需要的额外依赖。</p>
+<ul>
+<li><code>full</code>：启用下面列出的所有特性，<code>test-util</code> 和不稳定特性除外。</li>
+<li><code>rt</code>：启用 <code>tokio::spawn</code>、当前线程调度器
+以及非调度器相关的工具。</li>
+<li><code>rt-multi-thread</code>：启用较重的、多线程的工作窃取调度器。</li>
+<li><code>io-util</code>：启用基于 I/O 的 <code>Ext</code> trait。</li>
+<li><code>io-std</code>：启用 <code>Stdout</code>、<code>Stdin</code> 和 <code>Stderr</code> 类型。</li>
+<li><code>net</code>：启用 <code>tokio::net</code> 中的类型，如 <code>TcpStream</code>、<code>UnixStream</code> 和
+<code>UdpSocket</code>，以及（类 Unix 系统上的）<code>AsyncFd</code> 和（FreeBSD 上的）<code>PollAio</code>。</li>
+<li><code>time</code>：启用 <code>tokio::time</code> 中的类型，并允许调度器启用
+内置定时器。</li>
+<li><code>process</code>：启用 <code>tokio::process</code> 中的类型。</li>
+<li><code>macros</code>：启用 <code>#[tokio::main]</code> 和 <code>#[tokio::test]</code> 宏。</li>
+<li><code>sync</code>：启用所有 <code>tokio::sync</code> 类型。</li>
+<li><code>signal</code>：启用所有 <code>tokio::signal</code> 类型。</li>
+<li><code>fs</code>：启用 <code>tokio::fs</code> 类型。</li>
+<li><code>test-util</code>：启用 Tokio 运行时的测试相关基础设施。</li>
+<li><code>parking_lot</code>：作为一种潜在优化，内部使用 [<code>parking_lot</code>] crate 的
+同步原语。此外，该依赖也是在 <code>const</code> 上下文中构造
+我们某些原语所必需的。<code>MSRV</code> 可能会根据所使用
+的 [<code>parking_lot</code>] 版本而提高。</li>
+</ul>
+<p><em>注意：<code>AsyncRead</code> 和 <code>AsyncWrite</code> trait 不需要任何特性，始终可用。</em></p>
+<h3 id="unstable-features"><a class="doc-anchor" href="#unstable-features">§</a>不稳定特性</h3>
+<p>某些特性标志仅在指定了 <code>tokio_unstable</code> 标志时才可用：</p>
+<ul>
+<li><code>tracing</code>：启用 tracing 事件。</li>
+<li><code>io-uring</code>：启用 <code>io-uring</code>（仅限 Linux）。</li>
+<li><code>taskdump</code>：启用 <code>taskdump</code>（仅限 Linux）。</li>
+</ul>
+<p>同样，此标志可以访问不稳定的 API。</p>
+<p>此标志启用<strong>不稳定</strong>特性。这些特性的公开 API 可能会在 1.x 版本中发生破坏性变更。要启用这些特性，在编译时必须向 <code>rustc</code> 传递 <code>--cfg tokio_unstable</code> 参数。这样做是为了显式选择加入可能违反 semver 约定的特性，因为 Cargo <a href="https://internals.rust-lang.org/t/feature-request-unstable-opt-in-non-transitive-crate-features/16193#why-not-a-crate-feature-2">尚不直接支持此类选择加入</a>。</p>
+<p>可以在项目的 <code>.cargo/config.toml</code> 文件中指定它：</p>
+<div class="example-wrap"><pre class="language-toml"><code>[build]
+rustflags = [&quot;--cfg&quot;, &quot;tokio_unstable&quot;]</code></pre></div><div class="warning">
+<code>[build]</code> 节<strong>不是</strong>放在 <code>Cargo.toml</code> 文件中，
+而必须放在 Cargo 配置文件 <code>.cargo/config.toml</code> 中。
+</div>
+<p>或者，可以通过环境变量来指定它：</p>
+<div class="example-wrap"><pre class="language-sh"><code>## Many *nix shells:
+export RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
+cargo build</code></pre></div><div class="example-wrap"><pre class="language-powershell"><code>## Windows PowerShell:
+$Env:RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
+cargo build</code></pre></div><h2 id="supported-platforms"><a class="doc-anchor" href="#supported-platforms">§</a>支持的平台</h2>
+<p>Tokio 目前保证支持以下平台：</p>
+<ul>
+<li>Linux</li>
+<li>Windows</li>
+<li>Android（API 级别 21）</li>
+<li>macOS</li>
+<li>iOS</li>
+<li>FreeBSD</li>
+</ul>
+<p>Tokio 将在未来继续支持这些平台。但是，未来的版本可能会更改一些要求，例如 Linux 上所需的最低 libc 版本、Android 上的 API 级别，或受支持的 FreeBSD 版本。</p>
+<p>除上述平台外，Tokio 旨在能在 mio crate 支持的所有平台上运行。可以在 <a href="https://crates.io/crates/mio#platforms">mio 的文档中</a>找到更长的平台列表。但是，这些额外的平台在未来可能会变得不再受支持。</p>
+<p>请注意，Wine 被视为与 Windows 不同的平台。有关 Wine 支持的更多信息，请参阅 mio 的文档。</p>
+<h3 id="wasm-support"><a class="doc-anchor" href="#wasm-support">§</a><code>WASM</code> support</h3>
+<p>Tokio 对 <code>WASM</code> 平台有一些有限的支持。在不使用 <code>tokio_unstable</code> 标志的情况下，支持以下特性：</p>
+<ul>
+<li><code>sync</code></li>
+<li><code>macros</code></li>
+<li><code>io-util</code></li>
+<li><code>rt</code></li>
+<li><code>time</code></li>
+</ul>
+<p>启用任何其他特性（包括 <code>full</code>）都会导致编译失败。</p>
+<p><code>time</code> 模块仅在支持定时器的 <code>WASM</code> 平台（例如 wasm32-wasi）上可用。在不支持定时器的 <code>WASM</code> 平台上使用时，相关的时间函数会 panic。</p>
+<p>还需注意，如果运行时无限期地空闲，它会立即 panic，而不是永远阻塞。在不支持时间的平台上，这意味着运行时永远不能以任何方式处于空闲状态。</p>
+<h3 id="unstable-wasm-support"><a class="doc-anchor" href="#unstable-wasm-support">§</a>Unstable <code>WASM</code> support</h3>
+<p>Tokio 还不稳定地支持一些额外的 <code>WASM</code> 特性。这需要使用 <code>tokio_unstable</code> 标志。</p>
+<p>使用此标志可以在 wasm32-wasi 目标上使用 <code>tokio::net</code>。但是，并非所有方法都可在网络类型上使用，因为 <code>WASI</code> 目前不支持从 <code>WASM</code> 内部创建新套接字。因此，目前必须通过 <code>FromRawFd</code> trait 来创建套接字。</p>
+</div></details><h2 id="reexports" class="section-header">重新导出<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.spawn"><code>pub use task::<a class="fn" href="task/fn.spawn.html" title="fn tokio::task::spawn">spawn</a>;</code></dt></dl><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="io/index.html" title="mod tokio::io">io</a></dt><dd>异步 I/O 功能的 trait、辅助类型和类型定义。</dd><dt><a class="mod" href="net/index.html" title="mod tokio::net">net</a></dt><dd><code>tokio</code> 的 TCP/UDP/Unix 绑定。</dd><dt><a class="mod" href="runtime/index.html" title="mod tokio::runtime">runtime</a></dt><dd>Tokio 运行时。</dd><dt><a class="mod" href="stream/index.html" title="mod tokio::stream">stream</a></dt><dd>由于 <code>Stream</code> trait 进入 <code>std</code> 的时间晚于 Tokio 1.0 发布，
+Tokio 的大多数流相关工具已迁移到 <a href="https://docs.rs/tokio-stream"><code>tokio-stream</code></a>
+crate 中。</dd><dt><a class="mod" href="sync/index.html" title="mod tokio::sync">sync</a></dt><dd>用于异步上下文的同步原语。</dd><dt><a class="mod" href="task/index.html" title="mod tokio::task">task</a></dt><dd>异步的绿色线程。</dd><dt><a class="mod" href="time/index.html" title="mod tokio::time">time</a></dt><dd>用于跟踪时间的工具。</dd></dl><h2 id="macros" class="section-header">宏<a href="#macros" class="anchor">§</a></h2><dl class="item-table"><dt><a class="macro" href="macro.pin.html" title="macro tokio::pin">pin</a></dt><dd>在栈上固定一个值。</dd><dt><a class="macro" href="macro.task_local.html" title="macro tokio::task_local">task_<wbr>local</a></dt><dd>声明一个类型为 <a href="task/struct.LocalKey.html" title="struct tokio::task::LocalKey"><code>tokio::task::LocalKey</code></a> 的新任务局部键。</dd></dl></section></div></main></body></html>
