@@ -84,15 +84,20 @@ def find_preceding_id(text, pos):
         href = src_match.group(1)
         if 'doc.rust-lang.org' in href:
             return None  # STD lib 来源，跳过
-        if href.endswith('.rs.html'):
+        # Strip fragment if any
+        href_clean = href.split('#', 1)[0]
+        if href_clean.endswith('.rs.html'):
             # 是 own crate 的源（如 ../src/quinn/...）？
             # quinn: ../src/quinn/...
             # tokio: ../src/tokio/...
             # rustls_pki_types: ../src/rustls_pki_types/...
+            # bytes: ../src/bytes/...
             # 看 href 含不含有意义的 crate 标识
             if not any(c in href for c in ('/src/quinn/', '/src/tokio/',
-                                            '/src/rustls_pki_types/')):
+                                            '/src/rustls_pki_types/',
+                                            '/src/bytes/', 'src/bytes/')):
                 return None
+        # Other patterns (with non-own crate src, etc.) - don't filter
     return last_id
 
 

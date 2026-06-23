@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Provides abstractions for working with bytes."><title>bytes - bytes</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="bytes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate bytes</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../bytes/index.html">bytes</a><span class="version">1.12.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#bytes" title="`Bytes`"><code>Bytes</code></a></li><li><a href="#buf-bufmut" title="`Buf`, `BufMut`"><code>Buf</code>, <code>BufMut</code></a><ul><li><a href="#relation-with-read-and-write" title="Relation with `Read` and `Write`">Relation with <code>Read</code> and <code>Write</code></a></li></ul></li></ul><h3><a href="#reexports">Crate 条目</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">重新导出</a></li><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>Crate <span>bytes</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/bytes/lib.rs.html#1-219">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>提供用于处理字节的抽象。</p>
+<p><code>bytes</code> crate 提供了一种高效的字节缓冲结构
+（<a href="struct.Bytes.html" title="struct bytes::Bytes"><code>Bytes</code></a>），以及用于处理缓冲实现
+的 trait（<a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a>、<a href="buf/trait.BufMut.html" title="trait bytes::buf::BufMut"><code>BufMut</code></a>）。</p>
+<h2 id="bytes"><a class="doc-anchor" href="#bytes">§</a><code>Bytes</code></h2>
+<p><code>Bytes</code> 是一个用于存储和操作连续内存切片的高效容器。
+它主要面向网络编程场景，但
+在其他场景下也同样适用。</p>
+<p><code>Bytes</code> 通过允许多个 <code>Bytes</code> 对象
+指向同一段底层内存来简化零拷贝网络编程。它通过引用计数
+来追踪内存何时不再需要，
+从而可以释放。</p>
+<p>可以直接从现有字节存储（如 <code>&amp;[u8]</code>
+或 <code>Vec&lt;u8&gt;</code>）构造 <code>Bytes</code> 句柄，但通常先使用 <code>BytesMut</code> 写入再冻结。例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>bytes::{BytesMut, BufMut};
+
+<span class="kw">let </span><span class="kw-2">mut </span>buf = BytesMut::with_capacity(<span class="number">1024</span>);
+buf.put(<span class="kw-2">&amp;</span><span class="string">b"hello world"</span>[..]);
+buf.put_u16(<span class="number">1234</span>);
+
+<span class="kw">let </span>a = buf.split();
+<span class="macro">assert_eq!</span>(a, <span class="string">b"hello world\x04\xD2"</span>[..]);
+
+buf.put(<span class="kw-2">&amp;</span><span class="string">b"goodbye world"</span>[..]);
+
+<span class="kw">let </span>b = buf.split();
+<span class="macro">assert_eq!</span>(b, <span class="string">b"goodbye world"</span>[..]);
+
+<span class="macro">assert_eq!</span>(buf.capacity(), <span class="number">998</span>);</code></pre></div>
+<p>上面的示例中只分配了一个 1024 大小的缓冲区。句柄
+<code>a</code> 和 <code>b</code> 共享该底层缓冲区，并通过索引
+维护各自所代表的缓冲区视图。</p>
+<p>更多细节参见 <a href="struct.Bytes.html" title="struct bytes::Bytes">结构体文档</a>。</p>
+<h2 id="buf-bufmut"><a class="doc-anchor" href="#buf-bufmut">§</a><code>Buf</code>, <code>BufMut</code></h2>
+<p>这两个 trait 提供对缓冲区的读写访问。底层
+存储不一定在连续内存中。例如，<code>Bytes</code> 是保证内存连续的
+缓冲区，而 <a href="https://en.wikipedia.org/wiki/Rope_(data_structure)">rope（绳索）</a> 则将字节分散存储在
+不相邻的多个块中。<code>Buf</code> 和 <code>BufMut</code> 通过游标维护当前
+在底层字节存储中的位置；每当读取或写入字节时，
+游标都会推进。</p>
+<h3 id="relation-with-read-and-write"><a class="doc-anchor" href="#relation-with-read-and-write">§</a>Relation with <code>Read</code> and <code>Write</code></h3>
+<p>乍看之下，<code>Buf</code> 和 <code>BufMut</code> 在功能上似乎与
+<a href="https://doc.rust-lang.org/1.95.0/std/io/trait.Read.html" title="trait std::io::Read"><code>std::io::Read</code></a> 和 <a href="https://doc.rust-lang.org/1.95.0/std/io/trait.Write.html" title="trait std::io::Write"><code>std::io::Write</code></a> 重叠。但二者
+用途不同。缓冲区（buffer）是作为参数
+传给 <code>Read::read</code> 和 <code>Write::write</code> 的值；<code>Read</code> 和 <code>Write</code>
+可能会触发系统调用（syscall），存在失败的可能。而 <code>Buf</code>
+和 <code>BufMut</code> 的操作则是不可失败的（infallible）。</p>
+</div></details><h2 id="reexports" class="section-header">重导出<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.Buf"><code>pub use crate::buf::<a class="trait" href="buf/trait.Buf.html" title="trait bytes::buf::Buf">Buf</a>;</code></dt><dt id="reexport.BufMut"><code>pub use crate::buf::<a class="trait" href="buf/trait.BufMut.html" title="trait bytes::buf::BufMut">BufMut</a>;</code></dt></dl><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="buf/index.html" title="mod bytes::buf">buf</a></dt><dd>Utilities for working with buffers.</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Bytes.html" title="struct bytes::Bytes">Bytes</a></dt><dd>A cheaply cloneable and sliceable chunk of contiguous memory.</dd><dt><a class="struct" href="struct.BytesMut.html" title="struct bytes::BytesMut">Bytes<wbr>Mut</a></dt><dd>A unique reference to a contiguous slice of memory.</dd><dt><a class="struct" href="struct.TryGetError.html" title="struct bytes::TryGetError">TryGet<wbr>Error</a></dt><dd>Error type for the <code>try_get_</code> methods of <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a>.
+Indicates that there were not enough remaining
+bytes in the buffer while attempting
+to get a value from a <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> with one
+of the <code>try_get_</code> methods.</dd></dl></section></div></main></body></html>
