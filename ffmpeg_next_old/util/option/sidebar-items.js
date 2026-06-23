@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Type"],"trait":["Gettable","Iterable","Settable","Target"]};

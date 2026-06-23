@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="rustdoc" name="generator"/><meta content="一个用于在 MacOS、Windows 和 Linux (x11) 上监听和发送键盘与鼠标事件的简易库。" name="description"/><title>rdev crate - Rust 文档</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link href="../static.files/normalize-9960930a.css" rel="stylesheet"/><link href="../static.files/rustdoc-b7b9f40b.css" rel="stylesheet"/><meta data-channel="1.95.0" data-current-crate="rdev" data-resource-suffix="" data-root-path="../" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-search-js="search-63369b7b.js" data-settings-js="settings-170eb4bf.js" data-static-root-path="../static.files/" data-stringdex-js="stringdex-b897f86f.js" data-themes="" name="rustdoc-vars"/><script src="../static.files/storage-41dd4d93.js"></script><script defer="" src="../crates.js"></script><script defer="" src="../static.files/main-5013f961.js"></script><noscript><link href="../static.files/noscript-f7c3ffd8.css" rel="stylesheet"/></noscript><link href="../static.files/favicon-32x32-eab170b8.png" rel="alternate icon" type="image/png"/><link href="../static.files/favicon-044be391.svg" rel="icon" type="image/svg+xml"/></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，最有可能显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">rdev 包</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../rdev/index.html">rdev</a><span class="version">0.5.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a href="all.html" id="all-types">所有项</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#listening-to-global-events" title="监听全局事件">监听全局事件</a><ul><li><a href="#os-caveats" title="操作系统注意事项：">操作系统注意事项：</a></li><li><a href="#mac-os" title="Mac 系统">Mac 系统</a></li><li><a href="#linux" title="Linux">Linux</a></li></ul></li><li><a href="#sending-some-events" title="发送一些事件">发送一些事件</a></li><li><a href="#main-structs" title="主要结构体">主要结构体</a><ul><li><a href="#event" title="Event">Event</a></li><li><a href="#eventtype" title="EventType">EventType</a></li></ul></li><li><a href="#getting-the-main-screen-size" title="获取主屏幕尺寸">获取主屏幕尺寸</a></li><li><a href="#keyboard-state" title="键盘状态">键盘状态</a></li><li><a href="#grabbing-global-events-requires-unstable_grab-feature" title="捕获全局事件（需要 `unstable_grab` 特性）">抓取全局事件（需要 <code>unstable_grab</code> 特性）</a><ul><li><a href="#os-caveats-1" title="操作系统注意事项：">操作系统注意事项：</a></li></ul></li><li><a href="#serialization" title="序列化">序列化</a></li></ul><h3><a href="#structs">Crate 项</a></h3><ul class="block"><li><a href="#structs" title="结构体">结构体</a></li><li><a href="#enums" title="枚举">枚举</a></li><li><a href="#traits" title="Trait">Trait</a></li><li><a href="#functions" title="函数">函数</a></li><li><a href="#types" title="类型别名">类型别名</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏大小"></div><main><div class="width-limiter"><section class="content" id="main-content" tabindex="-1"><div class="main-heading"><h1>Crate <span>rdev</span> <button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rdev/lib.rs.html#1-410">Source</a> </span></div><details class="toggle top-doc" open=""><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>用于在 MacOS、Windows 和 Linux（x11）上监听和向键盘、鼠标发送事件的简单库。</p>
+<p>你也可以查看 <a href="https://github.com/Enigo-rs/Enigo">Enigo</a> ，这是另一个帮助我编写本 crate 的 crate。</p>
+<p>这个 crate 至今仍是我用来理解 rust 生态系统的练手项目。</p>
+<h2 id="listening-to-global-events"><a class="doc-anchor" href="#listening-to-global-events">§</a>监听全局事件</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rdev::{listen, Event};
+
+<span class="comment">// 这将阻塞。</span><span class="kw">if let </span><span class="prelude-val">Err</span>(error) = listen(callback) {
+    <span class="macro">println!</span>(<span class="string">"Error: {:?}"</span>, error)
+}
+
+<span class="kw">fn </span>callback(event: Event) {
+    <span class="macro">println!</span>(<span class="string">"My callback {:?}"</span>, event);
+    <span class="kw">match </span>event.name {
+        <span class="prelude-val">Some</span>(string) =&gt; <span class="macro">println!</span>(<span class="string">"User wrote {:?}"</span>, string),
+        <span class="prelude-val">None </span>=&gt; (),
+    }
+}</code></pre></div><h3 id="os-caveats"><a class="doc-anchor" href="#os-caveats">§</a>操作系统注意事项：</h3>
+<p>在使用 <code>listen</code> 函数时，请注意以下事项：</p>
+<h3 id="mac-os"><a class="doc-anchor" href="#mac-os">§</a>Mac 系统</h3>
+<p>运行阻塞 <code>listen</code> 函数（循环）的进程必须是父进程（之前不能有 fork）。
+进程需要被授予访问无障碍 API（Accessibility API）的权限（例如：如果你在 Terminal.app 内运行你的进程，那么需要将 Terminal.app 添加到 系统偏好设置 &gt; 安全性与隐私 &gt; 隐私 &gt; 辅助功能 中）。
+如果进程没有被授予访问无障碍 API 的权限，MacOS 将静默地忽略 rdev 的 <code>listen</code> 回调，不会被事件触发，也不会产生错误。</p>
+<h3 id="linux"><a class="doc-anchor" href="#linux">§</a>Linux</h3>
+<p><code>listen</code> 函数使用 X11 API，因此在 Wayland 或 Linux 内核虚拟控制台中无法工作。</p>
+<h2 id="sending-some-events"><a class="doc-anchor" href="#sending-some-events">§</a>发送一些事件</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rdev::{simulate, Button, EventType, Key, SimulateError};
+<span class="kw">use </span>std::{thread, time};
+
+<span class="kw">fn </span>send(event_type: <span class="kw-2">&amp;</span>EventType) {
+    <span class="kw">let </span>delay = time::Duration::from_millis(<span class="number">20</span>);
+    <span class="kw">match </span>simulate(event_type) {
+        <span class="prelude-val">Ok</span>(()) =&gt; (),
+        <span class="prelude-val">Err</span>(SimulateError) =&gt; {
+            <span class="macro">println!</span>(<span class="string">"We could not send {:?}"</span>, event_type);
+        }
+    }
+    <span class="comment">// 让操作系统跟上（至少在 MacOS 上需要）</span>thread::sleep(delay);
+}
+
+send(<span class="kw-2">&amp;</span>EventType::KeyPress(Key::KeyS));
+send(<span class="kw-2">&amp;</span>EventType::KeyRelease(Key::KeyS));
+
+send(<span class="kw-2">&amp;</span>EventType::MouseMove { x: <span class="number">0.0</span>, y: <span class="number">0.0 </span>});
+send(<span class="kw-2">&amp;</span>EventType::MouseMove { x: <span class="number">400.0</span>, y: <span class="number">400.0 </span>});
+send(<span class="kw-2">&amp;</span>EventType::ButtonPress(Button::Left));
+send(<span class="kw-2">&amp;</span>EventType::ButtonRelease(Button::Right));
+send(<span class="kw-2">&amp;</span>EventType::Wheel {
+    delta_x: <span class="number">0</span>,
+    delta_y: <span class="number">1</span>,
+});</code></pre></div><h2 id="main-structs"><a class="doc-anchor" href="#main-structs">§</a>主要结构体</h2><h3 id="event"><a class="doc-anchor" href="#event">§</a>Event</h3>
+<p>为了检测用户输入的内容，我们需要接入操作系统层面的键盘状态管理（如 shift、ctrl 等修饰键，以及死键（如果存在））。</p>
+<p><code>EventType</code> 对应于一个<em>物理</em>事件，对应于 QWERTY 布局；
+<code>Event</code> 对应于实际接收到的事件，<code>Event.name</code> 反映操作系统当时所解释的按键，它会遵循布局。</p>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="doccomment">/// 当事件从系统到达时，我们可以添加一些信息
+/// time 是事件被接收到的时间。
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Event {
+    <span class="kw">pub </span>time: SystemTime,
+    <span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    <span class="kw">pub </span>event_type: EventType,
+}</code></pre></div>
+<p>请注意，Event::name 可能是 None，也可能是 String::from("")，并且可能包含不可显示的 Unicode 字符。我们原样发送操作系统传给我们的内容，因此在使用前请做一些合理性检查。注意：Linux 上死键功能尚未实现。</p>
+<h3 id="eventtype"><a class="doc-anchor" href="#eventtype">§</a>EventType</h3>
+<p>为了兼容不同的操作系统，当前的 EventType 选择是混搭的，以涵盖所有可能的事件。
+无论何种情况，都有一种安全机制来检测事件，即枚举中的
+Unknown() 变体，它会包含一些操作系统特定的值。
+另请注意，并非所有键都映射到了操作系统代码，因此如果你尝试发送一个未映射的键，simulate 可能会失败。
+发送 Unknown() 变体总是可以工作的（操作系统仍可能会拒绝）。</p>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="doccomment">/// 为了兼容不同的操作系统，当前的 EventType 选择是混搭的，
+/// 以涵盖所有可能的事件。
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub enum </span>EventType {
+    <span class="doccomment">/// 按键对应于标准 qwerty 布局，它们不对应
+    /// 用户实际使用的字母，这需要添加一些布局逻辑。
+    </span>KeyPress(Key),
+    KeyRelease(Key),
+    <span class="doccomment">/// 某些鼠标具有 3 个以上的按键，这些按键未定义，不同的操作系统会给出不同的 Unknown 编码。
+    </span>ButtonPress(Button),
+    ButtonRelease(Button),
+    <span class="doccomment">/// 像素值
+    </span>MouseMove {
+        x: f64,
+        y: f64,
+    },
+    <span class="doccomment">/// 注意：在 Linux 上，没有实际的 delta 值，delta_x 的实际值被忽略，
+    /// 我们仅查看 delta_y 的符号来模拟滚轮向上或向下。
+    </span>Wheel {
+        delta_x: i64,
+        delta_y: i64,
+    },
+}</code></pre></div><h2 id="getting-the-main-screen-size"><a class="doc-anchor" href="#getting-the-main-screen-size">§</a>获取主屏幕尺寸</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rdev::{display_size};
+
+<span class="kw">let </span>(w, h) = display_size().unwrap();
+<span class="macro">assert!</span>(w &gt; <span class="number">0</span>);
+<span class="macro">assert!</span>(h &gt; <span class="number">0</span>);</code></pre></div><h2 id="keyboard-state"><a class="doc-anchor" href="#keyboard-state">§</a>键盘状态</h2>
+<p>我们可以定义一个虚拟的 Keyboard，用于检测哪种 EventType 会触发某个字符串。目前只取当前使用的键盘布局！注意：这是布局相关的。如果你的应用需要支持布局切换，请不要使用此功能！注意：Linux 上死键机制尚未实现。注意：目前仅实现了 Shift 和死键，Windows 上的 Alt + Unicode 码点输入方式无法工作。</p>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rdev::{Keyboard, EventType, Key, KeyboardState};
+
+<span class="kw">let </span><span class="kw-2">mut </span>keyboard = Keyboard::new().unwrap();
+<span class="kw">let </span>string = keyboard.add(<span class="kw-2">&amp;</span>EventType::KeyPress(Key::KeyS));
+<span class="comment">// string == Some("s")</span></code></pre></div><h2 id="grabbing-global-events-requires-unstable_grab-feature"><a class="doc-anchor" href="#grabbing-global-events-requires-unstable_grab-feature">§</a>抓取全局事件（需要 <code>unstable_grab</code> 特性）</h2>
+<p>使用 <code>unstable_grab</code> 特性安装本库会添加 <code>grab</code> 函数，该函数可以挂接到全局输入设备事件流。
+通过向此函数提供一个回调，你可以在所有键盘和鼠标事件被传递给应用程序/窗口管理器之前拦截它们。
+在回调中，返回 None 表示忽略该事件，返回事件则让其通过。
+目前还无法对事件进行修改。</p>
+<p>注意：这里的 <code>unstable</code>（不稳定）一词特指 <code>grab</code> API 是不稳定的，可能会发生变化。</p>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(feature = <span class="string">"unstable_grab"</span>)]
+</span><span class="kw">use </span>rdev::{grab, Event, EventType, Key};
+
+<span class="attr">#[cfg(feature = <span class="string">"unstable_grab"</span>)]
+</span><span class="kw">let </span>callback = |event: Event| -&gt; <span class="prelude-ty">Option</span>&lt;Event&gt; {
+    <span class="kw">if let </span>EventType::KeyPress(Key::CapsLock) = event.event_type {
+        <span class="macro">println!</span>(<span class="string">"Consuming and cancelling CapsLock"</span>);
+        <span class="prelude-val">None  </span><span class="comment">// CapsLock 现在实际上已被禁用</span>}
+    <span class="kw">else </span>{ <span class="prelude-val">Some</span>(event) }
+};
+<span class="comment">// 这将阻塞。</span><span class="attr">#[cfg(feature = <span class="string">"unstable_grab"</span>)]
+</span><span class="kw">if let </span><span class="prelude-val">Err</span>(error) = grab(callback) {
+    <span class="macro">println!</span>(<span class="string">"Error: {:?}"</span>, error)
+}</code></pre></div><h3 id="os-caveats-1"><a class="doc-anchor" href="#os-caveats-1">§</a>操作系统注意事项：</h3>
+<p>在使用 <code>listen</code> 和/或 <code>grab</code> 函数时，请注意以下事项：</p>
+<h4 id="mac-os-1"><a class="doc-anchor" href="#mac-os-1">§</a>Mac 系统</h4>
+<p>运行阻塞 <code>grab</code> 函数（循环）的进程必须是父进程（之前不能有 fork）。
+进程需要被授予访问无障碍 API（Accessibility API）的权限（例如：如果你在 Terminal.app 内运行你的进程，那么需要将 Terminal.app 添加到 系统偏好设置 &gt; 安全性与隐私 &gt; 隐私 &gt; 辅助功能 中）。
+如果进程没有被授予无障碍 API 的访问权限，<code>grab</code> 调用将失败并返回 EventTapError（至少在 MacOS 10.15 中如此，可能其他版本也如此）。</p>
+<h4 id="linux-1"><a class="doc-anchor" href="#linux-1">§</a>Linux</h4>
+<p><code>grab</code> 函数使用 <code>evdev</code> 库来拦截事件，因此它可以在 X11 和 Wayland 下工作。
+为了使其生效，运行 <code>listen</code> 或 <code>grab</code> 循环的进程需要以 root 用户身份运行（不推荐），
+或者以属于 <code>input</code> 组的用户身份运行（推荐）。
+注意：在某些发行版上，用于 evdev 访问的组名叫做 <code>plugdev</code>；在某些系统上，这两个组可能同时存在。
+如有疑问，请将你的用户同时添加到这两个组（如果它们都存在）。</p>
+<h2 id="serialization"><a class="doc-anchor" href="#serialization">§</a>序列化</h2>
+<p>如果使用 <code>serialize</code> 特性安装本库，那么 <code>listen</code> 和 <code>grab</code> 函数返回的事件数据可以使用 Serde 进行序列化和反序列化。</p>
+</div></details><h2 class="section-header" id="structs">结构体<a class="anchor" href="#structs">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Event.html" title="struct rdev::Event">Event</a></dt><dd>当事件从操作系统到达时，会根据 EventType 添加一些附加信息：事件被接收的时间，以及一个 name Option，其中包含该事件应产生的字符。这些信息依赖于操作系统的布局和键盘状态机制。注意：Linux（X11）上死键目前还无法工作——遇到死键时会收到 None，并返回原始字母而非带音标的字母。</dd><dt><a class="struct" href="struct.Keyboard.html" title="struct rdev::Keyboard">Keyboard</a></dt><dt><a class="struct" href="struct.SimulateError.html" title="struct rdev::SimulateError">Simulate<wbr/>Error</a></dt><dd>表示我们尝试模拟一个事件时发生的错误</dd></dl><h2 class="section-header" id="enums">枚举<a class="anchor" href="#enums">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Button.html" title="enum rdev::Button">Button</a></dt><dd>标准鼠标按钮。有些鼠标有超过 3 个按钮。这些按钮未定义，不同的操作系统会给出不同的 <code>Button::Unknown</code> values.</dd><dt><a class="enum" href="enum.DisplayError.html" title="enum rdev::DisplayError">Display<wbr/>Error</a></dt><dd>获取显示器尺寸时可能发生的错误。</dd><dt><a class="enum" href="enum.EventType.html" title="enum rdev::EventType">Event<wbr/>Type</a></dt><dd>为了兼容不同的操作系统，当前的 EventType 选项是混合搭配的，以涵盖所有可能的事件。</dd><dt><a class="enum" href="enum.GrabError.html" title="enum rdev::GrabError">Grab<wbr/>Error</a></dt><dd>尝试抓取操作系统事件时可能发生的错误。注意在 Mac 上，不设置辅助功能不会导致错误，只是会忽略事件。</dd><dt><a class="enum" href="enum.Key.html" title="enum rdev::Key">Key</a></dt><dd>键名基于设备上的物理位置。将 Option（MacOS）和 Alt（Windows、Linux）合并为 Alt；将 Windows（Windows）、Meta（Linux）、Command（MacOS）合并为 Meta。字符基于 QWERTY 布局，不要直接将其作为字符使用，因为结果会随布局变化。如需真实字符，请使用 Event.name。修饰键也会改变这些键的值。注意，Windows 上不存在 KpReturn，它严格等同于 Return。此外，数字小键盘的键在 NumLock 关闭时会被改写，等同于 PageDown 等功能键。</dd><dt><a class="enum" href="enum.ListenError.html" title="enum rdev::ListenError">Listen<wbr/>Error</a></dt><dd>尝试捕获操作系统事件时可能发生的错误。注意在 Mac 上，不设置辅助功能不会导致错误，只是会忽略事件。</dd></dl><h2 class="section-header" id="traits">Trait<a class="anchor" href="#traits">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.KeyboardState.html" title="trait rdev::KeyboardState">Keyboard<wbr/>State</a></dt><dd>我们可以定义一个虚拟的 Keyboard，用于检测哪种 EventType 会触发某个字符串。目前只取当前使用的键盘布局！注意：这是布局相关的。如果你的应用需要支持布局切换，请不要使用此功能！注意：Linux 上死键机制尚未实现。注意：目前仅实现了 Shift 和死键，Windows 上的 Alt + Unicode 码点输入方式无法工作。</dd></dl><h2 class="section-header" id="functions">函数<a class="anchor" href="#functions">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.display_size.html" title="fn rdev::display_size">display_<wbr/>size</a></dt><dd>返回主屏幕的像素尺寸。可以与 MouseMove 事件中的 x、y 一起使用。</dd><dt><a class="fn" href="fn.listen.html" title="fn rdev::listen">listen</a></dt><dd>监听全局事件。注意：在 MacOS 上，listen 循环必须作为主应用运行（在此之前不能 fork），并且需要开启辅助功能。</dd><dt><a class="fn" href="fn.simulate.html" title="fn rdev::simulate">simulate</a></dt><dd>发送一些事件</dd></dl><h2 class="section-header" id="types">类型别名<a class="anchor" href="#types">§</a></h2><dl class="item-table"><dt><a class="type" href="type.GrabCallback.html" title="type rdev::GrabCallback">Grab<wbr/>Callback</a></dt><dd>传给 grab 函数的回调类型。</dd></dl></section></div></main></body></html>

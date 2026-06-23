@@ -1,0 +1,802 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A UDP socket."><title>UdpSocket in tokio::net - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">UdpSocket</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">UdpSocket</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#streams" title="Streams">Streams</a></li><li><a href="#example-one-to-many-bind" title="Example: one to many (bind)">Example: one to many (bind)</a></li><li><a href="#example-one-to-one-connect" title="Example: one to one (connect)">Example: one to one (connect)</a></li><li><a href="#example-splitting-with-arc" title="Example: Splitting with `Arc`">Example: Splitting with <code>Arc</code></a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.async_io" title="async_io">async_io</a></li><li><a href="#method.bind" title="bind">bind</a></li><li><a href="#method.broadcast" title="broadcast">broadcast</a></li><li><a href="#method.connect" title="connect">connect</a></li><li><a href="#method.from_std" title="from_std">from_std</a></li><li><a href="#method.into_std" title="into_std">into_std</a></li><li><a href="#method.join_multicast_v4" title="join_multicast_v4">join_multicast_v4</a></li><li><a href="#method.join_multicast_v6" title="join_multicast_v6">join_multicast_v6</a></li><li><a href="#method.leave_multicast_v4" title="leave_multicast_v4">leave_multicast_v4</a></li><li><a href="#method.leave_multicast_v6" title="leave_multicast_v6">leave_multicast_v6</a></li><li><a href="#method.local_addr" title="local_addr">local_addr</a></li><li><a href="#method.multicast_loop_v4" title="multicast_loop_v4">multicast_loop_v4</a></li><li><a href="#method.multicast_loop_v6" title="multicast_loop_v6">multicast_loop_v6</a></li><li><a href="#method.multicast_ttl_v4" title="multicast_ttl_v4">multicast_ttl_v4</a></li><li><a href="#method.peek" title="peek">peek</a></li><li><a href="#method.peek_from" title="peek_from">peek_from</a></li><li><a href="#method.peek_sender" title="peek_sender">peek_sender</a></li><li><a href="#method.peer_addr" title="peer_addr">peer_addr</a></li><li><a href="#method.poll_peek" title="poll_peek">poll_peek</a></li><li><a href="#method.poll_peek_from" title="poll_peek_from">poll_peek_from</a></li><li><a href="#method.poll_peek_sender" title="poll_peek_sender">poll_peek_sender</a></li><li><a href="#method.poll_recv" title="poll_recv">poll_recv</a></li><li><a href="#method.poll_recv_from" title="poll_recv_from">poll_recv_from</a></li><li><a href="#method.poll_recv_ready" title="poll_recv_ready">poll_recv_ready</a></li><li><a href="#method.poll_send" title="poll_send">poll_send</a></li><li><a href="#method.poll_send_ready" title="poll_send_ready">poll_send_ready</a></li><li><a href="#method.poll_send_to" title="poll_send_to">poll_send_to</a></li><li><a href="#method.readable" title="readable">readable</a></li><li><a href="#method.ready" title="ready">ready</a></li><li><a href="#method.recv" title="recv">recv</a></li><li><a href="#method.recv_from" title="recv_from">recv_from</a></li><li><a href="#method.send" title="send">send</a></li><li><a href="#method.send_to" title="send_to">send_to</a></li><li><a href="#method.set_broadcast" title="set_broadcast">set_broadcast</a></li><li><a href="#method.set_multicast_loop_v4" title="set_multicast_loop_v4">set_multicast_loop_v4</a></li><li><a href="#method.set_multicast_loop_v6" title="set_multicast_loop_v6">set_multicast_loop_v6</a></li><li><a href="#method.set_multicast_ttl_v4" title="set_multicast_ttl_v4">set_multicast_ttl_v4</a></li><li><a href="#method.set_tos_v4" title="set_tos_v4">set_tos_v4</a></li><li><a href="#method.set_ttl" title="set_ttl">set_ttl</a></li><li><a href="#method.take_error" title="take_error">take_error</a></li><li><a href="#method.tos_v4" title="tos_v4">tos_v4</a></li><li><a href="#method.try_io" title="try_io">try_io</a></li><li><a href="#method.try_peek" title="try_peek">try_peek</a></li><li><a href="#method.try_peek_from" title="try_peek_from">try_peek_from</a></li><li><a href="#method.try_peek_sender" title="try_peek_sender">try_peek_sender</a></li><li><a href="#method.try_recv" title="try_recv">try_recv</a></li><li><a href="#method.try_recv_from" title="try_recv_from">try_recv_from</a></li><li><a href="#method.try_send" title="try_send">try_send</a></li><li><a href="#method.try_send_to" title="try_send_to">try_send_to</a></li><li><a href="#method.ttl" title="ttl">ttl</a></li><li><a href="#method.writable" title="writable">writable</a></li></ul><h3><a href="#trait-implementations">trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-AsRawSocket-for-UdpSocket" title="AsRawSocket">AsRawSocket</a></li><li><a href="#impl-AsSocket-for-UdpSocket" title="AsSocket">AsSocket</a></li><li><a href="#impl-Debug-for-UdpSocket" title="Debug">Debug</a></li><li><a href="#impl-TryFrom%3CUdpSocket%3E-for-UdpSocket" title="TryFrom&#60;UdpSocket&#62;">TryFrom&#60;UdpSocket&#62;</a></li></ul><h3><a href="#synthetic-implementations">自动 trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-UdpSocket" title="!Freeze">!Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-UdpSocket" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Send-for-UdpSocket" title="Send">Send</a></li><li><a href="#impl-Sync-for-UdpSocket" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-UdpSocket" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-UdpSocket" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-UdpSocket" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In tokio::<wbr>net</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">net</a></div><h1>结构体 <span class="struct">UdpSocket</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/net/udp.rs.html#122-124">源代码</a> </span></div><pre class="rust item-decl"><code>pub struct UdpSocket { <span class="comment">/* 私有字段 */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一个 UDP 套接字。</p>
+<p>UDP 与 TCP 不同，是“无连接”的。这意味着，无论你绑定到什么地址，<code>UdpSocket</code> 都可以自由地与许多不同的远程端通信。在 Tokio 中，基本上有两种主要的使用 <code>UdpSocket</code> 的方式：</p>
+<ul>
+<li>one to many: <a href="struct.UdpSocket.html#method.bind" title="associated function tokio::net::UdpSocket::bind"><code>bind</code></a> and use <a href="struct.UdpSocket.html#method.send_to" title="method tokio::net::UdpSocket::send_to"><code>send_to</code></a>
+and <a href="struct.UdpSocket.html#method.recv_from" title="method tokio::net::UdpSocket::recv_from"><code>recv_from</code></a> to communicate with many different addresses</li>
+<li>one to one: <a href="struct.UdpSocket.html#method.connect" title="method tokio::net::UdpSocket::connect"><code>connect</code></a> and associate with a single address, using <a href="struct.UdpSocket.html#method.send" title="method tokio::net::UdpSocket::send"><code>send</code></a>
+and <a href="struct.UdpSocket.html#method.recv" title="method tokio::net::UdpSocket::recv"><code>recv</code></a> to communicate only with that remote address</li>
+</ul>
+<p>本类型不提供 <code>split</code> 方法，因为可以通过将套接字包装在 <a href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc"><code>Arc</code></a> 中来实现此功能。请注意，你不需要 <code>Mutex</code> 来共享 <code>UdpSocket</code>——一个 <code>Arc&lt;UdpSocket&gt;</code> 就足够了。这是因为所有方法都接受 <code>&amp;self</code> 而非 <code>&amp;mut self</code>。一旦将其包装在 <code>Arc</code> 中，你就可以对 <code>Arc&lt;UdpSocket&gt;</code> 调用 <code>.clone()</code> 来获得多个共享句柄以访问同一套接字。此类用法的示例可在下方找到。</p>
+<h2 id="streams"><a class="doc-anchor" href="#streams">§</a>Streams</h2>
+<p>如果你需要通过 UDP 进行监听并产生一个 <a href="https://docs.rs/futures/0.3/futures/stream/trait.Stream.html"><code>Stream</code></a>，可以参考 <a href="https://docs.rs/tokio-util/latest/tokio_util/udp/struct.UdpFramed.html"><code>UdpFramed</code></a>。</p>
+<h2 id="example-one-to-many-bind"><a class="doc-anchor" href="#example-one-to-many-bind">§</a>Example: one to many (bind)</h2>
+<p>使用 <code>bind</code>，我们可以创建一个简单的 echo 服务器，它与许多不同的客户端之间相互收发数据：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>(len, addr) = sock.recv_from(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">"{:?} bytes received from {:?}"</span>, len, addr);
+
+        <span class="kw">let </span>len = sock.send_to(<span class="kw-2">&amp;</span>buf[..len], addr).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">"{:?} bytes sent"</span>, len);
+    }
+}</code></pre></div><h2 id="example-one-to-one-connect"><a class="doc-anchor" href="#example-one-to-one-connect">§</a>Example: one to one (connect)</h2>
+<p>或者使用 <code>connect</code>，我们可以使用 <code>send</code> 和 <code>recv</code> 与单个远程地址进行 echo：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span>remote_addr = <span class="string">"127.0.0.1:59611"</span>;
+    sock.connect(remote_addr).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>len = sock.recv(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">"{:?} bytes received from {:?}"</span>, len, remote_addr);
+
+        <span class="kw">let </span>len = sock.send(<span class="kw-2">&amp;</span>buf[..len]).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">"{:?} bytes sent"</span>, len);
+    }
+}</code></pre></div><h2 id="example-splitting-with-arc"><a class="doc-anchor" href="#example-splitting-with-arc">§</a>Example: Splitting with <code>Arc</code></h2>
+<p>由于 <code>send_to</code> 和 <code>recv_from</code> 接受 <code>&amp;self</code>，因此完全可以使用 <code>Arc&lt;UdpSocket&gt;</code> 并将其引用共享给多个任务。下面是一个类似的 “echo” 示例，它支持并发的发送/接收：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::{net::UdpSocket, sync::mpsc};
+<span class="kw">use </span>std::{io, net::SocketAddr, sync::Arc};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>.parse::&lt;SocketAddr&gt;().unwrap()).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>r = Arc::new(sock);
+    <span class="kw">let </span>s = r.clone();
+    <span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel::&lt;(Vec&lt;u8&gt;, SocketAddr)&gt;(<span class="number">1_000</span>);
+
+    tokio::spawn(<span class="kw">async move </span>{
+        <span class="kw">while let </span><span class="prelude-val">Some</span>((bytes, addr)) = rx.recv().<span class="kw">await </span>{
+            <span class="kw">let </span>len = s.send_to(<span class="kw-2">&amp;</span>bytes, <span class="kw-2">&amp;</span>addr).<span class="kw">await</span>.unwrap();
+            <span class="macro">println!</span>(<span class="string">"{:?} bytes sent"</span>, len);
+        }
+    });
+
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>(len, addr) = r.recv_from(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">"{:?} bytes received from {:?}"</span>, len, addr);
+        tx.send((buf[..len].to_vec(), addr)).<span class="kw">await</span>.unwrap();
+    }
+}</code></pre></div></div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-UdpSocket" class="impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#127-2305">源代码</a><a href="#impl-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.bind" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#150-167">源代码</a><h4 class="code-header">pub async fn <a href="#method.bind" class="fn">bind</a>&lt;A: <a class="trait" href="trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs">ToSocketAddrs</a>&gt;(addr: A) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a>&gt;</h4></section></summary><div class="docblock"><p>此函数将创建一个新的 UDP 套接字，并尝试将其绑定到所提供的 <code>addr</code>。</p>
+<p>使用端口号 0 绑定将请求操作系统为此监听器分配一个端口。所分配的端口可以通过 <code>local_addr</code> 方法查询。</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="comment">// use `sock`
+    </span><span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.from_std" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#227-232">源代码</a><h4 class="code-header">pub fn <a href="#method.from_std" class="fn">from_std</a>(socket: <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket">UdpSocket</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a>&gt;</h4></section></summary><div class="docblock"><p>从先前已绑定的 <code>std::net::UdpSocket</code> 创建一个新的 <code>UdpSocket</code>。</p>
+<p>此函数旨在将标准库的 UDP 套接字包装为其 Tokio 等价物。</p>
+<p>这可与 <code>socket2</code> 的 <code>Socket</code> 接口配合使用，以便在套接字被移交之前对其进行配置，例如设置 <code>reuse_address</code> 等选项或绑定到多个地址。</p>
+<h5 id="notes"><a class="doc-anchor" href="#notes">§</a>注意</h5>
+<p>调用者负责确保套接字处于非阻塞模式。否则，对套接字的所有 I/O 操作都会阻塞线程，从而导致意外行为。可以使用 <a href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html#method.set_nonblocking" title="method std::net::udp::UdpSocket::set_nonblocking"><code>set_nonblocking</code></a> 设置非阻塞模式。</p>
+<p>在阻塞模式下传入监听器始终是错误的，这种情况下行为将来可能会发生变化。例如，可能会发生 panic。</p>
+<h5 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h5>
+<p>如果未设置线程本地运行时，此函数会发生 panic。</p>
+<p>当从由 tokio 运行时驱动的 future 中调用此函数时，运行时通常是隐式设置的；否则可以通过 <a href="../runtime/struct.Runtime.html#method.enter" title="method tokio::runtime::Runtime::enter"><code>Runtime::enter</code></a> 函数显式设置运行时。</p>
+<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>addr = <span class="string">"0.0.0.0:8080"</span>.parse::&lt;SocketAddr&gt;().unwrap();
+<span class="kw">let </span>std_sock = std::net::UdpSocket::bind(addr)<span class="question-mark">?</span>;
+std_sock.set_nonblocking(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
+<span class="kw">let </span>sock = UdpSocket::from_std(std_sock)<span class="question-mark">?</span>;
+<span class="comment">// use `sock`</span></code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.into_std" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#256-274">源代码</a><h4 class="code-header">pub fn <a href="#method.into_std" class="fn">into_std</a>(self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket">UdpSocket</a>&gt;</h4></section></summary><div class="docblock"><p>将一个 <a href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket"><code>tokio::net::UdpSocket</code></a> 转换为 <a href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket"><code>std::net::UdpSocket</code></a>。</p>
+<p>返回的 <a href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket"><code>std::net::UdpSocket</code></a> 将 nonblocking 模式设置为 <code>true</code>。如需更改阻塞模式，请使用 <a href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html#method.set_nonblocking" title="method std::net::udp::UdpSocket::set_nonblocking"><code>set_nonblocking</code></a>。</p>
+<h5 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::error::Error;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+    <span class="kw">let </span>tokio_socket = tokio::net::UdpSocket::bind(<span class="string">"127.0.0.1:0"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>std_socket = tokio_socket.into_std()<span class="question-mark">?</span>;
+    std_socket.set_nonblocking(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.local_addr" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#297-299">源代码</a><h4 class="code-header">pub fn <a href="#method.local_addr" class="fn">local_addr</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;</h4></section></summary><div class="docblock"><p>返回此套接字绑定的本地地址。</p>
+<h5 id="example-2"><a class="doc-anchor" href="#example-2">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>addr = <span class="string">"0.0.0.0:8080"</span>.parse::&lt;SocketAddr&gt;().unwrap();
+<span class="kw">let </span>sock = UdpSocket::bind(addr).<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="comment">// the address the socket is bound to
+</span><span class="kw">let </span>local_addr = sock.local_addr()<span class="question-mark">?</span>;</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.peer_addr" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#320-322">源代码</a><h4 class="code-header">pub fn <a href="#method.peer_addr" class="fn">peer_addr</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;</h4></section></summary><div class="docblock"><p>返回此套接字所连接到的远程对等方的套接字地址。</p>
+<h5 id="example-3"><a class="doc-anchor" href="#example-3">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>addr = <span class="string">"0.0.0.0:8080"</span>.parse::&lt;SocketAddr&gt;().unwrap();
+<span class="kw">let </span>peer = <span class="string">"127.0.0.1:11100"</span>.parse::&lt;SocketAddr&gt;().unwrap();
+<span class="kw">let </span>sock = UdpSocket::bind(addr).<span class="kw">await</span><span class="question-mark">?</span>;
+sock.connect(peer).<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(peer, sock.peer_addr()<span class="question-mark">?</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.connect" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#348-365">源代码</a><h4 class="code-header">pub async fn <a href="#method.connect" class="fn">connect</a>&lt;A: <a class="trait" href="trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs">ToSocketAddrs</a>&gt;(&amp;self, addr: A) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>连接此 UDP 套接字，为 send() 设置默认目标地址，并限制通过 <code>recv</code> 只能从 <code>addr</code> 指定的地址读取数据包。</p>
+<h5 id="example-4"><a class="doc-anchor" href="#example-4">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>.parse::&lt;SocketAddr&gt;().unwrap()).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="kw">let </span>remote_addr = <span class="string">"127.0.0.1:59600"</span>.parse::&lt;SocketAddr&gt;().unwrap();
+sock.connect(remote_addr).<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0u8</span>; <span class="number">32</span>];
+<span class="comment">// recv from remote_addr
+</span><span class="kw">let </span>len = sock.recv(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="comment">// send to remote_addr
+</span><span class="kw">let </span>_len = sock.send(<span class="kw-2">&amp;</span>buf[..len]).<span class="kw">await</span><span class="question-mark">?</span>;</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.ready" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#435-438">源代码</a><h4 class="code-header">pub async fn <a href="#method.ready" class="fn">ready</a>(&amp;self, interest: <a class="struct" href="../io/struct.Interest.html" title="struct tokio::io::Interest">Interest</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="../io/struct.Ready.html" title="struct tokio::io::Ready">Ready</a>&gt;</h4></section></summary><div class="docblock"><p>等待任何所请求的就绪状态。</p>
+<p>此函数通常与 <code>try_recv()</code> 或 <code>try_send()</code> 配对使用。它可用于在单个任务上同时对同一套接字进行 <code>recv</code> / <code>send</code>，而无需拆分套接字。</p>
+<p>该函数可能在套接字尚未就绪时完成。这是一种误报，尝试进行操作将返回 <code>io::ErrorKind::WouldBlock</code>。该函数也可能返回空的 <a href="../io/struct.Ready.html" title="struct tokio::io::Ready"><code>Ready</code></a> 集合，因此应始终检查返回值，如果请求的状态未设置，可能需要再次等待。</p>
+<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>取消安全性</h5>
+<p>此方法可安全取消。一旦就绪事件发生，该方法将继续立即返回，直到通过尝试读取或写入而消费该就绪事件（失败时返回 <code>WouldBlock</code> 或 <code>Poll::Pending</code>）。</p>
+<h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
+<p>在同一任务上同时对套接字进行接收和发送，而无需拆分。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, Interest};
+<span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>ready = socket.ready(Interest::READABLE | Interest::WRITABLE).<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="kw">if </span>ready.is_readable() {
+            <span class="comment">// The buffer is **not** included in the async task and will only exist
+            // on the stack.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>data = [<span class="number">0</span>; <span class="number">1024</span>];
+            <span class="kw">match </span>socket.try_recv(<span class="kw-2">&amp;mut </span>data[..]) {
+                <span class="prelude-val">Ok</span>(n) =&gt; {
+                    <span class="macro">println!</span>(<span class="string">"received {:?}"</span>, <span class="kw-2">&amp;</span>data[..n]);
+                }
+                <span class="comment">// False-positive, continue
+                </span><span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {}
+                <span class="prelude-val">Err</span>(e) =&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+                }
+            }
+        }
+
+        <span class="kw">if </span>ready.is_writable() {
+            <span class="comment">// Write some data
+            </span><span class="kw">match </span>socket.try_send(<span class="string">b"hello world"</span>) {
+                <span class="prelude-val">Ok</span>(n) =&gt; {
+                    <span class="macro">println!</span>(<span class="string">"sent {} bytes"</span>, n);
+                }
+                <span class="comment">// False-positive, continue
+                </span><span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {}
+                <span class="prelude-val">Err</span>(e) =&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+                }
+            }
+        }
+    }
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.writable" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#490-493">源代码</a><h4 class="code-header">pub async fn <a href="#method.writable" class="fn">writable</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>等待套接字变为可写。</p>
+<p>此函数等价于 <code>ready(Interest::WRITABLE)</code>，通常与 <code>try_send()</code> 或 <code>try_send_to()</code> 配对使用。</p>
+<p>该函数可能在套接字尚未可写时完成。这是一种误报，尝试调用 <code>try_send()</code> 将返回 <code>io::ErrorKind::WouldBlock</code>。</p>
+<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>取消安全性</h5>
+<p>此方法可安全取消。一旦就绪事件发生，该方法将继续立即返回，直到通过尝试写入而消费该就绪事件（失败时返回 <code>WouldBlock</code> 或 <code>Poll::Pending</code>）。</p>
+<h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Bind socket
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="comment">// Wait for the socket to be writable
+        </span>socket.writable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="comment">// Try to send data, this may still fail with `WouldBlock`
+        // if the readiness event is a false positive.
+        </span><span class="kw">match </span>socket.try_send(<span class="string">b"hello world"</span>) {
+            <span class="prelude-val">Ok</span>(n) =&gt; {
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_send_ready" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#524-526">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_send_ready" class="fn">poll_send_ready</a>(&amp;self, cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>轮询写/发送就绪状态。</p>
+<p>如果 UDP 流当前未准备好发送数据，此方法将存储来自所提供 <code>Context</code> 中的 <code>Waker</code> 的克隆。当 UDP 流变为可发送时，将在该 waker 上调用 <code>Waker::wake</code>。</p>
+<p>请注意，在多次调用 <code>poll_send_ready</code> 或 <code>poll_send</code> 时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。（但是，<code>poll_recv_ready</code> 保留了一个独立的第二个唤醒器。）</p>
+<p>此函数适用于无法通过 <a href="struct.UdpSocket.html#method.writable" title="method tokio::net::UdpSocket::writable"><code>writable</code></a> 创建并固定 future 的情况。在可能的情况下，优先使用 <a href="struct.UdpSocket.html#method.writable" title="method tokio::net::UdpSocket::writable"><code>writable</code></a>，因为它支持同时从多个任务进行轮询。</p>
+<h5 id="return-value"><a class="doc-anchor" href="#return-value">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the udp stream is not ready for writing.</li>
+<li><code>Poll::Ready(Ok(()))</code> if the udp stream is ready for writing.</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.send" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#570-575">源代码</a><h4 class="code-header">pub async fn <a href="#method.send" class="fn">send</a>(&amp;self, buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>将数据发送到套接字所连接的远程地址。</p>
+<p><a href="struct.UdpSocket.html#method.connect" title="method tokio::net::UdpSocket::connect"><code>connect</code></a> 方法会将此套接字连接到远程地址。如果套接字未连接，此方法将失败。</p>
+<p>如果远程地址对先前发送的数据包回复了 ICMP Unreachable，则此方法可能会失败并返回 <a href="https://doc.rust-lang.org/1.95.0/std/io/error/enum.ErrorKind.html#variant.ConnectionRefused" title="variant std::io::error::ErrorKind::ConnectionRefused"><code>ConnectionRefused</code></a> 错误。但是，此行为取决于操作系统。</p>
+<h5 id="return"><a class="doc-anchor" href="#return">§</a>返回值</h5>
+<p>成功时返回已发送的字节数，否则返回遇到的错误。</p>
+<h5 id="cancel-safety-2"><a class="doc-anchor" href="#cancel-safety-2">§</a>取消安全性</h5>
+<p>此方法可安全取消。如果 <code>send</code> 在 <a href="crate::select"><code>tokio::select!</code></a> 语句中作为事件使用，并且其他分支先完成，则可以保证该消息未被发送。</p>
+<h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io;
+<span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Bind socket
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Send a message
+    </span>socket.send(<span class="string">b"hello world"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_send" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#600-604">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_send" class="fn">poll_send</a>(&amp;self, cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;, buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试将数据发送到套接字先前已 <code>connect</code> 的远程地址。</p>
+<p><a href="struct.UdpSocket.html#method.connect" title="method tokio::net::UdpSocket::connect"><code>connect</code></a> 方法会将此套接字连接到远程地址。如果套接字未连接，此方法将失败。</p>
+<p>请注意，在 send 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<h5 id="return-value-1"><a class="doc-anchor" href="#return-value-1">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not available to write</li>
+<li><code>Poll::Ready(Ok(n))</code> <code>n</code> is the number of bytes sent</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_send" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#654-658">源代码</a><h4 class="code-header">pub fn <a href="#method.try_send" class="fn">try_send</a>(&amp;self, buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>尝试将数据发送到套接字所连接的远程地址。</p>
+<p>当套接字缓冲区已满时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>writable()</code> 配对使用。</p>
+<h5 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h5>
+<p>成功时返回 <code>Ok(n)</code>，其中 <code>n</code> 是已发送的字节数。如果套接字未准备好发送数据，则返回 <code>Err(ErrorKind::WouldBlock)</code>。</p>
+<h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Bind a UDP socket
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Connect to a peer
+    </span>socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="comment">// Wait for the socket to be writable
+        </span>socket.writable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="comment">// Try to send data, this may still fail with `WouldBlock`
+        // if the readiness event is a false positive.
+        </span><span class="kw">match </span>socket.try_send(<span class="string">b"hello world"</span>) {
+            <span class="prelude-val">Ok</span>(n) =&gt; {
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.readable" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#715-718">源代码</a><h4 class="code-header">pub async fn <a href="#method.readable" class="fn">readable</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>等待套接字变为可读。</p>
+<p>此函数等价于 <code>ready(Interest::READABLE)</code>，通常与 <code>try_recv()</code> 配对使用。</p>
+<p>该函数可能在套接字尚未可读时完成。这是一种误报，尝试调用 <code>try_recv()</code> 将返回 <code>io::ErrorKind::WouldBlock</code>。</p>
+<h5 id="cancel-safety-3"><a class="doc-anchor" href="#cancel-safety-3">§</a>取消安全性</h5>
+<p>此方法可安全取消。一旦就绪事件发生，该方法将继续立即返回，直到通过尝试读取而消费该就绪事件（失败时返回 <code>WouldBlock</code> 或 <code>Poll::Pending</code>）。</p>
+<h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Connect to a peer
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="comment">// Wait for the socket to be readable
+        </span>socket.readable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="comment">// The buffer is **not** included in the async task and will
+        // only exist on the stack.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+        <span class="comment">// Try to recv data, this may still fail with `WouldBlock`
+        // if the readiness event is a false positive.
+        </span><span class="kw">match </span>socket.try_recv(<span class="kw-2">&amp;mut </span>buf) {
+            <span class="prelude-val">Ok</span>(n) =&gt; {
+                <span class="macro">println!</span>(<span class="string">"GOT {:?}"</span>, <span class="kw-2">&amp;</span>buf[..n]);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_recv_ready" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#749-751">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_recv_ready" class="fn">poll_recv_ready</a>(&amp;self, cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>轮询读/接收就绪状态。</p>
+<p>如果 UDP 流当前未准备好接收数据，此方法将存储来自所提供 <code>Context</code> 中的 <code>Waker</code> 的克隆。当 UDP 套接字变为可读时，将在该 waker 上调用 <code>Waker::wake</code>。</p>
+<p>请注意，在多次调用 <code>poll_recv_ready</code>、<code>poll_recv</code> 或 <code>poll_peek</code> 时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。（但是，<code>poll_send_ready</code> 保留了一个独立的第二个唤醒器。）</p>
+<p>此函数适用于无法通过 <a href="struct.UdpSocket.html#method.readable" title="method tokio::net::UdpSocket::readable"><code>readable</code></a> 创建并固定 future 的情况。在可能的情况下，优先使用 <a href="struct.UdpSocket.html#method.readable" title="method tokio::net::UdpSocket::readable"><code>readable</code></a>，因为它支持同时从多个任务进行轮询。</p>
+<h5 id="return-value-2"><a class="doc-anchor" href="#return-value-2">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the udp stream is not ready for reading.</li>
+<li><code>Poll::Ready(Ok(()))</code> if the udp stream is ready for reading.</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.recv" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#790-795">源代码</a><h4 class="code-header">pub async fn <a href="#method.recv" class="fn">recv</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>从套接字所连接的远程地址接收单个数据报消息。成功时返回读取的字节数。</p>
+<p>调用此函数时必须传入足够大小的有效字节数组 <code>buf</code> 以容纳消息字节。如果消息太长而无法装入提供的缓冲区，则多余字节可能会被丢弃。</p>
+<p><a href="struct.UdpSocket.html#method.connect" title="method tokio::net::UdpSocket::connect"><code>connect</code></a> 方法会将此套接字连接到远程地址。如果套接字未连接，此方法将失败。</p>
+<h5 id="cancel-safety-4"><a class="doc-anchor" href="#cancel-safety-4">§</a>取消安全性</h5>
+<p>此方法可安全取消。如果 <code>recv</code> 在 <a href="crate::select"><code>tokio::select!</code></a> 语句中作为事件使用，并且其他分支先完成，则可以保证此套接字没有接收到任何消息。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Bind socket
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0</span>; <span class="number">10</span>];
+    <span class="kw">let </span>n = socket.recv(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="macro">println!</span>(<span class="string">"received {} bytes {:?}"</span>, n, <span class="kw-2">&amp;</span>buf[..n]);
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_recv" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#820-837">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_recv" class="fn">poll_recv</a>(
+    &amp;self,
+    cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;,
+    buf: &amp;mut <a class="struct" href="../io/struct.ReadBuf.html" title="struct tokio::io::ReadBuf">ReadBuf</a>&lt;'_&gt;,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试从套接字所 <code>connect</code> 的远程地址接收单个数据报消息。</p>
+<p><a href="struct.UdpSocket.html#method.connect" title="method tokio::net::UdpSocket::connect"><code>connect</code></a> 方法会将此套接字连接到远程地址。如果套接字未连接，此方法解析为错误。</p>
+<p>请注意，在 <code>recv</code> 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<h5 id="return-value-3"><a class="doc-anchor" href="#return-value-3">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not ready to read</li>
+<li><code>Poll::Ready(Ok(()))</code> reads data <code>ReadBuf</code> if the socket is ready</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-3"><a class="doc-anchor" href="#errors-3">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_recv" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#889-893">源代码</a><h4 class="code-header">pub fn <a href="#method.try_recv" class="fn">try_recv</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>尝试从套接字所连接的远程地址接收单个数据报消息。成功时返回读取的字节数。</p>
+<p>调用此方法时必须传入足够大小的有效字节数组 <code>buf</code> 以容纳消息字节。如果消息太长而无法装入提供的缓冲区，则多余字节可能会被丢弃。</p>
+<p>当没有待处理数据时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>readable()</code> 配对使用。</p>
+<h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Connect to a peer
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    socket.connect(<span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="comment">// Wait for the socket to be readable
+        </span>socket.readable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="comment">// The buffer is **not** included in the async task and will
+        // only exist on the stack.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+        <span class="comment">// Try to recv data, this may still fail with `WouldBlock`
+        // if the readiness event is a false positive.
+        </span><span class="kw">match </span>socket.try_recv(<span class="kw-2">&amp;mut </span>buf) {
+            <span class="prelude-val">Ok</span>(n) =&gt; {
+                <span class="macro">println!</span>(<span class="string">"GOT {:?}"</span>, <span class="kw-2">&amp;</span>buf[..n]);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.send_to" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1185-1195">源代码</a><h4 class="code-header">pub async fn <a href="#method.send_to" class="fn">send_to</a>&lt;A: <a class="trait" href="trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs">ToSocketAddrs</a>&gt;(
+    &amp;self,
+    buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>],
+    addr: A,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>将数据发送到套接字上的给定地址。成功时返回已写入的字节数。</p>
+<p>地址类型可以是任何实现了 <a href="trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs"><code>ToSocketAddrs</code></a> trait 的类型。有关具体示例，请参阅其文档。</p>
+<p><code>addr</code> 可能会产生多个地址，但 <code>send_to</code> 只会将数据发送到 <code>addr</code> 产生的第一个地址。</p>
+<p>当本地套接字的 IP 版本与 <a href="trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs"><code>ToSocketAddrs</code></a> 返回的不匹配时，将返回错误。</p>
+<h5 id="cancel-safety-5"><a class="doc-anchor" href="#cancel-safety-5">§</a>取消安全性</h5>
+<p>此方法可安全取消。如果 <code>send_to</code> 在 <a href="crate::select"><code>tokio::select!</code></a> 语句中作为事件使用，并且其他分支先完成，则可以保证该消息未被发送。</p>
+<h5 id="example-5"><a class="doc-anchor" href="#example-5">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>len = socket.send_to(<span class="string">b"hello world"</span>, <span class="string">"127.0.0.1:8081"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="macro">println!</span>(<span class="string">"Sent {} bytes"</span>, len);
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_send_to" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1214-1223">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_send_to" class="fn">poll_send_to</a>(
+    &amp;self,
+    cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;,
+    buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>],
+    target: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试将数据发送到套接字上的给定地址。</p>
+<p>请注意，在 send 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<h5 id="return-value-4"><a class="doc-anchor" href="#return-value-4">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not ready to write</li>
+<li><code>Poll::Ready(Ok(n))</code> <code>n</code> is the number of bytes sent.</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-4"><a class="doc-anchor" href="#errors-4">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_send_to" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1272-1276">源代码</a><h4 class="code-header">pub fn <a href="#method.try_send_to" class="fn">try_send_to</a>(&amp;self, buf: &amp;[<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>], target: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>尝试将数据发送到套接字上的给定地址，但如果发送被阻塞，此调用将立即返回。</p>
+<p>此函数通常与 <code>writable()</code> 配对使用。</p>
+<h5 id="returns-1"><a class="doc-anchor" href="#returns-1">§</a>Returns</h5>
+<p>成功时返回已发送的字节数</p>
+<p>用户应确保在远程端无法接收时，<a href="https://doc.rust-lang.org/1.95.0/std/io/error/enum.ErrorKind.html#variant.WouldBlock" title="variant std::io::error::ErrorKind::WouldBlock"><code>ErrorKind::WouldBlock</code></a> 得到正确处理。如果套接字的 IP 版本与 <code>target</code> 的 IP 版本不匹配，也会发生错误。</p>
+<h5 id="example-6"><a class="doc-anchor" href="#example-6">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span>dst = <span class="string">"127.0.0.1:8081"</span>.parse()<span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        socket.writable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="kw">match </span>socket.try_send_to(<span class="kw-2">&amp;</span><span class="string">b"hello world"</span>[..], dst) {
+            <span class="prelude-val">Ok</span>(sent) =&gt; {
+                <span class="macro">println!</span>(<span class="string">"sent {} bytes"</span>, sent);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="comment">// Writable false positive.
+                </span><span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e.into()),
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.recv_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1326-1333">源代码</a><h4 class="code-header">pub async fn <a href="#method.recv_from" class="fn">recv_from</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;(<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>, <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>)&gt;</h4></section></summary><div class="docblock"><p>在套接字上接收单个数据报消息。成功时返回读取的字节数和来源地址。</p>
+<p>调用此函数时必须传入足够大小的有效字节数组 <code>buf</code> 以容纳消息字节。如果消息太长而无法装入提供的缓冲区，则多余字节可能会被丢弃。</p>
+<h5 id="cancel-safety-6"><a class="doc-anchor" href="#cancel-safety-6">§</a>取消安全性</h5>
+<p>此方法可安全取消。如果 <code>recv_from</code> 在 <a href="crate::select"><code>tokio::select!</code></a> 语句中作为事件使用，并且其他分支先完成，则可以保证此套接字没有接收到任何消息。</p>
+<h5 id="example-7"><a class="doc-anchor" href="#example-7">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">32</span>];
+    <span class="kw">let </span>(len, addr) = socket.recv_from(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="macro">println!</span>(<span class="string">"received {:?} bytes from {:?}"</span>, len, addr);
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div><h5 id="notes-1"><a class="doc-anchor" href="#notes-1">§</a>注意</h5>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.poll_recv_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1361-1382">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_recv_from" class="fn">poll_recv_from</a>(
+    &amp;self,
+    cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;,
+    buf: &amp;mut <a class="struct" href="../io/struct.ReadBuf.html" title="struct tokio::io::ReadBuf">ReadBuf</a>&lt;'_&gt;,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在套接字上接收单个数据报。</p>
+<p>请注意，在 <code>recv</code> 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<h5 id="return-value-5"><a class="doc-anchor" href="#return-value-5">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not ready to read</li>
+<li><code>Poll::Ready(Ok(addr))</code> reads data from <code>addr</code> into <code>ReadBuf</code> if the socket is ready</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-5"><a class="doc-anchor" href="#errors-5">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+<h5 id="notes-2"><a class="doc-anchor" href="#notes-2">§</a>注意</h5>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_recv_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1442-1446">源代码</a><h4 class="code-header">pub fn <a href="#method.try_recv_from" class="fn">try_recv_from</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;(<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>, <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>)&gt;</h4></section></summary><div class="docblock"><p>尝试在套接字上接收单个数据报消息。成功时返回读取的字节数和来源地址。</p>
+<p>调用此方法时必须传入足够大小的有效字节数组 <code>buf</code> 以容纳消息字节。如果消息太长而无法装入提供的缓冲区，则多余字节可能会被丢弃。</p>
+<p>当没有待处理数据时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>readable()</code> 配对使用。</p>
+<h5 id="notes-3"><a class="doc-anchor" href="#notes-3">§</a>注意</h5>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+<h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Connect to a peer
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="comment">// Wait for the socket to be readable
+        </span>socket.readable().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        <span class="comment">// The buffer is **not** included in the async task and will
+        // only exist on the stack.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+        <span class="comment">// Try to recv data, this may still fail with `WouldBlock`
+        // if the readiness event is a false positive.
+        </span><span class="kw">match </span>socket.try_recv_from(<span class="kw-2">&amp;mut </span>buf) {
+            <span class="prelude-val">Ok</span>((n, _addr)) =&gt; {
+                <span class="macro">println!</span>(<span class="string">"GOT {:?}"</span>, <span class="kw-2">&amp;</span>buf[..n]);
+                <span class="kw">break</span>;
+            }
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
+                <span class="kw">continue</span>;
+            }
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            }
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_io" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1480-1488">源代码</a><h4 class="code-header">pub fn <a href="#method.try_io" class="fn">try_io</a>&lt;R&gt;(
+    &amp;self,
+    interest: <a class="struct" href="../io/struct.Interest.html" title="struct tokio::io::Interest">Interest</a>,
+    f: impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>() -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;R&gt;,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;R&gt;</h4></section></summary><div class="docblock"><p>尝试使用用户提供的 I/O 操作从套接字读取或写入数据。</p>
+<p>如果套接字已就绪，则调用提供的闭包。闭包应通过手动调用适当的系统调用来尝试在套接字上执行 I/O 操作。如果操作失败的原因是套接字实际上尚未就绪，则闭包应返回 <code>WouldBlock</code> 错误，同时会清除就绪标志。闭包的返回值随后由 <code>try_io</code> 返回。</p>
+<p>如果套接字未就绪，则不会调用闭包，并返回 <code>WouldBlock</code> 错误。</p>
+<p>闭包仅在已对套接字执行了 I/O 操作且因套接字未就绪而失败时，才应返回 <code>WouldBlock</code> 错误。在其他任何情况下返回 <code>WouldBlock</code> 错误都会错误地清除就绪标志，可能导致套接字行为异常。</p>
+<p>闭包不应使用 Tokio <code>UdpSocket</code> 类型上定义的任何方法来执行 I/O 操作，因为这会干扰就绪标志，并可能导致套接字行为异常。</p>
+<p>此方法不应用于组合的就绪事件。闭包应当只执行一种 I/O 操作，因此不应需要多于一个的就绪状态。如果以组合的就绪事件调用，此方法可能会发生 panic 或永久休眠。</p>
+<p>通常，<a href="struct.UdpSocket.html#method.readable" title="method tokio::net::UdpSocket::readable"><code>readable()</code></a>、<a href="struct.UdpSocket.html#method.writable" title="method tokio::net::UdpSocket::writable"><code>writable()</code></a> 或 <a href="struct.UdpSocket.html#method.ready" title="method tokio::net::UdpSocket::ready"><code>ready()</code></a> 与此函数配对使用。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.async_io" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1515-1524">源代码</a><h4 class="code-header">pub async fn <a href="#method.async_io" class="fn">async_io</a>&lt;R&gt;(
+    &amp;self,
+    interest: <a class="struct" href="../io/struct.Interest.html" title="struct tokio::io::Interest">Interest</a>,
+    f: impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>() -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;R&gt;,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;R&gt;</h4></section></summary><div class="docblock"><p>使用用户提供的 I/O 操作从套接字读取或写入数据。</p>
+<p>会等待套接字的就绪状态，当套接字就绪时，会调用提供的闭包。闭包应通过手动调用适当的系统调用来尝试在套接字上执行 I/O 操作。如果操作失败的原因是套接字实际上尚未就绪，则闭包应返回 <code>WouldBlock</code> 错误。在这种情况下，会清除就绪标志并重新等待套接字就绪。该循环将一直重复，直到闭包返回 <code>Ok</code> 或除 <code>WouldBlock</code> 之外的错误。</p>
+<p>闭包仅在已对套接字执行了 I/O 操作且因套接字未就绪而失败时，才应返回 <code>WouldBlock</code> 错误。在其他任何情况下返回 <code>WouldBlock</code> 错误都会错误地清除就绪标志，可能导致套接字行为异常。</p>
+<p>闭包不应使用 Tokio <code>UdpSocket</code> 类型上定义的任何方法来执行 I/O 操作，因为这会干扰就绪标志，并可能导致套接字行为异常。</p>
+<p>此方法不应用于组合的就绪事件。闭包应当只执行一种 I/O 操作，因此不应需要多于一个的就绪状态。如果以组合的就绪事件调用，此方法可能会发生 panic 或永久休眠。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.peek" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1569-1574">源代码</a><h4 class="code-header">pub async fn <a href="#method.peek" class="fn">peek</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>从已连接的地址接收单个数据报，但不会将其从队列中移除。成功时返回读取的字节数以及数据的来源地址。</p>
+<h5 id="notes-4"><a class="doc-anchor" href="#notes-4">§</a>注意</h5>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，peek 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.peek_sender" title="method tokio::net::UdpSocket::peek_sender"><code>peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+<h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">32</span>];
+    <span class="kw">let </span>len = socket.peek(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="macro">println!</span>(<span class="string">"peeked {:?} bytes"</span>, len);
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_peek" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1615-1632">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_peek" class="fn">poll_peek</a>(
+    &amp;self,
+    cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;,
+    buf: &amp;mut <a class="struct" href="../io/struct.ReadBuf.html" title="struct tokio::io::ReadBuf">ReadBuf</a>&lt;'_&gt;,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>从已连接的地址接收数据，但不会将其从输入队列中移除。</p>
+<h5 id="notes-5"><a class="doc-anchor" href="#notes-5">§</a>注意</h5>
+<p>请注意，在 <code>recv</code> 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，peek 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.poll_peek_sender" title="method tokio::net::UdpSocket::poll_peek_sender"><code>poll_peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+<h5 id="return-value-6"><a class="doc-anchor" href="#return-value-6">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not ready to read</li>
+<li><code>Poll::Ready(Ok(()))</code> reads data into <code>ReadBuf</code> if the socket is ready</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-6"><a class="doc-anchor" href="#errors-6">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_peek" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1661-1665">源代码</a><h4 class="code-header">pub fn <a href="#method.try_peek" class="fn">try_peek</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>尝试从已连接的地址接收数据，但不会将其从输入队列中移除。成功时返回读取的字节数。</p>
+<p>当没有待处理数据时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>readable()</code> 配对使用。</p>
+<h5 id="notes-6"><a class="doc-anchor" href="#notes-6">§</a>注意</h5>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，peek 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.try_peek_sender" title="method tokio::net::UdpSocket::try_peek_sender"><code>try_peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.peek_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1711-1718">源代码</a><h4 class="code-header">pub async fn <a href="#method.peek_from" class="fn">peek_from</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;(<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>, <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>)&gt;</h4></section></summary><div class="docblock"><p>从套接字接收数据，但不会将其从输入队列中移除。成功时返回读取的字节数以及数据来源的地址。</p>
+<h5 id="notes-7"><a class="doc-anchor" href="#notes-7">§</a>注意</h5>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，<code>peek_from</code> 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.peek_sender" title="method tokio::net::UdpSocket::peek_sender"><code>peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+<h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">32</span>];
+    <span class="kw">let </span>(len, addr) = socket.peek_from(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="macro">println!</span>(<span class="string">"peeked {:?} bytes from {:?}"</span>, len, addr);
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.poll_peek_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1760-1781">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_peek_from" class="fn">poll_peek_from</a>(
+    &amp;self,
+    cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;,
+    buf: &amp;mut <a class="struct" href="../io/struct.ReadBuf.html" title="struct tokio::io::ReadBuf">ReadBuf</a>&lt;'_&gt;,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>从套接字接收数据，但不会将其从输入队列中移除。成功时返回数据报的发送地址。</p>
+<h5 id="notes-8"><a class="doc-anchor" href="#notes-8">§</a>注意</h5>
+<p>请注意，在 <code>recv</code> 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，peek 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.poll_peek_sender" title="method tokio::net::UdpSocket::poll_peek_sender"><code>poll_peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+<h5 id="return-value-7"><a class="doc-anchor" href="#return-value-7">§</a>返回值</h5>
+<p>函数返回：</p>
+<ul>
+<li><code>Poll::Pending</code> if the socket is not ready to read</li>
+<li><code>Poll::Ready(Ok(addr))</code> reads data from <code>addr</code> into <code>ReadBuf</code> if the socket is ready</li>
+<li><code>Poll::Ready(Err(e))</code> if an error is encountered.</li>
+</ul>
+<h5 id="errors-7"><a class="doc-anchor" href="#errors-7">§</a>错误</h5>
+<p>此函数可能遇到除 <code>WouldBlock</code> 之外的任何标准 I/O 错误。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_peek_from" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1811-1815">源代码</a><h4 class="code-header">pub fn <a href="#method.try_peek_from" class="fn">try_peek_from</a>(&amp;self, buf: &amp;mut [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;(<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>, <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>)&gt;</h4></section></summary><div class="docblock"><p>尝试从套接字接收数据，但不会将其从输入队列中移除。成功时返回读取的字节数和数据报的发送地址。</p>
+<p>当没有待处理数据时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>readable()</code> 配对使用。</p>
+<h5 id="notes-9"><a class="doc-anchor" href="#notes-9">§</a>注意</h5>
+<p>在 Windows 上，如果数据大于指定的缓冲区，则缓冲区会被填满数据的开头部分，peek 返回错误 <code>WSAEMSGSIZE(10040)</code>。多余的数据将丢失。请务必使用足够大的缓冲区以容纳最大 UDP 数据包（可达 65536 字节）。</p>
+<p>如果传入零大小的缓冲区，macOS 将返回错误。</p>
+<p>如果你只想了解队列头部数据的发送方，请尝试 <a href="struct.UdpSocket.html#method.try_peek_sender" title="method tokio::net::UdpSocket::try_peek_sender"><code>try_peek_sender</code></a>。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.peek_sender" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1830-1837">源代码</a><h4 class="code-header">pub async fn <a href="#method.peek_sender" class="fn">peek_sender</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;</h4></section></summary><div class="docblock"><p>检索输入队列头部数据的发送方，如果队列为空则等待。</p>
+<p>这等效于使用零大小的缓冲区调用 <a href="struct.UdpSocket.html#method.peek_from" title="method tokio::net::UdpSocket::peek_from"><code>peek_from</code></a>，但会抑制 Windows 上的 <code>WSAEMSGSIZE</code> 错误和 macOS 上的 “invalid argument” 错误。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.poll_peek_sender" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1859-1863">源代码</a><h4 class="code-header">pub fn <a href="#method.poll_peek_sender" class="fn">poll_peek_sender</a>(&amp;self, cx: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Context.html" title="struct core::task::wake::Context">Context</a>&lt;'_&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/task/poll/enum.Poll.html" title="enum core::task::poll::Poll">Poll</a>&lt;<a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>检索输入队列头部数据的发送方，如果队列为空则调度唤醒。</p>
+<p>这等效于使用零大小的缓冲区调用 <a href="struct.UdpSocket.html#method.poll_peek_from" title="method tokio::net::UdpSocket::poll_peek_from"><code>poll_peek_from</code></a>，但会抑制 Windows 上的 <code>WSAEMSGSIZE</code> 错误和 macOS 上的 “invalid argument” 错误。</p>
+<h5 id="notes-10"><a class="doc-anchor" href="#notes-10">§</a>注意</h5>
+<p>请注意，在 <code>recv</code> 方向多次调用 <code>poll_*</code> 方法时，只有传递给最近一次调用的 <code>Context</code> 中的 <code>Waker</code> 才会被调度以接收唤醒。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.try_peek_sender" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1877-1881">源代码</a><h4 class="code-header">pub fn <a href="#method.try_peek_sender" class="fn">try_peek_sender</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/net/socket_addr/enum.SocketAddr.html" title="enum core::net::socket_addr::SocketAddr">SocketAddr</a>&gt;</h4></section></summary><div class="docblock"><p>尝试检索输入队列头部数据的发送方。</p>
+<p>当没有待处理数据时，返回 <code>Err(io::ErrorKind::WouldBlock)</code>。此函数通常与 <code>readable()</code> 配对使用。</p>
+<p>请注意，套接字地址<strong>不能</strong>被隐式信任，因为相对容易以伪造的源地址发送 UDP 数据报以实施<a href="https://en.wikipedia.org/wiki/Packet_injection">数据包注入攻击</a>。由于 UDP 是无状态的，并且不验证数据包的来源，攻击者无需拦截流量即可实施干扰。在设计应用层协议时，请务必了解这一点。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.broadcast" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1901-1903">源代码</a><h4 class="code-header">pub fn <a href="#method.broadcast" class="fn">broadcast</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>SO_BROADCAST</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_broadcast" title="method tokio::net::UdpSocket::set_broadcast"><code>set_broadcast</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_broadcast" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1909-1911">源代码</a><h4 class="code-header">pub fn <a href="#method.set_broadcast" class="fn">set_broadcast</a>(&amp;self, on: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>SO_BROADCAST</code> 选项的值。</p>
+<p>启用后，此套接字将允许向广播地址发送数据包。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.multicast_loop_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1918-1920">源代码</a><h4 class="code-header">pub fn <a href="#method.multicast_loop_v4" class="fn">multicast_loop_v4</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>IP_MULTICAST_LOOP</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_multicast_loop_v4" title="method tokio::net::UdpSocket::set_multicast_loop_v4"><code>set_multicast_loop_v4</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_multicast_loop_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1929-1931">源代码</a><h4 class="code-header">pub fn <a href="#method.set_multicast_loop_v4" class="fn">set_multicast_loop_v4</a>(&amp;self, on: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>IP_MULTICAST_LOOP</code> 选项的值。</p>
+<p>如果启用，多播数据包将被环回到本地套接字。</p>
+<h5 id="note"><a class="doc-anchor" href="#note">§</a>注意</h5>
+<p>这可能对 IPv6 套接字没有任何效果。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.multicast_ttl_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1938-1940">源代码</a><h4 class="code-header">pub fn <a href="#method.multicast_ttl_v4" class="fn">multicast_ttl_v4</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>IP_MULTICAST_TTL</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_multicast_ttl_v4" title="method tokio::net::UdpSocket::set_multicast_ttl_v4"><code>set_multicast_ttl_v4</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_multicast_ttl_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1951-1953">源代码</a><h4 class="code-header">pub fn <a href="#method.set_multicast_ttl_v4" class="fn">set_multicast_ttl_v4</a>(&amp;self, ttl: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>IP_MULTICAST_TTL</code> 选项的值。</p>
+<p>指示此套接字对外发送的多播数据包的生存时间值。默认值为 1，这意味着多播数据包除非明确要求，否则不会离开本地网络。</p>
+<h5 id="note-1"><a class="doc-anchor" href="#note-1">§</a>注意</h5>
+<p>这可能对 IPv6 套接字没有任何效果。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.multicast_loop_v6" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1960-1962">源代码</a><h4 class="code-header">pub fn <a href="#method.multicast_loop_v6" class="fn">multicast_loop_v6</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>IPV6_MULTICAST_LOOP</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_multicast_loop_v6" title="method tokio::net::UdpSocket::set_multicast_loop_v6"><code>set_multicast_loop_v6</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_multicast_loop_v6" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#1971-1973">源代码</a><h4 class="code-header">pub fn <a href="#method.set_multicast_loop_v6" class="fn">set_multicast_loop_v6</a>(&amp;self, on: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>IPV6_MULTICAST_LOOP</code> 选项的值。</p>
+<p>控制此套接字是否能看见它自己发送的多播数据包。</p>
+<h5 id="note-2"><a class="doc-anchor" href="#note-2">§</a>注意</h5>
+<p>这对 IPv4 套接字可能没有任何影响。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.ttl" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2067-2069">源代码</a><h4 class="code-header">pub fn <a href="#method.ttl" class="fn">ttl</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>IP_TTL</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_ttl" title="method tokio::net::UdpSocket::set_ttl"><code>set_ttl</code></a>。</p>
+<h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">println!</span>(<span class="string">"{:?}"</span>, sock.ttl()<span class="question-mark">?</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.set_ttl" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2089-2091">源代码</a><h4 class="code-header">pub fn <a href="#method.set_ttl" class="fn">set_ttl</a>(&amp;self, ttl: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>IP_TTL</code> 选项的值。</p>
+<p>此值设置从此套接字发送的每个数据包中使用的生存时间字段。</p>
+<h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+
+<span class="kw">let </span>sock = UdpSocket::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+sock.set_ttl(<span class="number">60</span>)<span class="question-mark">?</span>;
+</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.tos_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2118-2120">源代码</a><h4 class="code-header">pub fn <a href="#method.tos_v4" class="fn">tos_v4</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>&gt;</h4></section></summary><div class="docblock"><p>获取此套接字的 <code>IP_TOS</code> 选项的值。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.set_tos_v4" title="method tokio::net::UdpSocket::set_tos_v4"><code>set_tos_v4</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_tos_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2182-2184">源代码</a><h4 class="code-header">pub fn <a href="#method.set_tos_v4" class="fn">set_tos_v4</a>(&amp;self, tos: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>设置此套接字上 <code>IP_TOS</code> 选项的值。</p>
+<p>此值设置从此套接字发送的每个数据包中使用的服务类型字段。</p>
+<h5 id="note-3"><a class="doc-anchor" href="#note-3">§</a>注意</h5>
+<ul>
+<li>This may not have any effect on IPv6 sockets.</li>
+<li>On Windows, <code>IP_TOS</code> is only supported on <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/ipproto-ip-socket-options">Windows 8+ or
+Windows Server 2012+.</a></li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.join_multicast_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2251-2253">源代码</a><h4 class="code-header">pub fn <a href="#method.join_multicast_v4" class="fn">join_multicast_v4</a>(
+    &amp;self,
+    multiaddr: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv4Addr.html" title="struct core::net::ip_addr::Ipv4Addr">Ipv4Addr</a>,
+    interface: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv4Addr.html" title="struct core::net::ip_addr::Ipv4Addr">Ipv4Addr</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>执行 <code>IP_ADD_MEMBERSHIP</code> 类型的操作。</p>
+<p>此函数为此套接字要加入的多播组指定一个新地址。地址必须是有效的多播地址，<code>interface</code> 是系统应使用其加入多播组的本地接口的地址。如果它等于 <code>INADDR_ANY</code>，则系统会选择一个合适的接口。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.join_multicast_v6" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2260-2262">源代码</a><h4 class="code-header">pub fn <a href="#method.join_multicast_v6" class="fn">join_multicast_v6</a>(
+    &amp;self,
+    multiaddr: &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv6Addr.html" title="struct core::net::ip_addr::Ipv6Addr">Ipv6Addr</a>,
+    interface: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>执行 <code>IPV6_ADD_MEMBERSHIP</code> 类型的操作。</p>
+<p>此函数为此套接字要加入的多播组指定一个新地址。地址必须是有效的多播地址，<code>interface</code> 是要加入/离开的接口的索引（或 0 表示任意接口）。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.leave_multicast_v4" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2269-2271">源代码</a><h4 class="code-header">pub fn <a href="#method.leave_multicast_v4" class="fn">leave_multicast_v4</a>(
+    &amp;self,
+    multiaddr: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv4Addr.html" title="struct core::net::ip_addr::Ipv4Addr">Ipv4Addr</a>,
+    interface: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv4Addr.html" title="struct core::net::ip_addr::Ipv4Addr">Ipv4Addr</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>执行 <code>IP_DROP_MEMBERSHIP</code> 类型的操作。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.join_multicast_v4" title="method tokio::net::UdpSocket::join_multicast_v4"><code>join_multicast_v4</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.leave_multicast_v6" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2278-2280">源代码</a><h4 class="code-header">pub fn <a href="#method.leave_multicast_v6" class="fn">leave_multicast_v6</a>(
+    &amp;self,
+    multiaddr: &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/core/net/ip_addr/struct.Ipv6Addr.html" title="struct core::net::ip_addr::Ipv6Addr">Ipv6Addr</a>,
+    interface: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>执行 <code>IPV6_DROP_MEMBERSHIP</code> 类型的操作。</p>
+<p>有关此选项的更多信息，请参阅 <a href="struct.UdpSocket.html#method.join_multicast_v6" title="method tokio::net::UdpSocket::join_multicast_v6"><code>join_multicast_v6</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.take_error" class="method"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2302-2304">源代码</a><h4 class="code-header">pub fn <a href="#method.take_error" class="fn">take_error</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>返回 <code>SO_ERROR</code> 选项的值。</p>
+<h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::UdpSocket;
+<span class="kw">use </span>std::io;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="comment">// Create a socket
+    </span><span class="kw">let </span>socket = UdpSocket::bind(<span class="string">"0.0.0.0:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(err)) = socket.take_error() {
+        <span class="macro">println!</span>(<span class="string">"Got error: {:?}"</span>, err);
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details></div></details></div><h2 id="trait-implementations" class="section-header">trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-AsRawSocket-for-UdpSocket" class="impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2347-2351">源代码</a><a href="#impl-AsRawSocket-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/raw/trait.AsRawSocket.html" title="trait std::os::windows::io::raw::AsRawSocket">AsRawSocket</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3><span class="item-info"><div class="stab portability">Available on <strong><code>docsrs</code>, or Windows</strong> only.</div></span></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.as_raw_socket" class="method trait-impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2348-2350">源代码</a><a href="#method.as_raw_socket" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/raw/trait.AsRawSocket.html#tymethod.as_raw_socket" class="fn">as_raw_socket</a>(&amp;self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/raw/type.RawSocket.html" title="type std::os::windows::io::raw::RawSocket">RawSocket</a></h4></section></summary><div class='docblock'>Extracts the raw socket. <a href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/raw/trait.AsRawSocket.html#tymethod.as_raw_socket">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-AsSocket-for-UdpSocket" class="impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2353-2357">源代码</a><a href="#impl-AsSocket-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/socket/trait.AsSocket.html" title="trait std::os::windows::io::socket::AsSocket">AsSocket</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3><span class="item-info"><div class="stab portability">Available on <strong><code>docsrs</code>, or Windows</strong> only.</div></span></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.as_socket" class="method trait-impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2354-2356">源代码</a><a href="#method.as_socket" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/socket/trait.AsSocket.html#tymethod.as_socket" class="fn">as_socket</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/os/windows/io/socket/struct.BorrowedSocket.html" title="struct std::os::windows::io::socket::BorrowedSocket">BorrowedSocket</a>&lt;'_&gt;</h4></section></summary><div class='docblock'>借用此套接字。</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-UdpSocket" class="impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2319-2323">源代码</a><a href="#impl-Debug-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2320-2322">源代码</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-TryFrom%3CUdpSocket%3E-for-UdpSocket" class="impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2307-2317">源代码</a><a href="#impl-TryFrom%3CUdpSocket%3E-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket">UdpSocket</a>&gt; for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2314-2316">源代码</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(stream: <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/net/udp/struct.UdpSocket.html" title="struct std::net::udp::UdpSocket">UdpSocket</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class="docblock"><p>消耗流，返回 Tokio 的 I/O 对象。</p>
+<p>这等效于 <a href="struct.UdpSocket.html#method.from_std" title="associated function tokio::net::UdpSocket::from_std"><code>UdpSocket::from_std(stream)</code></a>。</p>
+</div></details><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="../../src/tokio/net/udp.rs.html#2308">源代码</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details></div></details></div><h2 id="synthetic-implementations" class="section-header">自动 trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-UdpSocket" class="impl"><a href="#impl-Freeze-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-RefUnwindSafe-for-UdpSocket" class="impl"><a href="#impl-RefUnwindSafe-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-Send-for-UdpSocket" class="impl"><a href="#impl-Send-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-Sync-for-UdpSocket" class="impl"><a href="#impl-Sync-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-Unpin-for-UdpSocket" class="impl"><a href="#impl-Unpin-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-UnsafeUnpin-for-UdpSocket" class="impl"><a href="#impl-UnsafeUnpin-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section><section id="impl-UnwindSafe-for-UdpSocket" class="impl"><a href="#impl-UnwindSafe-for-UdpSocket" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UdpSocket</a></h3></section></div><h2 id="blanket-implementations" class="section-header">blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">源代码</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">源代码</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">源代码</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">源代码</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">源代码</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">源代码</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">源代码</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">源代码</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回参数。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">源代码</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">源代码</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
+<p>也就是说，此转换是 <code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 实现选择执行的操作。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">源代码</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-2" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">源代码</a><a href="#associatedtype.Error-2" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from-1" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">源代码</a><a href="#method.try_from-1" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">源代码</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">源代码</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">源代码</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div></section></div></main></body></html>

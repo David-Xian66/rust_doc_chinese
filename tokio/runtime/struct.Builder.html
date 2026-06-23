@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="使用自定义配置值构建 Tokio 运行时。"><title>Builder in tokio::runtime - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Builder</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Builder</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="示例">示例</a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.build" title="build">build</a></li><li><a href="#method.build_local" title="build_local">build_local</a></li><li><a href="#method.enable_all" title="enable_all">enable_all</a></li><li><a href="#method.enable_io" title="enable_io">enable_io</a></li><li><a href="#method.enable_time" title="enable_time">enable_time</a></li><li><a href="#method.event_interval" title="event_interval">event_interval</a></li><li><a href="#method.global_queue_interval" title="global_queue_interval">global_queue_interval</a></li><li><a href="#method.max_blocking_threads" title="max_blocking_threads">max_blocking_threads</a></li><li><a href="#method.max_io_events_per_tick" title="max_io_events_per_tick">max_io_events_per_tick</a></li><li><a href="#method.name" title="name">name</a></li><li><a href="#method.new_current_thread" title="new_current_thread">new_current_thread</a></li><li><a href="#method.on_thread_park" title="on_thread_park">on_thread_park</a></li><li><a href="#method.on_thread_start" title="on_thread_start">on_thread_start</a></li><li><a href="#method.on_thread_stop" title="on_thread_stop">on_thread_stop</a></li><li><a href="#method.on_thread_unpark" title="on_thread_unpark">on_thread_unpark</a></li><li><a href="#method.thread_keep_alive" title="thread_keep_alive">thread_keep_alive</a></li><li><a href="#method.thread_name" title="thread_name">thread_name</a></li><li><a href="#method.thread_name_fn" title="thread_name_fn">thread_name_fn</a></li><li><a href="#method.thread_stack_size" title="thread_stack_size">thread_stack_size</a></li><li><a href="#method.worker_threads" title="worker_threads">worker_threads</a></li></ul><h3><a href="#trait-implementations">trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Builder" title="Debug">Debug</a></li></ul><h3><a href="#synthetic-implementations">自动 trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Builder" title="!Freeze">!Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Builder" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Builder" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Send-for-Builder" title="Send">Send</a></li><li><a href="#impl-Sync-for-Builder" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Builder" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Builder" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In tokio::<wbr>runtime</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">runtime</a></div><h1>结构体 <span class="struct">Builder</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/runtime/builder.rs.html#55-149">源代码</a> </span></div><pre class="rust item-decl"><code>pub struct Builder { <span class="comment">/* 私有字段 */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>使用自定义配置值构建 Tokio 运行时。</p>
+<p>可以按链式调用各方法来设置配置值。运行时通过调用 <a href="struct.Builder.html#method.build" title="method tokio::runtime::Builder::build"><code>build</code></a> 来构造。</p>
+<p>通过 <a href="struct.Builder.html#method.new_current_thread"><code>Builder::new_multi_thread</code></a>
+或 <a href="struct.Builder.html#method.new_current_thread" title="associated function tokio::runtime::Builder::new_current_thread"><code>Builder::new_current_thread</code></a> 获取 <code>Builder</code> 的新实例。</p>
+<p>有关各种配置选项的详细信息，请参阅函数级文档。</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime::Builder;
+
+<span class="kw">fn </span>main() {
+    <span class="comment">// 构建运行时
+    </span><span class="kw">let </span>runtime = Builder::new_multi_thread()
+        .worker_threads(<span class="number">4</span>)
+        .thread_name(<span class="string">"my-custom-name"</span>)
+        .thread_stack_size(<span class="number">3 </span>* <span class="number">1024 </span>* <span class="number">1024</span>)
+        .build()
+        .unwrap();
+
+    <span class="comment">// 使用运行时 ...
+</span>}</code></pre></div></div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Builder" class="impl"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#244-1731">源代码</a><a href="#impl-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new_current_thread" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#255-263">源代码</a><h4 class="code-header">pub fn <a href="#method.new_current_thread" class="fn">new_current_thread</a>() -&gt; <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h4></section></summary><div class="docblock"><p>返回一个选择了当前线程调度器的新构建器。</p>
+<p>可以在返回值上链式调用各配置方法。</p>
+<p>要在所得到的运行时上派生非 <code>Send</code> 任务，需要将其与 <a href="../task/struct.LocalSet.html" title="struct tokio::task::LocalSet"><code>LocalSet</code></a> 组合使用，或者调用 <a href="struct.Builder.html#method.build_local" title="method tokio::runtime::Builder::build_local"><code>build_local</code></a> 来创建 <a href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.enable_all" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#366-387">源代码</a><h4 class="code-header">pub fn <a href="#method.enable_all" class="fn">enable_all</a>(&amp;mut self) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>同时启用 I/O 和时间驱动。</p>
+<p>这是单独调用 <code>enable_io</code> 和 <code>enable_time</code> 的简写。如果未来 Tokio 中添加了其他组件，
+<code>enable_all</code> 也会包括这些未来的组件。</p>
+<h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .enable_all()
+    .build()
+    .unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.worker_threads" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#509-513">源代码</a><h4 class="code-header">pub fn <a href="#method.worker_threads" class="fn">worker_threads</a>(&amp;mut self, val: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置 <code>Runtime</code> 将使用的工作线程数。</p>
+<p>该值可以是大于 0 的任何数字，不过建议保持一个较小的值。</p>
+<p>这会覆盖从环境变量 <code>TOKIO_WORKER_THREADS</code> 读取的值。</p>
+<h5 id="default"><a class="doc-anchor" href="#default">§</a>默认值</h5>
+<p>默认值是系统可用的 CPU 核心数。</p>
+<p>使用 <code>current_thread</code> 运行时，此方法无效。</p>
+<h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5><h6 id="multi-threaded-runtime-with-4-threads"><a class="doc-anchor" href="#multi-threaded-runtime-with-4-threads">§</a>具有 4 个线程的多线程运行时</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="comment">// 这将派生一个具有 4 个工作线程的工作窃取型运行时。
+</span><span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .worker_threads(<span class="number">4</span>)
+    .build()
+    .unwrap();
+
+rt.spawn(<span class="kw">async move </span>{});</code></pre></div><h6 id="current-thread-runtime-will-only-run-on-the-current-thread-via-runtimeblock_on"><a class="doc-anchor" href="#current-thread-runtime-will-only-run-on-the-current-thread-via-runtimeblock_on">§</a>当前线程运行时（仅通过 <code>Runtime::block_on</code> 在当前线程上运行）</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="comment">// 创建一个必须通过调用
+// `Runtime::block_on` 来驱动的运行时。
+</span><span class="kw">let </span>rt = runtime::Builder::new_current_thread()
+    .build()
+    .unwrap();
+
+<span class="comment">// 这将在当前线程上运行运行时和 future
+</span>rt.block_on(<span class="kw">async move </span>{});</code></pre></div><h5 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h5>
+<p>如果 <code>val</code> 不大于 <code>0</code>，则会发生 panic。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.max_blocking_threads" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#560-564">源代码</a><h4 class="code-header">pub fn <a href="#method.max_blocking_threads" class="fn">max_blocking_threads</a>(&amp;mut self, val: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>指定运行时派生的额外线程的上限。</p>
+<p>这些线程用于阻塞操作，例如通过 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 派生的任务，包括但不限于：</p>
+<ul>
+<li><a href="mod@crate::fs"><code>fs</code></a> 操作</li>
+<li>通过 <a href="../net/trait.ToSocketAddrs.html" title="trait tokio::net::ToSocketAddrs"><code>ToSocketAddrs</code></a> 进行 DNS 解析</li>
+<li>写入 <a href="struct@crate::io::Stdout"><code>Stdout</code></a> 或 <a href="struct@crate::io::Stderr"><code>Stderr</code></a></li>
+<li>从 <a href="struct@crate::io::Stdin"><code>Stdin</code></a> 读取</li>
+</ul>
+<p>与 <a href="struct.Builder.html#method.worker_threads" title="method tokio::runtime::Builder::worker_threads"><code>worker_threads</code></a> 不同，这些线程并非始终处于活动状态，
+如果空闲时间过长会退出。可以使用 <a href="struct.Builder.html#method.thread_keep_alive" title="method tokio::runtime::Builder::thread_keep_alive"><code>thread_keep_alive</code></a> 更改该超时时长。</p>
+<p>建议不要将该上限设置得过低，以避免在需要 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 的操作上发生挂起。</p>
+<p>默认值是 512。</p>
+<h5 id="queue-behavior"><a class="doc-anchor" href="#queue-behavior">§</a>队列行为</h5>
+<p>当提交一个阻塞任务时，它会被插入一个队列中。如果有空闲线程，则会通知其中一个线程来运行该任务。否则，
+如果尚未达到本方法设置的阈值，则会派生一个新的线程。如果没有可用的空闲线程，并且也不再允许派生新线程，
+那么该任务将一直留在队列中，直到某个繁忙的线程将其取出。需要注意的是，由于队列不施加任何背压，
+因此它可能会无限增长。</p>
+<h5 id="panics-1"><a class="doc-anchor" href="#panics-1">§</a>恐慌</h5>
+<p>如果 <code>val</code> 不大于 <code>0</code>，则会发生 panic。</p>
+<h5 id="upgrading-from-0x"><a class="doc-anchor" href="#upgrading-from-0x">§</a>从 0.x 升级</h5>
+<p>在旧版本中，<code>max_threads</code> 同时限制阻塞线程和工作线程的数量，
+但当前的 <code>max_blocking_threads</code> 不再将异步工作线程计入该数量中。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.thread_name" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#584-588">源代码</a><h4 class="code-header">pub fn <a href="#method.thread_name" class="fn">thread_name</a>(&amp;mut self, val: impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置 <code>Runtime</code> 线程池所派生线程的名称。</p>
+<p>默认名称为 “tokio-rt-worker”。</p>
+<h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .thread_name(<span class="string">"my-pool"</span>)
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.name" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#611-616">源代码</a><h4 class="code-header">pub fn <a href="#method.name" class="fn">name</a>(&amp;mut self, val: impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置运行时的名称。</p>
+<h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .name(<span class="string">"my-runtime"</span>)
+    .build();</code></pre></div><h5 id="panics-2"><a class="doc-anchor" href="#panics-2">§</a>恐慌</h5>
+<p>如果将空值作为参数传入，此函数将发生 panic。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.thread_name_fn" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#640-646">源代码</a><h4 class="code-header">pub fn <a href="#method.thread_name_fn" class="fn">thread_name_fn</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; &amp;mut Self<div class="where">where
+    F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>() -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,</div></h4></section></summary><div class="docblock"><p>设置一个用于生成 <code>Runtime</code> 线程池所派生线程名称的函数。</p>
+<p>默认的名称函数是 <code>|| "tokio-rt-worker".into()</code>。</p>
+<h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .thread_name_fn(|| {
+       <span class="kw">static </span>ATOMIC_ID: AtomicUsize = AtomicUsize::new(<span class="number">0</span>);
+       <span class="kw">let </span>id = ATOMIC_ID.fetch_add(<span class="number">1</span>, Ordering::SeqCst);
+       <span class="macro">format!</span>(<span class="string">"my-pool-{}"</span>, id)
+    })
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.thread_stack_size" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#670-673">源代码</a><h4 class="code-header">pub fn <a href="#method.thread_stack_size" class="fn">thread_stack_size</a>(&amp;mut self, val: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置工作线程的栈大小（以字节为单位）。</p>
+<p>如果平台指定了最小栈大小，实际的栈大小可能大于此值。</p>
+<p>所派生线程的默认栈大小为 2 MiB，但此特定的栈大小将来可能会发生变化。</p>
+<h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .thread_stack_size(<span class="number">32 </span>* <span class="number">1024</span>)
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.on_thread_start" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#696-702">源代码</a><h4 class="code-header">pub fn <a href="#method.on_thread_start" class="fn">on_thread_start</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; &amp;mut Self<div class="where">where
+    F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>() + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,</div></h4></section></summary><div class="docblock"><p>在每个线程启动之后、开始工作之前执行函数 <code>f</code>。</p>
+<p>此回调用于簿记和监控场景。</p>
+<h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>runtime = runtime::Builder::new_multi_thread()
+    .on_thread_start(|| {
+        <span class="macro">println!</span>(<span class="string">"thread started"</span>);
+    })
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.on_thread_stop" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#724-730">源代码</a><h4 class="code-header">pub fn <a href="#method.on_thread_stop" class="fn">on_thread_stop</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; &amp;mut Self<div class="where">where
+    F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>() + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,</div></h4></section></summary><div class="docblock"><p>在每个线程停止之前执行函数 <code>f</code>。</p>
+<p>此回调用于簿记和监控场景。</p>
+<h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>{
+<span class="kw">let </span>runtime = runtime::Builder::new_multi_thread()
+    .on_thread_stop(|| {
+        <span class="macro">println!</span>(<span class="string">"thread stopping"</span>);
+    })
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.on_thread_park" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#805-811">源代码</a><h4 class="code-header">pub fn <a href="#method.on_thread_park" class="fn">on_thread_park</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; &amp;mut Self<div class="where">where
+    F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>() + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,</div></h4></section></summary><div class="docblock"><p>在线程即将被 park（变为空闲）之前执行函数 <code>f</code>。
+<code>f</code> 在 Tokio 上下文中被调用，因此可以调用 <a href="../task/fn.spawn.html" title="fn tokio::task::spawn"><code>tokio::spawn</code></a>
+等函数，这可能会导致该线程被立即 unpark。</p>
+<p>可以用于仅在执行器空闲时启动工作，或用于簿记和监控目的。</p>
+<p>注意：每个运行时只能有一个 park 回调；多次调用此函数将替换最后定义的回调，
+而不是叠加。</p>
+<h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5><h6 id="multithreaded-executor"><a class="doc-anchor" href="#multithreaded-executor">§</a>多线程执行器</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>once = AtomicBool::new(<span class="bool-val">true</span>);
+<span class="kw">let </span>barrier = Arc::new(Barrier::new(<span class="number">2</span>));
+
+<span class="kw">let </span>runtime = runtime::Builder::new_multi_thread()
+    .worker_threads(<span class="number">1</span>)
+    .on_thread_park({
+        <span class="kw">let </span>barrier = barrier.clone();
+        <span class="kw">move </span>|| {
+            <span class="kw">let </span>barrier = barrier.clone();
+            <span class="kw">if </span>once.swap(<span class="bool-val">false</span>, Ordering::Relaxed) {
+                tokio::spawn(<span class="kw">async move </span>{ barrier.wait().<span class="kw">await</span>; });
+           }
+        }
+    })
+    .build()
+    .unwrap();
+
+runtime.block_on(<span class="kw">async </span>{
+   barrier.wait().<span class="kw">await</span>;
+})</code></pre></div><h6 id="current-thread-executor"><a class="doc-anchor" href="#current-thread-executor">§</a>当前线程执行器</h6>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>once = AtomicBool::new(<span class="bool-val">true</span>);
+<span class="kw">let </span>barrier = Arc::new(Barrier::new(<span class="number">2</span>));
+
+<span class="kw">let </span>runtime = runtime::Builder::new_current_thread()
+    .on_thread_park({
+        <span class="kw">let </span>barrier = barrier.clone();
+        <span class="kw">move </span>|| {
+            <span class="kw">let </span>barrier = barrier.clone();
+            <span class="kw">if </span>once.swap(<span class="bool-val">false</span>, Ordering::Relaxed) {
+                tokio::spawn(<span class="kw">async move </span>{ barrier.wait().<span class="kw">await</span>; });
+           }
+        }
+    })
+    .build()
+    .unwrap();
+
+runtime.block_on(<span class="kw">async </span>{
+   barrier.wait().<span class="kw">await</span>;
+})</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.on_thread_unpark" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#843-849">源代码</a><h4 class="code-header">pub fn <a href="#method.on_thread_unpark" class="fn">on_thread_unpark</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; &amp;mut Self<div class="where">where
+    F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>() + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,</div></h4></section></summary><div class="docblock"><p>在线程 unpark（开始执行任务）之后立即执行函数 <code>f</code>。</p>
+<p>此回调用于簿记和监控场景；需要注意的是，当应用程序允许一个或多个运行时线程
+进入空闲状态时，此回调中的工作会增加延迟。</p>
+<p>注意：每个运行时只能有一个 unpark 回调；多次调用此函数将替换最后定义的回调，
+而不是叠加。</p>
+<h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>runtime = runtime::Builder::new_multi_thread()
+    .on_thread_unpark(|| {
+        <span class="macro">println!</span>(<span class="string">"thread unparking"</span>);
+    })
+    .build();
+
+runtime.unwrap().block_on(<span class="kw">async </span>{
+   tokio::task::yield_now().<span class="kw">await</span>;
+   <span class="macro">println!</span>(<span class="string">"Hello from Tokio!"</span>);
+})</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.build" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1062-1068">源代码</a><h4 class="code-header">pub fn <a href="#method.build" class="fn">build</a>(&amp;mut self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.Runtime.html" title="struct tokio::runtime::Runtime">Runtime</a>&gt;</h4></section></summary><div class="docblock"><p>根据配置创建 <code>Runtime</code>。</p>
+<p>返回的 <code>Runtime</code> 实例已准备好派生任务。</p>
+<h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime::Builder;
+
+<span class="kw">let </span>rt  = Builder::new_multi_thread().build().unwrap();
+
+rt.block_on(<span class="kw">async </span>{
+    <span class="macro">println!</span>(<span class="string">"Hello from the Tokio runtime"</span>);
+});</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.build_local" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1094-1100">源代码</a><h4 class="code-header">pub fn <a href="#method.build_local" class="fn">build_local</a>(&amp;mut self, options: <a class="struct" href="struct.LocalOptions.html" title="struct tokio::runtime::LocalOptions">LocalOptions</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime">LocalRuntime</a>&gt;</h4></section></summary><div class="docblock"><p>根据配置创建 <a href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a>。</p>
+<p>返回的 <a href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a> 实例已准备好派生任务。</p>
+<h5 id="panics-3"><a class="doc-anchor" href="#panics-3">§</a>恐慌</h5>
+<p>如果运行时是使用 <a href="struct.Builder.html#method.new_current_thread"><code>new_multi_thread()</code></a> 配置的，则会发生 panic。</p>
+<h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime::{Builder, LocalOptions};
+
+<span class="kw">let </span>rt = Builder::new_current_thread()
+    .build_local(LocalOptions::default())
+    .unwrap();
+
+rt.spawn_local(<span class="kw">async </span>{
+    <span class="macro">println!</span>(<span class="string">"Hello from the Tokio runtime"</span>);
+});</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.thread_keep_alive" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1136-1139">源代码</a><h4 class="code-header">pub fn <a href="#method.thread_keep_alive" class="fn">thread_keep_alive</a>(&amp;mut self, duration: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置阻塞池中线程的自定义超时时间。</p>
+<p>默认情况下，线程的超时时间被设置为 10 秒。可以使用 <code>.thread_keep_alive()</code> 覆盖此设置。</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .thread_keep_alive(Duration::from_millis(<span class="number">100</span>))
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.global_queue_interval" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1178-1182">源代码</a><h4 class="code-header">pub fn <a href="#method.global_queue_interval" class="fn">global_queue_interval</a>(&amp;mut self, val: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置调度器在多少个调度 tick 之后轮询全局任务队列。</p>
+<p>一个调度“tick”大致对应于对任务的 <code>poll</code> 调用一次。</p>
+<p>对于当前线程调度器，默认的全局队列间隔为 31。有关多线程调度器的默认行为，请参阅
+<a href="index.html#multi-threaded-runtime-behavior-at-the-time-of-writing" title="mod tokio::runtime">模块文档</a>。</p>
+<p>调度器有一个本地队列用于存放已认领的任务，还有一个全局队列用于存放新进入的任务。
+将间隔设置得更小可以提高调度器的公平性，但代价是会增加同步开销。这有利于优先开始新工作，
+特别是当任务经常让出执行权而不是完成或等待更多 I/O 时。将间隔设置为 <code>1</code> 将优先处理全局队列，
+只有当全局队列为空时才会执行本地队列中的任务。相反，较大的值则会优先处理现有工作，
+当大多数任务能很快完成轮询时，这是一个不错的选择。</p>
+<h5 id="panics-4"><a class="doc-anchor" href="#panics-4">§</a>恐慌</h5>
+<p>如果将 0 作为参数传入，此函数将发生 panic。</p>
+<h5 id="examples-13"><a class="doc-anchor" href="#examples-13">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .global_queue_interval(<span class="number">31</span>)
+    .build();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.event_interval" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1219-1223">源代码</a><h4 class="code-header">pub fn <a href="#method.event_interval" class="fn">event_interval</a>(&amp;mut self, val: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>设置调度器在多少个调度 tick 之后轮询外部事件（定时器、I/O 等）。</p>
+<p>一个调度“tick”大致对应于对任务的 <code>poll</code> 调用一次。</p>
+<p>默认情况下，所有调度器类型的事件间隔为 <code>61</code>。</p>
+<p>设置事件间隔决定了传递这些外部事件（它们可能会唤醒其他任务）的有效“优先级”，
+相对于执行当前已就绪的任务。当任务经常在轮询中花费较长时间或不经常让出执行权时，
+较小的值很有用，否则可能会导致在处理 I/O 事件时出现过长的延迟。
+相反，拾取新事件需要额外的同步和系统调用开销，所以如果任务通常能很快完成轮询，
+那么使用较大的事件间隔可以将这种开销降至最低，同时仍能保持调度器对事件的响应能力。</p>
+<h5 id="panics-5"><a class="doc-anchor" href="#panics-5">§</a>恐慌</h5>
+<p>如果将 0 作为参数传入，此函数将发生 panic。</p>
+<h5 id="examples-14"><a class="doc-anchor" href="#examples-14">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .event_interval(<span class="number">31</span>)
+    .build();</code></pre></div></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Builder-1" class="impl"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1734-1773">源代码</a><a href="#impl-Builder-1" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.enable_io" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1750-1753">源代码</a><h4 class="code-header">pub fn <a href="#method.enable_io" class="fn">enable_io</a>(&amp;mut self) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>启用 I/O 驱动。</p>
+<p>启用后即可在运行时上使用 net、process、signal 以及某些 I/O 类型。</p>
+<h5 id="examples-15"><a class="doc-anchor" href="#examples-15">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .enable_io()
+    .build()
+    .unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.max_io_events_per_tick" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1769-1772">源代码</a><h4 class="code-header">pub fn <a href="#method.max_io_events_per_tick" class="fn">max_io_events_per_tick</a>(&amp;mut self, capacity: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>启用 I/O 驱动，并配置每个 tick 处理的最大事件数。</p>
+<h5 id="examples-16"><a class="doc-anchor" href="#examples-16">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="kw">let </span>rt = runtime::Builder::new_current_thread()
+    .enable_io()
+    .max_io_events_per_tick(<span class="number">1024</span>)
+    .build()
+    .unwrap();</code></pre></div></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Builder-2" class="impl"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1777-1799">源代码</a><a href="#impl-Builder-2" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.enable_time" class="method"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1795-1798">源代码</a><h4 class="code-header">pub fn <a href="#method.enable_time" class="fn">enable_time</a>(&amp;mut self) -&gt; &amp;mut Self</h4></section></summary><div class="docblock"><p>启用时间驱动。</p>
+<p>启用后即可在运行时上使用 <code>tokio::time</code>。</p>
+<h5 id="examples-17"><a class="doc-anchor" href="#examples-17">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
+
+<span class="kw">let </span>rt = runtime::Builder::new_multi_thread()
+    .enable_time()
+    .build()
+    .unwrap();</code></pre></div></div></details></div></details></div><h2 id="trait-implementations" class="section-header">trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Builder" class="impl"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1911-1942">源代码</a><a href="#impl-Debug-for-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../src/tokio/runtime/builder.rs.html#1912-1941">源代码</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, fmt: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details></div><h2 id="synthetic-implementations" class="section-header">自动 trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Builder" class="impl"><a href="#impl-Freeze-for-Builder" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-RefUnwindSafe-for-Builder" class="impl"><a href="#impl-RefUnwindSafe-for-Builder" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-Send-for-Builder" class="impl"><a href="#impl-Send-for-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-Sync-for-Builder" class="impl"><a href="#impl-Sync-for-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-Unpin-for-Builder" class="impl"><a href="#impl-Unpin-for-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-UnsafeUnpin-for-Builder" class="impl"><a href="#impl-UnsafeUnpin-for-Builder" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section><section id="impl-UnwindSafe-for-Builder" class="impl"><a href="#impl-UnwindSafe-for-Builder" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Builder.html" title="结构体 tokio::runtime::Builder">Builder</a></h3></section></div><h2 id="blanket-implementations" class="section-header">blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">源代码</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">源代码</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">源代码</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">源代码</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">源代码</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">源代码</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">源代码</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">源代码</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回参数。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">源代码</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">源代码</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
+<p>也就是说，此转换是 <code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 实现选择执行的操作。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">源代码</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">源代码</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">源代码</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">源代码</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">源代码</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">源代码</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_flags","get_level","set_flags","set_level"],"mod":["flag","level"]};

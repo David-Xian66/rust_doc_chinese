@@ -1,0 +1,469 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates\server\src\capture\lockscreen.rs`."><title>lockscreen.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="demo_sc_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">demo_sc_server\capture/</div>lockscreen.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! [L1] 锁屏监听器：注册 WTSAPI 会话通知 → 主循环检测到锁屏 → release session → 阻塞等解锁
+<a href=#2 id=2 data-nosnippet>2</a>//!
+<a href=#3 id=3 data-nosnippet>3</a>//! ## 目的
+<a href=#4 id=4 data-nosnippet>4</a>//!
+<a href=#5 id=5 data-nosnippet>5</a>//! Win+L / 屏幕超时 / 用户注销时，DXGI Desktop Duplication 会持续报 `DXGI_ERROR_ACCESS_LOST`，
+<a href=#6 id=6 data-nosnippet>6</a>//! C2 recover 路径会浪费 CPU 且 30 秒后 GiveUp 服务端退出。
+<a href=#7 id=7 data-nosnippet>7</a>//!
+<a href=#8 id=8 data-nosnippet>8</a>//! 本模块提供：
+<a href=#9 id=9 data-nosnippet>9</a>//! 1. **WTSAPI 监听**：后台线程跑 Windows 消息循环，捕获 `WM_WTSSESSION_CHANGE` 事件
+<a href=#10 id=10 data-nosnippet>10</a>//! 2. **状态机聚合**：把 WTS_LOCK / WTS_UNLOCK / WTS_LOGOFF / WTS_LOGON 转换为 `SessionState`
+<a href=#11 id=11 data-nosnippet>11</a>//! 3. **Condvar 阻塞**：主循环在 paused 状态下真阻塞（不 sleep 轮询），解锁时 &lt; 50ms 唤醒
+<a href=#12 id=12 data-nosnippet>12</a>//! 4. **事件接口**（预留）：把事件流暴露给心跳占位等将来特性
+<a href=#13 id=13 data-nosnippet>13</a>//!
+<a href=#14 id=14 data-nosnippet>14</a>//! ## 数据流
+<a href=#15 id=15 data-nosnippet>15</a>//!
+<a href=#16 id=16 data-nosnippet>16</a>//! ```text
+<a href=#17 id=17 data-nosnippet>17</a>//! Windows 内核 (会话状态变化)
+<a href=#18 id=18 data-nosnippet>18</a>//!   └─ WM_WTSSESSION_CHANGE 消息
+<a href=#19 id=19 data-nosnippet>19</a>//!       └─ 监听线程的消息循环
+<a href=#20 id=20 data-nosnippet>20</a>//!           └─ 转换为 SessionEvent
+<a href=#21 id=21 data-nosnippet>21</a>//!               └─ 状态机更新 SessionState (atomic)
+<a href=#22 id=22 data-nosnippet>22</a>//!                   ├─ 主循环 is_paused() 检查 → 进入 release/wait 分支
+<a href=#23 id=23 data-nosnippet>23</a>//!                   └─ 解锁时 notify_all Condvar → 主循环被唤醒
+<a href=#24 id=24 data-nosnippet>24</a>//! ```
+<a href=#25 id=25 data-nosnippet>25</a>//!
+<a href=#26 id=26 data-nosnippet>26</a>//! ## 简化说明（vs v3 §11.3 的完整设计）
+<a href=#27 id=27 data-nosnippet>27</a>//!
+<a href=#28 id=28 data-nosnippet>28</a>//! - 实现了 WTSAPI 事件源（消息循环 + WM_WTSSESSION_CHANGE）
+<a href=#29 id=29 data-nosnippet>29</a>//! - **未实现** PowerAPI（Modern Standby 监听）。原因：PowerRegisterSuspendResumeNotification 的
+<a href=#30 id=30 data-nosnippet>30</a>//!   callback 模式要通过 raw pointer 跨线程传递 Sender，复杂度高。Modern Standby 用户量较少，
+<a href=#31 id=31 data-nosnippet>31</a>//!   真遇到时 Win+L 也会触发 WTS_LOCK，可以兜底。
+<a href=#32 id=32 data-nosnippet>32</a>//! - **未实现** 心跳占位。等 D4 协议层落地后做。
+<a href=#33 id=33 data-nosnippet>33</a>//! - **未实现** UAC / 用户切换的可配置开关。v1 默认不启用 user switch pause。
+<a href=#34 id=34 data-nosnippet>34</a>
+<a href=#35 id=35 data-nosnippet>35</a></span><span class="kw">use </span>std::sync::atomic::{AtomicBool, AtomicU8, Ordering};
+<a href=#36 id=36 data-nosnippet>36</a><span class="kw">use </span>std::sync::{Arc, Condvar, Mutex};
+<a href=#37 id=37 data-nosnippet>37</a><span class="kw">use </span>std::thread::JoinHandle;
+<a href=#38 id=38 data-nosnippet>38</a>
+<a href=#39 id=39 data-nosnippet>39</a><span class="kw">use </span>windows::core::PCSTR;
+<a href=#40 id=40 data-nosnippet>40</a><span class="kw">use </span>windows::Win32::Foundation::{HWND, LPARAM, LRESULT, WPARAM};
+<a href=#41 id=41 data-nosnippet>41</a><span class="kw">use </span>windows::Win32::System::RemoteDesktop::{
+<a href=#42 id=42 data-nosnippet>42</a>    WTSRegisterSessionNotification, WTSUnRegisterSessionNotification, NOTIFY_FOR_THIS_SESSION,
+<a href=#43 id=43 data-nosnippet>43</a>};
+<a href=#44 id=44 data-nosnippet>44</a><span class="kw">use </span>windows::Win32::System::LibraryLoader::GetModuleHandleA;
+<a href=#45 id=45 data-nosnippet>45</a><span class="kw">use </span>windows::Win32::UI::WindowsAndMessaging::{
+<a href=#46 id=46 data-nosnippet>46</a>    CreateWindowExA, DefWindowProcA, DestroyWindow, DispatchMessageA, GetMessageA, PostQuitMessage,
+<a href=#47 id=47 data-nosnippet>47</a>    RegisterClassExA, TranslateMessage, HWND_MESSAGE, MSG, WNDCLASSEXA, WNDCLASS_STYLES,
+<a href=#48 id=48 data-nosnippet>48</a>    WM_DESTROY, WM_WTSSESSION_CHANGE,
+<a href=#49 id=49 data-nosnippet>49</a>};
+<a href=#50 id=50 data-nosnippet>50</a>
+<a href=#51 id=51 data-nosnippet>51</a><span class="doccomment">/// 会话状态机。
+<a href=#52 id=52 data-nosnippet>52</a></span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+<a href=#53 id=53 data-nosnippet>53</a></span><span class="kw">pub enum </span>SessionState {
+<a href=#54 id=54 data-nosnippet>54</a>    <span class="doccomment">/// 正常运行
+<a href=#55 id=55 data-nosnippet>55</a>    </span>Active,
+<a href=#56 id=56 data-nosnippet>56</a>    <span class="doccomment">/// 锁屏中（Win+L / 屏幕超时）
+<a href=#57 id=57 data-nosnippet>57</a>    </span>Locked,
+<a href=#58 id=58 data-nosnippet>58</a>    <span class="doccomment">/// 用户注销 / 切换中（LOGOFF → LOGON 间隙）
+<a href=#59 id=59 data-nosnippet>59</a>    </span>UserSwitching,
+<a href=#60 id=60 data-nosnippet>60</a>}
+<a href=#61 id=61 data-nosnippet>61</a>
+<a href=#62 id=62 data-nosnippet>62</a><span class="kw">impl </span>SessionState {
+<a href=#63 id=63 data-nosnippet>63</a>    <span class="kw">fn </span>as_u8(<span class="self">self</span>) -&gt; u8 {
+<a href=#64 id=64 data-nosnippet>64</a>        <span class="kw">match </span><span class="self">self </span>{
+<a href=#65 id=65 data-nosnippet>65</a>            SessionState::Active =&gt; <span class="number">0</span>,
+<a href=#66 id=66 data-nosnippet>66</a>            SessionState::Locked =&gt; <span class="number">1</span>,
+<a href=#67 id=67 data-nosnippet>67</a>            SessionState::UserSwitching =&gt; <span class="number">2</span>,
+<a href=#68 id=68 data-nosnippet>68</a>        }
+<a href=#69 id=69 data-nosnippet>69</a>    }
+<a href=#70 id=70 data-nosnippet>70</a>    <span class="kw">fn </span>from_u8(v: u8) -&gt; <span class="self">Self </span>{
+<a href=#71 id=71 data-nosnippet>71</a>        <span class="kw">match </span>v {
+<a href=#72 id=72 data-nosnippet>72</a>            <span class="number">1 </span>=&gt; SessionState::Locked,
+<a href=#73 id=73 data-nosnippet>73</a>            <span class="number">2 </span>=&gt; SessionState::UserSwitching,
+<a href=#74 id=74 data-nosnippet>74</a>            <span class="kw">_ </span>=&gt; SessionState::Active,
+<a href=#75 id=75 data-nosnippet>75</a>        }
+<a href=#76 id=76 data-nosnippet>76</a>    }
+<a href=#77 id=77 data-nosnippet>77</a>    <span class="doccomment">/// 当前状态是否需要暂停主循环
+<a href=#78 id=78 data-nosnippet>78</a>    </span><span class="kw">pub fn </span>is_paused(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+<a href=#79 id=79 data-nosnippet>79</a>        !<span class="macro">matches!</span>(<span class="self">self</span>, SessionState::Active)
+<a href=#80 id=80 data-nosnippet>80</a>    }
+<a href=#81 id=81 data-nosnippet>81</a>}
+<a href=#82 id=82 data-nosnippet>82</a>
+<a href=#83 id=83 data-nosnippet>83</a><span class="doccomment">/// 统一的会话事件（给将来心跳占位 / 日志等用）
+<a href=#84 id=84 data-nosnippet>84</a></span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+<a href=#85 id=85 data-nosnippet>85</a></span><span class="kw">pub enum </span>SessionEvent {
+<a href=#86 id=86 data-nosnippet>86</a>    Locked,
+<a href=#87 id=87 data-nosnippet>87</a>    Unlocked,
+<a href=#88 id=88 data-nosnippet>88</a>    UserLoggedOff,
+<a href=#89 id=89 data-nosnippet>89</a>    UserLoggedOn,
+<a href=#90 id=90 data-nosnippet>90</a>    <span class="doccomment">/// [预留] 远程桌面连接（WTS_CONSOLE_CONNECT / WTS_REMOTE_CONNECT）
+<a href=#91 id=91 data-nosnippet>91</a>    </span><span class="attr">#[allow(dead_code)]
+<a href=#92 id=92 data-nosnippet>92</a>    </span>RemoteConnected,
+<a href=#93 id=93 data-nosnippet>93</a>    <span class="doccomment">/// [预留] 远程桌面断开（WTS_CONSOLE_DISCONNECT / WTS_REMOTE_DISCONNECT）
+<a href=#94 id=94 data-nosnippet>94</a>    </span><span class="attr">#[allow(dead_code)]
+<a href=#95 id=95 data-nosnippet>95</a>    </span>RemoteDisconnected,
+<a href=#96 id=96 data-nosnippet>96</a>}
+<a href=#97 id=97 data-nosnippet>97</a>
+<a href=#98 id=98 data-nosnippet>98</a><span class="doccomment">/// 锁屏监听器。
+<a href=#99 id=99 data-nosnippet>99</a>///
+<a href=#100 id=100 data-nosnippet>100</a>/// 启动后会在后台跑一个线程，里面：
+<a href=#101 id=101 data-nosnippet>101</a>/// 1. 注册 Windows 窗口类 + 创建 message-only 窗口
+<a href=#102 id=102 data-nosnippet>102</a>/// 2. 注册 WTSAPI 会话通知
+<a href=#103 id=103 data-nosnippet>103</a>/// 3. 跑消息循环 + 处理 WM_WTSSESSION_CHANGE
+<a href=#104 id=104 data-nosnippet>104</a>/// 4. 转换 WTS 事件为 SessionEvent，更新共享状态 + Condvar 唤醒
+<a href=#105 id=105 data-nosnippet>105</a>///
+<a href=#106 id=106 data-nosnippet>106</a>/// 主循环通过 `is_paused()` 检查状态，通过 `wait_until_active()` 阻塞到解锁。
+<a href=#107 id=107 data-nosnippet>107</a></span><span class="kw">pub struct </span>LockscreenWatcher {
+<a href=#108 id=108 data-nosnippet>108</a>    state: Arc&lt;AtomicU8&gt;,
+<a href=#109 id=109 data-nosnippet>109</a>    <span class="doccomment">/// [1.10 修复] 后台消息循环是否还活着。GetMessageA 失败时设为 false，
+<a href=#110 id=110 data-nosnippet>110</a>    ///   `is_paused()` 检测到后会返回 false（视为 watcher 已死，不再 paused）。
+<a href=#111 id=111 data-nosnippet>111</a>    </span>healthy: Arc&lt;AtomicBool&gt;,
+<a href=#112 id=112 data-nosnippet>112</a>    resume_signal: Arc&lt;(Mutex&lt;bool&gt;, Condvar)&gt;,
+<a href=#113 id=113 data-nosnippet>113</a>    <span class="doccomment">/// 后台线程 handle（drop 时自动 join）
+<a href=#114 id=114 data-nosnippet>114</a>    </span>_wts_thread: JoinHandle&lt;()&gt;,
+<a href=#115 id=115 data-nosnippet>115</a>    <span class="doccomment">/// message-only 窗口句柄。Drop 时调 DestroyWindow 让消息循环收到 WM_DESTROY
+<a href=#116 id=116 data-nosnippet>116</a>    /// → wnd_proc 调 PostQuitMessage → GetMessageA 返回 0 → 后台线程退出。
+<a href=#117 id=117 data-nosnippet>117</a>    </span>_hwnd: SendHwnd,
+<a href=#118 id=118 data-nosnippet>118</a>}
+<a href=#119 id=119 data-nosnippet>119</a>
+<a href=#120 id=120 data-nosnippet>120</a><span class="doccomment">/// HWND 是 raw pointer (*mut c_void)，默认不是 Send/Sync。
+<a href=#121 id=121 data-nosnippet>121</a>/// 但 Windows 文档明确允许窗口句柄跨线程传递（不同线程用同一 HWND 调 API 是合法的，
+<a href=#122 id=122 data-nosnippet>122</a>/// 只是不能两个线程同时操作同一窗口）。
+<a href=#123 id=123 data-nosnippet>123</a>/// [P1-9 修复] 只声明 Send，不声明 Sync：
+<a href=#124 id=124 data-nosnippet>124</a>///   - 跨线程调用同一个 HWND 的 API 是合法的
+<a href=#125 id=125 data-nosnippet>125</a>///   - 但两个线程同时操作同一个 HWND 是非法的（线程亲和性约束）
+<a href=#126 id=126 data-nosnippet>126</a>///   - 旧 unsafe impl Sync 给上层"安全"假象，未来若跨线程操作会撞 bug
+<a href=#127 id=127 data-nosnippet>127</a>///   - 当前所有调用都在主线程，Send 足够跨线程 Move
+<a href=#128 id=128 data-nosnippet>128</a></span><span class="kw">struct </span>SendHwnd(HWND);
+<a href=#129 id=129 data-nosnippet>129</a><span class="kw">unsafe impl </span>Send <span class="kw">for </span>SendHwnd {}
+<a href=#130 id=130 data-nosnippet>130</a>
+<a href=#131 id=131 data-nosnippet>131</a><span class="kw">unsafe impl </span>Send <span class="kw">for </span>LockscreenWatcher {}
+<a href=#132 id=132 data-nosnippet>132</a>
+<a href=#133 id=133 data-nosnippet>133</a><span class="kw">impl </span>LockscreenWatcher {
+<a href=#134 id=134 data-nosnippet>134</a>    <span class="doccomment">/// 启动监听器。失败原因通常是窗口类冲突（重复启动 watcher）。
+<a href=#135 id=135 data-nosnippet>135</a>    </span><span class="kw">pub fn </span>new(enable_user_switch: bool) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+<a href=#136 id=136 data-nosnippet>136</a>        <span class="kw">let </span>state = Arc::new(AtomicU8::new(SessionState::Active.as_u8()));
+<a href=#137 id=137 data-nosnippet>137</a>        <span class="kw">let </span>healthy = Arc::new(AtomicBool::new(<span class="bool-val">true</span>));
+<a href=#138 id=138 data-nosnippet>138</a>        <span class="kw">let </span>resume_signal = Arc::new((Mutex::new(<span class="bool-val">false</span>), Condvar::new()));
+<a href=#139 id=139 data-nosnippet>139</a>        <span class="comment">// HWND 不是 Send，需要用 SendHwnd 包装
+<a href=#140 id=140 data-nosnippet>140</a>        </span><span class="kw">let </span>hwnd_holder: Arc&lt;Mutex&lt;<span class="prelude-ty">Option</span>&lt;SendHwnd&gt;&gt;&gt; = Arc::new(Mutex::new(<span class="prelude-val">None</span>));
+<a href=#141 id=141 data-nosnippet>141</a>        <span class="kw">let </span>err_holder: Arc&lt;Mutex&lt;<span class="prelude-ty">Option</span>&lt;String&gt;&gt;&gt; = Arc::new(Mutex::new(<span class="prelude-val">None</span>));
+<a href=#142 id=142 data-nosnippet>142</a>
+<a href=#143 id=143 data-nosnippet>143</a>        <span class="kw">let </span>state_for_thread = state.clone();
+<a href=#144 id=144 data-nosnippet>144</a>        <span class="kw">let </span>healthy_for_thread = healthy.clone();
+<a href=#145 id=145 data-nosnippet>145</a>        <span class="kw">let </span>resume_for_thread = resume_signal.clone();
+<a href=#146 id=146 data-nosnippet>146</a>        <span class="kw">let </span>hwnd_holder_for_thread = hwnd_holder.clone();
+<a href=#147 id=147 data-nosnippet>147</a>        <span class="kw">let </span>err_holder_for_thread = err_holder.clone();
+<a href=#148 id=148 data-nosnippet>148</a>
+<a href=#149 id=149 data-nosnippet>149</a>        <span class="comment">// 后台线程：注册窗口类 + 创建 message-only 窗口 + 注册 WTS + 消息循环
+<a href=#150 id=150 data-nosnippet>150</a>        </span><span class="kw">let </span>wts_thread = std::thread::spawn(<span class="kw">move </span>|| {
+<a href=#151 id=151 data-nosnippet>151</a>            wts_thread_body(
+<a href=#152 id=152 data-nosnippet>152</a>                <span class="kw-2">&amp;</span>state_for_thread,
+<a href=#153 id=153 data-nosnippet>153</a>                <span class="kw-2">&amp;</span>healthy_for_thread,
+<a href=#154 id=154 data-nosnippet>154</a>                <span class="kw-2">&amp;</span>resume_for_thread,
+<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw-2">&amp;</span>hwnd_holder_for_thread,
+<a href=#156 id=156 data-nosnippet>156</a>                <span class="kw-2">&amp;</span>err_holder_for_thread,
+<a href=#157 id=157 data-nosnippet>157</a>                enable_user_switch,
+<a href=#158 id=158 data-nosnippet>158</a>            );
+<a href=#159 id=159 data-nosnippet>159</a>        });
+<a href=#160 id=160 data-nosnippet>160</a>
+<a href=#161 id=161 data-nosnippet>161</a>        <span class="comment">// 等窗口创建好（最多 500ms，每 10ms 检查一次）
+<a href=#162 id=162 data-nosnippet>162</a>        </span><span class="kw">let </span><span class="kw-2">mut </span>attempts = <span class="number">0</span>;
+<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">let </span>hwnd = <span class="kw">loop </span>{
+<a href=#164 id=164 data-nosnippet>164</a>            std::thread::sleep(std::time::Duration::from_millis(<span class="number">10</span>));
+<a href=#165 id=165 data-nosnippet>165</a>            <span class="comment">// 检查错误
+<a href=#166 id=166 data-nosnippet>166</a>            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(err) = err_holder.lock().unwrap_or_else(|p| p.into_inner()).take() {
+<a href=#167 id=167 data-nosnippet>167</a>                <span class="kw">return </span><span class="prelude-val">Err</span>(err.into());
+<a href=#168 id=168 data-nosnippet>168</a>            }
+<a href=#169 id=169 data-nosnippet>169</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(h) = hwnd_holder.lock().unwrap_or_else(|p| p.into_inner()).take() {
+<a href=#170 id=170 data-nosnippet>170</a>                <span class="kw">break </span>h;
+<a href=#171 id=171 data-nosnippet>171</a>            }
+<a href=#172 id=172 data-nosnippet>172</a>            attempts += <span class="number">1</span>;
+<a href=#173 id=173 data-nosnippet>173</a>            <span class="kw">if </span>attempts &gt; <span class="number">50 </span>{
+<a href=#174 id=174 data-nosnippet>174</a>                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"LockscreenWatcher 窗口创建超时"</span>.into());
+<a href=#175 id=175 data-nosnippet>175</a>            }
+<a href=#176 id=176 data-nosnippet>176</a>        };
+<a href=#177 id=177 data-nosnippet>177</a>
+<a href=#178 id=178 data-nosnippet>178</a>        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+<a href=#179 id=179 data-nosnippet>179</a>            state,
+<a href=#180 id=180 data-nosnippet>180</a>            healthy,
+<a href=#181 id=181 data-nosnippet>181</a>            resume_signal,
+<a href=#182 id=182 data-nosnippet>182</a>            _wts_thread: wts_thread,
+<a href=#183 id=183 data-nosnippet>183</a>            _hwnd: hwnd,
+<a href=#184 id=184 data-nosnippet>184</a>        })
+<a href=#185 id=185 data-nosnippet>185</a>    }
+<a href=#186 id=186 data-nosnippet>186</a>
+<a href=#187 id=187 data-nosnippet>187</a>    <span class="doccomment">/// 当前是否处于暂停状态（锁屏 / 用户切换）。
+<a href=#188 id=188 data-nosnippet>188</a>    ///
+<a href=#189 id=189 data-nosnippet>189</a>    /// [1.10 修复] watcher 失效时（GetMessageA 失败 / 线程 panic 等）返回 false，
+<a href=#190 id=190 data-nosnippet>190</a>    ///   让主循环继续运行（即使 watcher 死了，捕获功能还能跑）。
+<a href=#191 id=191 data-nosnippet>191</a>    /// [P1-7 修复] state 用 Acquire load（配对 Release store，在 handle_wts_event 里改），
+<a href=#192 id=192 data-nosnippet>192</a>    ///   防止 Relaxed 在弱内存模型（ARM / 省电 C-state）下读不到最新状态。
+<a href=#193 id=193 data-nosnippet>193</a>    ///   500ms fallback sleep 期间系统可能切状态，原 Relaxed 配 SeqCst 不一致 → 主循环
+<a href=#194 id=194 data-nosnippet>194</a>    ///   读到陈旧值。Acquire/Release 一致配对保证 happens-before。
+<a href=#195 id=195 data-nosnippet>195</a>    </span><span class="kw">pub fn </span>is_paused(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+<a href=#196 id=196 data-nosnippet>196</a>        <span class="kw">if </span>!<span class="self">self</span>.healthy.load(Ordering::Acquire) {
+<a href=#197 id=197 data-nosnippet>197</a>            <span class="kw">return </span><span class="bool-val">false</span>;
+<a href=#198 id=198 data-nosnippet>198</a>        }
+<a href=#199 id=199 data-nosnippet>199</a>        SessionState::from_u8(<span class="self">self</span>.state.load(Ordering::Acquire)).is_paused()
+<a href=#200 id=200 data-nosnippet>200</a>    }
+<a href=#201 id=201 data-nosnippet>201</a>
+<a href=#202 id=202 data-nosnippet>202</a>    <span class="doccomment">/// 当前状态（给 release-log 日志用）
+<a href=#203 id=203 data-nosnippet>203</a>    </span><span class="kw">pub fn </span>current_state(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SessionState {
+<a href=#204 id=204 data-nosnippet>204</a>        SessionState::from_u8(<span class="self">self</span>.state.load(Ordering::Acquire))
+<a href=#205 id=205 data-nosnippet>205</a>    }
+<a href=#206 id=206 data-nosnippet>206</a>
+<a href=#207 id=207 data-nosnippet>207</a>    <span class="doccomment">/// 真阻塞：等到状态变 Active 才返回。如果 shutdown 被 set 或 watcher 失效，立即返回。
+<a href=#208 id=208 data-nosnippet>208</a>    ///
+<a href=#209 id=209 data-nosnippet>209</a>    /// [1.1 修复] 用 `wait_timeout` 周期唤醒（500ms），即使 cvar 没人 notify 也能响应 shutdown flag。
+<a href=#210 id=210 data-nosnippet>210</a>    ///   原实现 `cvar.wait` 永久阻塞（Ctrl+C 锁屏期间主线程永远醒不过来）。
+<a href=#211 id=211 data-nosnippet>211</a>    </span><span class="kw">pub fn </span>wait_until_active(<span class="kw-2">&amp;</span><span class="self">self</span>, shutdown: <span class="kw-2">&amp;</span>Arc&lt;AtomicBool&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+<a href=#212 id=212 data-nosnippet>212</a>        <span class="comment">// 已经在 Active 或 watcher 失效 → 直接返回
+<a href=#213 id=213 data-nosnippet>213</a>        </span><span class="kw">if </span>!<span class="self">self</span>.is_paused() {
+<a href=#214 id=214 data-nosnippet>214</a>            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+<a href=#215 id=215 data-nosnippet>215</a>        }
+<a href=#216 id=216 data-nosnippet>216</a>        <span class="kw">let </span>(lock, cvar) = <span class="kw-2">&amp;*</span><span class="self">self</span>.resume_signal;
+<a href=#217 id=217 data-nosnippet>217</a>        <span class="kw">let </span><span class="kw-2">mut </span>woken = lock.lock().unwrap_or_else(|p| p.into_inner());
+<a href=#218 id=218 data-nosnippet>218</a>        <span class="kw">let </span>wait_period = std::time::Duration::from_millis(<span class="number">500</span>);
+<a href=#219 id=219 data-nosnippet>219</a>        <span class="comment">// 双检：condvar 被 spurious wakeup / timeout 唤醒时也要重新检查条件
+<a href=#220 id=220 data-nosnippet>220</a>        // wait_timeout 即使没人 notify 也会超时返回 → 周期性检查 shutdown flag
+<a href=#221 id=221 data-nosnippet>221</a>        </span><span class="kw">while </span>!<span class="kw-2">*</span>woken &amp;&amp; !shutdown.load(Ordering::Relaxed) &amp;&amp; <span class="self">self</span>.healthy.load(Ordering::Acquire) {
+<a href=#222 id=222 data-nosnippet>222</a>            <span class="kw">let </span>(guard, <span class="kw">_</span>) = cvar.wait_timeout(woken, wait_period)
+<a href=#223 id=223 data-nosnippet>223</a>                .unwrap_or_else(|p| p.into_inner());
+<a href=#224 id=224 data-nosnippet>224</a>            woken = guard;
+<a href=#225 id=225 data-nosnippet>225</a>        }
+<a href=#226 id=226 data-nosnippet>226</a>        <span class="kw">if </span>shutdown.load(Ordering::Relaxed) {
+<a href=#227 id=227 data-nosnippet>227</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"shutdown during pause"</span>.into());
+<a href=#228 id=228 data-nosnippet>228</a>        }
+<a href=#229 id=229 data-nosnippet>229</a>        <span class="kw">if </span>!<span class="self">self</span>.healthy.load(Ordering::Acquire) {
+<a href=#230 id=230 data-nosnippet>230</a>            <span class="comment">// watcher 失效（GetMessageA 失败等）→ 返回 Ok 让主循环继续
+<a href=#231 id=231 data-nosnippet>231</a>            // 不算错误，因为捕获功能还能跑
+<a href=#232 id=232 data-nosnippet>232</a>            </span><span class="kw">return </span><span class="prelude-val">Ok</span>(());
+<a href=#233 id=233 data-nosnippet>233</a>        }
+<a href=#234 id=234 data-nosnippet>234</a>        <span class="kw-2">*</span>woken = <span class="bool-val">false</span>; <span class="comment">// 重置标志，下次 wait 还能继续阻塞
+<a href=#235 id=235 data-nosnippet>235</a>        </span><span class="prelude-val">Ok</span>(())
+<a href=#236 id=236 data-nosnippet>236</a>    }
+<a href=#237 id=237 data-nosnippet>237</a>}
+<a href=#238 id=238 data-nosnippet>238</a>
+<a href=#239 id=239 data-nosnippet>239</a><span class="doccomment">/// [P1-8] wts_thread 主体（拆出来方便 catch_unwind 包一层）
+<a href=#240 id=240 data-nosnippet>240</a></span><span class="kw">fn </span>wts_thread_body(
+<a href=#241 id=241 data-nosnippet>241</a>    state_for_thread: <span class="kw-2">&amp;</span>Arc&lt;AtomicU8&gt;,
+<a href=#242 id=242 data-nosnippet>242</a>    healthy_for_thread: <span class="kw-2">&amp;</span>Arc&lt;AtomicBool&gt;,
+<a href=#243 id=243 data-nosnippet>243</a>    resume_for_thread: <span class="kw-2">&amp;</span>Arc&lt;(Mutex&lt;bool&gt;, Condvar)&gt;,
+<a href=#244 id=244 data-nosnippet>244</a>    hwnd_holder_for_thread: <span class="kw-2">&amp;</span>Arc&lt;Mutex&lt;<span class="prelude-ty">Option</span>&lt;SendHwnd&gt;&gt;&gt;,
+<a href=#245 id=245 data-nosnippet>245</a>    err_holder_for_thread: <span class="kw-2">&amp;</span>Arc&lt;Mutex&lt;<span class="prelude-ty">Option</span>&lt;String&gt;&gt;&gt;,
+<a href=#246 id=246 data-nosnippet>246</a>    enable_user_switch: bool,
+<a href=#247 id=247 data-nosnippet>247</a>) {
+<a href=#248 id=248 data-nosnippet>248</a>    <span class="comment">// 窗口类名（C 字符串以 \0 结尾）
+<a href=#249 id=249 data-nosnippet>249</a>    </span><span class="kw">let </span>class_name = <span class="string">b"DemoScWtsSessionWatcher\0"</span>;
+<a href=#250 id=250 data-nosnippet>250</a>
+<a href=#251 id=251 data-nosnippet>251</a>    <span class="comment">// 拿当前 module handle
+<a href=#252 id=252 data-nosnippet>252</a>    </span><span class="kw">let </span>h_instance = <span class="kw">unsafe </span>{ GetModuleHandleA(<span class="prelude-val">None</span>) };
+<a href=#253 id=253 data-nosnippet>253</a>
+<a href=#254 id=254 data-nosnippet>254</a>    <span class="kw">let </span>h_instance = <span class="kw">match </span>h_instance {
+<a href=#255 id=255 data-nosnippet>255</a>        <span class="prelude-val">Ok</span>(h) =&gt; h,
+<a href=#256 id=256 data-nosnippet>256</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#257 id=257 data-nosnippet>257</a>            <span class="kw-2">*</span>err_holder_for_thread.lock().unwrap_or_else(|p| p.into_inner()) =
+<a href=#258 id=258 data-nosnippet>258</a>                <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"GetModuleHandleA 失败: {}"</span>, e));
+<a href=#259 id=259 data-nosnippet>259</a>            <span class="kw">return</span>;
+<a href=#260 id=260 data-nosnippet>260</a>        }
+<a href=#261 id=261 data-nosnippet>261</a>    };
+<a href=#262 id=262 data-nosnippet>262</a>
+<a href=#263 id=263 data-nosnippet>263</a>    <span class="comment">// 注册窗口类
+<a href=#264 id=264 data-nosnippet>264</a>    </span><span class="kw">let </span>wnd_class = WNDCLASSEXA {
+<a href=#265 id=265 data-nosnippet>265</a>        cbSize: std::mem::size_of::&lt;WNDCLASSEXA&gt;() <span class="kw">as </span>u32,
+<a href=#266 id=266 data-nosnippet>266</a>        style: WNDCLASS_STYLES(<span class="number">0</span>),
+<a href=#267 id=267 data-nosnippet>267</a>        lpfnWndProc: <span class="prelude-val">Some</span>(wnd_proc),
+<a href=#268 id=268 data-nosnippet>268</a>        cbClsExtra: <span class="number">0</span>,
+<a href=#269 id=269 data-nosnippet>269</a>        cbWndExtra: <span class="number">0</span>,
+<a href=#270 id=270 data-nosnippet>270</a>        hInstance: h_instance.into(),
+<a href=#271 id=271 data-nosnippet>271</a>        hIcon: Default::default(),
+<a href=#272 id=272 data-nosnippet>272</a>        hCursor: Default::default(),
+<a href=#273 id=273 data-nosnippet>273</a>        hbrBackground: Default::default(),
+<a href=#274 id=274 data-nosnippet>274</a>        lpszMenuName: PCSTR::null(),
+<a href=#275 id=275 data-nosnippet>275</a>        lpszClassName: PCSTR(class_name.as_ptr()),
+<a href=#276 id=276 data-nosnippet>276</a>        hIconSm: Default::default(),
+<a href=#277 id=277 data-nosnippet>277</a>    };
+<a href=#278 id=278 data-nosnippet>278</a>    <span class="kw">let </span>atom = <span class="kw">unsafe </span>{ RegisterClassExA(<span class="kw-2">&amp;</span>wnd_class) };
+<a href=#279 id=279 data-nosnippet>279</a>    <span class="kw">if </span>atom == <span class="number">0 </span>{
+<a href=#280 id=280 data-nosnippet>280</a>        <span class="comment">// 1410 = ERROR_CLASS_ALREADY_EXISTS（重复启动）
+<a href=#281 id=281 data-nosnippet>281</a>        </span><span class="kw-2">*</span>err_holder_for_thread.lock().unwrap_or_else(|p| p.into_inner()) =
+<a href=#282 id=282 data-nosnippet>282</a>            <span class="prelude-val">Some</span>(<span class="string">"RegisterClassExA 失败（窗口类可能已注册）"</span>.into());
+<a href=#283 id=283 data-nosnippet>283</a>        <span class="kw">return</span>;
+<a href=#284 id=284 data-nosnippet>284</a>    }
+<a href=#285 id=285 data-nosnippet>285</a>
+<a href=#286 id=286 data-nosnippet>286</a>    <span class="comment">// 创建 message-only 窗口
+<a href=#287 id=287 data-nosnippet>287</a>    </span><span class="kw">let </span>hwnd_result = <span class="kw">unsafe </span>{
+<a href=#288 id=288 data-nosnippet>288</a>        CreateWindowExA(
+<a href=#289 id=289 data-nosnippet>289</a>            Default::default(),
+<a href=#290 id=290 data-nosnippet>290</a>            PCSTR(class_name.as_ptr()),
+<a href=#291 id=291 data-nosnippet>291</a>            PCSTR(class_name.as_ptr()),
+<a href=#292 id=292 data-nosnippet>292</a>            Default::default(),
+<a href=#293 id=293 data-nosnippet>293</a>            <span class="number">0</span>,
+<a href=#294 id=294 data-nosnippet>294</a>            <span class="number">0</span>,
+<a href=#295 id=295 data-nosnippet>295</a>            <span class="number">0</span>,
+<a href=#296 id=296 data-nosnippet>296</a>            <span class="number">0</span>,
+<a href=#297 id=297 data-nosnippet>297</a>            <span class="prelude-val">Some</span>(HWND_MESSAGE),
+<a href=#298 id=298 data-nosnippet>298</a>            <span class="prelude-val">None</span>,
+<a href=#299 id=299 data-nosnippet>299</a>            <span class="prelude-val">Some</span>(h_instance.into()),
+<a href=#300 id=300 data-nosnippet>300</a>            <span class="prelude-val">None</span>,
+<a href=#301 id=301 data-nosnippet>301</a>        )
+<a href=#302 id=302 data-nosnippet>302</a>    };
+<a href=#303 id=303 data-nosnippet>303</a>    <span class="kw">let </span>hwnd = <span class="kw">match </span>hwnd_result {
+<a href=#304 id=304 data-nosnippet>304</a>        <span class="prelude-val">Ok</span>(h) =&gt; h,
+<a href=#305 id=305 data-nosnippet>305</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#306 id=306 data-nosnippet>306</a>            <span class="kw-2">*</span>err_holder_for_thread.lock().unwrap_or_else(|p| p.into_inner()) =
+<a href=#307 id=307 data-nosnippet>307</a>                <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"CreateWindowExA 失败: {}"</span>, e));
+<a href=#308 id=308 data-nosnippet>308</a>            <span class="kw">return</span>;
+<a href=#309 id=309 data-nosnippet>309</a>        }
+<a href=#310 id=310 data-nosnippet>310</a>    };
+<a href=#311 id=311 data-nosnippet>311</a>
+<a href=#312 id=312 data-nosnippet>312</a>    <span class="comment">// 注册 WTS 会话通知
+<a href=#313 id=313 data-nosnippet>313</a>    </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="kw">unsafe </span>{ WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION) } {
+<a href=#314 id=314 data-nosnippet>314</a>        <span class="kw-2">*</span>err_holder_for_thread.lock().unwrap_or_else(|p| p.into_inner()) =
+<a href=#315 id=315 data-nosnippet>315</a>            <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"WTSRegisterSessionNotification 失败: {}"</span>, e));
+<a href=#316 id=316 data-nosnippet>316</a>        <span class="kw">return</span>;
+<a href=#317 id=317 data-nosnippet>317</a>    }
+<a href=#318 id=318 data-nosnippet>318</a>
+<a href=#319 id=319 data-nosnippet>319</a>    <span class="comment">// 把 hwnd 暴露给主线程（用于 Drop 时清理）
+<a href=#320 id=320 data-nosnippet>320</a>    </span><span class="kw-2">*</span>hwnd_holder_for_thread.lock().unwrap_or_else(|p| p.into_inner()) = <span class="prelude-val">Some</span>(SendHwnd(hwnd));
+<a href=#321 id=321 data-nosnippet>321</a>
+<a href=#322 id=322 data-nosnippet>322</a>    <span class="comment">// 消息循环
+<a href=#323 id=323 data-nosnippet>323</a>    // [1.10 修复] 用 match ret.0 区分 0 (WM_QUIT) / -1 (错误) / &gt;0 (正常消息)
+<a href=#324 id=324 data-nosnippet>324</a>    //   GetMessageA 失败时：设 healthy=false + notify 主线程 + break
+<a href=#325 id=325 data-nosnippet>325</a>    //   否则主线程一直以为 watcher 活着，session_released=true 状态下走编码会 panic
+<a href=#326 id=326 data-nosnippet>326</a>    </span><span class="kw">let </span><span class="kw-2">mut </span>msg = MSG::default();
+<a href=#327 id=327 data-nosnippet>327</a>    <span class="kw">loop </span>{
+<a href=#328 id=328 data-nosnippet>328</a>        <span class="kw">let </span>ret = <span class="kw">unsafe </span>{ GetMessageA(<span class="kw-2">&amp;mut </span>msg, <span class="prelude-val">Some</span>(hwnd), <span class="number">0</span>, <span class="number">0</span>) };
+<a href=#329 id=329 data-nosnippet>329</a>        <span class="kw">match </span>ret.<span class="number">0 </span>{
+<a href=#330 id=330 data-nosnippet>330</a>            <span class="number">0 </span>=&gt; <span class="kw">break</span>, <span class="comment">// WM_QUIT（Drop 时发的 PostQuitMessage）
+<a href=#331 id=331 data-nosnippet>331</a>            </span>-<span class="number">1 </span>=&gt; {
+<a href=#332 id=332 data-nosnippet>332</a>                <span class="attr">#[cfg(any(debug_assertions, feature = <span class="string">"release-log"</span>))]
+<a href=#333 id=333 data-nosnippet>333</a>                </span><span class="macro">eprintln!</span>(<span class="string">"⚠️ [L1] GetMessageA 失败 (ret=-1), 标记 watcher 失效并退出消息循环"</span>);
+<a href=#334 id=334 data-nosnippet>334</a>                <span class="comment">// 标记 watcher 失效
+<a href=#335 id=335 data-nosnippet>335</a>                // [P1-7] Release store 配对 is_paused / wait_until_active 的 Acquire load
+<a href=#336 id=336 data-nosnippet>336</a>                </span>healthy_for_thread.store(<span class="bool-val">false</span>, Ordering::Release);
+<a href=#337 id=337 data-nosnippet>337</a>                <span class="comment">// 唤醒可能在 wait_until_active 里阻塞的主线程
+<a href=#338 id=338 data-nosnippet>338</a>                </span><span class="kw">let </span>(lock, cvar) = resume_for_thread.as_ref();
+<a href=#339 id=339 data-nosnippet>339</a>                <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>g) = lock.lock() {
+<a href=#340 id=340 data-nosnippet>340</a>                    <span class="kw-2">*</span>g = <span class="bool-val">true</span>;
+<a href=#341 id=341 data-nosnippet>341</a>                    cvar.notify_all();
+<a href=#342 id=342 data-nosnippet>342</a>                }
+<a href=#343 id=343 data-nosnippet>343</a>                <span class="kw">break</span>;
+<a href=#344 id=344 data-nosnippet>344</a>            }
+<a href=#345 id=345 data-nosnippet>345</a>            <span class="kw">_ </span>=&gt; {} <span class="comment">// 正常消息，继续往下处理
+<a href=#346 id=346 data-nosnippet>346</a>        </span>}
+<a href=#347 id=347 data-nosnippet>347</a>        <span class="kw">if </span>msg.message == WM_WTSSESSION_CHANGE {
+<a href=#348 id=348 data-nosnippet>348</a>            handle_wts_event(msg.wParam.<span class="number">0 </span><span class="kw">as </span>u32, <span class="kw-2">&amp;</span>state_for_thread, <span class="kw-2">&amp;</span>resume_for_thread, enable_user_switch);
+<a href=#349 id=349 data-nosnippet>349</a>        }
+<a href=#350 id=350 data-nosnippet>350</a>        <span class="kw">unsafe </span>{
+<a href=#351 id=351 data-nosnippet>351</a>            <span class="kw">let _ </span>= TranslateMessage(<span class="kw-2">&amp;</span>msg);
+<a href=#352 id=352 data-nosnippet>352</a>            DispatchMessageA(<span class="kw-2">&amp;</span>msg);
+<a href=#353 id=353 data-nosnippet>353</a>        }
+<a href=#354 id=354 data-nosnippet>354</a>    }
+<a href=#355 id=355 data-nosnippet>355</a>}
+<a href=#356 id=356 data-nosnippet>356</a>
+<a href=#357 id=357 data-nosnippet>357</a><span class="kw">impl </span>Drop <span class="kw">for </span>LockscreenWatcher {
+<a href=#358 id=358 data-nosnippet>358</a>    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+<a href=#359 id=359 data-nosnippet>359</a>        <span class="comment">// [H7 修复] 4 个 bug：
+<a href=#360 id=360 data-nosnippet>360</a>        //   1. 原 `PostQuitMessage(0)` 投到**主线程**消息队列（当前线程），
+<a href=#361 id=361 data-nosnippet>361</a>        //      后台线程的 GetMessageA 收不到，**永远不生效**。
+<a href=#362 id=362 data-nosnippet>362</a>        //   2. 没调 DestroyWindow，后台线程靠 join 阻塞退出，主线程被 join 卡住。
+<a href=#363 id=363 data-nosnippet>363</a>        //   3. 主线程此刻若在 `wait_until_active` 阻塞（用户锁屏了），
+<a href=#364 id=364 data-nosnippet>364</a>        //      shutdown flag 没人 set，cvar 没人 notify → 主线程永久阻塞。
+<a href=#365 id=365 data-nosnippet>365</a>        //   4. Ctrl+C 第一次只 set shutdown，但 join 阻塞 → 第二次 Ctrl+C 才 exit(2) 强退。
+<a href=#366 id=366 data-nosnippet>366</a>        //
+<a href=#367 id=367 data-nosnippet>367</a>        // 修复：DestroyWindow 触发 WM_DESTROY → wnd_proc 调 PostQuitMessage →
+<a href=#368 id=368 data-nosnippet>368</a>        //       GetMessageA 返回 0 → 后台线程 break → join 立即返回。
+<a href=#369 id=369 data-nosnippet>369</a>        //       额外：healthy=false + notify_all 唤醒可能在 wait_until_active 的主线程。
+<a href=#370 id=370 data-nosnippet>370</a>        </span><span class="kw">unsafe </span>{
+<a href=#371 id=371 data-nosnippet>371</a>            <span class="kw">let _ </span>= WTSUnRegisterSessionNotification(<span class="self">self</span>._hwnd.<span class="number">0</span>);
+<a href=#372 id=372 data-nosnippet>372</a>            <span class="comment">// 1. 销毁窗口 → 触发 WM_DESTROY → wnd_proc 调 PostQuitMessage → GetMessageA 返回 0
+<a href=#373 id=373 data-nosnippet>373</a>            </span><span class="kw">let _ </span>= DestroyWindow(<span class="self">self</span>._hwnd.<span class="number">0</span>);
+<a href=#374 id=374 data-nosnippet>374</a>        }
+<a href=#375 id=375 data-nosnippet>375</a>        <span class="comment">// 2. 标记 watcher 失效 + 唤醒可能在 wait_until_active 的主线程
+<a href=#376 id=376 data-nosnippet>376</a>        //    （healthy 字段也是 Arc&lt;AtomicBool&gt;，但 Drop 时 self 还在 → 直接 store）
+<a href=#377 id=377 data-nosnippet>377</a>        // [P1-7] Release store 配对 reader 的 Acquire load
+<a href=#378 id=378 data-nosnippet>378</a>        </span><span class="self">self</span>.healthy.store(<span class="bool-val">false</span>, Ordering::Release);
+<a href=#379 id=379 data-nosnippet>379</a>        <span class="kw">let </span>(lock, cvar) = <span class="self">self</span>.resume_signal.as_ref();
+<a href=#380 id=380 data-nosnippet>380</a>        <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>g) = lock.lock() {
+<a href=#381 id=381 data-nosnippet>381</a>            <span class="kw-2">*</span>g = <span class="bool-val">true</span>;
+<a href=#382 id=382 data-nosnippet>382</a>            cvar.notify_all();
+<a href=#383 id=383 data-nosnippet>383</a>        }
+<a href=#384 id=384 data-nosnippet>384</a>        <span class="comment">// _wts_thread 在本函数返回后自动 Drop（join）
+<a href=#385 id=385 data-nosnippet>385</a>        // 此时消息循环已收到 WM_DESTROY → break → 线程退出
+<a href=#386 id=386 data-nosnippet>386</a>    </span>}
+<a href=#387 id=387 data-nosnippet>387</a>}
+<a href=#388 id=388 data-nosnippet>388</a>
+<a href=#389 id=389 data-nosnippet>389</a><span class="doccomment">/// 把 WM_WTSSESSION_CHANGE 的 wParam 值转换为 SessionEvent 并更新状态。
+<a href=#390 id=390 data-nosnippet>390</a>///
+<a href=#391 id=391 data-nosnippet>391</a>/// 注意：WTSAPI 的常量在 windows crate 里可能有变动，这里用魔法数字而不是常量名，
+<a href=#392 id=392 data-nosnippet>392</a>/// 避免编译失败。原始值见 Microsoft Docs: WM_WTSSESSION_CHANGE 的 wParam 取值。
+<a href=#393 id=393 data-nosnippet>393</a></span><span class="kw">fn </span>handle_wts_event(
+<a href=#394 id=394 data-nosnippet>394</a>    wparam: u32,
+<a href=#395 id=395 data-nosnippet>395</a>    state: <span class="kw-2">&amp;</span>Arc&lt;AtomicU8&gt;,
+<a href=#396 id=396 data-nosnippet>396</a>    resume_signal: <span class="kw-2">&amp;</span>Arc&lt;(Mutex&lt;bool&gt;, Condvar)&gt;,
+<a href=#397 id=397 data-nosnippet>397</a>    enable_user_switch: bool,
+<a href=#398 id=398 data-nosnippet>398</a>) {
+<a href=#399 id=399 data-nosnippet>399</a>    <span class="comment">// WTS API 常量值（参考 wtsapi32.h + Microsoft Docs）
+<a href=#400 id=400 data-nosnippet>400</a>    //   WTS_SESSION_LOGON    = 1
+<a href=#401 id=401 data-nosnippet>401</a>    //   WTS_SESSION_LOGOFF   = 2
+<a href=#402 id=402 data-nosnippet>402</a>    //   WTS_REMOTE_CONNECT   = 3
+<a href=#403 id=403 data-nosnippet>403</a>    //   WTS_REMOTE_DISCONNECT= 4
+<a href=#404 id=404 data-nosnippet>404</a>    //   WTS_SESSION_LOGON    (重复了)
+<a href=#405 id=405 data-nosnippet>405</a>    //   WTS_SESSION_LOGOFF   (重复了)
+<a href=#406 id=406 data-nosnippet>406</a>    //   WTS_SESSION_LOCK     = 7
+<a href=#407 id=407 data-nosnippet>407</a>    //   WTS_SESSION_UNLOCK   = 8
+<a href=#408 id=408 data-nosnippet>408</a>    //
+<a href=#409 id=409 data-nosnippet>409</a>    // 注意：实际值是 1/2/3/4/5/6/7/8（不要看错 MSDN 文档，wParam 是这些数字）
+<a href=#410 id=410 data-nosnippet>410</a>    </span><span class="kw">let </span>event = <span class="kw">match </span>wparam {
+<a href=#411 id=411 data-nosnippet>411</a>        <span class="number">7 </span>=&gt; SessionEvent::Locked,
+<a href=#412 id=412 data-nosnippet>412</a>        <span class="number">8 </span>=&gt; SessionEvent::Unlocked,
+<a href=#413 id=413 data-nosnippet>413</a>        <span class="number">5 </span>=&gt; SessionEvent::UserLoggedOn, <span class="comment">// 实际文档里 WTS_SESSION_LOGON = 5
+<a href=#414 id=414 data-nosnippet>414</a>        </span><span class="number">6 </span>=&gt; SessionEvent::UserLoggedOff, <span class="comment">// WTS_SESSION_LOGOFF = 6
+<a href=#415 id=415 data-nosnippet>415</a>        </span><span class="number">3 </span>| <span class="number">4 </span>| <span class="number">9 </span>| <span class="number">10 </span>=&gt; {
+<a href=#416 id=416 data-nosnippet>416</a>            <span class="comment">// RemoteConnect/Disconnect 等：仅记录日志，不改状态
+<a href=#417 id=417 data-nosnippet>417</a>            </span><span class="attr">#[cfg(any(debug_assertions, feature = <span class="string">"release-log"</span>))]
+<a href=#418 id=418 data-nosnippet>418</a>            </span><span class="macro">println!</span>(<span class="string">"📡 [session] 远程桌面会话切换 (wParam={})"</span>, wparam);
+<a href=#419 id=419 data-nosnippet>419</a>            <span class="kw">return</span>;
+<a href=#420 id=420 data-nosnippet>420</a>        }
+<a href=#421 id=421 data-nosnippet>421</a>        <span class="kw">_ </span>=&gt; {
+<a href=#422 id=422 data-nosnippet>422</a>            <span class="attr">#[cfg(any(debug_assertions, feature = <span class="string">"release-log"</span>))]
+<a href=#423 id=423 data-nosnippet>423</a>            </span><span class="macro">println!</span>(<span class="string">"⚠️ [session] 未知 WTS 事件 (wParam={})"</span>, wparam);
+<a href=#424 id=424 data-nosnippet>424</a>            <span class="kw">return</span>;
+<a href=#425 id=425 data-nosnippet>425</a>        }
+<a href=#426 id=426 data-nosnippet>426</a>    };
+<a href=#427 id=427 data-nosnippet>427</a>
+<a href=#428 id=428 data-nosnippet>428</a>    <span class="kw">let </span>old_state = SessionState::from_u8(state.load(Ordering::Acquire));
+<a href=#429 id=429 data-nosnippet>429</a>    <span class="kw">let </span>new_state = <span class="kw">match </span>(old_state, event) {
+<a href=#430 id=430 data-nosnippet>430</a>        (SessionState::Active, SessionEvent::Locked) =&gt; SessionState::Locked,
+<a href=#431 id=431 data-nosnippet>431</a>        (SessionState::Locked, SessionEvent::Unlocked) =&gt; SessionState::Active,
+<a href=#432 id=432 data-nosnippet>432</a>        (SessionState::Active, SessionEvent::UserLoggedOff) <span class="kw">if </span>enable_user_switch =&gt; SessionState::UserSwitching,
+<a href=#433 id=433 data-nosnippet>433</a>        (SessionState::UserSwitching, SessionEvent::UserLoggedOn) =&gt; SessionState::Active,
+<a href=#434 id=434 data-nosnippet>434</a>        (SessionState::UserSwitching, SessionEvent::Unlocked) =&gt; {
+<a href=#435 id=435 data-nosnippet>435</a>            <span class="comment">// UserSwitching 期间收到 UNLOCK（罕见，但可能）：保持 UserSwitching
+<a href=#436 id=436 data-nosnippet>436</a>            </span>old_state
+<a href=#437 id=437 data-nosnippet>437</a>        }
+<a href=#438 id=438 data-nosnippet>438</a>        <span class="comment">// 幂等性：保持原状态
+<a href=#439 id=439 data-nosnippet>439</a>        </span>(state, <span class="kw">_</span>) =&gt; state,
+<a href=#440 id=440 data-nosnippet>440</a>    };
+<a href=#441 id=441 data-nosnippet>441</a>
+<a href=#442 id=442 data-nosnippet>442</a>    <span class="kw">if </span>new_state != old_state {
+<a href=#443 id=443 data-nosnippet>443</a>        <span class="comment">// [P1-7 修复] 用 Release store（配对 is_paused / current_state 的 Acquire load）。
+<a href=#444 id=444 data-nosnippet>444</a>        //   比 SeqCst 弱但够用——只需要保证"store happens-before 后续 reader 的 Acquire load"，
+<a href=#445 id=445 data-nosnippet>445</a>        //   不需要全局顺序。
+<a href=#446 id=446 data-nosnippet>446</a>        </span>state.store(new_state.as_u8(), Ordering::Release);
+<a href=#447 id=447 data-nosnippet>447</a>        <span class="attr">#[cfg(any(debug_assertions, feature = <span class="string">"release-log"</span>))]
+<a href=#448 id=448 data-nosnippet>448</a>        </span><span class="macro">println!</span>(<span class="string">"🔀 [session] 状态切换: {:?} -&gt; {:?} ({:?})"</span>, old_state, new_state, event);
+<a href=#449 id=449 data-nosnippet>449</a>
+<a href=#450 id=450 data-nosnippet>450</a>        <span class="comment">// 切回 Active → 唤醒主循环
+<a href=#451 id=451 data-nosnippet>451</a>        </span><span class="kw">if </span>new_state == SessionState::Active {
+<a href=#452 id=452 data-nosnippet>452</a>            <span class="kw">let </span>(lock, cvar) = <span class="kw-2">&amp;**</span>resume_signal;
+<a href=#453 id=453 data-nosnippet>453</a>            <span class="kw">let </span><span class="kw-2">mut </span>woken = lock.lock().unwrap_or_else(|p| p.into_inner());
+<a href=#454 id=454 data-nosnippet>454</a>            <span class="kw-2">*</span>woken = <span class="bool-val">true</span>;
+<a href=#455 id=455 data-nosnippet>455</a>            cvar.notify_all();
+<a href=#456 id=456 data-nosnippet>456</a>        }
+<a href=#457 id=457 data-nosnippet>457</a>    }
+<a href=#458 id=458 data-nosnippet>458</a>}
+<a href=#459 id=459 data-nosnippet>459</a>
+<a href=#460 id=460 data-nosnippet>460</a><span class="doccomment">/// 窗口过程函数。
+<a href=#461 id=461 data-nosnippet>461</a>///
+<a href=#462 id=462 data-nosnippet>462</a>/// WM_DESTROY 时 PostQuitMessage 让消息循环退出。其他消息走默认处理。
+<a href=#463 id=463 data-nosnippet>463</a></span><span class="kw">unsafe extern </span><span class="string">"system" </span><span class="kw">fn </span>wnd_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam: LPARAM) -&gt; LRESULT {
+<a href=#464 id=464 data-nosnippet>464</a>    <span class="kw">if </span>msg == WM_DESTROY {
+<a href=#465 id=465 data-nosnippet>465</a>        <span class="kw">unsafe </span>{ PostQuitMessage(<span class="number">0</span>) };
+<a href=#466 id=466 data-nosnippet>466</a>        <span class="kw">return </span>LRESULT(<span class="number">0</span>);
+<a href=#467 id=467 data-nosnippet>467</a>    }
+<a href=#468 id=468 data-nosnippet>468</a>    <span class="kw">unsafe </span>{ DefWindowProcA(hwnd, msg, wparam, lparam) }
+<a href=#469 id=469 data-nosnippet>469</a>}</code></pre></div></section></main></body></html>

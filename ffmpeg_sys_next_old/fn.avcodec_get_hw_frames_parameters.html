@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Create and return a AVHWFramesContext with values adequate for hardware decoding. This is meant to get called from the get_format callback, and is a helper for preparing a AVHWFramesContext for AVCodecContext.hw_frames_ctx. This API is for decoding with certain hardware acceleration modes/APIs only."><title>avcodec_get_hw_frames_parameters in ffmpeg_sys_next - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="ffmpeg_sys_next" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">avcodec_get_hw_frames_parameters</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../ffmpeg_sys_next/index.html">ffmpeg_<wbr>sys_<wbr>next</a><span class="version">8.1.0</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">ffmpeg_sys_next</a></div><h1>Function <span class="fn">avcodec_<wbr>get_<wbr>hw_<wbr>frames_<wbr>parameters</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#7878-7883">Source</a> </span></div><pre class="rust item-decl"><code>pub unsafe extern &quot;C&quot; fn avcodec_get_hw_frames_parameters(
+    avctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>,
+    device_ref: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a>,
+    hw_pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>,
+    out_frames_ref: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Create and return a AVHWFramesContext with values adequate for hardware
+decoding. This is meant to get called from the get_format callback, and is
+a helper for preparing a AVHWFramesContext for AVCodecContext.hw_frames_ctx.
+This API is for decoding with certain hardware acceleration modes/APIs only.</p>
+<p>The returned AVHWFramesContext is not initialized. The caller must do this
+with av_hwframe_ctx_init().</p>
+<p>Calling this function is not a requirement, but makes it simpler to avoid
+codec or hardware API specific details when manually allocating frames.</p>
+<p>Alternatively to this, an API user can set AVCodecContext.hw_device_ctx,
+which sets up AVCodecContext.hw_frames_ctx fully automatically, and makes
+it unnecessary to call this function or having to care about
+AVHWFramesContext initialization at all.</p>
+<p>There are a number of requirements for calling this function:</p>
+<ul>
+<li>It must be called from get_format with the same avctx parameter that was
+passed to get_format. Calling it outside of get_format is not allowed, and
+can trigger undefined behavior.</li>
+<li>The function is not always supported (see description of return values).
+Even if this function returns successfully, hwaccel initialization could
+fail later. (The degree to which implementations check whether the stream
+is actually supported varies. Some do this check only after the user’s
+get_format callback returns.)</li>
+<li>The hw_pix_fmt must be one of the choices suggested by get_format. If the
+user decides to use a AVHWFramesContext prepared with this API function,
+the user must return the same hw_pix_fmt from get_format.</li>
+<li>The device_ref passed to this function must support the given hw_pix_fmt.</li>
+<li>After calling this API function, it is the user’s responsibility to
+initialize the AVHWFramesContext (returned by the out_frames_ref parameter),
+and to set AVCodecContext.hw_frames_ctx to it. If done, this must be done
+before returning from get_format (this is implied by the normal
+AVCodecContext.hw_frames_ctx API rules).</li>
+<li>The AVHWFramesContext parameters may change every time time get_format is
+called. Also, AVCodecContext.hw_frames_ctx is reset before get_format. So
+you are inherently required to go through this process again on every
+get_format call.</li>
+<li>It is perfectly possible to call this function without actually using
+the resulting AVHWFramesContext. One use-case might be trying to reuse a
+previously initialized AVHWFramesContext, and calling this API function
+only to test whether the required frame parameters have changed.</li>
+<li>Fields that use dynamically allocated values of any kind must not be set
+by the user unless setting them is explicitly allowed by the documentation.
+If the user sets AVHWFramesContext.free and AVHWFramesContext.user_opaque,
+the new free callback must call the potentially set previous free callback.
+This API call may set any dynamically allocated fields, including the free
+callback.</li>
+</ul>
+<p>The function will set at least the following fields on AVHWFramesContext
+(potentially more, depending on hwaccel API):</p>
+<ul>
+<li>All fields set by av_hwframe_ctx_alloc().</li>
+<li>Set the format field to hw_pix_fmt.</li>
+<li>Set the sw_format field to the most suited and most versatile format. (An
+implication is that this will prefer generic formats over opaque formats
+with arbitrary restrictions, if possible.)</li>
+<li>Set the width/height fields to the coded frame size, rounded up to the
+API-specific minimum alignment.</li>
+<li>Only <em>if</em> the hwaccel requires a pre-allocated pool: set the initial_pool_size
+field to the number of maximum reference surfaces possible with the codec,
+plus 1 surface for the user to work (meaning the user can safely reference
+at most 1 decoded surface at a time), plus additional buffering introduced
+by frame threading. If the hwaccel does not require pre-allocation, the
+field is left to 0, and the decoder will allocate new surfaces on demand
+during decoding.</li>
+<li>Possibly AVHWFramesContext.hwctx fields, depending on the underlying
+hardware API.</li>
+</ul>
+<p>Essentially, out_frames_ref returns the same as av_hwframe_ctx_alloc(), but
+with basic frame parameters set.</p>
+<p>The function is stateless, and does not change the AVCodecContext or the
+device_ref AVHWDeviceContext.</p>
+<p>@param avctx The context which is currently calling get_format, and which
+implicitly contains all state needed for filling the returned
+AVHWFramesContext properly.
+@param device_ref A reference to the AVHWDeviceContext describing the device
+which will be used by the hardware decoder.
+@param hw_pix_fmt The hwaccel format you are going to return from get_format.
+@param out_frames_ref On success, set to a reference to an <em>uninitialized</em>
+AVHWFramesContext, created from the given device_ref.
+Fields will be set to values required for decoding.
+Not changed if an error is returned.
+@return zero on success, a negative value on error. The following error codes
+have special semantics:
+AVERROR(ENOENT): the decoder does not support this functionality. Setup
+is always manual, or it is a decoder which does not
+support setting AVCodecContext.hw_frames_ctx at all,
+or it is a software format.
+AVERROR(EINVAL): it is known that hardware decoding is not supported for
+this configuration, or the device_ref is not supported
+for the hwaccel referenced by hw_pix_fmt.</p>
+</div></details></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DxgiDuplicationFormat","Error"],"struct":["DxgiDuplicationApi","DxgiDuplicationFrame","DxgiDuplicationFrameBuffer"]};

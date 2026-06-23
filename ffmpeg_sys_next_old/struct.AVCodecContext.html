@@ -1,0 +1,1246 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="main external API structure. New fields can be added to the end with minor version bumps. Removal, reordering and changes to existing fields require a major version bump. You can use AVOptions (av_opt* / av_set/get*()) to access these fields from user applications. The name string for AVOptions options matches the associated command line parameter name and can be found in libavcodec/options_table.h The AVOption/command line parameter names differ in some cases from the C structure field names for historic reasons or brevity. sizeof(AVCodecContext) must not be used outside libav*."><title>AVCodecContext in ffmpeg_sys_next - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="ffmpeg_sys_next" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">AVCodecContext</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../ffmpeg_sys_next/index.html">ffmpeg_<wbr>sys_<wbr>next</a><span class="version">8.1.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">AVCodec<wbr>Context</a></h2><h3><a href="#fields">Fields</a></h3><ul class="block structfield"><li><a href="#structfield.active_thread_type" title="active_thread_type">active_thread_type</a></li><li><a href="#structfield.alpha_mode" title="alpha_mode">alpha_mode</a></li><li><a href="#structfield.apply_cropping" title="apply_cropping">apply_cropping</a></li><li><a href="#structfield.audio_service_type" title="audio_service_type">audio_service_type</a></li><li><a href="#structfield.av_class" title="av_class">av_class</a></li><li><a href="#structfield.b_quant_factor" title="b_quant_factor">b_quant_factor</a></li><li><a href="#structfield.b_quant_offset" title="b_quant_offset">b_quant_offset</a></li><li><a href="#structfield.bidir_refine" title="bidir_refine">bidir_refine</a></li><li><a href="#structfield.bit_rate" title="bit_rate">bit_rate</a></li><li><a href="#structfield.bit_rate_tolerance" title="bit_rate_tolerance">bit_rate_tolerance</a></li><li><a href="#structfield.bits_per_coded_sample" title="bits_per_coded_sample">bits_per_coded_sample</a></li><li><a href="#structfield.bits_per_raw_sample" title="bits_per_raw_sample">bits_per_raw_sample</a></li><li><a href="#structfield.block_align" title="block_align">block_align</a></li><li><a href="#structfield.ch_layout" title="ch_layout">ch_layout</a></li><li><a href="#structfield.chroma_intra_matrix" title="chroma_intra_matrix">chroma_intra_matrix</a></li><li><a href="#structfield.chroma_sample_location" title="chroma_sample_location">chroma_sample_location</a></li><li><a href="#structfield.codec" title="codec">codec</a></li><li><a href="#structfield.codec_descriptor" title="codec_descriptor">codec_descriptor</a></li><li><a href="#structfield.codec_id" title="codec_id">codec_id</a></li><li><a href="#structfield.codec_tag" title="codec_tag">codec_tag</a></li><li><a href="#structfield.codec_type" title="codec_type">codec_type</a></li><li><a href="#structfield.codec_whitelist" title="codec_whitelist">codec_whitelist</a></li><li><a href="#structfield.coded_height" title="coded_height">coded_height</a></li><li><a href="#structfield.coded_side_data" title="coded_side_data">coded_side_data</a></li><li><a href="#structfield.coded_width" title="coded_width">coded_width</a></li><li><a href="#structfield.color_primaries" title="color_primaries">color_primaries</a></li><li><a href="#structfield.color_range" title="color_range">color_range</a></li><li><a href="#structfield.color_trc" title="color_trc">color_trc</a></li><li><a href="#structfield.colorspace" title="colorspace">colorspace</a></li><li><a href="#structfield.compression_level" title="compression_level">compression_level</a></li><li><a href="#structfield.cutoff" title="cutoff">cutoff</a></li><li><a href="#structfield.dark_masking" title="dark_masking">dark_masking</a></li><li><a href="#structfield.dct_algo" title="dct_algo">dct_algo</a></li><li><a href="#structfield.debug" title="debug">debug</a></li><li><a href="#structfield.decoded_side_data" title="decoded_side_data">decoded_side_data</a></li><li><a href="#structfield.delay" title="delay">delay</a></li><li><a href="#structfield.dia_size" title="dia_size">dia_size</a></li><li><a href="#structfield.discard_damaged_percentage" title="discard_damaged_percentage">discard_damaged_percentage</a></li><li><a href="#structfield.draw_horiz_band" title="draw_horiz_band">draw_horiz_band</a></li><li><a href="#structfield.dump_separator" title="dump_separator">dump_separator</a></li><li><a href="#structfield.err_recognition" title="err_recognition">err_recognition</a></li><li><a href="#structfield.error" title="error">error</a></li><li><a href="#structfield.error_concealment" title="error_concealment">error_concealment</a></li><li><a href="#structfield.execute" title="execute">execute</a></li><li><a href="#structfield.execute2" title="execute2">execute2</a></li><li><a href="#structfield.export_side_data" title="export_side_data">export_side_data</a></li><li><a href="#structfield.extra_hw_frames" title="extra_hw_frames">extra_hw_frames</a></li><li><a href="#structfield.extradata" title="extradata">extradata</a></li><li><a href="#structfield.extradata_size" title="extradata_size">extradata_size</a></li><li><a href="#structfield.field_order" title="field_order">field_order</a></li><li><a href="#structfield.flags" title="flags">flags</a></li><li><a href="#structfield.flags2" title="flags2">flags2</a></li><li><a href="#structfield.frame_num" title="frame_num">frame_num</a></li><li><a href="#structfield.frame_size" title="frame_size">frame_size</a></li><li><a href="#structfield.framerate" title="framerate">framerate</a></li><li><a href="#structfield.get_buffer2" title="get_buffer2">get_buffer2</a></li><li><a href="#structfield.get_encode_buffer" title="get_encode_buffer">get_encode_buffer</a></li><li><a href="#structfield.get_format" title="get_format">get_format</a></li><li><a href="#structfield.global_quality" title="global_quality">global_quality</a></li><li><a href="#structfield.gop_size" title="gop_size">gop_size</a></li><li><a href="#structfield.has_b_frames" title="has_b_frames">has_b_frames</a></li><li><a href="#structfield.height" title="height">height</a></li><li><a href="#structfield.hw_device_ctx" title="hw_device_ctx">hw_device_ctx</a></li><li><a href="#structfield.hw_frames_ctx" title="hw_frames_ctx">hw_frames_ctx</a></li><li><a href="#structfield.hwaccel" title="hwaccel">hwaccel</a></li><li><a href="#structfield.hwaccel_context" title="hwaccel_context">hwaccel_context</a></li><li><a href="#structfield.hwaccel_flags" title="hwaccel_flags">hwaccel_flags</a></li><li><a href="#structfield.i_quant_factor" title="i_quant_factor">i_quant_factor</a></li><li><a href="#structfield.i_quant_offset" title="i_quant_offset">i_quant_offset</a></li><li><a href="#structfield.idct_algo" title="idct_algo">idct_algo</a></li><li><a href="#structfield.ildct_cmp" title="ildct_cmp">ildct_cmp</a></li><li><a href="#structfield.initial_padding" title="initial_padding">initial_padding</a></li><li><a href="#structfield.inter_matrix" title="inter_matrix">inter_matrix</a></li><li><a href="#structfield.internal" title="internal">internal</a></li><li><a href="#structfield.intra_dc_precision" title="intra_dc_precision">intra_dc_precision</a></li><li><a href="#structfield.intra_matrix" title="intra_matrix">intra_matrix</a></li><li><a href="#structfield.keyint_min" title="keyint_min">keyint_min</a></li><li><a href="#structfield.last_predictor_count" title="last_predictor_count">last_predictor_count</a></li><li><a href="#structfield.level" title="level">level</a></li><li><a href="#structfield.log_level_offset" title="log_level_offset">log_level_offset</a></li><li><a href="#structfield.lowres" title="lowres">lowres</a></li><li><a href="#structfield.lumi_masking" title="lumi_masking">lumi_masking</a></li><li><a href="#structfield.max_b_frames" title="max_b_frames">max_b_frames</a></li><li><a href="#structfield.max_pixels" title="max_pixels">max_pixels</a></li><li><a href="#structfield.max_qdiff" title="max_qdiff">max_qdiff</a></li><li><a href="#structfield.max_samples" title="max_samples">max_samples</a></li><li><a href="#structfield.mb_cmp" title="mb_cmp">mb_cmp</a></li><li><a href="#structfield.mb_decision" title="mb_decision">mb_decision</a></li><li><a href="#structfield.mb_lmax" title="mb_lmax">mb_lmax</a></li><li><a href="#structfield.mb_lmin" title="mb_lmin">mb_lmin</a></li><li><a href="#structfield.me_cmp" title="me_cmp">me_cmp</a></li><li><a href="#structfield.me_pre_cmp" title="me_pre_cmp">me_pre_cmp</a></li><li><a href="#structfield.me_range" title="me_range">me_range</a></li><li><a href="#structfield.me_sub_cmp" title="me_sub_cmp">me_sub_cmp</a></li><li><a href="#structfield.me_subpel_quality" title="me_subpel_quality">me_subpel_quality</a></li><li><a href="#structfield.mv0_threshold" title="mv0_threshold">mv0_threshold</a></li><li><a href="#structfield.nb_coded_side_data" title="nb_coded_side_data">nb_coded_side_data</a></li><li><a href="#structfield.nb_decoded_side_data" title="nb_decoded_side_data">nb_decoded_side_data</a></li><li><a href="#structfield.nb_side_data_prefer_packet" title="nb_side_data_prefer_packet">nb_side_data_prefer_packet</a></li><li><a href="#structfield.nsse_weight" title="nsse_weight">nsse_weight</a></li><li><a href="#structfield.opaque" title="opaque">opaque</a></li><li><a href="#structfield.p_masking" title="p_masking">p_masking</a></li><li><a href="#structfield.pix_fmt" title="pix_fmt">pix_fmt</a></li><li><a href="#structfield.pkt_timebase" title="pkt_timebase">pkt_timebase</a></li><li><a href="#structfield.pre_dia_size" title="pre_dia_size">pre_dia_size</a></li><li><a href="#structfield.priv_data" title="priv_data">priv_data</a></li><li><a href="#structfield.profile" title="profile">profile</a></li><li><a href="#structfield.properties" title="properties">properties</a></li><li><a href="#structfield.qblur" title="qblur">qblur</a></li><li><a href="#structfield.qcompress" title="qcompress">qcompress</a></li><li><a href="#structfield.qmax" title="qmax">qmax</a></li><li><a href="#structfield.qmin" title="qmin">qmin</a></li><li><a href="#structfield.rc_buffer_size" title="rc_buffer_size">rc_buffer_size</a></li><li><a href="#structfield.rc_initial_buffer_occupancy" title="rc_initial_buffer_occupancy">rc_initial_buffer_occupancy</a></li><li><a href="#structfield.rc_max_available_vbv_use" title="rc_max_available_vbv_use">rc_max_available_vbv_use</a></li><li><a href="#structfield.rc_max_rate" title="rc_max_rate">rc_max_rate</a></li><li><a href="#structfield.rc_min_rate" title="rc_min_rate">rc_min_rate</a></li><li><a href="#structfield.rc_min_vbv_overflow_use" title="rc_min_vbv_overflow_use">rc_min_vbv_overflow_use</a></li><li><a href="#structfield.rc_override" title="rc_override">rc_override</a></li><li><a href="#structfield.rc_override_count" title="rc_override_count">rc_override_count</a></li><li><a href="#structfield.refs" title="refs">refs</a></li><li><a href="#structfield.request_sample_fmt" title="request_sample_fmt">request_sample_fmt</a></li><li><a href="#structfield.sample_aspect_ratio" title="sample_aspect_ratio">sample_aspect_ratio</a></li><li><a href="#structfield.sample_fmt" title="sample_fmt">sample_fmt</a></li><li><a href="#structfield.sample_rate" title="sample_rate">sample_rate</a></li><li><a href="#structfield.seek_preroll" title="seek_preroll">seek_preroll</a></li><li><a href="#structfield.side_data_prefer_packet" title="side_data_prefer_packet">side_data_prefer_packet</a></li><li><a href="#structfield.skip_alpha" title="skip_alpha">skip_alpha</a></li><li><a href="#structfield.skip_bottom" title="skip_bottom">skip_bottom</a></li><li><a href="#structfield.skip_frame" title="skip_frame">skip_frame</a></li><li><a href="#structfield.skip_idct" title="skip_idct">skip_idct</a></li><li><a href="#structfield.skip_loop_filter" title="skip_loop_filter">skip_loop_filter</a></li><li><a href="#structfield.skip_top" title="skip_top">skip_top</a></li><li><a href="#structfield.slice_flags" title="slice_flags">slice_flags</a></li><li><a href="#structfield.slices" title="slices">slices</a></li><li><a href="#structfield.spatial_cplx_masking" title="spatial_cplx_masking">spatial_cplx_masking</a></li><li><a href="#structfield.stats_in" title="stats_in">stats_in</a></li><li><a href="#structfield.stats_out" title="stats_out">stats_out</a></li><li><a href="#structfield.strict_std_compliance" title="strict_std_compliance">strict_std_compliance</a></li><li><a href="#structfield.sub_charenc" title="sub_charenc">sub_charenc</a></li><li><a href="#structfield.sub_charenc_mode" title="sub_charenc_mode">sub_charenc_mode</a></li><li><a href="#structfield.subtitle_header" title="subtitle_header">subtitle_header</a></li><li><a href="#structfield.subtitle_header_size" title="subtitle_header_size">subtitle_header_size</a></li><li><a href="#structfield.sw_pix_fmt" title="sw_pix_fmt">sw_pix_fmt</a></li><li><a href="#structfield.temporal_cplx_masking" title="temporal_cplx_masking">temporal_cplx_masking</a></li><li><a href="#structfield.thread_count" title="thread_count">thread_count</a></li><li><a href="#structfield.thread_type" title="thread_type">thread_type</a></li><li><a href="#structfield.time_base" title="time_base">time_base</a></li><li><a href="#structfield.trailing_padding" title="trailing_padding">trailing_padding</a></li><li><a href="#structfield.trellis" title="trellis">trellis</a></li><li><a href="#structfield.width" title="width">width</a></li><li><a href="#structfield.workaround_bugs" title="workaround_bugs">workaround_bugs</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-AVCodecContext" title="Clone">Clone</a></li><li><a href="#impl-Copy-for-AVCodecContext" title="Copy">Copy</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Send-for-AVCodecContext" title="!Send">!Send</a></li><li><a href="#impl-Sync-for-AVCodecContext" title="!Sync">!Sync</a></li><li><a href="#impl-Freeze-for-AVCodecContext" title="Freeze">Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-AVCodecContext" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Unpin-for-AVCodecContext" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-AVCodecContext" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-AVCodecContext" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-CloneToUninit-for-T" title="CloneToUninit">CloneToUninit</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-ToOwned-for-T" title="ToOwned">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate ffmpeg_<wbr>sys_<wbr>next</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">ffmpeg_sys_next</a></div><h1>Struct <span class="struct">AVCodec<wbr>Context</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#6991-7338">Source</a> </span></div><pre class="rust item-decl"><code><div class="code-attribute">#[repr(C)]</div>pub struct AVCodecContext {<details class="toggle type-contents-toggle"><summary class="hideme"><span>Show 152 fields</span></summary>
+    pub av_class: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVClass.html" title="struct ffmpeg_sys_next::AVClass">AVClass</a>,
+    pub log_level_offset: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub codec_type: <a class="enum" href="enum.AVMediaType.html" title="enum ffmpeg_sys_next::AVMediaType">AVMediaType</a>,
+    pub codec: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVCodec.html" title="struct ffmpeg_sys_next::AVCodec">AVCodec</a>,
+    pub codec_id: <a class="enum" href="enum.AVCodecID.html" title="enum ffmpeg_sys_next::AVCodecID">AVCodecID</a>,
+    pub codec_tag: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a>,
+    pub priv_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
+    pub internal: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecInternal.html" title="struct ffmpeg_sys_next::AVCodecInternal">AVCodecInternal</a>,
+    pub opaque: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
+    pub bit_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub flags2: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub extradata: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>,
+    pub extradata_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub time_base: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a>,
+    pub pkt_timebase: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a>,
+    pub framerate: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a>,
+    pub delay: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub width: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub coded_width: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub coded_height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub sample_aspect_ratio: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a>,
+    pub pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>,
+    pub sw_pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>,
+    pub color_primaries: <a class="enum" href="enum.AVColorPrimaries.html" title="enum ffmpeg_sys_next::AVColorPrimaries">AVColorPrimaries</a>,
+    pub color_trc: <a class="enum" href="enum.AVColorTransferCharacteristic.html" title="enum ffmpeg_sys_next::AVColorTransferCharacteristic">AVColorTransferCharacteristic</a>,
+    pub colorspace: <a class="enum" href="enum.AVColorSpace.html" title="enum ffmpeg_sys_next::AVColorSpace">AVColorSpace</a>,
+    pub color_range: <a class="enum" href="enum.AVColorRange.html" title="enum ffmpeg_sys_next::AVColorRange">AVColorRange</a>,
+    pub chroma_sample_location: <a class="enum" href="enum.AVChromaLocation.html" title="enum ffmpeg_sys_next::AVChromaLocation">AVChromaLocation</a>,
+    pub field_order: <a class="enum" href="enum.AVFieldOrder.html" title="enum ffmpeg_sys_next::AVFieldOrder">AVFieldOrder</a>,
+    pub refs: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub has_b_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub slice_flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub draw_horiz_band: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>, offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, y: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, type_: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>)&gt;,
+    pub get_format: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, fmt: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>) -&gt; <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>&gt;,
+    pub max_b_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub b_quant_factor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub b_quant_offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub i_quant_factor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub i_quant_offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub lumi_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub temporal_cplx_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub spatial_cplx_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub p_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub dark_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub nsse_weight: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub me_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub me_sub_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub mb_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub ildct_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub dia_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub last_predictor_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub me_pre_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub pre_dia_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub me_subpel_quality: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub me_range: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub mb_decision: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub intra_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>,
+    pub inter_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>,
+    pub chroma_intra_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>,
+    pub intra_dc_precision: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub mb_lmin: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub mb_lmax: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub bidir_refine: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub keyint_min: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub gop_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub mv0_threshold: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub slices: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub sample_rate: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub sample_fmt: <a class="enum" href="enum.AVSampleFormat.html" title="enum ffmpeg_sys_next::AVSampleFormat">AVSampleFormat</a>,
+    pub ch_layout: <a class="struct" href="struct.AVChannelLayout.html" title="struct ffmpeg_sys_next::AVChannelLayout">AVChannelLayout</a>,
+    pub frame_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub block_align: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub cutoff: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub audio_service_type: <a class="enum" href="enum.AVAudioServiceType.html" title="enum ffmpeg_sys_next::AVAudioServiceType">AVAudioServiceType</a>,
+    pub request_sample_fmt: <a class="enum" href="enum.AVSampleFormat.html" title="enum ffmpeg_sys_next::AVSampleFormat">AVSampleFormat</a>,
+    pub initial_padding: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub trailing_padding: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub seek_preroll: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub get_buffer2: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, frame: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>, flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;,
+    pub bit_rate_tolerance: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub global_quality: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub compression_level: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub qcompress: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub qblur: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub qmin: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub qmax: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub max_qdiff: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub rc_buffer_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub rc_override_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub rc_override: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.RcOverride.html" title="struct ffmpeg_sys_next::RcOverride">RcOverride</a>,
+    pub rc_max_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub rc_min_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub rc_max_available_vbv_use: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub rc_min_vbv_overflow_use: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>,
+    pub rc_initial_buffer_occupancy: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub trellis: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub stats_out: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
+    pub stats_in: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
+    pub workaround_bugs: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub strict_std_compliance: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub error_concealment: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub debug: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub err_recognition: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub hwaccel: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVHWAccel.html" title="struct ffmpeg_sys_next::AVHWAccel">AVHWAccel</a>,
+    pub hwaccel_context: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
+    pub hw_frames_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a>,
+    pub hw_device_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a>,
+    pub hwaccel_flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub extra_hw_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub error: [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.array.html">8</a>],
+    pub dct_algo: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub idct_algo: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub bits_per_coded_sample: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub bits_per_raw_sample: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub thread_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub thread_type: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub active_thread_type: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub execute: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, func: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, arg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;, arg2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, ret: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;,
+    pub execute2: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, func: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, arg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, jobnr: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, threadnr: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;, arg2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, ret: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;,
+    pub profile: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub level: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub properties: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a>,
+    pub skip_loop_filter: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a>,
+    pub skip_idct: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a>,
+    pub skip_frame: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a>,
+    pub skip_alpha: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub skip_top: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub skip_bottom: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub lowres: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub codec_descriptor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVCodecDescriptor.html" title="struct ffmpeg_sys_next::AVCodecDescriptor">AVCodecDescriptor</a>,
+    pub sub_charenc: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
+    pub sub_charenc_mode: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub subtitle_header_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub subtitle_header: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>,
+    pub dump_separator: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>,
+    pub codec_whitelist: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
+    pub coded_side_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVPacketSideData.html" title="struct ffmpeg_sys_next::AVPacketSideData">AVPacketSideData</a>,
+    pub nb_coded_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub export_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub max_pixels: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub apply_cropping: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub discard_damaged_percentage: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub max_samples: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub get_encode_buffer: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, pkt: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVPacket.html" title="struct ffmpeg_sys_next::AVPacket">AVPacket</a>, flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;,
+    pub frame_num: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>,
+    pub side_data_prefer_packet: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub nb_side_data_prefer_packet: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a>,
+    pub decoded_side_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrameSideData.html" title="struct ffmpeg_sys_next::AVFrameSideData">AVFrameSideData</a>,
+    pub nb_decoded_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    pub alpha_mode: <a class="enum" href="enum.AVAlphaMode.html" title="enum ffmpeg_sys_next::AVAlphaMode">AVAlphaMode</a>,
+</details>}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>main external API structure.
+New fields can be added to the end with minor version bumps.
+Removal, reordering and changes to existing fields require a major
+version bump.
+You can use AVOptions (av_opt* / av_set/get*()) to access these fields from user
+applications.
+The name string for AVOptions options matches the associated command line
+parameter name and can be found in libavcodec/options_table.h
+The AVOption/command line parameter names differ in some cases from the C
+structure field names for historic reasons or brevity.
+sizeof(AVCodecContext) must not be used outside libav*.</p>
+</div></details><h2 id="fields" class="fields section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.av_class" class="structfield section-header"><a href="#structfield.av_class" class="anchor field">§</a><code>av_class: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVClass.html" title="struct ffmpeg_sys_next::AVClass">AVClass</a></code></span><div class="docblock"><p>information on struct for av_log</p>
+<ul>
+<li>set by avcodec_alloc_context3</li>
+</ul>
+</div><span id="structfield.log_level_offset" class="structfield section-header"><a href="#structfield.log_level_offset" class="anchor field">§</a><code>log_level_offset: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><span id="structfield.codec_type" class="structfield section-header"><a href="#structfield.codec_type" class="anchor field">§</a><code>codec_type: <a class="enum" href="enum.AVMediaType.html" title="enum ffmpeg_sys_next::AVMediaType">AVMediaType</a></code></span><span id="structfield.codec" class="structfield section-header"><a href="#structfield.codec" class="anchor field">§</a><code>codec: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVCodec.html" title="struct ffmpeg_sys_next::AVCodec">AVCodec</a></code></span><span id="structfield.codec_id" class="structfield section-header"><a href="#structfield.codec_id" class="anchor field">§</a><code>codec_id: <a class="enum" href="enum.AVCodecID.html" title="enum ffmpeg_sys_next::AVCodecID">AVCodecID</a></code></span><span id="structfield.codec_tag" class="structfield section-header"><a href="#structfield.codec_tag" class="anchor field">§</a><code>codec_tag: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a></code></span><div class="docblock"><p>fourcc (LSB first, so “ABCD” -&gt; (‘D’&lt;&lt;24) + (‘C’&lt;&lt;16) + (‘B’&lt;&lt;8) + ‘A’).
+This is used to work around some encoder bugs.
+A demuxer should set this to what is stored in the field used to identify the codec.
+If there are multiple such fields in a container then the demuxer should choose the one
+which maximizes the information about the used codec.
+If the codec tag field in a container is larger than 32 bits then the demuxer should
+remap the longer ID to 32 bits with a table or other structure. Alternatively a new
+extra_codec_tag + size could be added but for this a clear advantage must be demonstrated
+first.</p>
+<ul>
+<li>encoding: Set by user, if not then the default based on codec_id will be used.</li>
+<li>decoding: Set by user, will be converted to uppercase by libavcodec during init.</li>
+</ul>
+</div><span id="structfield.priv_data" class="structfield section-header"><a href="#structfield.priv_data" class="anchor field">§</a><code>priv_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a></code></span><span id="structfield.internal" class="structfield section-header"><a href="#structfield.internal" class="anchor field">§</a><code>internal: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecInternal.html" title="struct ffmpeg_sys_next::AVCodecInternal">AVCodecInternal</a></code></span><div class="docblock"><p>Private context used for internal data.</p>
+<p>Unlike priv_data, this is not codec-specific. It is used in general
+libavcodec functions.</p>
+</div><span id="structfield.opaque" class="structfield section-header"><a href="#structfield.opaque" class="anchor field">§</a><code>opaque: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a></code></span><div class="docblock"><p>Private data of the user, can be used to carry app specific stuff.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.bit_rate" class="structfield section-header"><a href="#structfield.bit_rate" class="anchor field">§</a><code>bit_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>the average bitrate</p>
+<ul>
+<li>encoding: Set by user; unused for constant quantizer encoding.</li>
+<li>decoding: Set by user, may be overwritten by libavcodec
+if this info is available in the stream</li>
+</ul>
+</div><span id="structfield.flags" class="structfield section-header"><a href="#structfield.flags" class="anchor field">§</a><code>flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>AV_CODEC_FLAG_*.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.flags2" class="structfield section-header"><a href="#structfield.flags2" class="anchor field">§</a><code>flags2: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>AV_CODEC_FLAG2_*</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.extradata" class="structfield section-header"><a href="#structfield.extradata" class="anchor field">§</a><code>extradata: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a></code></span><div class="docblock"><p>Out-of-band global headers that may be used by some codecs.</p>
+<ul>
+<li>
+<p>decoding: Should be set by the caller when available (typically from a
+demuxer) before opening the decoder; some decoders require this to be
+set and will fail to initialize otherwise.</p>
+<p>The array must be allocated with the av_malloc() family of functions;
+allocated size must be at least AV_INPUT_BUFFER_PADDING_SIZE bytes
+larger than extradata_size.</p>
+</li>
+<li>
+<p>encoding: May be set by the encoder in avcodec_open2() (possibly
+depending on whether the AV_CODEC_FLAG_GLOBAL_HEADER flag is set).</p>
+</li>
+</ul>
+<p>After being set, the array is owned by the codec and freed in
+avcodec_free_context().</p>
+</div><span id="structfield.extradata_size" class="structfield section-header"><a href="#structfield.extradata_size" class="anchor field">§</a><code>extradata_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><span id="structfield.time_base" class="structfield section-header"><a href="#structfield.time_base" class="anchor field">§</a><code>time_base: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a></code></span><div class="docblock"><p>This is the fundamental unit of time (in seconds) in terms
+of which frame timestamps are represented. For fixed-fps content,
+timebase should be 1/framerate and timestamp increments should be
+identically 1.
+This often, but not always is the inverse of the frame rate or field rate
+for video. 1/time_base is not the average frame rate if the frame rate is not
+constant.</p>
+<p>Like containers, elementary streams also can store timestamps, 1/time_base
+is the unit in which these timestamps are specified.
+As example of such codec time base see ISO/IEC 14496-2:2001(E)
+vop_time_increment_resolution and fixed_vop_rate
+(fixed_vop_rate == 0 implies that it is different from the framerate)</p>
+<ul>
+<li>encoding: MUST be set by user.</li>
+<li>decoding: unused.</li>
+</ul>
+</div><span id="structfield.pkt_timebase" class="structfield section-header"><a href="#structfield.pkt_timebase" class="anchor field">§</a><code>pkt_timebase: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a></code></span><div class="docblock"><p>Timebase in which pkt_dts/pts and AVPacket.dts/pts are expressed.</p>
+<ul>
+<li>encoding: unused.</li>
+<li>decoding: set by user.</li>
+</ul>
+</div><span id="structfield.framerate" class="structfield section-header"><a href="#structfield.framerate" class="anchor field">§</a><code>framerate: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a></code></span><div class="docblock"><ul>
+<li>decoding: For codecs that store a framerate value in the compressed
+bitstream, the decoder may export it here. { 0, 1} when
+unknown.</li>
+<li>encoding: May be used to signal the framerate of CFR content to an
+encoder.</li>
+</ul>
+</div><span id="structfield.delay" class="structfield section-header"><a href="#structfield.delay" class="anchor field">§</a><code>delay: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Codec delay.</p>
+<p>Encoding: Number of frames delay there will be from the encoder input to
+the decoder output. (we assume the decoder matches the spec)
+Decoding: Number of frames delay in addition to what a standard decoder
+as specified in the spec would produce.</p>
+<p>Video:
+Number of frames the decoded output will be delayed relative to the
+encoded input.</p>
+<p>Audio:
+For encoding, this field is unused (see initial_padding).</p>
+<p>For decoding, this is the number of samples the decoder needs to
+output before the decoder’s output is valid. When seeking, you should
+start decoding this many samples prior to your desired seek point.</p>
+<ul>
+<li>encoding: Set by libavcodec.</li>
+<li>decoding: Set by libavcodec.</li>
+</ul>
+</div><span id="structfield.width" class="structfield section-header"><a href="#structfield.width" class="anchor field">§</a><code>width: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>picture width / height.</p>
+<p>@note Those fields may not match the values of the last
+AVFrame output by avcodec_receive_frame() due frame
+reordering.</p>
+<ul>
+<li>encoding: MUST be set by user.</li>
+<li>decoding: May be set by the user before opening the decoder if known e.g.
+from the container. Some decoders will require the dimensions
+to be set by the caller. During decoding, the decoder may
+overwrite those values as required while parsing the data.</li>
+</ul>
+</div><span id="structfield.height" class="structfield section-header"><a href="#structfield.height" class="anchor field">§</a><code>height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>picture width / height.</p>
+<p>@note Those fields may not match the values of the last
+AVFrame output by avcodec_receive_frame() due frame
+reordering.</p>
+<ul>
+<li>encoding: MUST be set by user.</li>
+<li>decoding: May be set by the user before opening the decoder if known e.g.
+from the container. Some decoders will require the dimensions
+to be set by the caller. During decoding, the decoder may
+overwrite those values as required while parsing the data.</li>
+</ul>
+</div><span id="structfield.coded_width" class="structfield section-header"><a href="#structfield.coded_width" class="anchor field">§</a><code>coded_width: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Bitstream width / height, may be different from width/height e.g. when
+the decoded frame is cropped before being output or lowres is enabled.</p>
+<p>@note Those field may not match the value of the last
+AVFrame output by avcodec_receive_frame() due frame
+reordering.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: May be set by the user before opening the decoder if known
+e.g. from the container. During decoding, the decoder may
+overwrite those values as required while parsing the data.</li>
+</ul>
+</div><span id="structfield.coded_height" class="structfield section-header"><a href="#structfield.coded_height" class="anchor field">§</a><code>coded_height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Bitstream width / height, may be different from width/height e.g. when
+the decoded frame is cropped before being output or lowres is enabled.</p>
+<p>@note Those field may not match the value of the last
+AVFrame output by avcodec_receive_frame() due frame
+reordering.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: May be set by the user before opening the decoder if known
+e.g. from the container. During decoding, the decoder may
+overwrite those values as required while parsing the data.</li>
+</ul>
+</div><span id="structfield.sample_aspect_ratio" class="structfield section-header"><a href="#structfield.sample_aspect_ratio" class="anchor field">§</a><code>sample_aspect_ratio: <a class="struct" href="struct.AVRational.html" title="struct ffmpeg_sys_next::AVRational">AVRational</a></code></span><div class="docblock"><p>sample aspect ratio (0 if unknown)
+That is the width of a pixel divided by the height of the pixel.
+Numerator and denominator must be relatively prime and smaller than 256 for some video standards.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by libavcodec.</li>
+</ul>
+</div><span id="structfield.pix_fmt" class="structfield section-header"><a href="#structfield.pix_fmt" class="anchor field">§</a><code>pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a></code></span><div class="docblock"><p>Pixel format, see AV_PIX_FMT_xxx.
+May be set by the demuxer if known from headers.
+May be overridden by the decoder if it knows better.</p>
+<p>@note This field may not match the value of the last
+AVFrame output by avcodec_receive_frame() due frame
+reordering.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user if known, overridden by libavcodec while
+parsing the data.</li>
+</ul>
+</div><span id="structfield.sw_pix_fmt" class="structfield section-header"><a href="#structfield.sw_pix_fmt" class="anchor field">§</a><code>sw_pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a></code></span><div class="docblock"><p>Nominal unaccelerated pixel format, see AV_PIX_FMT_xxx.</p>
+<ul>
+<li>encoding: unused.</li>
+<li>decoding: Set by libavcodec before calling get_format()</li>
+</ul>
+</div><span id="structfield.color_primaries" class="structfield section-header"><a href="#structfield.color_primaries" class="anchor field">§</a><code>color_primaries: <a class="enum" href="enum.AVColorPrimaries.html" title="enum ffmpeg_sys_next::AVColorPrimaries">AVColorPrimaries</a></code></span><div class="docblock"><p>Chromaticity coordinates of the source primaries.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><span id="structfield.color_trc" class="structfield section-header"><a href="#structfield.color_trc" class="anchor field">§</a><code>color_trc: <a class="enum" href="enum.AVColorTransferCharacteristic.html" title="enum ffmpeg_sys_next::AVColorTransferCharacteristic">AVColorTransferCharacteristic</a></code></span><div class="docblock"><p>Color Transfer Characteristic.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><span id="structfield.colorspace" class="structfield section-header"><a href="#structfield.colorspace" class="anchor field">§</a><code>colorspace: <a class="enum" href="enum.AVColorSpace.html" title="enum ffmpeg_sys_next::AVColorSpace">AVColorSpace</a></code></span><div class="docblock"><p>YUV colorspace type.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><span id="structfield.color_range" class="structfield section-header"><a href="#structfield.color_range" class="anchor field">§</a><code>color_range: <a class="enum" href="enum.AVColorRange.html" title="enum ffmpeg_sys_next::AVColorRange">AVColorRange</a></code></span><div class="docblock"><p>MPEG vs JPEG YUV range.</p>
+<ul>
+<li>encoding: Set by user to override the default output color range value,
+If not specified, libavcodec sets the color range depending on the
+output format.</li>
+<li>decoding: Set by libavcodec, can be set by the user to propagate the
+color range to components reading from the decoder context.</li>
+</ul>
+</div><span id="structfield.chroma_sample_location" class="structfield section-header"><a href="#structfield.chroma_sample_location" class="anchor field">§</a><code>chroma_sample_location: <a class="enum" href="enum.AVChromaLocation.html" title="enum ffmpeg_sys_next::AVChromaLocation">AVChromaLocation</a></code></span><div class="docblock"><p>This defines the location of chroma samples.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><span id="structfield.field_order" class="structfield section-header"><a href="#structfield.field_order" class="anchor field">§</a><code>field_order: <a class="enum" href="enum.AVFieldOrder.html" title="enum ffmpeg_sys_next::AVFieldOrder">AVFieldOrder</a></code></span><div class="docblock"><p>Field order</p>
+<ul>
+<li>encoding: set by libavcodec</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.refs" class="structfield section-header"><a href="#structfield.refs" class="anchor field">§</a><code>refs: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>number of reference frames</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by lavc.</li>
+</ul>
+</div><span id="structfield.has_b_frames" class="structfield section-header"><a href="#structfield.has_b_frames" class="anchor field">§</a><code>has_b_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Size of the frame reordering buffer in the decoder.
+For MPEG-2 it is 1 IPB or 0 low delay IP.</p>
+<ul>
+<li>encoding: Set by libavcodec.</li>
+<li>decoding: Set by libavcodec.</li>
+</ul>
+</div><span id="structfield.slice_flags" class="structfield section-header"><a href="#structfield.slice_flags" class="anchor field">§</a><code>slice_flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>slice flags</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.draw_horiz_band" class="structfield section-header"><a href="#structfield.draw_horiz_band" class="anchor field">§</a><code>draw_horiz_band: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>, offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, y: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, type_: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, height: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>)&gt;</code></span><div class="docblock"><p>If non NULL, ‘draw_horiz_band’ is called by the libavcodec
+decoder to draw a horizontal band. It improves cache usage. Not
+all codecs can do that. You must check the codec capabilities
+beforehand.
+When multithreading is used, it may be called from multiple threads
+at the same time; threads might draw different parts of the same AVFrame,
+or multiple AVFrames, and there is no guarantee that slices will be drawn
+in order.
+The function is also used by hardware acceleration APIs.
+It is called at least once during frame decoding to pass
+the data needed for hardware render.
+In that mode instead of pixel data, AVFrame points to
+a structure specific to the acceleration API. The application
+reads the structure and can change some fields to indicate progress
+or mark state.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.
+@param height the height of the slice
+@param y the y position of the slice
+@param type 1-&gt;top field, 2-&gt;bottom field, 3-&gt;frame
+@param offset offset into the AVFrame.data from which the slice should be read</li>
+</ul>
+</div><span id="structfield.get_format" class="structfield section-header"><a href="#structfield.get_format" class="anchor field">§</a><code>get_format: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, fmt: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>) -&gt; <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>&gt;</code></span><div class="docblock"><p>Callback to negotiate the pixel format. Decoding only, may be set by the
+caller before avcodec_open2().</p>
+<p>Called by some decoders to select the pixel format that will be used for
+the output frames. This is mainly used to set up hardware acceleration,
+then the provided format list contains the corresponding hwaccel pixel
+formats alongside the “software” one. The software pixel format may also
+be retrieved from \ref sw_pix_fmt.</p>
+<p>This callback will be called when the coded frame properties (such as
+resolution, pixel format, etc.) change and more than one output format is
+supported for those new properties. If a hardware pixel format is chosen
+and initialization for it fails, the callback may be called again
+immediately.</p>
+<p>This callback may be called from different threads if the decoder is
+multi-threaded, but not from more than one thread simultaneously.</p>
+<p>@param fmt list of formats which may be used in the current
+configuration, terminated by AV_PIX_FMT_NONE.
+@warning Behavior is undefined if the callback returns a value other
+than one of the formats in fmt or AV_PIX_FMT_NONE.
+@return the chosen format or AV_PIX_FMT_NONE</p>
+</div><span id="structfield.max_b_frames" class="structfield section-header"><a href="#structfield.max_b_frames" class="anchor field">§</a><code>max_b_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>maximum number of B-frames between non-B-frames
+Note: The output will be delayed by max_b_frames+1 relative to the input.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.b_quant_factor" class="structfield section-header"><a href="#structfield.b_quant_factor" class="anchor field">§</a><code>b_quant_factor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>qscale factor between IP and B-frames
+If &gt; 0 then the last P-frame quantizer will be used (q= lastp_q<em>factor+offset).
+If &lt; 0 then normal ratecontrol will be done (q= -normal_q</em>factor+offset).</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.b_quant_offset" class="structfield section-header"><a href="#structfield.b_quant_offset" class="anchor field">§</a><code>b_quant_offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>qscale offset between IP and B-frames</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.i_quant_factor" class="structfield section-header"><a href="#structfield.i_quant_factor" class="anchor field">§</a><code>i_quant_factor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>qscale factor between P- and I-frames
+If &gt; 0 then the last P-frame quantizer will be used (q = lastp_q * factor + offset).
+If &lt; 0 then normal ratecontrol will be done (q= -normal_q*factor+offset).</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.i_quant_offset" class="structfield section-header"><a href="#structfield.i_quant_offset" class="anchor field">§</a><code>i_quant_offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>qscale offset between P and I-frames</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.lumi_masking" class="structfield section-header"><a href="#structfield.lumi_masking" class="anchor field">§</a><code>lumi_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>luminance masking (0-&gt; disabled)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.temporal_cplx_masking" class="structfield section-header"><a href="#structfield.temporal_cplx_masking" class="anchor field">§</a><code>temporal_cplx_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>temporary complexity masking (0-&gt; disabled)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.spatial_cplx_masking" class="structfield section-header"><a href="#structfield.spatial_cplx_masking" class="anchor field">§</a><code>spatial_cplx_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>spatial complexity masking (0-&gt; disabled)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.p_masking" class="structfield section-header"><a href="#structfield.p_masking" class="anchor field">§</a><code>p_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>p block masking (0-&gt; disabled)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.dark_masking" class="structfield section-header"><a href="#structfield.dark_masking" class="anchor field">§</a><code>dark_masking: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>darkness masking (0-&gt; disabled)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.nsse_weight" class="structfield section-header"><a href="#structfield.nsse_weight" class="anchor field">§</a><code>nsse_weight: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>noise vs. sse weight for the nsse comparison function</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.me_cmp" class="structfield section-header"><a href="#structfield.me_cmp" class="anchor field">§</a><code>me_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>motion estimation comparison function</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.me_sub_cmp" class="structfield section-header"><a href="#structfield.me_sub_cmp" class="anchor field">§</a><code>me_sub_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>subpixel motion estimation comparison function</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.mb_cmp" class="structfield section-header"><a href="#structfield.mb_cmp" class="anchor field">§</a><code>mb_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>macroblock comparison function (not supported yet)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.ildct_cmp" class="structfield section-header"><a href="#structfield.ildct_cmp" class="anchor field">§</a><code>ildct_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>interlaced DCT comparison function</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.dia_size" class="structfield section-header"><a href="#structfield.dia_size" class="anchor field">§</a><code>dia_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>ME diamond size &amp; shape</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.last_predictor_count" class="structfield section-header"><a href="#structfield.last_predictor_count" class="anchor field">§</a><code>last_predictor_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>amount of previous MV predictors (2a+1 x 2a+1 square)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.me_pre_cmp" class="structfield section-header"><a href="#structfield.me_pre_cmp" class="anchor field">§</a><code>me_pre_cmp: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>motion estimation prepass comparison function</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.pre_dia_size" class="structfield section-header"><a href="#structfield.pre_dia_size" class="anchor field">§</a><code>pre_dia_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>ME prepass diamond size &amp; shape</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.me_subpel_quality" class="structfield section-header"><a href="#structfield.me_subpel_quality" class="anchor field">§</a><code>me_subpel_quality: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>subpel ME quality</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.me_range" class="structfield section-header"><a href="#structfield.me_range" class="anchor field">§</a><code>me_range: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>maximum motion estimation search range in subpel units
+If 0 then no limit.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.mb_decision" class="structfield section-header"><a href="#structfield.mb_decision" class="anchor field">§</a><code>mb_decision: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>macroblock decision mode</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.intra_matrix" class="structfield section-header"><a href="#structfield.intra_matrix" class="anchor field">§</a><code>intra_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a></code></span><div class="docblock"><p>custom intra quantization matrix
+Must be allocated with the av_malloc() family of functions, and will be freed in
+avcodec_free_context().</p>
+<ul>
+<li>encoding: Set/allocated by user, freed by libavcodec. Can be NULL.</li>
+<li>decoding: Set/allocated/freed by libavcodec.</li>
+</ul>
+</div><span id="structfield.inter_matrix" class="structfield section-header"><a href="#structfield.inter_matrix" class="anchor field">§</a><code>inter_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a></code></span><div class="docblock"><p>custom inter quantization matrix
+Must be allocated with the av_malloc() family of functions, and will be freed in
+avcodec_free_context().</p>
+<ul>
+<li>encoding: Set/allocated by user, freed by libavcodec. Can be NULL.</li>
+<li>decoding: Set/allocated/freed by libavcodec.</li>
+</ul>
+</div><span id="structfield.chroma_intra_matrix" class="structfield section-header"><a href="#structfield.chroma_intra_matrix" class="anchor field">§</a><code>chroma_intra_matrix: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a></code></span><div class="docblock"><p>custom intra quantization matrix</p>
+<ul>
+<li>encoding: Set by user, can be NULL.</li>
+<li>decoding: unused.</li>
+</ul>
+</div><span id="structfield.intra_dc_precision" class="structfield section-header"><a href="#structfield.intra_dc_precision" class="anchor field">§</a><code>intra_dc_precision: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>precision of the intra DC coefficient - 8</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by libavcodec
+@deprecated Use the MPEG-2 encoder’s private option “intra_dc_precision” instead.</li>
+</ul>
+</div><span id="structfield.mb_lmin" class="structfield section-header"><a href="#structfield.mb_lmin" class="anchor field">§</a><code>mb_lmin: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>minimum MB Lagrange multiplier</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.mb_lmax" class="structfield section-header"><a href="#structfield.mb_lmax" class="anchor field">§</a><code>mb_lmax: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>maximum MB Lagrange multiplier</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.bidir_refine" class="structfield section-header"><a href="#structfield.bidir_refine" class="anchor field">§</a><code>bidir_refine: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.keyint_min" class="structfield section-header"><a href="#structfield.keyint_min" class="anchor field">§</a><code>keyint_min: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>minimum GOP size</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.gop_size" class="structfield section-header"><a href="#structfield.gop_size" class="anchor field">§</a><code>gop_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>the number of pictures in a group of pictures, or 0 for intra_only</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.mv0_threshold" class="structfield section-header"><a href="#structfield.mv0_threshold" class="anchor field">§</a><code>mv0_threshold: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Note: Value depends upon the compare function used for fullpel ME.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.slices" class="structfield section-header"><a href="#structfield.slices" class="anchor field">§</a><code>slices: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of slices.
+Indicates number of picture subdivisions. Used for parallelized
+decoding.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.sample_rate" class="structfield section-header"><a href="#structfield.sample_rate" class="anchor field">§</a><code>sample_rate: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>&lt; samples per second</p>
+</div><span id="structfield.sample_fmt" class="structfield section-header"><a href="#structfield.sample_fmt" class="anchor field">§</a><code>sample_fmt: <a class="enum" href="enum.AVSampleFormat.html" title="enum ffmpeg_sys_next::AVSampleFormat">AVSampleFormat</a></code></span><div class="docblock"><p>&lt; sample format</p>
+</div><span id="structfield.ch_layout" class="structfield section-header"><a href="#structfield.ch_layout" class="anchor field">§</a><code>ch_layout: <a class="struct" href="struct.AVChannelLayout.html" title="struct ffmpeg_sys_next::AVChannelLayout">AVChannelLayout</a></code></span><div class="docblock"><p>Audio channel layout.</p>
+<ul>
+<li>encoding: must be set by the caller, to one of AVCodec.ch_layouts.</li>
+<li>decoding: may be set by the caller if known e.g. from the container.
+The decoder can then override during decoding as needed.</li>
+</ul>
+</div><span id="structfield.frame_size" class="structfield section-header"><a href="#structfield.frame_size" class="anchor field">§</a><code>frame_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of samples per channel in an audio frame.</p>
+<ul>
+<li>encoding: set by libavcodec in avcodec_open2(). Each submitted frame
+except the last must contain exactly frame_size samples per channel.
+May be 0 when the codec has AV_CODEC_CAP_VARIABLE_FRAME_SIZE set, then the
+frame size is not restricted.</li>
+<li>decoding: may be set by some decoders to indicate constant frame size</li>
+</ul>
+</div><span id="structfield.block_align" class="structfield section-header"><a href="#structfield.block_align" class="anchor field">§</a><code>block_align: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>number of bytes per packet if constant and known or 0
+Used by some WAV based audio codecs.</p>
+</div><span id="structfield.cutoff" class="structfield section-header"><a href="#structfield.cutoff" class="anchor field">§</a><code>cutoff: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Audio cutoff bandwidth (0 means “automatic”)</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.audio_service_type" class="structfield section-header"><a href="#structfield.audio_service_type" class="anchor field">§</a><code>audio_service_type: <a class="enum" href="enum.AVAudioServiceType.html" title="enum ffmpeg_sys_next::AVAudioServiceType">AVAudioServiceType</a></code></span><div class="docblock"><p>Type of service that the audio stream conveys.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by libavcodec.</li>
+</ul>
+</div><span id="structfield.request_sample_fmt" class="structfield section-header"><a href="#structfield.request_sample_fmt" class="anchor field">§</a><code>request_sample_fmt: <a class="enum" href="enum.AVSampleFormat.html" title="enum ffmpeg_sys_next::AVSampleFormat">AVSampleFormat</a></code></span><div class="docblock"><p>desired sample format</p>
+<ul>
+<li>encoding: Not used.</li>
+<li>decoding: Set by user.
+Decoder will decode to this format if it can.</li>
+</ul>
+</div><span id="structfield.initial_padding" class="structfield section-header"><a href="#structfield.initial_padding" class="anchor field">§</a><code>initial_padding: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Audio only. The number of “priming” samples (padding) inserted by the
+encoder at the beginning of the audio. I.e. this number of leading
+decoded samples must be discarded by the caller to get the original audio
+without leading padding.</p>
+<ul>
+<li>decoding: unused</li>
+<li>encoding: Set by libavcodec. The timestamps on the output packets are
+adjusted by the encoder so that they always refer to the
+first sample of the data actually contained in the packet,
+including any added padding.  E.g. if the timebase is
+1/samplerate and the timestamp of the first input sample is
+0, the timestamp of the first output packet will be
+-initial_padding.</li>
+</ul>
+</div><span id="structfield.trailing_padding" class="structfield section-header"><a href="#structfield.trailing_padding" class="anchor field">§</a><code>trailing_padding: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Audio only. The amount of padding (in samples) appended by the encoder to
+the end of the audio. I.e. this number of decoded samples must be
+discarded by the caller from the end of the stream to get the original
+audio without any trailing padding.</p>
+<ul>
+<li>decoding: unused</li>
+<li>encoding: unused</li>
+</ul>
+</div><span id="structfield.seek_preroll" class="structfield section-header"><a href="#structfield.seek_preroll" class="anchor field">§</a><code>seek_preroll: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of samples to skip after a discontinuity</p>
+<ul>
+<li>decoding: unused</li>
+<li>encoding: set by libavcodec</li>
+</ul>
+</div><span id="structfield.get_buffer2" class="structfield section-header"><a href="#structfield.get_buffer2" class="anchor field">§</a><code>get_buffer2: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, frame: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>, flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;</code></span><div class="docblock"><p>This callback is called at the beginning of each frame to get data
+buffer(s) for it. There may be one contiguous buffer for all the data or
+there may be a buffer per each data plane or anything in between. What
+this means is, you may set however many entries in buf[] you feel necessary.
+Each buffer must be reference-counted using the AVBuffer API (see description
+of buf[] below).</p>
+<p>The following fields will be set in the frame before this callback is
+called:</p>
+<ul>
+<li>format</li>
+<li>width, height (video only)</li>
+<li>sample_rate, channel_layout, nb_samples (audio only)
+Their values may differ from the corresponding values in
+AVCodecContext. This callback must use the frame values, not the codec
+context values, to calculate the required buffer size.</li>
+</ul>
+<p>This callback must fill the following fields in the frame:</p>
+<ul>
+<li>data[]</li>
+<li>linesize[]</li>
+<li>extended_data:
+<ul>
+<li>if the data is planar audio with more than 8 channels, then this
+callback must allocate and fill extended_data to contain all pointers
+to all data planes. data[] must hold as many pointers as it can.
+extended_data must be allocated with av_malloc() and will be freed in
+av_frame_unref().</li>
+<li>otherwise extended_data must point to data</li>
+</ul>
+</li>
+<li>buf[] must contain one or more pointers to AVBufferRef structures. Each of
+the frame’s data and extended_data pointers must be contained in these. That
+is, one AVBufferRef for each allocated chunk of memory, not necessarily one
+AVBufferRef per data[] entry. See: av_buffer_create(), av_buffer_alloc(),
+and av_buffer_ref().</li>
+<li>extended_buf and nb_extended_buf must be allocated with av_malloc() by
+this callback and filled with the extra buffers if there are more
+buffers than buf[] can hold. extended_buf will be freed in
+av_frame_unref().
+Decoders will generally initialize the whole buffer before it is output
+but it can in rare error conditions happen that uninitialized data is passed
+through. \important The buffers returned by get_buffer* should thus not contain sensitive
+data.</li>
+</ul>
+<p>If AV_CODEC_CAP_DR1 is not set then get_buffer2() must call
+avcodec_default_get_buffer2() instead of providing buffers allocated by
+some other means.</p>
+<p>Each data plane must be aligned to the maximum required by the target
+CPU.</p>
+<p>@see avcodec_default_get_buffer2()</p>
+<p>Video:</p>
+<p>If AV_GET_BUFFER_FLAG_REF is set in flags then the frame may be reused
+(read and/or written to if it is writable) later by libavcodec.</p>
+<p>avcodec_align_dimensions2() should be used to find the required width and
+height, as they normally need to be rounded up to the next multiple of 16.</p>
+<p>Some decoders do not support linesizes changing between frames.</p>
+<p>If frame multithreading is used, this callback may be called from a
+different thread, but not from more than one at once. Does not need to be
+reentrant.</p>
+<p>@see avcodec_align_dimensions2()</p>
+<p>Audio:</p>
+<p>Decoders request a buffer of a particular size by setting
+AVFrame.nb_samples prior to calling get_buffer2(). The decoder may,
+however, utilize only part of the buffer by setting AVFrame.nb_samples
+to a smaller value in the output frame.</p>
+<p>As a convenience, av_samples_get_buffer_size() and
+av_samples_fill_arrays() in libavutil may be used by custom get_buffer2()
+functions to find the required data size and to fill data pointers and
+linesize. In AVFrame.linesize, only linesize[0] may be set for audio
+since all planes must be the same size.</p>
+<p>@see av_samples_get_buffer_size(), av_samples_fill_arrays()</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by libavcodec, user can override.</li>
+</ul>
+</div><span id="structfield.bit_rate_tolerance" class="structfield section-header"><a href="#structfield.bit_rate_tolerance" class="anchor field">§</a><code>bit_rate_tolerance: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>number of bits the bitstream is allowed to diverge from the reference.
+the reference can be CBR (for CBR pass1) or VBR (for pass2)</p>
+<ul>
+<li>encoding: Set by user; unused for constant quantizer encoding.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.global_quality" class="structfield section-header"><a href="#structfield.global_quality" class="anchor field">§</a><code>global_quality: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Global quality for codecs which cannot change it per frame.
+This should be proportional to MPEG-1/2/4 qscale.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.compression_level" class="structfield section-header"><a href="#structfield.compression_level" class="anchor field">§</a><code>compression_level: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.qcompress" class="structfield section-header"><a href="#structfield.qcompress" class="anchor field">§</a><code>qcompress: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>&lt; amount of qscale change between easy &amp; hard scenes (0.0-1.0)</p>
+</div><span id="structfield.qblur" class="structfield section-header"><a href="#structfield.qblur" class="anchor field">§</a><code>qblur: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>&lt; amount of qscale smoothing over time (0.0-1.0)</p>
+</div><span id="structfield.qmin" class="structfield section-header"><a href="#structfield.qmin" class="anchor field">§</a><code>qmin: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>minimum quantizer</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.qmax" class="structfield section-header"><a href="#structfield.qmax" class="anchor field">§</a><code>qmax: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>maximum quantizer</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.max_qdiff" class="structfield section-header"><a href="#structfield.max_qdiff" class="anchor field">§</a><code>max_qdiff: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>maximum quantizer difference between frames</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.rc_buffer_size" class="structfield section-header"><a href="#structfield.rc_buffer_size" class="anchor field">§</a><code>rc_buffer_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>decoder bitstream buffer size</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: May be set by libavcodec.</li>
+</ul>
+</div><span id="structfield.rc_override_count" class="structfield section-header"><a href="#structfield.rc_override_count" class="anchor field">§</a><code>rc_override_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>ratecontrol override, see RcOverride</p>
+<ul>
+<li>encoding: Allocated/set/freed by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.rc_override" class="structfield section-header"><a href="#structfield.rc_override" class="anchor field">§</a><code>rc_override: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.RcOverride.html" title="struct ffmpeg_sys_next::RcOverride">RcOverride</a></code></span><span id="structfield.rc_max_rate" class="structfield section-header"><a href="#structfield.rc_max_rate" class="anchor field">§</a><code>rc_max_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>maximum bitrate</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user, may be overwritten by libavcodec.</li>
+</ul>
+</div><span id="structfield.rc_min_rate" class="structfield section-header"><a href="#structfield.rc_min_rate" class="anchor field">§</a><code>rc_min_rate: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>minimum bitrate</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.rc_max_available_vbv_use" class="structfield section-header"><a href="#structfield.rc_max_available_vbv_use" class="anchor field">§</a><code>rc_max_available_vbv_use: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>Ratecontrol attempt to use, at maximum, <value> of what can be used without an underflow.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused.</li>
+</ul>
+</div><span id="structfield.rc_min_vbv_overflow_use" class="structfield section-header"><a href="#structfield.rc_min_vbv_overflow_use" class="anchor field">§</a><code>rc_min_vbv_overflow_use: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a></code></span><div class="docblock"><p>Ratecontrol attempt to use, at least, <value> times the amount needed to prevent a vbv overflow.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused.</li>
+</ul>
+</div><span id="structfield.rc_initial_buffer_occupancy" class="structfield section-header"><a href="#structfield.rc_initial_buffer_occupancy" class="anchor field">§</a><code>rc_initial_buffer_occupancy: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of bits which should be loaded into the rc buffer before decoding starts.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.trellis" class="structfield section-header"><a href="#structfield.trellis" class="anchor field">§</a><code>trellis: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>trellis RD quantization</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.stats_out" class="structfield section-header"><a href="#structfield.stats_out" class="anchor field">§</a><code>stats_out: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a></code></span><div class="docblock"><p>pass1 encoding statistics output buffer</p>
+<ul>
+<li>encoding: Set by libavcodec.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.stats_in" class="structfield section-header"><a href="#structfield.stats_in" class="anchor field">§</a><code>stats_in: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a></code></span><div class="docblock"><p>pass2 encoding statistics input buffer
+Concatenated stuff from stats_out of pass1 should be placed here.</p>
+<ul>
+<li>encoding: Allocated/set/freed by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.workaround_bugs" class="structfield section-header"><a href="#structfield.workaround_bugs" class="anchor field">§</a><code>workaround_bugs: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Work around bugs in encoders which sometimes cannot be detected automatically.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by user</li>
+</ul>
+</div><span id="structfield.strict_std_compliance" class="structfield section-header"><a href="#structfield.strict_std_compliance" class="anchor field">§</a><code>strict_std_compliance: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>strictly follow the standard (MPEG-4, …).</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.
+Setting this to STRICT or higher means the encoder and decoder will
+generally do stupid things, whereas setting it to unofficial or lower
+will mean the encoder might produce output that is not supported by all
+spec-compliant decoders. Decoders don’t differentiate between normal,
+unofficial and experimental (that is, they always try to decode things
+when they can) unless they are explicitly asked to behave stupidly
+(=strictly conform to the specs)
+This may only be set to one of the FF_COMPLIANCE_* values in defs.h.</li>
+</ul>
+</div><span id="structfield.error_concealment" class="structfield section-header"><a href="#structfield.error_concealment" class="anchor field">§</a><code>error_concealment: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>error concealment flags</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.debug" class="structfield section-header"><a href="#structfield.debug" class="anchor field">§</a><code>debug: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>debug</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.err_recognition" class="structfield section-header"><a href="#structfield.err_recognition" class="anchor field">§</a><code>err_recognition: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Error recognition; may misdetect some more or less valid parts as errors.
+This is a bitfield of the AV_EF_* values defined in defs.h.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.hwaccel" class="structfield section-header"><a href="#structfield.hwaccel" class="anchor field">§</a><code>hwaccel: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVHWAccel.html" title="struct ffmpeg_sys_next::AVHWAccel">AVHWAccel</a></code></span><div class="docblock"><p>Hardware accelerator in use</p>
+<ul>
+<li>encoding: unused.</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><span id="structfield.hwaccel_context" class="structfield section-header"><a href="#structfield.hwaccel_context" class="anchor field">§</a><code>hwaccel_context: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a></code></span><div class="docblock"><p>Legacy hardware accelerator context.</p>
+<p>For some hardware acceleration methods, the caller may use this field to
+signal hwaccel-specific data to the codec. The struct pointed to by this
+pointer is hwaccel-dependent and defined in the respective header. Please
+refer to the FFmpeg HW accelerator documentation to know how to fill
+this.</p>
+<p>In most cases this field is optional - the necessary information may also
+be provided to libavcodec through @ref hw_frames_ctx or @ref
+hw_device_ctx (see avcodec_get_hw_config()). However, in some cases it
+may be the only method of signalling some (optional) information.</p>
+<p>The struct and its contents are owned by the caller.</p>
+<ul>
+<li>encoding: May be set by the caller before avcodec_open2(). Must remain
+valid until avcodec_free_context().</li>
+<li>decoding: May be set by the caller in the get_format() callback.
+Must remain valid until the next get_format() call,
+or avcodec_free_context() (whichever comes first).</li>
+</ul>
+</div><span id="structfield.hw_frames_ctx" class="structfield section-header"><a href="#structfield.hw_frames_ctx" class="anchor field">§</a><code>hw_frames_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a></code></span><div class="docblock"><p>A reference to the AVHWFramesContext describing the input (for encoding)
+or output (decoding) frames. The reference is set by the caller and
+afterwards owned (and freed) by libavcodec - it should never be read by
+the caller after being set.</p>
+<ul>
+<li>
+<p>decoding: This field should be set by the caller from the get_format()
+callback. The previous reference (if any) will always be
+unreffed by libavcodec before the get_format() call.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>      If the default get_buffer2() is used with a hwaccel pixel
+      format, then this AVHWFramesContext will be used <span class="kw">for
+      </span>allocating the frame buffers.</code></pre></div></li>
+<li>
+<p>encoding: For hardware encoders configured to use a hwaccel pixel
+format, this field should be set by the caller to a reference
+to the AVHWFramesContext describing input frames.
+AVHWFramesContext.format must be equal to
+AVCodecContext.pix_fmt.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>      This field should be set before avcodec_open2() is called.</code></pre></div></li>
+</ul>
+</div><span id="structfield.hw_device_ctx" class="structfield section-header"><a href="#structfield.hw_device_ctx" class="anchor field">§</a><code>hw_device_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVBufferRef.html" title="struct ffmpeg_sys_next::AVBufferRef">AVBufferRef</a></code></span><div class="docblock"><p>A reference to the AVHWDeviceContext describing the device which will
+be used by a hardware encoder/decoder.  The reference is set by the
+caller and afterwards owned (and freed) by libavcodec.</p>
+<p>This should be used if either the codec device does not require
+hardware frames or any that are used are to be allocated internally by
+libavcodec.  If the user wishes to supply any of the frames used as
+encoder input or decoder output then hw_frames_ctx should be used
+instead.  When hw_frames_ctx is set in get_format() for a decoder, this
+field will be ignored while decoding the associated stream segment, but
+may again be used on a following one after another get_format() call.</p>
+<p>For both encoders and decoders this field should be set before
+avcodec_open2() is called and must not be written to thereafter.</p>
+<p>Note that some decoders may require this field to be set initially in
+order to support hw_frames_ctx at all - in that case, all frames
+contexts used must be created on the same device.</p>
+</div><span id="structfield.hwaccel_flags" class="structfield section-header"><a href="#structfield.hwaccel_flags" class="anchor field">§</a><code>hwaccel_flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Bit set of AV_HWACCEL_FLAG_* flags, which affect hardware accelerated
+decoding (if active).</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user (either before avcodec_open2(), or in the
+AVCodecContext.get_format callback)</li>
+</ul>
+</div><span id="structfield.extra_hw_frames" class="structfield section-header"><a href="#structfield.extra_hw_frames" class="anchor field">§</a><code>extra_hw_frames: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Video decoding only.  Sets the number of extra hardware frames which
+the decoder will allocate for use by the caller.  This must be set
+before avcodec_open2() is called.</p>
+<p>Some hardware decoders require all frames that they will use for
+output to be defined in advance before decoding starts.  For such
+decoders, the hardware frame pool must therefore be of a fixed size.
+The extra frames set here are on top of any number that the decoder
+needs internally in order to operate normally (for example, frames
+used as reference pictures).</p>
+</div><span id="structfield.error" class="structfield section-header"><a href="#structfield.error" class="anchor field">§</a><code>error: [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.array.html">8</a>]</code></span><div class="docblock"><p>error</p>
+<ul>
+<li>encoding: Set by libavcodec if flags &amp; AV_CODEC_FLAG_PSNR.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.dct_algo" class="structfield section-header"><a href="#structfield.dct_algo" class="anchor field">§</a><code>dct_algo: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>DCT algorithm, see FF_DCT_* below</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.idct_algo" class="structfield section-header"><a href="#structfield.idct_algo" class="anchor field">§</a><code>idct_algo: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>IDCT algorithm, see FF_IDCT_* below.</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.bits_per_coded_sample" class="structfield section-header"><a href="#structfield.bits_per_coded_sample" class="anchor field">§</a><code>bits_per_coded_sample: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>bits per sample/pixel from the demuxer (needed for huffyuv).</p>
+<ul>
+<li>encoding: Set by libavcodec.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.bits_per_raw_sample" class="structfield section-header"><a href="#structfield.bits_per_raw_sample" class="anchor field">§</a><code>bits_per_raw_sample: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Bits per sample/pixel of internal libavcodec pixel/sample format.</p>
+<ul>
+<li>encoding: set by user.</li>
+<li>decoding: set by libavcodec.</li>
+</ul>
+</div><span id="structfield.thread_count" class="structfield section-header"><a href="#structfield.thread_count" class="anchor field">§</a><code>thread_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>thread count
+is used to decide how many independent tasks should be passed to execute()</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.thread_type" class="structfield section-header"><a href="#structfield.thread_type" class="anchor field">§</a><code>thread_type: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Which multithreading methods to use.
+Use of FF_THREAD_FRAME will increase decoding delay by one frame per thread,
+so clients which cannot provide future frames should not use it.</p>
+<ul>
+<li>encoding: Set by user, otherwise the default is used.</li>
+<li>decoding: Set by user, otherwise the default is used.</li>
+</ul>
+</div><span id="structfield.active_thread_type" class="structfield section-header"><a href="#structfield.active_thread_type" class="anchor field">§</a><code>active_thread_type: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Which multithreading methods are in use by the codec.</p>
+<ul>
+<li>encoding: Set by libavcodec.</li>
+<li>decoding: Set by libavcodec.</li>
+</ul>
+</div><span id="structfield.execute" class="structfield section-header"><a href="#structfield.execute" class="anchor field">§</a><code>execute: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, func: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, arg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;, arg2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, ret: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;</code></span><div class="docblock"><p>The codec may call this to execute several independent things.
+It will return only after finishing all tasks.
+The user may replace this with some multithreaded implementation,
+the default implementation will execute the parts serially.
+@param count the number of things to execute</p>
+<ul>
+<li>encoding: Set by libavcodec, user can override.</li>
+<li>decoding: Set by libavcodec, user can override.</li>
+</ul>
+</div><span id="structfield.execute2" class="structfield section-header"><a href="#structfield.execute2" class="anchor field">§</a><code>execute2: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, func: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(c2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, arg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, jobnr: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, threadnr: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;, arg2: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, ret: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>, count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;</code></span><div class="docblock"><p>The codec may call this to execute several independent things.
+It will return only after finishing all tasks.
+The user may replace this with some multithreaded implementation,
+the default implementation will execute the parts serially.
+@param c context passed also to func
+@param count the number of things to execute
+@param arg2 argument passed unchanged to func
+@param ret return values of executed functions, must have space for “count” values. May be NULL.
+@param func function that will be called count times, with jobnr from 0 to count-1.
+threadnr will be in the range 0 to c-&gt;thread_count-1 &lt; MAX_THREADS and so that no
+two instances of func executing at the same time will have the same threadnr.
+@return always 0 currently, but code should handle a future improvement where when any call to func
+returns &lt; 0 no further calls to func may be done and &lt; 0 is returned.</p>
+<ul>
+<li>encoding: Set by libavcodec, user can override.</li>
+<li>decoding: Set by libavcodec, user can override.</li>
+</ul>
+</div><span id="structfield.profile" class="structfield section-header"><a href="#structfield.profile" class="anchor field">§</a><code>profile: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>profile</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by libavcodec.
+See the AV_PROFILE_* defines in defs.h.</li>
+</ul>
+</div><span id="structfield.level" class="structfield section-header"><a href="#structfield.level" class="anchor field">§</a><code>level: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Encoding level descriptor.</p>
+<ul>
+<li>encoding: Set by user, corresponds to a specific level defined by the
+codec, usually corresponding to the profile level, if not specified it
+is set to AV_LEVEL_UNKNOWN.</li>
+<li>decoding: Set by libavcodec.
+See AV_LEVEL_* in defs.h.</li>
+</ul>
+</div><span id="structfield.properties" class="structfield section-header"><a href="#structfield.properties" class="anchor field">§</a><code>properties: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a></code></span><div class="docblock"><p>Properties of the stream that gets decoded</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: set by libavcodec</li>
+</ul>
+</div><span id="structfield.skip_loop_filter" class="structfield section-header"><a href="#structfield.skip_loop_filter" class="anchor field">§</a><code>skip_loop_filter: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a></code></span><div class="docblock"><p>Skip loop filtering for selected frames.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.skip_idct" class="structfield section-header"><a href="#structfield.skip_idct" class="anchor field">§</a><code>skip_idct: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a></code></span><div class="docblock"><p>Skip IDCT/dequantization for selected frames.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.skip_frame" class="structfield section-header"><a href="#structfield.skip_frame" class="anchor field">§</a><code>skip_frame: <a class="enum" href="enum.AVDiscard.html" title="enum ffmpeg_sys_next::AVDiscard">AVDiscard</a></code></span><div class="docblock"><p>Skip decoding for selected frames.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.skip_alpha" class="structfield section-header"><a href="#structfield.skip_alpha" class="anchor field">§</a><code>skip_alpha: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Skip processing alpha if supported by codec.
+Note that if the format uses pre-multiplied alpha (common with VP6,
+and recommended due to better video quality/compression)
+the image will look as if alpha-blended onto a black background.
+However for formats that do not use pre-multiplied alpha
+there might be serious artefacts (though e.g. libswscale currently
+assumes pre-multiplied alpha anyway).</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: unused</li>
+</ul>
+</div><span id="structfield.skip_top" class="structfield section-header"><a href="#structfield.skip_top" class="anchor field">§</a><code>skip_top: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of macroblock rows at the top which are skipped.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.skip_bottom" class="structfield section-header"><a href="#structfield.skip_bottom" class="anchor field">§</a><code>skip_bottom: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Number of macroblock rows at the bottom which are skipped.</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.lowres" class="structfield section-header"><a href="#structfield.lowres" class="anchor field">§</a><code>lowres: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>low resolution decoding, 1-&gt; 1/2 size, 2-&gt;1/4 size</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.codec_descriptor" class="structfield section-header"><a href="#structfield.codec_descriptor" class="anchor field">§</a><code>codec_descriptor: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVCodecDescriptor.html" title="struct ffmpeg_sys_next::AVCodecDescriptor">AVCodecDescriptor</a></code></span><div class="docblock"><p>AVCodecDescriptor</p>
+<ul>
+<li>encoding: unused.</li>
+<li>decoding: set by libavcodec.</li>
+</ul>
+</div><span id="structfield.sub_charenc" class="structfield section-header"><a href="#structfield.sub_charenc" class="anchor field">§</a><code>sub_charenc: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a></code></span><div class="docblock"><p>Character encoding of the input subtitles file.</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: unused</li>
+</ul>
+</div><span id="structfield.sub_charenc_mode" class="structfield section-header"><a href="#structfield.sub_charenc_mode" class="anchor field">§</a><code>sub_charenc_mode: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Subtitles character encoding mode. Formats or codecs might be adjusting
+this setting (if they are doing the conversion themselves for instance).</p>
+<ul>
+<li>decoding: set by libavcodec</li>
+<li>encoding: unused</li>
+</ul>
+</div><span id="structfield.subtitle_header_size" class="structfield section-header"><a href="#structfield.subtitle_header_size" class="anchor field">§</a><code>subtitle_header_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Header containing style information for text subtitles.
+For SUBTITLE_ASS subtitle type, it should contain the whole ASS
+[Script Info] and [V4+ Styles] section, plus the [Events] line and
+the Format line following. It shouldn’t include any Dialogue line.</p>
+<ul>
+<li>encoding: May be set by the caller before avcodec_open2() to an array
+allocated with the av_malloc() family of functions.</li>
+<li>decoding: May be set by libavcodec in avcodec_open2().</li>
+</ul>
+<p>After being set, the array is owned by the codec and freed in
+avcodec_free_context().</p>
+</div><span id="structfield.subtitle_header" class="structfield section-header"><a href="#structfield.subtitle_header" class="anchor field">§</a><code>subtitle_header: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a></code></span><span id="structfield.dump_separator" class="structfield section-header"><a href="#structfield.dump_separator" class="anchor field">§</a><code>dump_separator: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a></code></span><div class="docblock"><p>dump format separator.
+can be “, “ or “\n      “ or anything else</p>
+<ul>
+<li>encoding: Set by user.</li>
+<li>decoding: Set by user.</li>
+</ul>
+</div><span id="structfield.codec_whitelist" class="structfield section-header"><a href="#structfield.codec_whitelist" class="anchor field">§</a><code>codec_whitelist: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a></code></span><div class="docblock"><p>‘,’ separated list of allowed decoders.
+If NULL then all are allowed</p>
+<ul>
+<li>encoding: unused</li>
+<li>decoding: set by user</li>
+</ul>
+</div><span id="structfield.coded_side_data" class="structfield section-header"><a href="#structfield.coded_side_data" class="anchor field">§</a><code>coded_side_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVPacketSideData.html" title="struct ffmpeg_sys_next::AVPacketSideData">AVPacketSideData</a></code></span><div class="docblock"><p>Additional data associated with the entire coded stream.</p>
+<ul>
+<li>decoding: may be set by user before calling avcodec_open2().</li>
+<li>encoding: may be set by libavcodec after avcodec_open2().</li>
+</ul>
+</div><span id="structfield.nb_coded_side_data" class="structfield section-header"><a href="#structfield.nb_coded_side_data" class="anchor field">§</a><code>nb_coded_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><span id="structfield.export_side_data" class="structfield section-header"><a href="#structfield.export_side_data" class="anchor field">§</a><code>export_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Bit set of AV_CODEC_EXPORT_DATA_* flags, which affects the kind of
+metadata exported in frame, packet, or coded stream side data by
+decoders and encoders.</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: set by user</li>
+</ul>
+</div><span id="structfield.max_pixels" class="structfield section-header"><a href="#structfield.max_pixels" class="anchor field">§</a><code>max_pixels: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>The number of pixels per image to maximally accept.</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: set by user</li>
+</ul>
+</div><span id="structfield.apply_cropping" class="structfield section-header"><a href="#structfield.apply_cropping" class="anchor field">§</a><code>apply_cropping: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Video decoding only. Certain video codecs support cropping, meaning that
+only a sub-rectangle of the decoded frame is intended for display.  This
+option controls how cropping is handled by libavcodec.</p>
+<p>When set to 1 (the default), libavcodec will apply cropping internally.
+I.e. it will modify the output frame width/height fields and offset the
+data pointers (only by as much as possible while preserving alignment, or
+by the full amount if the AV_CODEC_FLAG_UNALIGNED flag is set) so that
+the frames output by the decoder refer only to the cropped area. The
+crop_* fields of the output frames will be zero.</p>
+<p>When set to 0, the width/height fields of the output frames will be set
+to the coded dimensions and the crop_* fields will describe the cropping
+rectangle. Applying the cropping is left to the caller.</p>
+<p>@warning When hardware acceleration with opaque output frames is used,
+libavcodec is unable to apply cropping from the top/left border.</p>
+<p>@note when this option is set to zero, the width/height fields of the
+AVCodecContext and output AVFrames have different meanings. The codec
+context fields store display dimensions (with the coded dimensions in
+coded_width/height), while the frame fields store the coded dimensions
+(with the display dimensions being determined by the crop_* fields).</p>
+</div><span id="structfield.discard_damaged_percentage" class="structfield section-header"><a href="#structfield.discard_damaged_percentage" class="anchor field">§</a><code>discard_damaged_percentage: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>The percentage of damaged samples to discard a frame.</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: unused</li>
+</ul>
+</div><span id="structfield.max_samples" class="structfield section-header"><a href="#structfield.max_samples" class="anchor field">§</a><code>max_samples: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>The number of samples per frame to maximally accept.</p>
+<ul>
+<li>decoding: set by user</li>
+<li>encoding: set by user</li>
+</ul>
+</div><span id="structfield.get_encode_buffer" class="structfield section-header"><a href="#structfield.get_encode_buffer" class="anchor field">§</a><code>get_encode_buffer: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>, pkt: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVPacket.html" title="struct ffmpeg_sys_next::AVPacket">AVPacket</a>, flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;</code></span><div class="docblock"><p>This callback is called at the beginning of each packet to get a data
+buffer for it.</p>
+<p>The following field will be set in the packet before this callback is
+called:</p>
+<ul>
+<li>size
+This callback must use the above value to calculate the required buffer size,
+which must padded by at least AV_INPUT_BUFFER_PADDING_SIZE bytes.</li>
+</ul>
+<p>In some specific cases, the encoder may not use the entire buffer allocated by this
+callback. This will be reflected in the size value in the packet once returned by
+avcodec_receive_packet().</p>
+<p>This callback must fill the following fields in the packet:</p>
+<ul>
+<li>data: alignment requirements for AVPacket apply, if any. Some architectures and
+encoders may benefit from having aligned data.</li>
+<li>buf: must contain a pointer to an AVBufferRef structure. The packet’s
+data pointer must be contained in it. See: av_buffer_create(), av_buffer_alloc(),
+and av_buffer_ref().</li>
+</ul>
+<p>If AV_CODEC_CAP_DR1 is not set then get_encode_buffer() must call
+avcodec_default_get_encode_buffer() instead of providing a buffer allocated by
+some other means.</p>
+<p>The flags field may contain a combination of AV_GET_ENCODE_BUFFER_FLAG_ flags.
+They may be used for example to hint what use the buffer may get after being
+created.
+Implementations of this callback may ignore flags they don’t understand.
+If AV_GET_ENCODE_BUFFER_FLAG_REF is set in flags then the packet may be reused
+(read and/or written to if it is writable) later by libavcodec.</p>
+<p>This callback must be thread-safe, as when frame threading is used, it may
+be called from multiple threads simultaneously.</p>
+<p>@see avcodec_default_get_encode_buffer()</p>
+<ul>
+<li>encoding: Set by libavcodec, user can override.</li>
+<li>decoding: unused</li>
+</ul>
+</div><span id="structfield.frame_num" class="structfield section-header"><a href="#structfield.frame_num" class="anchor field">§</a><code>frame_num: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a></code></span><div class="docblock"><p>Frame counter, set by libavcodec.</p>
+<ul>
+<li>
+<p>decoding: total number of frames returned from the decoder so far.</p>
+</li>
+<li>
+<p>encoding: total number of frames passed to the encoder so far.</p>
+<p>@note the counter is not incremented if encoding/decoding resulted in
+an error.</p>
+</li>
+</ul>
+</div><span id="structfield.side_data_prefer_packet" class="structfield section-header"><a href="#structfield.side_data_prefer_packet" class="anchor field">§</a><code>side_data_prefer_packet: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><div class="docblock"><p>Decoding only. May be set by the caller before avcodec_open2() to an
+av_malloc()’ed array (or via AVOptions). Owned and freed by the decoder
+afterwards.</p>
+<p>Side data attached to decoded frames may come from several sources:</p>
+<ol>
+<li>coded_side_data, which the decoder will for certain types translate
+from packet-type to frame-type and attach to frames;</li>
+<li>side data attached to an AVPacket sent for decoding (same
+considerations as above);</li>
+<li>extracted from the coded bytestream.
+The first two cases are supplied by the caller and typically come from a
+container.</li>
+</ol>
+<p>This array configures decoder behaviour in cases when side data of the
+same type is present both in the coded bytestream and in the
+user-supplied side data (items 1. and 2. above). In all cases, at most
+one instance of each side data type will be attached to output frames. By
+default it will be the bytestream side data. Adding an
+AVPacketSideDataType value to this array will flip the preference for
+this type, thus making the decoder prefer user-supplied side data over
+bytestream. In case side data of the same type is present both in
+coded_data and attacked to a packet, the packet instance always has
+priority.</p>
+<p>The array may also contain a single -1, in which case the preference is
+switched for all side data types.</p>
+</div><span id="structfield.nb_side_data_prefer_packet" class="structfield section-header"><a href="#structfield.nb_side_data_prefer_packet" class="anchor field">§</a><code>nb_side_data_prefer_packet: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a></code></span><div class="docblock"><p>Number of entries in side_data_prefer_packet.</p>
+</div><span id="structfield.decoded_side_data" class="structfield section-header"><a href="#structfield.decoded_side_data" class="anchor field">§</a><code>decoded_side_data: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrameSideData.html" title="struct ffmpeg_sys_next::AVFrameSideData">AVFrameSideData</a></code></span><div class="docblock"><p>Array containing static side data, such as HDR10 CLL / MDCV structures.
+Side data entries should be allocated by usage of helpers defined in
+libavutil/frame.h.</p>
+<ul>
+<li>encoding: may be set by user before calling avcodec_open2() for
+encoder configuration. Afterwards owned and freed by the
+encoder.</li>
+<li>decoding: may be set by libavcodec in avcodec_open2().</li>
+</ul>
+</div><span id="structfield.nb_decoded_side_data" class="structfield section-header"><a href="#structfield.nb_decoded_side_data" class="anchor field">§</a><code>nb_decoded_side_data: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></span><span id="structfield.alpha_mode" class="structfield section-header"><a href="#structfield.alpha_mode" class="anchor field">§</a><code>alpha_mode: <a class="enum" href="enum.AVAlphaMode.html" title="enum ffmpeg_sys_next::AVAlphaMode">AVAlphaMode</a></code></span><div class="docblock"><p>Indicates how the alpha channel of the video is represented.</p>
+<ul>
+<li>encoding: Set by user</li>
+<li>decoding: Set by libavcodec</li>
+</ul>
+</div><h2 id="trait-implementations" class="section-header">Trait Implementations<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Clone-for-AVCodecContext" class="impl"><a class="src rightside" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#6990">Source</a><a href="#impl-Clone-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone" class="method trait-impl"><a class="src rightside" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#6990">Source</a><a href="#method.clone" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone" class="fn">clone</a>(&amp;self) -&gt; <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h4></section></summary><div class='docblock'>Returns a duplicate of the value. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_from" class="method trait-impl"><span class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span> · <a class="src" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#245-247">Source</a></span><a href="#method.clone_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from" class="fn">clone_from</a>(&amp;mut self, source: &amp;Self)</h4></section></summary><div class='docblock'>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from">Read more</a></div></details></div></details><section id="impl-Copy-for-AVCodecContext" class="impl"><a class="src rightside" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#6990">Source</a><a href="#impl-Copy-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section></div><h2 id="synthetic-implementations" class="section-header">Auto Trait Implementations<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-AVCodecContext" class="impl"><a href="#impl-Freeze-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-RefUnwindSafe-for-AVCodecContext" class="impl"><a href="#impl-RefUnwindSafe-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-Send-for-AVCodecContext" class="impl"><a href="#impl-Send-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-Sync-for-AVCodecContext" class="impl"><a href="#impl-Sync-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-Unpin-for-AVCodecContext" class="impl"><a href="#impl-Unpin-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-UnsafeUnpin-for-AVCodecContext" class="impl"><a href="#impl-UnsafeUnpin-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section><section id="impl-UnwindSafe-for-AVCodecContext" class="impl"><a href="#impl-UnwindSafe-for-AVCodecContext" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a></h3></section></div><h2 id="blanket-implementations" class="section-header">Blanket Implementations<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">Source</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">Source</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">Source</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">Source</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">Source</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">Source</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-CloneToUninit-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#547">Source</a><a href="#impl-CloneToUninit-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html" title="trait core::clone::CloneToUninit">CloneToUninit</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone_to_uninit" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#549">Source</a><a href="#method.clone_to_uninit" class="anchor">§</a><h4 class="code-header">unsafe fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit" class="fn">clone_to_uninit</a>(&amp;self, dest: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>)</h4></section></summary><span class="item-info"><div class="stab unstable"><span class="emoji">🔬</span><span>This is a nightly-only experimental API. (<code>clone_to_uninit</code>)</span></div></span><div class='docblock'>Performs copy-assignment from <code>self</code> to <code>dest</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">Source</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">Source</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>Returns the argument unchanged.</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">Source</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">Source</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>Calls <code>U::from(self)</code>.</p>
+<p>That is, this conversion is whatever the implementation of
+<code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> chooses to do.</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-ToOwned-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#72-74">Source</a><a href="#impl-ToOwned-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html" title="trait alloc::borrow::ToOwned">ToOwned</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Owned" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#76">Source</a><a href="#associatedtype.Owned" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#associatedtype.Owned" class="associatedtype">Owned</a> = T</h4></section></summary><div class='docblock'>The resulting type after obtaining ownership.</div></details><details class="toggle method-toggle" open><summary><section id="method.to_owned" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#77">Source</a><a href="#method.to_owned" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned" class="fn">to_owned</a>(&amp;self) -&gt; T</h4></section></summary><div class='docblock'>Creates owned data from borrowed data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned">Read more</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#81">Source</a><a href="#method.clone_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into" class="fn">clone_into</a>(&amp;self, target: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a>)</h4></section></summary><div class='docblock'>Uses borrowed data to replace owned data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into">Read more</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">Source</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">Source</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">Source</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>Performs the conversion.</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">Source</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">Source</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>The type returned in the event of a conversion error.</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">Source</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>Performs the conversion.</div></details></div></details></div></section></div></main></body></html>

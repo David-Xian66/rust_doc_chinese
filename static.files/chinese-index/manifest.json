@@ -1,0 +1,16 @@
+{
+  "total": 718,
+  "crates": {
+    "enigo": 15,
+    "ffmpeg_next": 144,
+    "ffmpeg_sys_next": 211,
+    "quinn": 98,
+    "rdev": 14,
+    "rustls_pki_types": 49,
+    "scrap": 0,
+    "tokio": 134,
+    "windows": 0,
+    "windows_capture": 53,
+    "windows_core": 0
+  }
+}

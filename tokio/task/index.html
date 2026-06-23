@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Asynchronous green-threads."><title>tokio::task - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/minisearch.min.js"></script><script src="../static.files/chinese-search.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Module task</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module task</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#what-are-tasks" title="What are Tasks?">What are Tasks?</a></li><li><a href="#working-with-tasks" title="Working with Tasks">Working with Tasks</a><ul><li><a href="#spawning" title="Spawning">Spawning</a></li><li><a href="#blocking-and-yielding" title="Blocking and Yielding">Blocking and Yielding</a></li></ul></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>Module <span>task</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/task/mod.rs.html#1-335">源代码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>异步绿色线程。</p>
+<h3 id="what-are-tasks"><a class="doc-anchor" href="#what-are-tasks">§</a>What are Tasks?</h3>
+<p><em>任务</em>是一个轻量级、非阻塞的执行单元。任务类似于 OS 线程，但它们不是由 OS 调度器管理，而是由 <a href="../runtime/index.html" title="mod tokio::runtime">Tokio 运行时</a>管理。这种通用模式的另一个名称是<a href="https://en.wikipedia.org/wiki/Green_threads">绿色线程</a>。如果你熟悉 <a href="https://tour.golang.org/concurrency/1">Go 的 goroutine</a>、<a href="https://kotlinlang.org/docs/reference/coroutines-overview.html">Kotlin 的协程</a>或 <a href="http://erlang.org/doc/getting_started/conc_prog.html#processes">Erlang 的进程</a>，则可以将 Tokio 的任务视为类似的东西。</p>
+<p>关于任务的关键点包括：</p>
+<ul>
+<li>
+<p>任务是<strong>轻量级</strong>的。由于任务是由 Tokio 运行时而非操作系统调度的，因此创建新任务或在任务之间切换不需要上下文切换，开销相当低。创建、运行和销毁大量任务是相当廉价的，尤其是与 OS 线程相比。</p>
+</li>
+<li>
+<p>任务被<strong>协作式</strong>调度。大多数操作系统实现<em>抢占式多任务</em>。这是一种调度技术，操作系统允许每个线程运行一段时间，然后<em>抢占</em>它，临时暂停该线程并切换到另一个线程。而任务实现的是<em>协作式多任务</em>。在协作式多任务中，任务被允许一直运行，直至它<em>让步</em>，向 Tokio 运行时的调度器表明它当前无法继续执行。当任务让步时，Tokio 运行时将切换执行下一个任务。</p>
+</li>
+<li>
+<p>任务是<strong>非阻塞</strong>的。通常，当 OS 线程执行 I/O 或必须与另一个线程同步时，它会<em>阻塞</em>，允许 OS 调度另一个线程。当任务无法继续执行时，它必须让步，从而允许 Tokio 运行时调度另一个任务。任务通常不应执行可能阻塞线程的系统调用或其他操作，因为这会阻止在同一线程上运行的其他任务的执行。相反，本模块提供了在异步上下文中运行阻塞操作的 API。</p>
+</li>
+</ul>
+<h3 id="working-with-tasks"><a class="doc-anchor" href="#working-with-tasks">§</a>Working with Tasks</h3>
+<p>本模块提供以下用于处理任务的 API：</p>
+<h4 id="spawning"><a class="doc-anchor" href="#spawning">§</a>Spawning</h4>
+<p>本模块中最重要的函数可能是 <a href="fn.spawn.html" title="fn tokio::task::spawn"><code>task::spawn</code></a>。可以将此函数视为标准库 <a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.spawn.html" title="fn std::thread::functions::spawn"><code>thread::spawn</code></a> 的异步等价物。它接受一个 <code>async</code> 块或其他 <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">future</a>，并创建一个新任务以并发运行该工作：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+task::spawn(<span class="kw">async </span>{
+    <span class="comment">// perform some work here...
+</span>});</code></pre></div>
+<p>与 <a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.spawn.html" title="fn std::thread::functions::spawn"><code>std::thread::spawn</code></a> 一样，<code>task::spawn</code> 返回一个 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 结构体。<code>JoinHandle</code> 本身是一个 future，可用于等待已生成任务的输出。例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+<span class="kw">let </span>join = task::spawn(<span class="kw">async </span>{
+    <span class="comment">// ...
+    </span><span class="string">"hello world!"
+</span>});
+
+<span class="comment">// ...
+
+// Await the result of the spawned task.
+</span><span class="kw">let </span>result = join.<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(result, <span class="string">"hello world!"</span>);</code></pre></div>
+<p>同样，与 <code>std::thread</code> 的 <a href="https://doc.rust-lang.org/1.95.0/std/thread/join_handle/struct.JoinHandle.html" title="struct std::thread::join_handle::JoinHandle"><code>JoinHandle</code> 类型</a> 一样，如果已生成的任务发生 panic，则等待其 <code>JoinHandle</code> 将返回 <a href="struct.JoinError.html" title="struct tokio::task::JoinError"><code>JoinError</code></a>。例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+<span class="kw">let </span>join = task::spawn(<span class="kw">async </span>{
+    <span class="macro">panic!</span>(<span class="string">"something bad happened!"</span>)
+});
+
+<span class="comment">// The returned result indicates that the task failed.
+</span><span class="macro">assert!</span>(join.<span class="kw">await</span>.is_err());</code></pre></div>
+<p>启用 “rt” 特性标志时，存在 <code>spawn</code>、<code>JoinHandle</code> 和 <code>JoinError</code>。</p>
+<h5 id="cancellation"><a class="doc-anchor" href="#cancellation">§</a>Cancellation</h5>
+<p>可以使用 <a href="struct.JoinHandle.html#method.abort" title="method tokio::task::JoinHandle::abort"><code>JoinHandle::abort</code></a> 或 <a href="struct.AbortHandle.html#method.abort" title="method tokio::task::AbortHandle::abort"><code>AbortHandle::abort</code></a> 方法取消已生成的任务。当调用这些方法之一时，任务被发出信号，以在下次于 <code>.await</code> 点让步时关闭。如果任务已空闲，则它将在不再次运行的情况下尽快关闭。此外，关闭 Tokio 运行时（例如通过从 <code>#[tokio::main]</code> 返回）会立即取消其上的所有任务。</p>
+<p>当任务关闭时，它将在其所让步的 <code>.await</code> 处停止运行。所有局部变量都通过运行其析构函数被销毁。一旦关闭完成，等待 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 将失败并返回<a href="struct.JoinError.html#method.is_cancelled" title="method tokio::task::JoinError::is_cancelled">已取消错误</a>。</p>
+<p>请注意，中止任务并不能保证它会以已取消错误失败，因为它可能先正常完成。例如，如果任务在 <code>abort</code> 调用与任务结束之间的任何时候都没有向运行时让步，那么 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 将改为报告任务正常退出。</p>
+<p>请注意，使用 <a href="fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 派生的任务无法被中止，因为它们不是异步的。如果对 <code>spawn_blocking</code> 任务调用 <code>abort</code>，<em>则不会产生任何效果</em>，任务将继续正常运行。例外情况是任务尚未开始运行；此时调用 <code>abort</code> 可能会阻止任务启动。</p>
+<p>请注意，对 <a href="struct.JoinHandle.html#method.abort" title="method tokio::task::JoinHandle::abort"><code>JoinHandle::abort</code></a> 的调用只是将任务调度为取消，并将在取消完成之前返回。要等待取消完成，请通过等待 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 等待任务完成。同样，<a href="struct.JoinHandle.html#method.is_finished" title="method tokio::task::JoinHandle::is_finished"><code>JoinHandle::is_finished</code></a> 方法在取消完成之前不会返回 <code>true</code>。</p>
+<p>多次调用 <a href="struct.JoinHandle.html#method.abort" title="method tokio::task::JoinHandle::abort"><code>JoinHandle::abort</code></a> 与调用一次的效果相同。</p>
+<p>Tokio 还提供 <a href="struct.AbortHandle.html" title="struct tokio::task::AbortHandle"><code>AbortHandle</code></a>，它类似于 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>，但不提供等待任务完成的机制。每个任务只能有一个 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>，但可以有多个 <a href="struct.AbortHandle.html" title="struct tokio::task::AbortHandle"><code>AbortHandle</code></a>。</p>
+<h4 id="blocking-and-yielding"><a class="doc-anchor" href="#blocking-and-yielding">§</a>Blocking and Yielding</h4>
+<p>正如我们上面讨论的，在异步任务中运行的代码不应执行可能阻塞的操作。在也运行其他任务的线程上运行的任务中执行的阻塞操作将阻塞整个线程，从而阻止其他任务的运行。</p>
+<p>相反，Tokio 提供了两个用于在异步上下文中运行阻塞操作的 API：<a href="fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>task::spawn_blocking</code></a> 和 <a href="crate::task::block_in_place"><code>task::block_in_place</code></a>。</p>
+<p>请注意，如果你从异步代码中调用非异步方法，则该非异步方法仍处于异步上下文中，因此你也应避免在其中进行阻塞操作。这包括在异步代码中销毁的对象的析构函数。</p>
+<h5 id="spawn_blocking"><a class="doc-anchor" href="#spawn_blocking">§</a><code>spawn_blocking</code></h5>
+<p><code>task::spawn_blocking</code> 函数类似于上一节讨论的 <code>task::spawn</code> 函数，但它不是在 Tokio 运行时上生成<em>非阻塞</em> future，而是在专用于阻塞任务的线程池上生成<em>阻塞</em>函数。例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+task::spawn_blocking(|| {
+    <span class="comment">// do some compute-heavy work or call synchronous code
+</span>});</code></pre></div>
+<p>就像 <code>task::spawn</code> 一样，<code>task::spawn_blocking</code> 返回一个 <code>JoinHandle</code>，我们可以使用它等待阻塞操作的结果：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>join = task::spawn_blocking(|| {
+    <span class="comment">// do some compute-heavy work or call synchronous code
+    </span><span class="string">"blocking completed"
+</span>});
+
+<span class="kw">let </span>result = join.<span class="kw">await</span><span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(result, <span class="string">"blocking completed"</span>);</code></pre></div><h5 id="block_in_place"><a class="doc-anchor" href="#block_in_place">§</a><code>block_in_place</code></h5>
+<p>使用<a href="../runtime/index.html#threaded-scheduler">多线程运行时</a>时，<a href="crate::task::block_in_place"><code>task::block_in_place</code></a> 函数也可用。与 <code>task::spawn_blocking</code> 一样，此函数允许从异步上下文运行阻塞操作。但是，与 <code>spawn_blocking</code> 不同，<code>block_in_place</code> 通过将<em>当前</em>工作线程转换为阻塞线程来工作，并将该线程上运行的其他任务移动到另一个工作线程。这可以通过避免上下文切换来提高性能。</p>
+<p>例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+<span class="kw">let </span>result = task::block_in_place(|| {
+    <span class="comment">// do some compute-heavy work or call synchronous code
+    </span><span class="string">"blocking completed"
+</span>});
+
+<span class="macro">assert_eq!</span>(result, <span class="string">"blocking completed"</span>);</code></pre></div><h5 id="yield_now"><a class="doc-anchor" href="#yield_now">§</a><code>yield_now</code></h5>
+<p>此外，本模块还提供了一个 <a href="fn.yield_now.html" title="fn tokio::task::yield_now"><code>task::yield_now</code></a> 异步函数，它类似于标准库的 <a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.yield_now.html" title="fn std::thread::functions::yield_now"><code>thread::yield_now</code></a>。调用并 <code>await</code> 此函数将使当前任务向 Tokio 运行时的调度器让步，从而允许调度其他任务。最终，让步的任务将被再次 poll，从而允许它执行。例如：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
+
+<span class="kw">async </span>{
+    task::spawn(<span class="kw">async </span>{
+        <span class="comment">// ...
+        </span><span class="macro">println!</span>(<span class="string">"spawned task done!"</span>)
+    });
+
+    <span class="comment">// Yield, allowing the newly-spawned task to execute first.
+    </span>task::yield_now().<span class="kw">await</span>;
+    <span class="macro">println!</span>(<span class="string">"main task done!"</span>);
+}</code></pre></div></div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="coop/index.html" title="mod tokio::task::coop">coop</a></dt><dd>Utilities for improved cooperative scheduling.</dd><dt><a class="mod" href="futures/index.html" title="mod tokio::task::futures">futures</a></dt><dd>Task-related futures.</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.AbortHandle.html" title="struct tokio::task::AbortHandle">Abort<wbr>Handle</a></dt><dd>An owned permission to abort a spawned task, without awaiting its completion.</dd><dt><a class="struct" href="struct.Id.html" title="struct tokio::task::Id">Id</a></dt><dd>An opaque ID that uniquely identifies a task relative to all other currently
+running tasks.</dd><dt><a class="struct" href="struct.JoinError.html" title="struct tokio::task::JoinError">Join<wbr>Error</a></dt><dd>Task failed to execute to completion.</dd><dt><a class="struct" href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle">Join<wbr>Handle</a></dt><dd>An owned permission to join on a task (await its termination).</dd><dt><a class="struct" href="struct.JoinSet.html" title="struct tokio::task::JoinSet">JoinSet</a></dt><dd>A collection of tasks spawned on a Tokio runtime.</dd><dt><a class="struct" href="struct.LocalEnterGuard.html" title="struct tokio::task::LocalEnterGuard">Local<wbr>Enter<wbr>Guard</a></dt><dd>Context guard for <code>LocalSet</code></dd><dt><a class="struct" href="struct.LocalKey.html" title="struct tokio::task::LocalKey">Local<wbr>Key</a></dt><dd>A key for task-local data.</dd><dt><a class="struct" href="struct.LocalSet.html" title="struct tokio::task::LocalSet">Local<wbr>Set</a></dt><dd>A set of tasks which are executed on the same thread.</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.id.html" title="fn tokio::task::id">id</a></dt><dd>Returns the <a href="struct.Id.html" title="struct tokio::task::Id"><code>Id</code></a> of the currently running task.</dd><dt><a class="fn" href="fn.spawn.html" title="fn tokio::task::spawn">spawn</a></dt><dd>Spawns a new asynchronous task, returning a
+<a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> for it.</dd><dt><a class="fn" href="fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking">spawn_<wbr>blocking</a></dt><dd>Runs the provided closure on a thread where blocking is acceptable.</dd><dt><a class="fn" href="fn.spawn_local.html" title="fn tokio::task::spawn_local">spawn_<wbr>local</a></dt><dd>Spawns a <code>!Send</code> future on the current <a href="struct.LocalSet.html" title="struct tokio::task::LocalSet"><code>LocalSet</code></a> or <a href="../runtime/struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a>.</dd><dt><a class="fn" href="fn.try_id.html" title="fn tokio::task::try_id">try_id</a></dt><dd>Returns the <a href="struct.Id.html" title="struct tokio::task::Id"><code>Id</code></a> of the currently running task, or <code>None</code> if called outside
+of a task.</dd><dt><a class="fn" href="fn.yield_now.html" title="fn tokio::task::yield_now">yield_<wbr>now</a></dt><dd>Yields execution back to the Tokio runtime.</dd></dl></section></div></main></body></html>

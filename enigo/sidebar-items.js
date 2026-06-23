@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["EVENT_MARKER","EXT"],"enum":["Axis","Button","Coordinate","Direction","InputError","Key","NewConError"],"fn":["set_dpi_awareness"],"mod":["agent"],"struct":["Enigo","Settings"],"trait":["Keyboard","Mouse"],"type":["InputResult"]};

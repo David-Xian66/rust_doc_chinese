@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Map a hardware frame."><title>av_hwframe_map in ffmpeg_sys_next - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="ffmpeg_sys_next" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">av_hwframe_map</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../ffmpeg_sys_next/index.html">ffmpeg_<wbr>sys_<wbr>next</a><span class="version">8.1.0</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">ffmpeg_sys_next</a></div><h1>Function <span class="fn">av_<wbr>hwframe_<wbr>map</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/ffmpeg_sys_next/Administrator\Documents\Code\demo_sc\target\debug\build\ffmpeg-sys-next-af08504b6ab8be34\out/bindings.rs.html#5490-5494">Source</a> </span></div><pre class="rust item-decl"><code>pub unsafe extern &quot;C&quot; fn av_hwframe_map(
+    dst: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>,
+    src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>,
+    flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Map a hardware frame.</p>
+<p>This has a number of different possible effects, depending on the format
+and origin of the src and dst frames.  On input, src should be a usable
+frame with valid buffers and dst should be blank (typically as just created
+by av_frame_alloc()).  src should have an associated hwframe context, and
+dst may optionally have a format and associated hwframe context.</p>
+<p>If src was created by mapping a frame from the hwframe context of dst,
+then this function undoes the mapping - dst is replaced by a reference to
+the frame that src was originally mapped from.</p>
+<p>If both src and dst have an associated hwframe context, then this function
+attempts to map the src frame from its hardware context to that of dst and
+then fill dst with appropriate data to be usable there.  This will only be
+possible if the hwframe contexts and associated devices are compatible -
+given compatible devices, av_hwframe_ctx_create_derived() can be used to
+create a hwframe context for dst in which mapping should be possible.</p>
+<p>If src has a hwframe context but dst does not, then the src frame is
+mapped to normal memory and should thereafter be usable as a normal frame.
+If the format is set on dst, then the mapping will attempt to create dst
+with that format and fail if it is not possible.  If format is unset (is
+AV_PIX_FMT_NONE) then dst will be mapped with whatever the most appropriate
+format to use is (probably the sw_format of the src hwframe context).</p>
+<p>A return value of AVERROR(ENOSYS) indicates that the mapping is not
+possible with the given arguments and hwframe setup, while other return
+values indicate that it failed somehow.</p>
+<p>On failure, the destination frame will be left blank, except for the
+hw_frames_ctx/format fields they may have been set by the caller - those will
+be preserved as they were.</p>
+<p>@param dst Destination frame, to contain the mapping.
+@param src Source frame, to be mapped.
+@param flags Some combination of AV_HWFRAME_MAP_* flags.
+@return Zero on success, negative AVERROR code on failure.</p>
+</div></details></section></div></main></body></html>

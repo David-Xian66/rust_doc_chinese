@@ -1,0 +1,27 @@
+# Cloudflare Pages cache headers
+
+# 哈希命名的静态资源（字体、JS、CSS）— 永久缓存
+/static.files/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/static.files/*.js
+/static.files/*.css
+/static.files/*.svg
+/static.files/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML 文档 — 总是重新校验
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 搜索索引碎片 — 短时间缓存（rustdoc 懒加载这些碎片）
+/search.index/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# 中文索引 JSON — 较长时间缓存（索引变更不频繁）
+/static.files/chinese-index/*.json
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# 源代码 HTML — 短时间缓存
+/src/*
+  Cache-Control: public, max-age=300, must-revalidate
