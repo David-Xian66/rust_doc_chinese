@@ -1,6 +1,7 @@
 {
-  "total": 723,
+  "total": 735,
   "crates": {
+    "bytes": 12,
     "coarsetime": 5,
     "enigo": 15,
     "ffmpeg_next": 144,
