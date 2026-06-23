@@ -1,0 +1,326 @@
+[
+ [
+  "<title>coarsetime - Rust</title>",
+  "<title>coarsetime</title>"
+ ],
+ [
+  "<title>List of all items in this crate</title>",
+  "<title>本 crate 中所有条目</title>"
+ ],
+ [
+  "<h1>List of all items</h1>",
+  "<h1>本 crate 中所有条目</h1>"
+ ],
+ [
+  "<meta name=\"description\" content=\"List of all items in this crate\">",
+  "<meta name=\"description\" content=\"本 crate 中所有条目列表\">"
+ ],
+ [
+  "<title>Redirection</title>",
+  "<title>重定向</title>"
+ ],
+ [
+  "Redirecting to <a",
+  "正在重定向至 <a"
+ ],
+ [
+  "Drag to resize sidebar",
+  "拖动以调整侧边栏宽度"
+ ],
+ [
+  "title=\"Type Aliases\"",
+  "title=\"类型别名\""
+ ],
+ [
+  "title=\"Structs\"",
+  "title=\"结构体\""
+ ],
+ [
+  "title=\"Functions\"",
+  "title=\"函数\""
+ ],
+ [
+  ">Type Aliases<",
+  ">类型别名<"
+ ],
+ [
+  "<a href=\"#aliased-type\">Aliased Type</a>",
+  "<a href=\"#aliased-type\">别名类型</a>"
+ ],
+ [
+  "<h3 id=\"aliased-type\" class=\"section-header\">Aliased Type",
+  "<h3 id=\"aliased-type\" class=\"section-header\">别名类型"
+ ],
+ [
+  "<h2 id=\"aliased-type\" class=\"section-header\">Aliased Type",
+  "<h2 id=\"aliased-type\" class=\"section-header\">别名类型"
+ ],
+ [
+  "<h2 id=\"types\" class=\"section-header\">Type Aliases",
+  "<h2 id=\"types\" class=\"section-header\">类型别名"
+ ],
+ [
+  ">Installation</a></li>",
+  ">安装</a></li>"
+ ],
+ [
+  ">Installation<",
+  ">安装<"
+ ],
+ [
+  ">Installation</h2>",
+  ">安装</h2>"
+ ],
+ [
+  "<h2 id=\"structs\" class=\"section-header\">Structs",
+  "<h2 id=\"structs\" class=\"section-header\">结构体"
+ ],
+ [
+  "<h2 id=\"functions\" class=\"section-header\">Functions",
+  "<h2 id=\"functions\" class=\"section-header\">函数"
+ ],
+ [
+  "<dd>System time</dd>",
+  "<dd>系统时间</dd>"
+ ],
+ [
+  "<dd>A duration type to represent an approximate span of time</dd>",
+  "<dd>用于表示近似时间长度的时长类型</dd>"
+ ],
+ [
+  "<dd>A service to periodically call <code>Instant::update()</code></dd>",
+  "<dd>周期性地调用 <code>Instant::update()</code> 的服务</dd>"
+ ],
+ [
+  "<dd>Alias for <code>Duration</code>.</dd>",
+  "<dd><code>Duration</code> 的别名。</dd>"
+ ],
+ [
+  "<p>System time</p>",
+  "<p>系统时间</p>"
+ ],
+ [
+  "<p>A duration type to represent an approximate span of time</p>",
+  "<p>用于表示近似时间长度的时长类型</p>"
+ ],
+ [
+  "<p>A service to periodically call <code>Instant::update()</code></p>",
+  "<p>周期性地调用 <code>Instant::update()</code> 的服务</p>"
+ ],
+ [
+  "<p>Alias for <code>Duration</code>.</p>",
+  "<p><code>Duration</code> 的别名。</p>"
+ ],
+ [
+  "<p>A measurement of a <em>monotonically</em> increasing clock.\nOpaque and useful only with <code>Duration</code>.</p>",
+  "<p>单调递增时钟的测量值。\n不透明，只能与 <code>Duration</code> 配合使用。</p>"
+ ],
+ [
+  "<p>Resulting durations are actual durations; they do not get affected by\nclock adjustments, leap seconds, or similar.\nIn order to get a measurement of the <em>wall clock</em>, use <code>Date</code> instead.</p>",
+  "<p>所得的时长是真实时长，不受时钟调整、\n闰秒等影响。\n若需获取挂钟时间，请改用 <code>Date</code>。</p>"
+ ],
+ [
+  "<p>A crate to make time measurements that focuses on speed.</p>",
+  "<p>一个专注于测速的时间测量 crate。</p>"
+ ],
+ [
+  "<p>This crate is a partial replacement for the <code>Time</code> and <code>Duration</code> structures\nfrom the standard library, with the following differences:</p>",
+  "<p>本 crate 部分替代标准库中的 <code>Time</code> 与 <code>Duration</code> 结构，\n区别如下：</p>"
+ ],
+ [
+  "<li>Speed is privileged over accuracy. In particular, <code>CLOCK_MONOTONIC_COARSE</code>\nis used to retrieve the clock value on Linux systems, and transformations avoid\noperations that can be slow on non-Intel systems.</li>",
+  "<li>速度优先于精度。在 Linux 系统上，\n特别使用 <code>CLOCK_MONOTONIC_COARSE</code> 获取时钟值，并且转换过程\n避免在非 Intel 系统上可能较慢的操作。</li>"
+ ],
+ [
+  "<li>The number of system calls can be kept to a minimum. The “most recent\ntimestamp” is always kept in memory.\nIt can be read with just a load operation, and can be\nupdated only as frequently as necessary.</li>",
+  "<li>系统调用次数可以保持在最低。最新时间戳始终缓存在内存中，\n仅需一次加载操作即可读取，且仅在必要时更新。</li>"
+ ],
+ [
+  "<p><code>coarsetime</code> is available on <a href=\"https://crates.io/crates/coarsetime\">crates.io</a> and works on\nRust stable, beta, and nightly.</p>",
+  "<p><code>coarsetime</code> 可在 <a href=\"https://crates.io/crates/coarsetime\">crates.io</a> 上获取，\n支持 Rust stable、beta 和 nightly 版本。</p>"
+ ],
+ [
+  "<p>Windows and Unix-like systems are supported.</p>",
+  "<p>支持 Windows 与类 Unix 系统。</p>"
+ ],
+ [
+  "<p>Returns the elapsed time since the UNIX epoch</p>",
+  "<p>返回自 UNIX 纪元以来经过的时间</p>"
+ ],
+ [
+  "<p>Returns the elapsed time since the UNIX epoch, based on the latest\nexplicit time update</p>",
+  "<p>基于最近一次显式时间更新，返回自 UNIX 纪元以来经过的时间</p>"
+ ],
+ [
+  "<p>Updates the cached system time.</p>\n<p>This function should be called frequently, for example in an event loop\nor using an <code>Updater</code> task.</p>",
+  "<p>更新缓存的系统时间。</p>\n<p>应当频繁调用此函数，例如在事件循环中或使用 <code>Updater</code> 任务。</p>"
+ ],
+ [
+  "<p>Sets the cached system time to the specified timestamp.\nThis function is intended for testing purposes only.\nIt should not be used in production code.</p>",
+  "<p>将缓存的系统时间设置为指定时间戳。\n本函数仅供测试使用。\n不应在生产代码中使用。</p>"
+ ],
+ [
+  "<p>Creates a new <code>Duration</code> from the specified number of seconds and\nadditional nanosecond precision</p>",
+  "<p>以指定的秒数与额外纳秒精度创建一个新的 <code>Duration</code></p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of days</p>",
+  "<p>以指定的天数创建一个新的 Duration</p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of hours</p>",
+  "<p>以指定的小时数创建一个新的 Duration</p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of minutes</p>",
+  "<p>以指定的分钟数创建一个新的 Duration</p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of seconds</p>",
+  "<p>以指定的秒数创建一个新的 Duration</p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of milliseconds</p>",
+  "<p>以指定的毫秒数创建一个新的 Duration</p>"
+ ],
+ [
+  "<p>Returns the number of days represented by this duration</p>",
+  "<p>返回此时长所表示的天数</p>"
+ ],
+ [
+  "<p>Returns the number of hours represented by this duration</p>",
+  "<p>返回此时长所表示的小时数</p>"
+ ],
+ [
+  "<p>Returns the number of minutes represented by this duration</p>",
+  "<p>返回此时长所表示的分钟数</p>"
+ ],
+ [
+  "<p>Returns the number of whole seconds represented by this duration</p>",
+  "<p>返回此时长所表示的完整秒数</p>"
+ ],
+ [
+  "<p>Returns the number of whole milliseconds represented by this duration</p>",
+  "<p>返回此时长所表示的完整毫秒数</p>"
+ ],
+ [
+  "<p>Returns the number of whole microseconds represented by this duration</p>",
+  "<p>返回此时长所表示的完整微秒数</p>"
+ ],
+ [
+  "<p>Returns the number of whole nanoseconds represented by this duration</p>",
+  "<p>返回此时长所表示的完整纳秒数</p>"
+ ],
+ [
+  "<p>Returns the nanosecond precision represented by this duration</p>",
+  "<p>返回此时长所表示的纳秒精度</p>"
+ ],
+ [
+  "<p>Return this duration as a number of “ticks”.</p>\n<p>Note that length of a ‘tick’ is not guaranteed to represent\nthe same amount of time across different platforms, or from\none version of <code>coarsetime</code> to another.</p>",
+  "<p>以“刻度数”形式返回此时长。</p>\n<p>请注意，一个‘刻度’的长度并不保证在不同平台上，\n或在不同 <code>coarsetime</code> 版本之间代表相同的时间长度。</p>"
+ ],
+ [
+  "<p>Creates a new Duration from the specified number of “ticks”.</p>\n<p>Note that length of a ‘tick’ is not guaranteed to represent\nthe same amount of time across different platforms, or from\none version of <code>coarsetime</code> to another.</p>",
+  "<p>以指定的“刻度数”创建一个新的 Duration。</p>\n<p>请注意，一个‘刻度’的长度并不保证在不同平台上，\n或在不同 <code>coarsetime</code> 版本之间代表相同的时间长度。</p>"
+ ],
+ [
+  "<p>Returns the duration as a floating point number, representing the number\nof seconds</p>",
+  "<p>以浮点数形式返回此时长，表示的秒数</p>"
+ ],
+ [
+  "<p>Returns the absolute difference between two <code>Duration</code>s</p>",
+  "<p>返回两个 <code>Duration</code> 之间的绝对差</p>"
+ ],
+ [
+  "<p>Add two durations, saturating on overflow</p>",
+  "<p>将两个时长相加，溢出时饱和</p>"
+ ],
+ [
+  "<p>Add two durations, returning <code>None</code> on overflow</p>",
+  "<p>将两个时长相加，溢出时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Subtract two durations, saturating on underflow/overflow</p>",
+  "<p>将两个时长相减，溢出/下溢时饱和</p>"
+ ],
+ [
+  "<p>Subtract two durations, returning <code>None</code> on underflow/overflow</p>",
+  "<p>将两个时长相减，溢出/下溢时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Multiply a duration by a scalar, saturating on overflow</p>",
+  "<p>将时长乘以一个标量，溢出时饱和</p>"
+ ],
+ [
+  "<p>Multiply a duration by a scalar, returning <code>None</code> on overflow</p>",
+  "<p>将时长乘以一个标量，溢出时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Divide a duration by a scalar, returning <code>None</code> for division by zero</p>",
+  "<p>将时长除以一个标量，除以零时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Returns an instant corresponding to “now”</p>\n<p>This function also updates the stored instant.</p>",
+  "<p>返回对应“现在”的时刻</p>\n<p>此函数同时会更新已存储的时刻。</p>"
+ ],
+ [
+  "<p>Returns an instant corresponding to “now” without updating the cached value.\nAfter this, <code>recent()</code> will still return the old instant.</p>\n<p><code>now()</code> is generally preferred over this function.</p>",
+  "<p>返回对应“现在”的时刻，且不更新缓存值。</p>\n<p>调用后，<code>recent()</code> 仍会返回旧的时刻。</p>\n<p>通常应优先使用 <code>now()</code> 而非此函数。</p>"
+ ],
+ [
+  "<p>Returns an instant corresponding to the latest update</p>",
+  "<p>返回最近一次更新对应的时刻</p>"
+ ],
+ [
+  "<p>Update the stored instant</p>\n<p>This function should be called frequently, for example in an event loop\nor using an <code>Updater</code> task.</p>",
+  "<p>更新已存储的时刻</p>\n<p>应当频繁调用此函数，例如在事件循环中或使用 <code>Updater</code> 任务。</p>"
+ ],
+ [
+  "<p>Returns the amount of time elapsed from another instant to this one</p>",
+  "<p>返回从另一时刻到此刻所经过的时间长度</p>"
+ ],
+ [
+  "<p>Returns the amount of time elapsed between the this instant was created\nand the latest update</p>",
+  "<p>返回从该时刻创建到最近一次更新之间所经过的时间长度</p>"
+ ],
+ [
+  "<p>Returns the amount of time elapsed since this instant was created</p>\n<p>This function also updates the stored instant.</p>",
+  "<p>返回自该时刻创建以来所经过的时间长度</p>\n<p>此函数同时会更新已存储的时刻。</p>"
+ ],
+ [
+  "<p>Return a representation of this instant as a number of “ticks”.</p>\n<p>Note that length of a ‘tick’ is not guaranteed to represent\nthe same amount of time across different platforms, or from\none version of <code>coarsetime</code> to another.</p>\n<p>Note also that the instant represented by “0” ticks is\nunspecified.  It is not guaranteed to be the same time across\ndifferent platforms, or from one version of <code>coarsetime</code> to\nanother.</p>\n<p>This API is mainly intended for applications that need to\nstore the value of an <code>Instant</code> in an\n<a href=\"https://doc.rust-lang.org/1.95.0/core/sync/atomic/struct.AtomicU64.html\" title=\"struct core::sync::atomic::AtomicU64\"><code>AtomicU64</code></a>.</p>",
+  "<p>以“刻度数”形式返回该时刻的表示。</p>\n<p>请注意，一个‘刻度’的长度并不保证在不同平台上，\n或在不同 <code>coarsetime</code> 版本之间\n代表相同的时间长度。</p>\n<p>还需注意，由“0”刻度表示的时刻是未定义的，\n并不保证在不同平台上或不同 <code>coarsetime</code> 版本之间\n代表同一时间。</p>\n<p>本 API 主要用于需要将 <code>Instant</code> 的值存储到\n<a href=\"https://doc.rust-lang.org/1.95.0/core/sync/atomic/struct.AtomicU64.html\" title=\"struct core::sync::atomic::AtomicU64\"><code>AtomicU64</code></a> 中的场景。</p>"
+ ],
+ [
+  "<p>Create an <code>Instant</code> from a number of “ticks”.</p>\n<p>Note that length of a ‘tick’ is not guaranteed to represent\nthe same amount of time across different platforms, or from\none version of <code>coarsetime</code> to another.</p>\n<p>Note also that the instant represented by “0” ticks is\nunspecified.  It is not guaranteed to be the same time across\ndifferent platforms, or from one version of <code>coarsetime</code> to\nanother.</p>",
+  "<p>以指定的“刻度数”创建一个 <code>Instant</code>。</p>\n<p>请注意，一个‘刻度’的长度并不保证在不同平台上，\n或在不同 <code>coarsetime</code> 版本之间\n代表相同的时间长度。</p>\n<p>还需注意，由“0”刻度表示的时刻是未定义的，\n并不保证在不同平台上或不同 <code>coarsetime</code> 版本之间\n代表同一时间。</p>"
+ ],
+ [
+  "<p>Calculate an <code>Instant</code> that is a <code>Duration</code> later, saturating on overflow</p>",
+  "<p>计算一个晚于当前 <code>Instant</code> 一个 <code>Duration</code> 的时刻，溢出时饱和</p>"
+ ],
+ [
+  "<p>Calculate an <code>Instant</code> that is a <code>Duration</code> later, returning <code>None</code> on overflow</p>",
+  "<p>计算一个晚于当前 <code>Instant</code> 一个 <code>Duration</code> 的时刻，溢出时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Calculate an <code>Instant</code> that is a <code>Duration</code> earlier, saturating on underflow</p>",
+  "<p>计算一个早于当前 <code>Instant</code> 一个 <code>Duration</code> 的时刻，下溢时饱和</p>"
+ ],
+ [
+  "<p>Calculate an <code>Instant</code> that is a <code>Duration</code> earlier, returning <code>None</code> on underflow</p>",
+  "<p>计算一个早于当前 <code>Instant</code> 一个 <code>Duration</code> 的时刻，下溢时返回 <code>None</code></p>"
+ ],
+ [
+  "<p>Spawns a background task to call <code>Instant::update()</code> periodically</p>",
+  "<p>派生一个后台任务，周期性地调用 <code>Instant::update()</code></p>"
+ ],
+ [
+  "<p>Stops the periodic updates</p>",
+  "<p>停止周期性更新</p>"
+ ],
+ [
+  "<p>Creates a new <code>Updater</code> with the specified update period, in\nmilliseconds.</p>",
+  "<p>以指定的更新周期（毫秒）创建一个新的 <code>Updater</code>。</p>"
+ ]
+]
