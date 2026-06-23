@@ -178,6 +178,146 @@ TRAIT_PAIRS = [
      'Converts this type into a (usually inferred) shared reference of the input type.',
      '将此类型转换为输入类型的共享引用（通常自动推导）。'),
     ('Socket::as_socket', 'Borrows the socket.', '借用此套接字。'),
+
+    # ===== std::ops 关联类型 Output =====
+    # (HTML 中 < > & 都用实体；模式串必须匹配实体形式)
+    ('Add::Output',
+     'The resulting type after applying the <code>+</code> operator.',
+     '应用 <code>+</code> 运算符后得到的类型。'),
+    ('Sub::Output',
+     'The resulting type after applying the <code>-</code> operator.',
+     '应用 <code>-</code> 运算符后得到的类型。'),
+    ('Mul::Output',
+     'The resulting type after applying the <code>*</code> operator.',
+     '应用 <code>*</code> 运算符后得到的类型。'),
+    ('Div::Output',
+     'The resulting type after applying the <code>/</code> operator.',
+     '应用 <code>/</code> 运算符后得到的类型。'),
+    ('Rem::Output',
+     'The resulting type after applying the <code>%</code> operator.',
+     '应用 <code>%</code> 运算符后得到的类型。'),
+    ('Not::Output',
+     'The resulting type after applying the <code>!</code> operator.',
+     '应用 <code>!</code> 运算符后得到的类型。'),
+    ('BitAnd::Output',
+     'The resulting type after applying the <code>&amp;</code> operator.',
+     '应用 <code>&amp;</code> 运算符后得到的类型。'),
+    ('BitOr::Output',
+     'The resulting type after applying the <code>|</code> operator.',
+     '应用 <code>|</code> 运算符后得到的类型。'),
+    ('BitXor::Output',
+     'The resulting type after applying the <code>^</code> operator.',
+     '应用 <code>^</code> 运算符后得到的类型。'),
+    ('Shl::Output',
+     'The resulting type after applying the <code>&lt;&lt;</code> operator.',
+     '应用 <code>&lt;&lt;</code> 运算符后得到的类型。'),
+    ('Shr::Output',
+     'The resulting type after applying the <code>&gt;&gt;</code> operator.',
+     '应用 <code>&gt;&gt;</code> 运算符后得到的类型。'),
+
+    # ===== std::ops 关联类型 Output（无 <code> 包裹的简化形） =====
+    # 部分老版本 rustdoc 会输出 "the + operator" 而非 "<code>+</code>"
+    ('Add::Output (plain)',
+     'The resulting type after applying the + operator.',
+     '应用 + 运算符后得到的类型。'),
+    ('Sub::Output (plain)',
+     'The resulting type after applying the - operator.',
+     '应用 - 运算符后得到的类型。'),
+    ('Mul::Output (plain)',
+     'The resulting type after applying the * operator.',
+     '应用 * 运算符后得到的类型。'),
+    ('Div::Output (plain)',
+     'The resulting type after applying the / operator.',
+     '应用 / 运算符后得到的类型。'),
+    ('Rem::Output (plain)',
+     'The resulting type after applying the % operator.',
+     '应用 % 运算符后得到的类型。'),
+    ('Not::Output (plain)',
+     'The resulting type after applying the ! operator.',
+     '应用 ! 运算符后得到的类型。'),
+    ('BitOr::Output (plain)',
+     'The resulting type after applying the | operator.',
+     '应用 | 运算符后得到的类型。'),
+    ('BitXor::Output (plain)',
+     'The resulting type after applying the ^ operator.',
+     '应用 ^ 运算符后得到的类型。'),
+
+    # ===== Deref / DerefMut 关联类型 Target =====
+    ('Deref::Target',
+     'The resulting type after dereferencing.',
+     '解引用后得到的类型。'),
+
+    # ===== TryFrom::Error / TryInto::Error =====
+    ('TryFrom::Error',
+     'The type returned in the event of a conversion error.',
+     '转换出错时返回的类型。'),
+
+    # ===== Iterator::Item =====
+    ('Iterator::Item',
+     'The type of the elements being iterated over.',
+     '被迭代元素的类型。'),
+
+    # ===== Future::Output =====
+    ('Future::Output',
+     'The type of value produced on completion.',
+     'Future 完成时产生的值的类型。'),
+    ('Future::Output (alt)',
+     'The output that the future will produce on completion.',
+     'Future 完成时产生的输出。'),
+
+    # ===== IntoFuture::IntoFuture =====
+    ('IntoFuture::IntoFuture',
+     'Which kind of future are we turning this into?',
+     '我们将要把此值转变成哪种 future？'),
+
+    # ===== PartialEq 无 <code> 包裹的裸文本形式 =====
+    ('PartialEq::eq (bare)',
+     'Tests for self and other values to be equal, and is used by == .',
+     '测试 self 与 other 值是否相等，供 == 运算符使用。'),
+    ('PartialEq::ne (bare)',
+     'Tests for self and other values to be not equal, and is used by != .',
+     '测试 self 与 other 值是否不相等，供 != 运算符使用。'),
+    ('PartialEq::ne (default impl)',
+     'Tests for <code>!=</code>. The default implementation is almost always sufficient,\\nand should not be overridden without very good reason.',
+     '测试 <code>!=</code> 运算符。默认实现几乎总是够用，除非有非常充分的理由，否则不应被覆盖。'),
+
+    # ===== ToOwned::to_owned（多段 <p> + 含 <code>/<a> 嵌套） =====
+    # v4 形式：分多个 <p>，第二段有 <code>From</code> 链接到 stdlib
+    # 不能硬编码 href（含 1.95.0 版本号），拆成三段独立 replace
+    ('ToOwned::to_owned p1',
+     '>Calls <code>U::from(self)</code>.</p>',
+     '>调用 <code>U::from(self)</code>。</p>'),
+    ('ToOwned::to_owned p2 start',
+     '<p>That is, this conversion is whatever the implementation of\n<code>',
+     '<p>也就是说，此转换的具体行为取决于\n<code>'),
+    ('ToOwned::to_owned p2 end',
+     ' chooses to do.</p>',
+     ' 的实现方式。</p>'),
+
+    # ===== ToOwned::to_owned / ToOwned::Owned =====
+    ('ToOwned::Owned',
+     'The resulting type after obtaining ownership.',
+     '获得所有权后的类型。'),
+
+    # ===== Fn::call / FnMut::call_mut / FnOnce::call_once =====
+    ('Fn::call', 'Returns the argument unchanged.',
+     '原样返回传入的参数。'),
+
+    # ===== non-exhaustive 提示（chrome 级别） =====
+    ('non_exhaustive enum notice',
+     'Non-exhaustive enums could have additional variants added in future. '
+     'Therefore, when matching against variants of non-exhaustive enums, '
+     'an extra wildcard arm must be added to account for any future variants.',
+     '非穷尽枚举未来可能添加新的变体。因此，在对非穷尽枚举的变体进行模式匹配时，'
+     '必须额外增加一个通配符分支以涵盖未来的新变体。'),
+    ('non_exhaustive struct notice',
+     'Non-exhaustive structs could have additional fields added in future. '
+     'Therefore, non-exhaustive structs cannot be constructed in external crates '
+     'using the traditional Struct { .. } syntax; cannot be matched against '
+     'without a wildcard .. ; and struct update syntax will not work.',
+     '非穷尽结构体未来可能添加新的字段。因此，非穷尽结构体无法在外部 crate '
+     '使用传统的 Struct { .. } 语法构造；模式匹配时必须有通配符 ..；'
+     '且结构体更新语法将无法使用。'),
 ]
 
 # U+2019 右单引号（'）

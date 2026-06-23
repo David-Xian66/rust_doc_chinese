@@ -214,6 +214,15 @@ COMMON_TEXT = [
     # Some common descriptions
     ('Move the mouse cursor to the specified x and y coordinates.',
      '将鼠标光标移动到指定的 x 和 y 坐标。'),
+    # Mouse trait - move_mouse / scroll description (trait.Mouse.html)
+    ('You can specify absolute coordinates or relative from the current\nposition.',
+     '你可以指定绝对坐标，或相对于当前位置的相对坐标。'),
+    ('If you use absolute coordinates, the top left corner of your monitor\nscreen is x=0 y=0. Move the cursor down the screen by increasing the y\nand to the right by increasing x coordinate.',
+     '若使用绝对坐标，显示器屏幕左上角为 x=0 y=0。增大 y 坐标使光标下移，增大 x 坐标使光标右移。'),
+    ('If you use relative coordinates, a positive x value moves the mouse\ncursor <code>x</code> pixels to the right. A negative value for <code>x</code> moves the mouse\ncursor to the left. A positive value of y moves the mouse cursor down, a\nnegative one moves the mouse cursor up.',
+     '若使用相对坐标，<code>x</code> 为正值时鼠标光标向右移动相应像素；为负值时向左移动。y 为正值时光标下移，为负值时光标上移。'),
+    ('With Axis::Vertical, a positive length will result in scrolling down\nand negative ones up. With Axis::Horizontal, a positive length\nwill result in scrolling to the right and negative ones to the left.',
+     '对于 Axis::Vertical，正长度值向下滚动，负长度值向上滚动。对于 Axis::Horizontal，正长度值向右滚动，负长度值向左滚动。'),
     ('Send a mouse scroll event', '发送鼠标滚轮事件'),
     ('Get the (width, height) of the main display in pixels. This currently\nonly works on the main display',
      '获取主显示屏的（宽度，高度）像素值。目前仅支持主显示屏'),
