@@ -93,20 +93,23 @@
 
     // ===== UI 创建 =====
     function createButton() {
+        // 不再附加到 <rustdoc-topbar> 的 light DOM（flex 布局 + h2 的 margin:auto
+        // 会把它挤到不可见区域，桌面端表现就是按钮消失，只在 400px 等窄屏能看到）。
+        // 改为挂到 <body> 上，用 fixed 定位浮在右上角 —— 与 topbar 内的原生「搜索」
+        // 按钮并排，互不干扰，桌面端始终可见。
         var btn = document.createElement('a');
         btn.id = 'chinese-search-button';
         btn.href = '?chinese-search#';
         btn.className = 'chinese-search-menu';
         btn.textContent = '搜索文档';
         btn.title = '搜索已翻译的文档内容（按 S 或 / 触发）';
-        // 内联样式保证在 rustdoc topbar 内的可见性与位置：
-        // - position:relative 让 margin-left:auto 生效（flex item 内需要）
-        // - margin-left:auto 把它推到 h2 之后（视觉上在 right side）
-        // - 颜色、padding 与 rustdoc 原生 搜索 按钮风格一致
         btn.style.cssText = [
+            'position:fixed',
+            'top:8px',
+            'right:80px',     // 给原生 搜索 按钮（最右侧 ~80px 宽）让位，避免重叠
+            'z-index:11',     // 略高于 rustdoc-topbar 的 z-index:10
             'display:inline-flex',
             'align-items:center',
-            'margin-left:auto',
             'padding:6px 14px',
             'border:1px solid var(--border-color,#ccc)',
             'border-radius:4px',
@@ -114,8 +117,9 @@
             'color:var(--main-color,#222)',
             'text-decoration:none',
             'font-size:14px',
+            'line-height:1.25',
             'cursor:pointer',
-            'flex-shrink:0',
+            'box-shadow:0 1px 2px rgba(0,0,0,0.05)',
         ].join(';');
         return btn;
     }
@@ -297,15 +301,16 @@
     function init() {
         currentCrate = detectCrate();
 
-        // 注入按钮到 rustdoc-topbar
-        var topbar = document.querySelector('rustdoc-topbar');
-        if (!topbar) return;
+        // 注入按钮到 <body>（不再用 rustdoc-topbar —— topbar 的 flex 布局 + h2 的
+        // margin:auto 在桌面端会把按钮挤到不可见区域）。固定定位浮在右上角，与
+        // topbar 内的原生「搜索」按钮并排显示，桌面与移动端均可见。
+        if (!document.body) return;
         var btn = createButton();
         btn.onclick = function (e) {
             e.preventDefault();
             openPanel();
         };
-        topbar.appendChild(btn);
+        document.body.appendChild(btn);
 
         // 根页面（currentCrate 为空）— 隐藏「本 crate」选项，默认全局
         if (!currentCrate) {
