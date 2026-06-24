@@ -31,17 +31,30 @@
 
     // 绝对路径 — 不依赖页面深度，根路径部署时（Cloudflare Pages / 本地 http.server）
     // 始终用 /static.files/... 解析到正确位置
+    //
+    // scope 取值：
+    //   - SCOPE_ALL ('__all__')        → 全局 all.json
+    //   - 'crate'                      → 当前 crate 的 <currentCrate>.json
+    //   - 其他字符串（具体 crate 名）   → 该 crate 的 .json
+    //
+    // 注意：之前实现直接把 scope 当文件名拼，'crate' → /chinese-index/crate.json（不存在 → 404 HTML）
     function indexUrl(scope) {
         if (scope === SCOPE_ALL) {
             return '/static.files/' + INDEX_DIR + '/all.json';
         }
-        return '/static.files/' + INDEX_DIR + '/' + scope + '.json';
+        // 'crate' 是占位语义：实际指向当前 crate
+        var crateName = (scope === 'crate') ? currentCrate : scope;
+        if (!crateName) return null; // 无 crate 可用（例如根页面选"本 crate"），调用方须处理
+        return '/static.files/' + INDEX_DIR + '/' + crateName + '.json';
     }
 
     // sessionStorage 缓存
     function cacheKey(url) { return 'chi-search-idx:' + url; }
 
     function fetchJson(url) {
+        if (!url) {
+            return Promise.reject(new Error('索引 URL 为空（无法识别当前 crate）'));
+        }
         var cached = sessionStorage.getItem(cacheKey(url));
         if (cached) return Promise.resolve(JSON.parse(cached));
         return fetch(url).then(function (r) {
@@ -74,6 +87,9 @@
     // MiniSearch 包装
     function buildMiniSearch(entries) {
         return new MiniSearch({
+            // 用 url 作为主键（每条目天然唯一），避免 MiniSearch 报
+            // "document does not have ID field 'id'"
+            idField: 'url',
             fields: ['title', 'desc', 'section_headers', 'module_doc', 'crate'],
             storeFields: ['url', 'crate', 'title', 'section', 'module_doc'],
             searchOptions: {
