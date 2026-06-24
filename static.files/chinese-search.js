@@ -29,28 +29,13 @@
         return null;
     }
 
-    // 相对路径前缀 — 决定 index 文件 URL
-    function depth() {
-        var path = window.location.pathname;
-        // 去掉文件名
-        var parts = path.replace(/[^/]*$/, '').split('/').filter(Boolean);
-        // path 以 / 开头：第一个元素是空（split 后 filter 掉）
-        // /quinn/struct.Endpoint.html -> parts = ['quinn'] -> depth = 0
-        // /tokio/runtime/index.html -> parts = ['tokio', 'runtime'] -> depth = 1
-        return parts.length - 1;
-    }
-
-    function prefix() {
-        var d = depth();
-        return d <= 0 ? '' : new Array(d + 1).join('../');
-    }
-
+    // 绝对路径 — 不依赖页面深度，根路径部署时（Cloudflare Pages / 本地 http.server）
+    // 始终用 /static.files/... 解析到正确位置
     function indexUrl(scope) {
-        var p = prefix();
         if (scope === SCOPE_ALL) {
-            return p + 'static.files/' + INDEX_DIR + '/all.json';
+            return '/static.files/' + INDEX_DIR + '/all.json';
         }
-        return p + 'static.files/' + INDEX_DIR + '/' + scope + '.json';
+        return '/static.files/' + INDEX_DIR + '/' + scope + '.json';
     }
 
     // sessionStorage 缓存
@@ -114,6 +99,24 @@
         btn.className = 'chinese-search-menu';
         btn.textContent = '搜索文档';
         btn.title = '搜索已翻译的文档内容（按 S 或 / 触发）';
+        // 内联样式保证在 rustdoc topbar 内的可见性与位置：
+        // - position:relative 让 margin-left:auto 生效（flex item 内需要）
+        // - margin-left:auto 把它推到 h2 之后（视觉上在 right side）
+        // - 颜色、padding 与 rustdoc 原生 搜索 按钮风格一致
+        btn.style.cssText = [
+            'display:inline-flex',
+            'align-items:center',
+            'margin-left:auto',
+            'padding:6px 14px',
+            'border:1px solid var(--border-color,#ccc)',
+            'border-radius:4px',
+            'background:var(--main-background-color,#fff)',
+            'color:var(--main-color,#222)',
+            'text-decoration:none',
+            'font-size:14px',
+            'cursor:pointer',
+            'flex-shrink:0',
+        ].join(';');
         return btn;
     }
 

@@ -1,0 +1,44 @@
+"""Fix remaining top-doc pairs with exact HTML."""
+import json
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
+TOPDOC = [
+    # struct.TryGetError.html
+    [
+        '<p>Error type for the <code>try_get_</code> methods of <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a>.\nIndicates that there were not enough remaining\nbytes in the buffer while attempting\nto get a value from a <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> with one\nof the <code>try_get_</code> methods.</p>',
+        '<p><a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> 的 <code>try_get_</code> 方法的错误类型。\n表明在尝试使用某个 <code>try_get_</code> 方法从 <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> 获取值时，\n缓冲区中没有足够的剩余字节。</p>'
+    ],
+
+    # buf/struct.Reader.html
+    [
+        '<p>This struct is generally created by calling <code>reader()</code> on <code>Buf</code>. See\ndocumentation of <a href="trait.Buf.html#method.reader" title="method bytes::buf::Buf::reader"><code>reader()</code></a> for more\ndetails.</p>',
+        '<p>此结构体通常通过对 <code>Buf</code> 调用 <code>reader()</code> 创建。详情请参阅 <a href="trait.Buf.html#method.reader" title="method bytes::buf::Buf::reader"><code>reader()</code></a> 的文档。</p>'
+    ],
+
+    # buf/struct.Take.html
+    [
+        '<p>This struct is generally created by calling <code>take()</code> on <code>Buf</code>. See\ndocumentation of <a href="trait.Buf.html#method.take" title="method bytes::buf::Buf::take"><code>take()</code></a> for more details.</p>',
+        '<p>此结构体通常通过对 <code>Buf</code> 调用 <code>take()</code> 创建。详情请参阅 <a href="trait.Buf.html#method.take" title="method bytes::buf::Buf::take"><code>take()</code></a> 的文档。</p>'
+    ],
+
+    # buf/struct.Writer.html
+    [
+        '<p>This struct is generally created by calling <code>writer()</code> on <code>BufMut</code>. See\ndocumentation of <a href="trait.BufMut.html#method.writer" title="method bytes::buf::BufMut::writer"><code>writer()</code></a> for more\ndetails.</p>',
+        '<p>此结构体通常通过对 <code>BufMut</code> 调用 <code>writer()</code> 创建。详情请参阅 <a href="trait.BufMut.html#method.writer" title="method bytes::buf::BufMut::writer"><code>writer()</code></a> 的文档。</p>'
+    ],
+
+    # buf/trait.Buf.html
+    [
+        '<p>A buffer stores bytes in memory such that read operations are infallible.\nThe underlying storage may or may not be in contiguous memory. A <code>Buf</code> value\nis a cursor into the buffer. Reading from <code>Buf</code> advances the cursor\nposition. It can be thought of as an efficient <code>Iterator</code> for collections of\nbytes.</p>',
+        '<p>缓冲区将字节存储在内存中，以便读取操作不会失败。底层存储可能连续也可能不连续。<code>Buf</code> 值是指向缓冲区的游标。从 <code>Buf</code> 读取会推进游标位置。可以将其视为字节集合的高效 <code>Iterator</code>。</p>'
+    ],
+]
+
+# Normalize
+normalized = [[old.replace('\r\n', '\n'), new.replace('\r\n', '\n')] for old, new in TOPDOC]
+
+with open('bytes/_topdoc_apply_v3.json', 'w', encoding='utf-8') as f:
+    json.dump(normalized, f, ensure_ascii=False, indent=2)
+
+print(f'Wrote {len(normalized)} pairs')

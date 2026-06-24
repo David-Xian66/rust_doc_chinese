@@ -1,0 +1,97 @@
+"""Fix top-doc pairs to use proper HTML wrapping."""
+import json
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
+# Updated top-doc translations with correct HTML wrapping
+TOPDOC = [
+    # struct.TryGetError.html
+    [
+        '<p>Error type for the try_get_ methods of Buf.\nIndicates that there were not enough remaining\nbytes in the buffer while attempting\nto get a value from a Buf with one\nof the try_get_ methods.</p>',
+        '<p><code>Buf</code> 的 <code>try_get_</code> 方法的错误类型。\n表明在尝试使用某个 <code>try_get_</code> 方法从 <code>Buf</code> 获取值时，\n缓冲区中没有足够的剩余字节。</p>'
+    ],
+
+    # buf/struct.Limit.html
+    [
+        '<p>A <code>BufMut</code> adapter which limits the amount of bytes that can be written\nto an underlying buffer.</p>',
+        '<p>一个限制可写入到底层缓冲区字节数的 <code>BufMut</code> 适配器。</p>'
+    ],
+
+    # buf/struct.Reader.html
+    [
+        '<p>A <code>Buf</code> adapter which implements <code>io::Read</code> for the inner value.</p>',
+        '<p>一个为内部值实现 <code>io::Read</code> 的 <code>Buf</code> 适配器。</p>'
+    ],
+    [
+        '<p>This struct is generally created by calling <code>reader()</code> on Buf. See\ndocumentation of <code>reader()</code> for more\ndetails.</p>',
+        '<p>此结构体通常通过对 <code>Buf</code> 调用 <code>reader()</code> 创建。详情请参阅 <code>reader()</code> 的文档。</p>'
+    ],
+
+    # buf/struct.Take.html
+    [
+        '<p>A <code>Buf</code> adapter which limits the bytes read from an underlying buffer.</p>',
+        '<p>一个限制从底层缓冲区读取字节数的 <code>Buf</code> 适配器。</p>'
+    ],
+    [
+        '<p>This struct is generally created by calling <code>take()</code> on Buf. See\ndocumentation of <code>take()</code> for more details.</p>',
+        '<p>此结构体通常通过对 <code>Buf</code> 调用 <code>take()</code> 创建。详情请参阅 <code>take()</code> 的文档。</p>'
+    ],
+
+    # buf/struct.UninitSlice.html
+    [
+        '<p>Uninitialized byte slice.</p>',
+        '<p>未初始化的字节切片。</p>'
+    ],
+    [
+        '<p>Returned by <code>BufMut::chunk_mut()</code>, the referenced byte slice may be\nuninitialized. The wrapper provides safe access without introducing\nundefined behavior.</p>',
+        '<p>由 <code>BufMut::chunk_mut()</code> 返回，所引用的字节切片可能是未初始化的。此包装器提供安全访问，不会引入未定义行为。</p>'
+    ],
+    [
+        '<p>The safety invariants of this wrapper are:</p>',
+        '<p>此包装器的安全不变量为：</p>'
+    ],
+    [
+        '<p>The difference between <code>&amp;mut UninitSlice</code> and <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code> is\nthat it is possible in safe code to write uninitialized bytes to an\n<code>&amp;mut [MaybeUninit&lt;u8&gt;]</code>, which this type prohibits.</p>',
+        '<p><code>&amp;mut UninitSlice</code> 与 <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code> 的区别在于：在安全代码中，可以向 <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code> 写入未初始化的字节，而本类型禁止这样做。</p>'
+    ],
+
+    # buf/struct.Writer.html
+    [
+        '<p>A <code>BufMut</code> adapter which implements <code>io::Write</code> for the inner value.</p>',
+        '<p>一个为内部值实现 <code>io::Write</code> 的 <code>BufMut</code> 适配器。</p>'
+    ],
+    [
+        '<p>This struct is generally created by calling <code>writer()</code> on BufMut. See\ndocumentation of <code>writer()</code> for more\ndetails.</p>',
+        '<p>此结构体通常通过对 <code>BufMut</code> 调用 <code>writer()</code> 创建。详情请参阅 <code>writer()</code> 的文档。</p>'
+    ],
+
+    # buf/trait.Buf.html
+    [
+        '<p>Read bytes from a buffer.</p>',
+        '<p>从缓冲区读取字节。</p>'
+    ],
+    [
+        '<p>A buffer stores bytes in memory such that read operations are infallible.\nThe underlying storage may or may not be in contiguous memory. A <code>Buf</code> value\nis a cursor into the buffer. Reading from <code>Buf</code> advances the cursor\nposition. It can be thought of as an efficient Iterator for collections of\nbytes.</p>',
+        '<p>缓冲区将字节存储在内存中，以便读取操作不会失败。底层存储可能连续也可能不连续。<code>Buf</code> 值是指向缓冲区的游标。从 <code>Buf</code> 读取会推进游标位置。可以将其视为字节集合的高效迭代器。</p>'
+    ],
+    [
+        '<p>The simplest <code>Buf</code> is a <code>&amp;[u8]</code>.</p>',
+        '<p>最简单的 <code>Buf</code> 是 <code>&amp;[u8]</code>。</p>'
+    ],
+
+    # buf/trait.BufMut.html
+    [
+        '<p>A trait for values that provide sequential write access to bytes.</p>',
+        '<p>为值提供对字节的顺序写访问的 trait。</p>'
+    ],
+]
+
+with open('bytes/_topdoc_pairs_v2.json', 'w', encoding='utf-8') as f:
+    json.dump(TOPDOC, f, ensure_ascii=False, indent=2)
+
+# Build normalized for apply
+normalized = [[old.replace('\r\n', '\n'), new.replace('\r\n', '\n')] for old, new in TOPDOC]
+with open('bytes/_topdoc_apply_v2.json', 'w', encoding='utf-8') as f:
+    json.dump(normalized, f, ensure_ascii=False, indent=2)
+
+print(f'Wrote {len(TOPDOC)} pairs')

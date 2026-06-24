@@ -1,0 +1,562 @@
+[
+  [
+    "<p>Returns Err(TryGetError) when there are not enough remaining bytes to read the value.</p>",
+    "<p>当剩余字节不足以读取该值时，返回 Err(TryGetError)。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in self.</p>",
+    "<p>若 self 的剩余容量不足，本函数会 panic。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in self.</p>",
+    "<p>若 self 中剩余的数据不足，本函数会 panic。</p>"
+  ],
+  [
+    "<p>The current position is advanced by 1.</p>",
+    "<p>当前位置前进 1 个字节。</p>"
+  ],
+  [
+    "<p>The current position is advanced by 2.</p>",
+    "<p>当前位置前进 2 个字节。</p>"
+  ],
+  [
+    "<p>The current position is advanced by 4.</p>",
+    "<p>当前位置前进 4 个字节。</p>"
+  ],
+  [
+    "<p>The current position is advanced by 8.</p>",
+    "<p>当前位置前进 8 个字节。</p>"
+  ],
+  [
+    "<p>The current position is advanced by 16.</p>",
+    "<p>当前位置前进 16 个字节。</p>"
+  ],
+  [
+    "<p>The current position is advanced by nbytes.</p>",
+    "<p>当前位置前进 nbytes 个字节。</p>"
+  ],
+  [
+    "<p>This function panics if nbytes is greater than 8.</p>",
+    "<p>若 nbytes 大于 8，本函数会 panic。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in self, or if nbytes is greater than 8.</p>",
+    "<p>若 self 中剩余的数据不足，或 nbytes 大于 8，本函数会 panic。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in self or if nbytes is greater than 8.</p>",
+    "<p>若 self 的剩余容量不足，或 nbytes 大于 8，本函数会 panic。</p>"
+  ],
+  [
+    "<p>This is an O(1) operation that just increases the reference count and sets a few indices.</p>",
+    "<p>这是一个 O(1) 操作，仅增加引用计数并设置少量索引。</p>"
+  ],
+  [
+    "<p>Gets a reference to the first underlying Buf.</p>",
+    "<p>获取首个底层 Buf 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the first underlying Buf.</p>",
+    "<p>获取首个底层 Buf 的可变引用。</p>"
+  ],
+  [
+    "<p>Gets a reference to the last underlying Buf.</p>",
+    "<p>获取末尾底层 Buf 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the last underlying Buf.</p>",
+    "<p>获取末尾底层 Buf 的可变引用。</p>"
+  ],
+  [
+    "<p>Consumes this Chain, returning the underlying values.</p>",
+    "<p>消耗该 Chain，返回底层的值。</p>"
+  ],
+  [
+    "<p>A Chain sequences two buffers.</p>",
+    "<p>Chain 将两个缓冲区串接起来。</p>"
+  ],
+  [
+    "<p>Chain is an adapter that links two underlying buffers and provides a continuous view across both buffers. It is able to sequence either immutable buffers (Buf values) or mutable buffers (BufMut values).</p>",
+    "<p>Chain 是一个适配器，连接两个底层缓冲区并提供跨两个缓冲区的连续视图。它既可以串接不可变缓冲区（Buf 值），也可以串接可变缓冲区（BufMut 值）。</p>"
+  ],
+  [
+    "<p>This struct is generally created by calling Buf::chain. Please see that function’s documentation for more detail.</p>",
+    "<p>本结构体通常通过调用 Buf::chain 创建。更多细节请参见该函数的文档。</p>"
+  ],
+  [
+    "<p>Creates an iterator over the bytes contained by the buffer.</p>",
+    "<p>创建一个迭代器，遍历缓冲区中包含的字节。</p>"
+  ],
+  [
+    "<p>Consumes this IntoIter, returning the underlying value.</p>",
+    "<p>消耗该 IntoIter，返回底层的值。</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying Buf.</p>",
+    "<p>获取底层 Buf 的引用。</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly read from the underlying Buf.</p>",
+    "<p>不建议直接从底层 Buf 进行读取。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying Buf.</p>",
+    "<p>获取底层 Buf 的可变引用。</p>"
+  ],
+  [
+    "<p>Consumes this Reader, returning the underlying value.</p>",
+    "<p>消耗该 Reader，返回底层的值。</p>"
+  ],
+  [
+    "<p>A Buf adapter which implements io::Read for the inner value.</p>",
+    "<p>一个 Buf 适配器，为内部值实现 io::Read。</p>"
+  ],
+  [
+    "<p>This struct is generally created by calling reader() on Buf. See documentation of reader() for more details.</p>",
+    "<p>本结构体通常通过对 Buf 调用 reader() 创建。更多细节请参见 reader() 的文档。</p>"
+  ],
+  [
+    "<p>Consumes this Take, returning the underlying value.</p>",
+    "<p>消耗该 Take，返回底层的值。</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying Buf.</p>",
+    "<p>获取底层 Buf 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying Buf.</p>",
+    "<p>获取底层 Buf 的可变引用。</p>"
+  ],
+  [
+    "<p>Returns the maximum number of bytes that can be read.</p>",
+    "<p>返回可读取的最大字节数。</p>"
+  ],
+  [
+    "<p>Sets the maximum number of bytes that can be read.</p>",
+    "<p>设置可读取的最大字节数。</p>"
+  ],
+  [
+    "<p>If the inner Buf has fewer bytes than indicated by this method then that is the actual number of available bytes.</p>",
+    "<p>若底层 Buf 可用的字节数少于本方法返回的值，则以实际可用字节数为准。</p>"
+  ],
+  [
+    "<p>If the inner Buf has fewer bytes than lim then that is the actual number of available bytes.</p>",
+    "<p>若底层 Buf 可用的字节数少于 lim，则以实际可用字节数为准。</p>"
+  ],
+  [
+    "<p>A Buf adapter which limits the bytes read from an underlying buffer.</p>",
+    "<p>一个 Buf 适配器，限制从底层缓冲区读取的字节数。</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying BufMut.</p>",
+    "<p>获取底层 BufMut 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying BufMut.</p>",
+    "<p>获取底层 BufMut 的可变引用。</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly write to the underlying BufMut.</p>",
+    "<p>不建议直接对底层 BufMut 进行写入。</p>"
+  ],
+  [
+    "<p>Consumes this Writer, returning the underlying value.</p>",
+    "<p>消耗该 Writer，返回底层的值。</p>"
+  ],
+  [
+    "<p>Creates a &mut UninitSlice wrapping a slice of initialised memory.</p>",
+    "<p>创建一个 &mut UninitSlice，包装一段已初始化的内存切片。</p>"
+  ],
+  [
+    "<p>Creates a &mut UninitSlice wrapping a slice of uninitialised memory.</p>",
+    "<p>创建一个 &mut UninitSlice，包装一段未初始化的内存切片。</p>"
+  ],
+  [
+    "<p>Create a &mut UninitSlice from a pointer and a length.</p>",
+    "<p>从一个指针和长度创建一个 &mut UninitSlice。</p>"
+  ],
+  [
+    "<p>The caller must ensure that ptr references a valid memory region owned by the caller representing a byte slice for the duration of 'a.</p>",
+    "<p>调用者必须确保 ptr 在 'a 生命周期内引用的是由调用者拥有的一段有效内存区域，并代表一个字节切片。</p>"
+  ],
+  [
+    "<p>Write a single byte at the specified offset.</p>",
+    "<p>在指定偏移处写入单个字节。</p>"
+  ],
+  [
+    "<p>The function panics if index is out of bounds.</p>",
+    "<p>若 index 越界，本函数会 panic。</p>"
+  ],
+  [
+    "<p>Copies bytes from src into self.</p>",
+    "<p>将 src 中的字节复制到 self。</p>"
+  ],
+  [
+    "<p>The length of src must be the same as self.</p>",
+    "<p>src 的长度必须与 self 相同。</p>"
+  ],
+  [
+    "<p>The function panics if src has a different length than self.</p>",
+    "<p>若 src 与 self 长度不同，本函数会 panic。</p>"
+  ],
+  [
+    "<p>Return a raw pointer to the slice’s buffer.</p>",
+    "<p>返回指向切片缓冲区的裸指针。</p>"
+  ],
+  [
+    "<p>If the slice is not at least N in length, this will return None.</p>",
+    "<p>若切片长度不足 N，本方法返回 None。</p>"
+  ],
+  [
+    "<p>Panics if chunk_size is zero.</p>",
+    "<p>若 chunk_size 为 0，本方法会 panic。</p>"
+  ],
+  [
+    "<p>Panics if N is zero.</p>",
+    "<p>若 N 为 0，本方法会 panic。</p>"
+  ],
+  [
+    "<p>Note that this check is against a const generic parameter, not a runtime value, and thus a particular monomorphization will either always panic or it will never panic.</p>",
+    "<p>注意，该检查针对的是常量泛型参数，而非运行时值；因此，特定的单态化版本要么始终 panic，要么永不 panic。</p>"
+  ],
+  [
+    "<p>Basic usage:</p>",
+    "<p>基本用法：</p>"
+  ],
+  [
+    "<p>Returns an iterator over chunk_size elements of the slice at a time, starting at the beginning of the slice.</p>",
+    "<p>返回一个迭代器，每次产出切片的 chunk_size 个元素，从切片的开头开始。</p>"
+  ],
+  [
+    "<p>Returns an iterator over chunk_size elements of the slice at a time, starting at the end of the slice.</p>",
+    "<p>返回一个迭代器，每次产出切片的 chunk_size 个元素，从切片的末尾开始。</p>"
+  ],
+  [
+    "<p>The first will contain all indices from [0, mid) (excluding the index mid itself) and the second will contain all indices from [mid, len) (excluding the index len itself).</p>",
+    "<p>第一段包含 [0, mid) 范围内的全部索引（不含 mid 本身），第二段包含 [mid, len) 范围内的全部索引（不含 len 本身）。</p>"
+  ],
+  [
+    "<p>The last element returned, if any, will contain the remainder of the slice.</p>",
+    "<p>若还有元素，最后一个产出的元素会包含切片的剩余部分。</p>"
+  ],
+  [
+    "<p>The chunks are slices and do not overlap. If chunk_size does not divide the length of the slice, then the last chunk will not have length chunk_size.</p>",
+    "<p>各段是切片，且互不重叠。若 chunk_size 整除切片长度，最后一段的长度将不等于 chunk_size。</p>"
+  ],
+  [
+    "<p>If your chunk_size is a constant, consider using as_chunks instead, which will give references to arrays of exactly that length, rather than slices.</p>",
+    "<p>若 chunk_size 是一个常量，建议改用 as_chunks，它会返回恰好为该长度的数组引用，而不是切片。</p>"
+  ],
+  [
+    "<p>If your chunk_size is a constant, consider using as_rchunks instead, which will give references to arrays of exactly that length, rather than slices.</p>",
+    "<p>若 chunk_size 是一个常量，建议改用 as_rchunks，它会返回恰好为该长度的数组引用，而不是切片。</p>"
+  ],
+  [
+    "<p>You can flatten the chunks back into a slice-of-T with as_flattened.</p>",
+    "<p>可以使用 as_flattened 将这些段重新扁平化为 T 的切片。</p>"
+  ],
+  [
+    "<p>The chunks are slices and do not overlap. If chunk_size does not divide the length of the slice, then the last up to chunk_size-1 elements will be omitted and can be retrieved from the remainder function of the iterator.</p>",
+    "<p>各段是切片，且互不重叠。若 chunk_size 整除切片长度，最多 chunk_size-1 个尾部元素会被丢弃，可通过迭代器的 remainder 函数取回。</p>"
+  ],
+  [
+    "<p>Returns None if the slice is empty.</p>",
+    "<p>若切片为空，返回 None。</p>"
+  ],
+  [
+    "<p>Always returns true if needle is an empty slice:</p>",
+    "<p>若 needle 是空切片，始终返回 true：</p>"
+  ],
+  [
+    "<p>If any matching elements are present in the slice, returns the prefix before the match and suffix after. The matching element itself is not included. If no elements match, returns None.</p>",
+    "<p>若切片中存在任何匹配元素，则返回匹配项之前的前缀和之后的后缀。匹配元素本身不包含在内。若没有元素匹配，则返回 None。</p>"
+  ],
+  [
+    "<p>If the value is found then Result::Ok is returned, containing the index of the matching element. If there are multiple matches, then any one of the matches could be returned. The index is chosen deterministically, but is subject to change in future versions of Rust. If the value is not found then Result::Err is returned, containing the index where a matching element could be inserted while maintaining sorted order.</p>",
+    "<p>若找到该值，则返回包含匹配元素索引的 Result::Ok。若存在多个匹配项，可能返回其中任意一个；索引是确定性选取的，但可能在未来版本的 Rust 中发生变化。若未找到该值，则返回包含按已排序顺序可插入该匹配元素位置的索引的 Result::Err。</p>"
+  ],
+  [
+    "<p>Looks up a series of four elements. The first is found, with a uniquely determined position; the second and third are not found; the fourth could match any position in [1, 4].</p>",
+    "<p>查找一系列四个元素。第一个被找到，且位置唯一确定；第二个和第三个未找到；第四个可匹配 [1, 4] 中的任意位置。</p>"
+  ],
+  [
+    "<p>This method is useful for extending slice iterators like slice::split.</p>",
+    "<p>本方法可用于扩展 slice::split 等切片迭代器。</p>"
+  ],
+  [
+    "<p>Panics if T is zero-sized.</p>",
+    "<p>若 T 是零大小类型，本方法会 panic。</p>"
+  ],
+  [
+    "<p>Flattens a slice of T into a single value Self::Output, placing a given separator between each.</p>",
+    "<p>将 T 的切片扁平化为单个 Self::Output 值，每两个元素之间插入给定的分隔符。</p>"
+  ],
+  [
+    "<p>For example |a, b| (a - b).cmp(a) is a comparison function that is neither transitive nor reflexive nor total, a < b < c < a with a = 1, b = 2, c = 3. For more information and examples see the Ord documentation.</p>",
+    "<p>例如 |a, b| (a - b).cmp(a) 既不传递、也不自反、也不是全序关系——取 a = 1, b = 2, c = 3 时，a < b < c < a。更多信息和示例请参见 Ord 文档。</p>"
+  ],
+  [
+    "<p>Splits the bytes into two at the given index.</p>",
+    "<p>在给定索引处将字节切分为两段。</p>"
+  ],
+  [
+    "<p>Panics if at > len.</p>",
+    "<p>若 at > len，本方法会 panic。</p>"
+  ],
+  [
+    "<p>Returns the first and all the rest of the elements of the slice, or None if it is empty.</p>",
+    "<p>返回第一个元素以及切片中剩余的全部元素；若切片为空，返回 None。</p>"
+  ],
+  [
+    "<p>Returns the last and all the rest of the elements of the slice, or None if it is empty.</p>",
+    "<p>返回最后一个元素以及切片中剩余的全部元素；若切片为空，返回 None。</p>"
+  ],
+  [
+    "<p>Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used.</p>",
+    "<p>即使不使用得到的引用，以越界索引调用本方法也是未定义行为。</p>"
+  ],
+  [
+    "<p>The caller must ensure that the slice outlives the pointer this function returns, or else it will end up dangling.</p>",
+    "<p>调用者必须确保切片的生命周期长于本函数返回的指针，否则该指针将悬垂。</p>"
+  ],
+  [
+    "<p>Modifying the container referenced by this slice may cause its buffer to be reallocated, which would also make any pointers to it invalid.</p>",
+    "<p>修改本切片所引用的容器可能导致其缓冲区重新分配，进而使指向它的所有指针失效。</p>"
+  ],
+  [
+    "<p>The returned range is half-open, which means that the end pointer points one past the last element of the slice. This way, an empty slice is represented by two equal pointers, and the difference between the two pointers represents the size of the slice.</p>",
+    "<p>返回的范围是半开区间，这意味着结束指针指向切片最后一个元素之后的一个位置。这样，一个空切片由两个相等的指针表示，两个指针之差表示切片的大小。</p>"
+  ],
+  [
+    "<p>This function is useful for interacting with foreign interfaces which use two pointers to refer to a range of elements in memory, as is common in C++.</p>",
+    "<p>本函数对于与外部接口（常见的如 C++ 中使用两个指针表示一段内存中的元素范围）交互非常有用。</p>"
+  ],
+  [
+    "<p>If N is not exactly equal to the length of self, then this method returns None.</p>",
+    "<p>若 N 与 self 的长度不相等，本方法返回 None。</p>"
+  ],
+  [
+    "<p>The iterator yields all items from start to end.</p>",
+    "<p>迭代器产出从 start 到 end 的全部项。</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of N-element arrays, assuming that there’s no remainder.</p>",
+    "<p>将切片切分为若干 N 元素数组的切片，假定不存在余数。</p>"
+  ],
+  [
+    "<p>This may only be called when</p>",
+    "<p>本方法只能在满足以下条件时调用：</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of N-element arrays, starting at the beginning of the slice, and a remainder slice with length strictly less than N.</p>",
+    "<p>从切片开头将其切分为若干 N 元素数组的切片，以及一段长度严格小于 N 的剩余切片。</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of N-element arrays, starting at the end of the slice, and a remainder slice with length strictly less than N.</p>",
+    "<p>从切片末尾将其切分为若干 N 元素数组的切片，以及一段长度严格小于 N 的剩余切片。</p>"
+  ],
+  [
+    "<p>The predicate is called for every pair of consecutive elements, meaning that it is called on slice[0] and slice[1], followed by slice[1] and slice[2], and so on.</p>",
+    "<p>对每对相邻元素都会调用谓词，即依次在 slice[0] 与 slice[1]、slice[1] 与 slice[2]……上调用。</p>"
+  ],
+  [
+    "<p>This method can be used to extract the sorted subslices:</p>",
+    "<p>本方法可用于提取已排序的子切片：</p>"
+  ],
+  [
+    "<p>Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that 0 <= mid <= self.len().</p>",
+    "<p>即使不使用得到的引用，以越界索引调用本方法也是未定义行为。调用者必须保证 0 <= mid <= self.len()。</p>"
+  ],
+  [
+    "<p>If mid == len returns a pair of slices where the first will contain all indices from [0, mid) (excluding the index mid itself) and the second will contain all indices from [mid, len) (excluding the index len itself).</p>",
+    "<p>若 mid == len，返回一对切片：第一段包含 [0, mid) 范围内的全部索引（不含 mid 本身），第二段包含 [mid, len) 范围内的全部索引（不含 len 本身）。</p>"
+  ],
+  [
+    "<p>Otherwise, if mid > len, returns None.</p>",
+    "<p>否则，若 mid > len，返回 None。</p>"
+  ],
+  [
+    "<p>Returns an iterator over subslices separated by elements that match pred limited to returning at most n items. This starts at the end of the slice and works backwards. The matched element is not contained in the subslices.</p>",
+    "<p>返回一个子切片迭代器，由匹配 pred 的元素分隔，最多产出 n 个子切片。迭代从切片末尾开始向前进行。匹配的元素本身不包含在子切片中。</p>"
+  ],
+  [
+    "<p>This method splits the slice into three distinct slices: prefix, correctly aligned middle slice of a new type, and the suffix slice. The middle part will be as big as possible under the given alignment constraint and element size.</p>",
+    "<p>本方法将切片切分为三个不同的部分：前缀、类型为新类型的对齐正确的中间切片，以及后缀切片。中间部分在给定的对齐约束与元素大小下尽可能大。</p>"
+  ],
+  [
+    "<p>This method has no purpose when either input element T or output element U are zero-sized and will return the original slice without splitting anything.</p>",
+    "<p>当输入元素 T 或输出元素 U 是零大小类型时，本方法没有意义，将原样返回原切片而不做任何切分。</p>"
+  ],
+  [
+    "<p>This method is essentially a transmute with respect to the elements in the returned middle slice, so all the usual caveats pertaining to transmute::<T, U> also apply here.</p>",
+    "<p>本方法本质上是对返回的中间切片中的元素做一次 transmute，因此所有关于 transmute::<T, U> 的注意事项同样适用。</p>"
+  ],
+  [
+    "<p>This will panic if the size of the SIMD type is different from LANES times that of the scalar.</p>",
+    "<p>若 SIMD 类型的大小与 LANES 乘以标量类型的大小不一致，本方法会 panic。</p>"
+  ],
+  [
+    "<p>At the time of writing, the trait restrictions on Simd<T, LANES> keeps that from ever happening, as only power-of-two numbers of lanes are supported. It’s possible that, in the future, those restrictions might be lifted in a way that would make it possible to see panics from this method for something like LANES == 3.</p>",
+    "<p>在撰写本文时，Simd<T, LANES> 上的 trait 约束使得这种情况永远不会发生，因为仅支持 2 的幂个 lanes。未来这些约束可能被放宽，从而在 LANES == 3 这类情况下本方法可能 panic。</p>"
+  ],
+  [
+    "<p>ASCII letters ‘A’ to ‘Z’ are mapped to ‘a’ to ‘z’, but non-ASCII letters are unchanged.</p>",
+    "<p>ASCII 字母 'A' 到 'Z' 被映射为 'a' 到 'z'，但非 ASCII 字母保持不变。</p>"
+  ],
+  [
+    "<p>ASCII letters ‘a’ to ‘z’ are mapped to ‘A’ to ‘Z’, but non-ASCII letters are unchanged.</p>",
+    "<p>ASCII 字母 'a' 到 'z' 被映射为 'A' 到 'Z'，但非 ASCII 字母保持不变。</p>"
+  ],
+  [
+    "<p>This operation is O(1).</p>",
+    "<p>本操作的时间复杂度为 O(1)。</p>"
+  ],
+  [
+    "<p>Shortens the buffer, keeping the first len bytes and dropping the rest.</p>",
+    "<p>缩短缓冲区，保留前 len 个字节并丢弃其余部分。</p>"
+  ],
+  [
+    "<p>If len is greater than the buffer’s current length, this has no effect.</p>",
+    "<p>若 len 大于缓冲区的当前长度，本方法无效果。</p>"
+  ],
+  [
+    "<p>The split_off method can emulate truncate, but this causes the excess bytes to be returned instead of dropped.</p>",
+    "<p>split_off 方法可以模拟 truncate 的效果，但它返回多余的字节而不是丢弃它们。</p>"
+  ],
+  [
+    "<p>Checks if all bytes in this slice are within the ASCII range.</p>",
+    "<p>检查本切片中的所有字节是否都在 ASCII 范围内。</p>"
+  ],
+  [
+    "<p>An empty slice returns true.</p>",
+    "<p>空切片返回 true。</p>"
+  ],
+  [
+    "<p>If this slice is_ascii, returns it as a slice of ASCII characters, otherwise returns None.</p>",
+    "<p>若本切片是 ASCII，返回其作为 ASCII 字符切片的视图；否则返回 None。</p>"
+  ],
+  [
+    "<p>Converts this slice of bytes into a slice of ASCII characters, without checking whether they’re valid.</p>",
+    "<p>将本字节切片转换为 ASCII 字符切片，不检查是否合法。</p>"
+  ],
+  [
+    "<p>Every byte in the slice must be in 0..=127, or else this is UB.</p>",
+    "<p>切片中的每个字节都必须位于 0..=127 范围内，否则为未定义行为。</p>"
+  ],
+  [
+    "<p>Checks that two slices are an ASCII case-insensitive match.</p>",
+    "<p>检查两个切片是否在忽略 ASCII 大小写的情况下相等。</p>"
+  ],
+  [
+    "<p>Same as to_ascii_lowercase(a) == to_ascii_lowercase(b), but without allocating and copying temporaries.</p>",
+    "<p>等价于 to_ascii_lowercase(a) == to_ascii_lowercase(b)，但无需分配或复制临时变量。</p>"
+  ],
+  [
+    "<p>Returns an iterator that produces an escaped version of this slice, treating it as an ASCII string.</p>",
+    "<p>返回一个迭代器，产出本切片作为 ASCII 字符串处理后的转义版本。</p>"
+  ],
+  [
+    "<p>Returns a byte slice with leading ASCII whitespace bytes removed.</p>",
+    "<p>返回一个去除了开头 ASCII 空白字节的字节切片。</p>"
+  ],
+  [
+    "<p>Returns a byte slice with trailing ASCII whitespace bytes removed.</p>",
+    "<p>返回一个去除了末尾 ASCII 空白字节的字节切片。</p>"
+  ],
+  [
+    "<p>Returns a byte slice with leading and trailing ASCII whitespace bytes removed.</p>",
+    "<p>返回一个同时去除了开头和末尾 ASCII 空白字节的字节切片。</p>"
+  ],
+  [
+    "<p>Returns the number of elements in the slice.</p>",
+    "<p>返回切片中元素的数量。</p>"
+  ],
+  [
+    "<p>“Whitespace” refers to the definition used by u8::is_ascii_whitespace.</p>",
+    "<p>“空白” 指的是 u8::is_ascii_whitespace 所使用的定义。</p>"
+  ],
+  [
+    "<p>Splits the bytes into two at the given index, returning the right half.</p>",
+    "<p>在给定索引处将字节切分为两段，并返回右半部分。</p>"
+  ],
+  [
+    "<p>Splits the bytes into two at the given index, afterwards self contains elements [0, at), and the returned Bytes contains elements [at, capacity).</p>",
+    "<p>在给定索引处将字节切分为两段；之后 self 包含索引 [0, at) 范围的元素，返回的 Bytes 包含索引 [at, capacity) 范围的元素。</p>"
+  ],
+  [
+    "<p>Splits the bytes into two at the given index, afterwards self contains elements [0, at), and the returned BytesMut contains elements [at, len).</p>",
+    "<p>在给定索引处将字节切分为两段；之后 self 包含索引 [0, at) 范围的元素，返回的 BytesMut 包含索引 [at, len) 范围的元素。</p>"
+  ],
+  [
+    "<p>Splits the bytes into two at the given index, afterwards self contains elements [0, at), and the returned BytesMut contains elements [at, capacity).</p>",
+    "<p>在给定索引处将字节切分为两段；之后 self 包含索引 [0, at) 范围的元素，返回的 BytesMut 包含索引 [at, capacity) 范围的元素。</p>"
+  ],
+  [
+    "<p>Returns a slice of self for the provided range.</p>",
+    "<p>返回 self 中指定范围的切片。</p>"
+  ],
+  [
+    "<p>This operation is O(1).</p>",
+    "<p>本操作的时间复杂度为 O(1)。</p>"
+  ],
+  [
+    "<p>This sort is unstable (i.e., may reorder equal elements), in-place (i.e., does not allocate), and O(n * log(n)) worst-case.</p>",
+    "<p>该排序是不稳定排序（即可能重排相等元素）、原地排序（不分配内存），最坏时间复杂度为 O(n * log(n))。</p>"
+  ],
+  [
+    "<p>The current implementation is based on driftsort by Orson Peters and Lukas Bergdoll, which combines the fast average case of quicksort with the fast worst case and partial run detection of mergesort, achieving linear time on fully sorted and reversed inputs. On inputs with k distinct elements, the expected time to sort the data is O(n * log(k)).</p>",
+    "<p>当前实现基于 Orson Peters 和 Lukas Bergdoll 的 driftsort，结合了快速排序的快速平均情况与归并排序的最坏情况及部分有序段检测，在完全有序和完全逆序的输入上达到线性时间复杂度。对于包含 k 个不同元素的输入，期望排序时间为 O(n * log(k))。</p>"
+  ],
+  [
+    "<p>It is typically faster than stable sorting, except in a few special cases, e.g., when the slice is partially sorted.</p>",
+    "<p>通常比稳定排序更快，除非在某些特殊情况下（例如切片部分有序）。</p>"
+  ],
+  [
+    "<p>If the implementation of Ord for K does not implement a total order, the function may panic; even if the function exits normally, the resulting order of elements in the slice is unspecified. See also the note on panicking below.</p>",
+    "<p>若 K 的 Ord 实现不是全序，本函数可能 panic；即使正常返回，切片中元素的最终顺序也未定义。另请参见下方关于 panic 的说明。</p>"
+  ],
+  [
+    "<p>Upon completion, for the specified range start..end, it’s guaranteed that:</p>",
+    "<p>执行完毕后，对于指定的 start..end 范围，保证以下条件：</p>"
+  ],
+  [
+    "<p>This partial sort is unstable, meaning it may reorder equal elements in the specified range. It may reorder elements outside the specified range as well, but the guarantees above still hold.</p>",
+    "<p>本次部分排序是不稳定排序，意味着它可能重排指定范围内的相等元素。它也可能重排指定范围之外的元素，但上述保证仍然有效。</p>"
+  ],
+  [
+    "<p>This partial sort is in-place (i.e., does not allocate), and O(n + k * log(k)) worst-case, where n is the length of the slice and k is the length of the specified range.</p>",
+    "<p>本次部分排序是原地排序（不分配内存），最坏时间复杂度为 O(n + k * log(k))，其中 n 是切片长度，k 是指定范围的长度。</p>"
+  ],
+  [
+    "<p>This reordering is unstable (i.e. any element that compares equal to the nth element may end up at that position), in-place (i.e. does not allocate), and runs in O(n) time. This function is also known as “kth element” in other libraries.</p>",
+    "<p>本次重排是不稳定排序（即任何与第 n 个元素相等的元素都可能最终出现在该位置），原地执行（不分配内存），运行时间为 O(n)。本函数在其他库中也称为 “kth element”。</p>"
+  ],
+  [
+    "<p>The element at index.</p>",
+    "<p>索引处的元素。</p>"
+  ],
+  [
+    "<p>The current algorithm is an introselect implementation based on ipnsort by Lukas Bergdoll and Orson Peters, which is also the basis for sort_unstable. The fallback algorithm is Median of Medians using Tukey’s Ninther for pivot selection, which guarantees linear runtime for all inputs.</p>",
+    "<p>当前算法是基于 Lukas Bergdoll 和 Orson Peters 的 ipnsort（也是 sort_unstable 的基础）实现的 introselect。回退算法使用 Median of Medians 加 Tukey 的 Ninther 进行枢轴选择，保证对所有输入都具有线性运行时间。</p>"
+  ],
+  [
+    "<p>Returns two slices. The first contains no consecutive repeated elements. The second contains all the duplicates in no specified order.</p>",
+    "<p>返回两个切片。第一个不包含任何相邻的重复元素；第二个按任意顺序包含全部重复元素。</p>"
+  ],
+  [
+    "<p>If the slice is sorted, the first returned slice contains no duplicates.</p>",
+    "<p>若切片已排序，则返回的第一个切片中不包含重复元素。</p>"
+  ],
+  [
+    "<p>This function will panic if the two slices have different lengths.</p>",
+    "<p>若两个切片长度不同，本函数会 panic。</p>"
+  ],
+  [
+    "<p>The auxiliary memory allocation behavior depends on the input length. Short slices are handled without allocation, medium sized slices allocate self.len() and beyond that it clamps at self.len() / 2.</p>",
+    "<p>辅助内存分配行为取决于输入长度。短切片无需分配；中等长度切片分配 self.len() 大小的内存；当长度进一步增加时，上限为 self.len() / 2。</p>"
+  ],
+  [
+    "<p>All safe functions on slices preserve the invariant that even if the function panics, all original elements will remain in the slice and any possible modifications via interior mutability are observed in the input. This ensures that recovery code (for instance inside of a Drop or following a catch_unwind) will still have access to all the original elements. For instance, if the slice belongs to a Vec, the Vec::drop method will be able to dispose of all contained elements.</p>",
+    "<p>切片上的所有安全函数都遵循如下不变式：即使函数 panic，所有原始元素也仍保留在切片中，且所有通过内部可变性做出的修改都在输入中可见。这确保恢复代码（例如 Drop 中或 catch_unwind 之后的代码）仍能访问全部原始元素。例如，若切片属于 Vec，Vec::drop 方法将能够正确处理其中包含的全部元素。</p>"
+  ]
+]

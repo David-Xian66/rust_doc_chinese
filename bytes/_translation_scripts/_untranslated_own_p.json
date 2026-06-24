@@ -1,0 +1,2184 @@
+{
+  "struct.Bytes.html": [
+    {
+      "id": "method.new",
+      "text": "Creates a new empty Bytes.",
+      "full_p": "<p>Creates a new empty <code>Bytes</code>.</p>"
+    },
+    {
+      "id": "method.new",
+      "text": "This will not allocate and the returned Bytes handle will be empty.",
+      "full_p": "<p>This will not allocate and the returned <code>Bytes</code> handle will be empty.</p>"
+    },
+    {
+      "id": "method.from_static",
+      "text": "Creates a new Bytes from a static slice.",
+      "full_p": "<p>Creates a new <code>Bytes</code> from a static slice.</p>"
+    },
+    {
+      "id": "method.from_static",
+      "text": "The returned Bytes will point directly to the static slice. There is\r\nno allocating or copying.",
+      "full_p": "<p>The returned <code>Bytes</code> will point directly to the static slice. There is\r\nno allocating or copying.</p>"
+    },
+    {
+      "id": "method.from_owner",
+      "text": "The owner will be transferred to the constructed Bytes object, which\r\nwill ensure it is dropped once all remaining clones of the constructed\r\nobject are dropped. The owner will then be responsible for dropping the\r\nspecified region of memory as part of its Drop implementation.",
+      "full_p": "<p>The <code>owner</code> will be transferred to the constructed <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> object, which\r\nwill ensure it is dropped once all remaining clones of the constructed\r\nobject are dropped. The owner will then be responsible for dropping the\r\nspecified region of memory as part of its <a href=\"https://doc.rust-lang.org/1.95.0/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> implementation.</p>"
+    },
+    {
+      "id": "method.from_owner",
+      "text": "Note that converting Bytes constructed from an owner into a BytesMut\r\nwill always create a deep copy of the buffer into newly allocated memory.",
+      "full_p": "<p>Note that converting <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> constructed from an owner into a <a href=\"struct.BytesMut.html\" title=\"struct bytes::BytesMut\">BytesMut</a>\r\nwill always create a deep copy of the buffer into newly allocated memory.</p>"
+    },
+    {
+      "id": "method.len",
+      "text": "Returns the number of bytes contained in this Bytes.",
+      "full_p": "<p>Returns the number of bytes contained in this <code>Bytes</code>.</p>"
+    },
+    {
+      "id": "method.is_empty",
+      "text": "Returns true if the Bytes has a length of 0.",
+      "full_p": "<p>Returns true if the <code>Bytes</code> has a length of 0.</p>"
+    },
+    {
+      "id": "method.is_unique",
+      "text": "Returns true if this is the only reference to the data and\r\nInto&lt;BytesMut&gt; would avoid cloning the underlying buffer.",
+      "full_p": "<p>Returns true if this is the only reference to the data and\r\n<code>Into&lt;BytesMut&gt;</code> would avoid cloning the underlying buffer.</p>"
+    },
+    {
+      "id": "method.is_unique",
+      "text": "Always returns false if the data is backed by a static slice,\r\nor an owner.",
+      "full_p": "<p>Always returns false if the data is backed by a <a href=\"struct.Bytes.html#method.from_static\" title=\"associated function bytes::Bytes::from_static\">static slice</a>,\r\nor an <a href=\"struct.Bytes.html#method.from_owner\" title=\"associated function bytes::Bytes::from_owner\">owner</a>.</p>"
+    },
+    {
+      "id": "method.is_unique",
+      "text": "The result of this method may be invalidated immediately if another\r\nthread clones this value while this is being called. Ensure you have\r\nunique access to this value (&amp;mut Bytes) first if you need to be\r\ncertain the result is valid (i.e. for safety reasons).",
+      "full_p": "<p>The result of this method may be invalidated immediately if another\r\nthread clones this value while this is being called. Ensure you have\r\nunique access to this value (<code>&amp;mut Bytes</code>) first if you need to be\r\ncertain the result is valid (i.e. for safety reasons).</p>"
+    },
+    {
+      "id": "method.slice",
+      "text": "This will increment the reference count for the underlying memory and\r\nreturn a new Bytes handle set to the slice.",
+      "full_p": "<p>This will increment the reference count for the underlying memory and\r\nreturn a new <code>Bytes</code> handle set to the slice.</p>"
+    },
+    {
+      "id": "method.slice",
+      "text": "This operation is O(1).",
+      "full_p": "<p>This operation is <code>O(1)</code>.</p>"
+    },
+    {
+      "id": "method.slice",
+      "text": "Requires that begin &lt;= end and end &lt;= self.len(), otherwise slicing\r\nwill panic.",
+      "full_p": "<p>Requires that <code>begin &lt;= end</code> and <code>end &lt;= self.len()</code>, otherwise slicing\r\nwill panic.</p>"
+    },
+    {
+      "id": "method.slice_ref",
+      "text": "Returns a slice of self that is equivalent to the given subset.",
+      "full_p": "<p>Returns a slice of self that is equivalent to the given <code>subset</code>.</p>"
+    },
+    {
+      "id": "method.slice_ref",
+      "text": "When processing a Bytes buffer with other tools, one often gets a\r\n&amp;[u8] which is in fact a slice of the Bytes, i.e. a subset of it.\r\nThis function turns that &amp;[u8] into another Bytes, as if one had\r\ncalled self.slice() with the offsets that correspond to subset.",
+      "full_p": "<p>When processing a <code>Bytes</code> buffer with other tools, one often gets a\r\n<code>&amp;[u8]</code> which is in fact a slice of the <code>Bytes</code>, i.e. a subset of it.\r\nThis function turns that <code>&amp;[u8]</code> into another <code>Bytes</code>, as if one had\r\ncalled <code>self.slice()</code> with the offsets that correspond to <code>subset</code>.</p>"
+    },
+    {
+      "id": "method.slice_ref",
+      "text": "This operation is O(1).",
+      "full_p": "<p>This operation is <code>O(1)</code>.</p>"
+    },
+    {
+      "id": "method.slice_ref",
+      "text": "Requires that the given sub slice is in fact contained within the\r\nBytes buffer; otherwise this function will panic.",
+      "full_p": "<p>Requires that the given <code>sub</code> slice is in fact contained within the\r\n<code>Bytes</code> buffer; otherwise this function will panic.</p>"
+    },
+    {
+      "id": "method.split_off",
+      "text": "Afterwards self contains elements [0, at), and the returned Bytes\r\ncontains elements [at, len). It’s guaranteed that the memory does not\r\nmove, that is, the address of self does not change, and the address of\r\nthe returned slice is at bytes after that.",
+      "full_p": "<p>Afterwards <code>self</code> contains elements <code>[0, at)</code>, and the returned <code>Bytes</code>\r\ncontains elements <code>[at, len)</code>. It’s guaranteed that the memory does not\r\nmove, that is, the address of <code>self</code> does not change, and the address of\r\nthe returned slice is <code>at</code> bytes after that.</p>"
+    },
+    {
+      "id": "method.split_off",
+      "text": "This is an O(1) operation that just increases the reference count and\r\nsets a few indices.",
+      "full_p": "<p>This is an <code>O(1)</code> operation that just increases the reference count and\r\nsets a few indices.</p>"
+    },
+    {
+      "id": "method.split_to",
+      "text": "Afterwards self contains elements [at, len), and the returned\r\nBytes contains elements [0, at).",
+      "full_p": "<p>Afterwards <code>self</code> contains elements <code>[at, len)</code>, and the returned\r\n<code>Bytes</code> contains elements <code>[0, at)</code>.</p>"
+    },
+    {
+      "id": "method.split_to",
+      "text": "This is an O(1) operation that just increases the reference count and\r\nsets a few indices.",
+      "full_p": "<p>This is an <code>O(1)</code> operation that just increases the reference count and\r\nsets a few indices.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "Shortens the buffer, keeping the first len bytes and dropping the\r\nrest.",
+      "full_p": "<p>Shortens the buffer, keeping the first <code>len</code> bytes and dropping the\r\nrest.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "If len is greater than the buffer’s current length, this has no\r\neffect.",
+      "full_p": "<p>If <code>len</code> is greater than the buffer’s current length, this has no\r\neffect.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "The split_off method can emulate truncate, but this causes the\r\nexcess bytes to be returned instead of dropped.",
+      "full_p": "<p>The <a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\r\nexcess bytes to be returned instead of dropped.</p>"
+    },
+    {
+      "id": "method.clear",
+      "text": "Clears the buffer, removing all data.",
+      "full_p": "<p>Clears the buffer, removing all data.</p>"
+    },
+    {
+      "id": "method.try_into_mut",
+      "text": "Try to convert self into BytesMut.",
+      "full_p": "<p>Try to convert self into <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.try_into_mut",
+      "text": "If self is unique for the entire original buffer, this will succeed\r\nand return a BytesMut with the contents of self without copying.\r\nIf self is not unique for the entire original buffer, this will fail\r\nand return self.",
+      "full_p": "<p>If <code>self</code> is unique for the entire original buffer, this will succeed\r\nand return a <code>BytesMut</code> with the contents of <code>self</code> without copying.\r\nIf <code>self</code> is not unique for the entire original buffer, this will fail\r\nand return self.</p>"
+    },
+    {
+      "id": "method.try_into_mut",
+      "text": "This will also always fail if the buffer was constructed via either\r\nfrom_owner or from_static.",
+      "full_p": "<p>This will also always fail if the buffer was constructed via either\r\n<a href=\"struct.Bytes.html#method.from_owner\" title=\"associated function bytes::Bytes::from_owner\">from_owner</a> or <a href=\"struct.Bytes.html#method.from_static\" title=\"associated function bytes::Bytes::from_static\">from_static</a>.</p>"
+    },
+    {
+      "id": "method.from-4",
+      "text": "Convert self into BytesMut.",
+      "full_p": "<p>Convert self into <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.from-4",
+      "text": "If bytes is unique for the entire original buffer, this will return a\r\nBytesMut with the contents of bytes without copying.\r\nIf bytes is not unique for the entire original buffer, this will make\r\na copy of bytes subset of the original buffer in a new BytesMut.",
+      "full_p": "<p>If <code>bytes</code> is unique for the entire original buffer, this will return a\r\n<code>BytesMut</code> with the contents of <code>bytes</code> without copying.\r\nIf <code>bytes</code> is not unique for the entire original buffer, this will make\r\na copy of <code>bytes</code> subset of the original buffer in a new <code>BytesMut</code>.</p>"
+    }
+  ],
+  "struct.BytesMut.html": [
+    {
+      "id": "method.with_capacity",
+      "text": "Creates a new BytesMut with the specified capacity.",
+      "full_p": "<p>Creates a new <code>BytesMut</code> with the specified capacity.</p>"
+    },
+    {
+      "id": "method.with_capacity",
+      "text": "The returned BytesMut will be able to hold at least capacity bytes\r\nwithout reallocating.",
+      "full_p": "<p>The returned <code>BytesMut</code> will be able to hold at least <code>capacity</code> bytes\r\nwithout reallocating.</p>"
+    },
+    {
+      "id": "method.with_capacity",
+      "text": "It is important to note that this function does not specify the length\r\nof the returned BytesMut, but only the capacity.",
+      "full_p": "<p>It is important to note that this function does not specify the length\r\nof the returned <code>BytesMut</code>, but only the capacity.</p>"
+    },
+    {
+      "id": "method.new",
+      "text": "Creates a new BytesMut with default capacity.",
+      "full_p": "<p>Creates a new <code>BytesMut</code> with default capacity.</p>"
+    },
+    {
+      "id": "method.new",
+      "text": "Resulting object has length 0 and unspecified capacity.\r\nThis function does not allocate.",
+      "full_p": "<p>Resulting object has length 0 and unspecified capacity.\r\nThis function does not allocate.</p>"
+    },
+    {
+      "id": "method.len",
+      "text": "Returns the number of bytes contained in this BytesMut.",
+      "full_p": "<p>Returns the number of bytes contained in this <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.is_empty",
+      "text": "Returns true if the BytesMut has a length of 0.",
+      "full_p": "<p>Returns true if the <code>BytesMut</code> has a length of 0.</p>"
+    },
+    {
+      "id": "method.capacity",
+      "text": "Returns the number of bytes the BytesMut can hold without reallocating.",
+      "full_p": "<p>Returns the number of bytes the <code>BytesMut</code> can hold without reallocating.</p>"
+    },
+    {
+      "id": "method.freeze",
+      "text": "Converts self into an immutable Bytes.",
+      "full_p": "<p>Converts <code>self</code> into an immutable <code>Bytes</code>.</p>"
+    },
+    {
+      "id": "method.freeze",
+      "text": "The conversion is zero cost and is used to indicate that the slice\r\nreferenced by the handle will no longer be mutated. Once the conversion\r\nis done, the handle can be cloned and shared across threads.",
+      "full_p": "<p>The conversion is zero cost and is used to indicate that the slice\r\nreferenced by the handle will no longer be mutated. Once the conversion\r\nis done, the handle can be cloned and shared across threads.</p>"
+    },
+    {
+      "id": "method.zeroed",
+      "text": "Creates a new BytesMut containing len zeros.",
+      "full_p": "<p>Creates a new <code>BytesMut</code> containing <code>len</code> zeros.</p>"
+    },
+    {
+      "id": "method.zeroed",
+      "text": "The resulting object has a length of len and a capacity greater\r\nthan or equal to len. The entire length of the object will be filled\r\nwith zeros.",
+      "full_p": "<p>The resulting object has a length of <code>len</code> and a capacity greater\r\nthan or equal to <code>len</code>. The entire length of the object will be filled\r\nwith zeros.</p>"
+    },
+    {
+      "id": "method.zeroed",
+      "text": "On some platforms or allocators this function may be faster than\r\na manual implementation.",
+      "full_p": "<p>On some platforms or allocators this function may be faster than\r\na manual implementation.</p>"
+    },
+    {
+      "id": "method.split_off",
+      "text": "Afterwards self contains elements [0, at), and the returned\r\nBytesMut contains elements [at, capacity). It’s guaranteed that the\r\nmemory does not move, that is, the address of self does not change,\r\nand the address of the returned slice is at bytes after that.",
+      "full_p": "<p>Afterwards <code>self</code> contains elements <code>[0, at)</code>, and the returned\r\n<code>BytesMut</code> contains elements <code>[at, capacity)</code>. It’s guaranteed that the\r\nmemory does not move, that is, the address of <code>self</code> does not change,\r\nand the address of the returned slice is <code>at</code> bytes after that.</p>"
+    },
+    {
+      "id": "method.split_off",
+      "text": "This is an O(1) operation that just increases the reference count\r\nand sets a few indices.",
+      "full_p": "<p>This is an <code>O(1)</code> operation that just increases the reference count\r\nand sets a few indices.</p>"
+    },
+    {
+      "id": "method.split_off",
+      "text": "Panics if at &gt; capacity.",
+      "full_p": "<p>Panics if <code>at &gt; capacity</code>.</p>"
+    },
+    {
+      "id": "method.split",
+      "text": "Removes the bytes from the current view, returning them in a new\r\nBytesMut handle.",
+      "full_p": "<p>Removes the bytes from the current view, returning them in a new\r\n<code>BytesMut</code> handle.</p>"
+    },
+    {
+      "id": "method.split",
+      "text": "Afterwards, self will be empty, but will retain any additional\r\ncapacity that it had before the operation. This is identical to\r\nself.split_to(self.len()).",
+      "full_p": "<p>Afterwards, <code>self</code> will be empty, but will retain any additional\r\ncapacity that it had before the operation. This is identical to\r\n<code>self.split_to(self.len())</code>.</p>"
+    },
+    {
+      "id": "method.split",
+      "text": "This is an O(1) operation that just increases the reference count and\r\nsets a few indices.",
+      "full_p": "<p>This is an <code>O(1)</code> operation that just increases the reference count and\r\nsets a few indices.</p>"
+    },
+    {
+      "id": "method.split_to",
+      "text": "Splits the buffer into two at the given index.",
+      "full_p": "<p>Splits the buffer into two at the given index.</p>"
+    },
+    {
+      "id": "method.split_to",
+      "text": "Afterwards self contains elements [at, len), and the returned BytesMut\r\ncontains elements [0, at).",
+      "full_p": "<p>Afterwards <code>self</code> contains elements <code>[at, len)</code>, and the returned <code>BytesMut</code>\r\ncontains elements <code>[0, at)</code>.</p>"
+    },
+    {
+      "id": "method.split_to",
+      "text": "This is an O(1) operation that just increases the reference count and\r\nsets a few indices.",
+      "full_p": "<p>This is an <code>O(1)</code> operation that just increases the reference count and\r\nsets a few indices.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "Shortens the buffer, keeping the first len bytes and dropping the\r\nrest.",
+      "full_p": "<p>Shortens the buffer, keeping the first <code>len</code> bytes and dropping the\r\nrest.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "If len is greater than the buffer’s current length, this has no\r\neffect.",
+      "full_p": "<p>If <code>len</code> is greater than the buffer’s current length, this has no\r\neffect.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "Existing underlying capacity is preserved.",
+      "full_p": "<p>Existing underlying capacity is preserved.</p>"
+    },
+    {
+      "id": "method.truncate",
+      "text": "The split_off method can emulate truncate, but this causes the\r\nexcess bytes to be returned instead of dropped.",
+      "full_p": "<p>The <a href=\"struct.BytesMut.html#method.split_off\" title=\"method bytes::BytesMut::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\r\nexcess bytes to be returned instead of dropped.</p>"
+    },
+    {
+      "id": "method.clear",
+      "text": "Clears the buffer, removing all data. Existing capacity is preserved.",
+      "full_p": "<p>Clears the buffer, removing all data. Existing capacity is preserved.</p>"
+    },
+    {
+      "id": "method.resize",
+      "text": "Resizes the buffer so that len is equal to new_len.",
+      "full_p": "<p>Resizes the buffer so that <code>len</code> is equal to <code>new_len</code>.</p>"
+    },
+    {
+      "id": "method.resize",
+      "text": "If new_len is greater than len, the buffer is extended by the\r\ndifference with each additional byte set to value. If new_len is\r\nless than len, the buffer is simply truncated.",
+      "full_p": "<p>If <code>new_len</code> is greater than <code>len</code>, the buffer is extended by the\r\ndifference with each additional byte set to <code>value</code>. If <code>new_len</code> is\r\nless than <code>len</code>, the buffer is simply truncated.</p>"
+    },
+    {
+      "id": "method.set_len",
+      "text": "Sets the length of the buffer.",
+      "full_p": "<p>Sets the length of the buffer.</p>"
+    },
+    {
+      "id": "method.set_len",
+      "text": "This will explicitly set the size of the buffer without actually\r\nmodifying the data, so it is up to the caller to ensure that the data\r\nhas been initialized.",
+      "full_p": "<p>This will explicitly set the size of the buffer without actually\r\nmodifying the data, so it is up to the caller to ensure that the data\r\nhas been initialized.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "Reserves capacity for at least additional more bytes to be inserted\r\ninto the given BytesMut.",
+      "full_p": "<p>Reserves capacity for at least <code>additional</code> more bytes to be inserted\r\ninto the given <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "More than additional bytes may be reserved in order to avoid frequent\r\nreallocations. A call to reserve may result in an allocation.",
+      "full_p": "<p>More than <code>additional</code> bytes may be reserved in order to avoid frequent\r\nreallocations. A call to <code>reserve</code> may result in an allocation.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "Before allocating new buffer space, the function will attempt to reclaim\r\nspace in the existing buffer. If the current handle references a view\r\ninto a larger original buffer, and all other handles referencing part\r\nof the same original buffer have been dropped, then the current view\r\ncan be copied/shifted to the front of the buffer and the handle can take\r\nownership of the full buffer, provided that the full buffer is large\r\nenough to fit the requested additional capacity.",
+      "full_p": "<p>Before allocating new buffer space, the function will attempt to reclaim\r\nspace in the existing buffer. If the current handle references a view\r\ninto a larger original buffer, and all other handles referencing part\r\nof the same original buffer have been dropped, then the current view\r\ncan be copied/shifted to the front of the buffer and the handle can take\r\nownership of the full buffer, provided that the full buffer is large\r\nenough to fit the requested additional capacity.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "This optimization will only happen if shifting the data from the current\r\nview to the front of the buffer is not too expensive in terms of the\r\n(amortized) time required. The precise condition is subject to change;\r\nas of now, the length of the data being shifted needs to be at least as\r\nlarge as the distance that it’s shifted by. If the current view is empty\r\nand the original buffer is large enough to fit the requested additional\r\ncapacity, then reallocations will never happen.",
+      "full_p": "<p>This optimization will only happen if shifting the data from the current\r\nview to the front of the buffer is not too expensive in terms of the\r\n(amortized) time required. The precise condition is subject to change;\r\nas of now, the length of the data being shifted needs to be at least as\r\nlarge as the distance that it’s shifted by. If the current view is empty\r\nand the original buffer is large enough to fit the requested additional\r\ncapacity, then reallocations will never happen.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "This method does not preserve data stored in the unused capacity.",
+      "full_p": "<p>This method does not preserve data stored in the unused capacity.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "In the following example, a new buffer is allocated.",
+      "full_p": "<p>In the following example, a new buffer is allocated.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "In the following example, the existing buffer is reclaimed.",
+      "full_p": "<p>In the following example, the existing buffer is reclaimed.</p>"
+    },
+    {
+      "id": "method.reserve",
+      "text": "Panics if the new capacity overflows usize.",
+      "full_p": "<p>Panics if the new capacity overflows <code>usize</code>.</p>"
+    },
+    {
+      "id": "method.try_reclaim",
+      "text": "Attempts to cheaply reclaim already allocated capacity for at least additional more\r\nbytes to be inserted into the given BytesMut and returns true if it succeeded.",
+      "full_p": "<p>Attempts to cheaply reclaim already allocated capacity for at least <code>additional</code> more\r\nbytes to be inserted into the given <code>BytesMut</code> and returns <code>true</code> if it succeeded.</p>"
+    },
+    {
+      "id": "method.try_reclaim",
+      "text": "try_reclaim behaves exactly like reserve, except that it never allocates new storage\r\nand returns a bool indicating whether it was successful in doing so:",
+      "full_p": "<p><code>try_reclaim</code> behaves exactly like <code>reserve</code>, except that it never allocates new storage\r\nand returns a <code>bool</code> indicating whether it was successful in doing so:</p>"
+    },
+    {
+      "id": "method.try_reclaim",
+      "text": "try_reclaim returns false under these conditions:",
+      "full_p": "<p><code>try_reclaim</code> returns false under these conditions:</p>"
+    },
+    {
+      "id": "method.try_reclaim",
+      "text": "Reclaiming the allocation cheaply is possible if the BytesMut has no outstanding\r\nreferences through other BytesMuts or Bytes which point to the same underlying\r\nstorage.",
+      "full_p": "<p>Reclaiming the allocation cheaply is possible if the <code>BytesMut</code> has no outstanding\r\nreferences through other <code>BytesMut</code>s or <code>Bytes</code> which point to the same underlying\r\nstorage.</p>"
+    },
+    {
+      "id": "method.try_reclaim",
+      "text": "This method does not preserve data stored in the unused capacity.",
+      "full_p": "<p>This method does not preserve data stored in the unused capacity.</p>"
+    },
+    {
+      "id": "method.extend_from_slice",
+      "text": "Appends given bytes to this BytesMut.",
+      "full_p": "<p>Appends given bytes to this <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.extend_from_slice",
+      "text": "If this BytesMut object does not have enough capacity, it is resized\r\nfirst.",
+      "full_p": "<p>If this <code>BytesMut</code> object does not have enough capacity, it is resized\r\nfirst.</p>"
+    },
+    {
+      "id": "method.extend_from_within",
+      "text": "Clones the elements in the given range within this BytesMut and\r\nappends them to the end.",
+      "full_p": "<p>Clones the elements in the given <code>range</code> within this <code>BytesMut</code> and\r\nappends them to the end.</p>"
+    },
+    {
+      "id": "method.extend_from_within",
+      "text": "Panics if range is out of bounds for this BytesMut.",
+      "full_p": "<p>Panics if <code>range</code> is out of bounds for this <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.unsplit",
+      "text": "Absorbs a BytesMut that was previously split off if they are\r\ncontiguous, otherwise appends its bytes to this BytesMut.",
+      "full_p": "<p>Absorbs a <code>BytesMut</code> that was previously split off if they are\r\ncontiguous, otherwise appends its bytes to this <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.unsplit",
+      "text": "If the two BytesMut objects were previously contiguous and not mutated\r\nin a way that causes re-allocation i.e., if other was created by\r\ncalling split_off on this BytesMut, then this is an O(1) operation\r\nthat just decreases a reference count and sets a few indices.\r\nOtherwise this method degenerates to\r\nself.extend_from_slice(other.as_ref()).",
+      "full_p": "<p>If the two <code>BytesMut</code> objects were previously contiguous and not mutated\r\nin a way that causes re-allocation i.e., if <code>other</code> was created by\r\ncalling <code>split_off</code> on this <code>BytesMut</code>, then this is an <code>O(1)</code> operation\r\nthat just decreases a reference count and sets a few indices.\r\nOtherwise this method degenerates to\r\n<code>self.extend_from_slice(other.as_ref())</code>.</p>"
+    },
+    {
+      "id": "method.try_unsplit",
+      "text": "Absorbs a BytesMut that was previously split off.",
+      "full_p": "<p>Absorbs a <code>BytesMut</code> that was previously split off.</p>"
+    },
+    {
+      "id": "method.try_unsplit",
+      "text": "If the two BytesMut objects were previously contiguous, i.e., if\r\nother was created by calling split_off on this BytesMut, then\r\nthis is an O(1) operation that just decreases a reference\r\ncount and sets a few indices. Otherwise this method returns an error\r\ncontaining the original other.",
+      "full_p": "<p>If the two <code>BytesMut</code> objects were previously contiguous, i.e., if\r\n<code>other</code> was created by calling <code>split_off</code> on this <code>BytesMut</code>, then\r\nthis is an <code>O(1)</code> operation that just decreases a reference\r\ncount and sets a few indices. Otherwise this method returns an error\r\ncontaining the original <code>other</code>.</p>"
+    },
+    {
+      "id": "method.spare_capacity_mut",
+      "text": "Returns the remaining spare capacity of the buffer as a slice of MaybeUninit&lt;u8&gt;.",
+      "full_p": "<p>Returns the remaining spare capacity of the buffer as a slice of <code>MaybeUninit&lt;u8&gt;</code>.</p>"
+    },
+    {
+      "id": "method.spare_capacity_mut",
+      "text": "The returned slice can be used to fill the buffer with data (e.g. by\r\nreading from a file) before marking the data as initialized using the\r\nset_len method.",
+      "full_p": "<p>The returned slice can be used to fill the buffer with data (e.g. by\r\nreading from a file) before marking the data as initialized using the\r\n<a href=\"struct.BytesMut.html#method.set_len\" title=\"method bytes::BytesMut::set_len\"><code>set_len</code></a> method.</p>"
+    },
+    {
+      "id": "method.from",
+      "text": "Convert self into BytesMut.",
+      "full_p": "<p>Convert self into <code>BytesMut</code>.</p>"
+    },
+    {
+      "id": "method.from",
+      "text": "If bytes is unique for the entire original buffer, this will return a\r\nBytesMut with the contents of bytes without copying.\r\nIf bytes is not unique for the entire original buffer, this will make\r\na copy of bytes subset of the original buffer in a new BytesMut.",
+      "full_p": "<p>If <code>bytes</code> is unique for the entire original buffer, this will return a\r\n<code>BytesMut</code> with the contents of <code>bytes</code> without copying.\r\nIf <code>bytes</code> is not unique for the entire original buffer, this will make\r\na copy of <code>bytes</code> subset of the original buffer in a new <code>BytesMut</code>.</p>"
+    }
+  ],
+  "struct.TryGetError.html": [
+    {
+      "id": "structfield.requested",
+      "text": "The number of bytes necessary to get the value",
+      "full_p": "<p>The number of bytes necessary to get the value</p>"
+    },
+    {
+      "id": "structfield.available",
+      "text": "The number of bytes available in the buffer",
+      "full_p": "<p>The number of bytes available in the buffer</p>"
+    }
+  ],
+  "buf\\struct.Chain.html": [
+    {
+      "id": "method.first_ref",
+      "text": "Gets a reference to the first underlying Buf.",
+      "full_p": "<p>Gets a reference to the first underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.first_mut",
+      "text": "Gets a mutable reference to the first underlying Buf.",
+      "full_p": "<p>Gets a mutable reference to the first underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.last_ref",
+      "text": "Gets a reference to the last underlying Buf.",
+      "full_p": "<p>Gets a reference to the last underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.last_mut",
+      "text": "Gets a mutable reference to the last underlying Buf.",
+      "full_p": "<p>Gets a mutable reference to the last underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.into_inner",
+      "text": "Consumes this Chain, returning the underlying values.",
+      "full_p": "<p>Consumes this <code>Chain</code>, returning the underlying values.</p>"
+    }
+  ],
+  "buf\\struct.IntoIter.html": [
+    {
+      "id": "method.into_inner",
+      "text": "Consumes this IntoIter, returning the underlying value.",
+      "full_p": "<p>Consumes this <code>IntoIter</code>, returning the underlying value.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "Gets a reference to the underlying Buf.",
+      "full_p": "<p>Gets a reference to the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "It is inadvisable to directly read from the underlying Buf.",
+      "full_p": "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "Gets a mutable reference to the underlying Buf.",
+      "full_p": "<p>Gets a mutable reference to the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "It is inadvisable to directly read from the underlying Buf.",
+      "full_p": "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+    }
+  ],
+  "buf\\struct.Reader.html": [
+    {
+      "id": "method.get_ref",
+      "text": "Gets a reference to the underlying Buf.",
+      "full_p": "<p>Gets a reference to the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "It is inadvisable to directly read from the underlying Buf.",
+      "full_p": "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.into_inner",
+      "text": "Consumes this Reader, returning the underlying value.",
+      "full_p": "<p>Consumes this <code>Reader</code>, returning the underlying value.</p>"
+    }
+  ],
+  "buf\\struct.Take.html": [
+    {
+      "id": "method.into_inner",
+      "text": "Consumes this Take, returning the underlying value.",
+      "full_p": "<p>Consumes this <code>Take</code>, returning the underlying value.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "Gets a reference to the underlying Buf.",
+      "full_p": "<p>Gets a reference to the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "It is inadvisable to directly read from the underlying Buf.",
+      "full_p": "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "Gets a mutable reference to the underlying Buf.",
+      "full_p": "<p>Gets a mutable reference to the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "It is inadvisable to directly read from the underlying Buf.",
+      "full_p": "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+    },
+    {
+      "id": "method.limit",
+      "text": "If the inner Buf has fewer bytes than indicated by this method then\r\nthat is the actual number of available bytes.",
+      "full_p": "<p>If the inner <code>Buf</code> has fewer bytes than indicated by this method then\r\nthat is the actual number of available bytes.</p>"
+    },
+    {
+      "id": "method.set_limit",
+      "text": "If the inner Buf has fewer bytes than lim then that is the actual\r\nnumber of available bytes.",
+      "full_p": "<p>If the inner <code>Buf</code> has fewer bytes than <code>lim</code> then that is the actual\r\nnumber of available bytes.</p>"
+    }
+  ],
+  "buf\\struct.UninitSlice.html": [
+    {
+      "id": "method.new",
+      "text": "Creates a &amp;mut UninitSlice wrapping a slice of initialised memory.",
+      "full_p": "<p>Creates a <code>&amp;mut UninitSlice</code> wrapping a slice of initialised memory.</p>"
+    },
+    {
+      "id": "method.uninit",
+      "text": "Creates a &amp;mut UninitSlice wrapping a slice of uninitialised memory.",
+      "full_p": "<p>Creates a <code>&amp;mut UninitSlice</code> wrapping a slice of uninitialised memory.</p>"
+    },
+    {
+      "id": "method.from_raw_parts_mut",
+      "text": "Create a &amp;mut UninitSlice from a pointer and a length.",
+      "full_p": "<p>Create a <code>&amp;mut UninitSlice</code> from a pointer and a length.</p>"
+    },
+    {
+      "id": "method.from_raw_parts_mut",
+      "text": "The caller must ensure that ptr references a valid memory region owned\r\nby the caller representing a byte slice for the duration of 'a.",
+      "full_p": "<p>The caller must ensure that <code>ptr</code> references a valid memory region owned\r\nby the caller representing a byte slice for the duration of <code>'a</code>.</p>"
+    },
+    {
+      "id": "method.write_byte",
+      "text": "The function panics if index is out of bounds.",
+      "full_p": "<p>The function panics if <code>index</code> is out of bounds.</p>"
+    },
+    {
+      "id": "method.copy_from_slice",
+      "text": "Copies bytes from src into self.",
+      "full_p": "<p>Copies bytes from <code>src</code> into <code>self</code>.</p>"
+    },
+    {
+      "id": "method.copy_from_slice",
+      "text": "The length of src must be the same as self.",
+      "full_p": "<p>The length of <code>src</code> must be the same as <code>self</code>.</p>"
+    },
+    {
+      "id": "method.copy_from_slice",
+      "text": "The function panics if src has a different length than self.",
+      "full_p": "<p>The function panics if <code>src</code> has a different length than <code>self</code>.</p>"
+    },
+    {
+      "id": "method.as_mut_ptr",
+      "text": "The caller must not read from the referenced memory and must not\r\nwrite uninitialized bytes to the slice either.",
+      "full_p": "<p>The caller <strong>must not</strong> read from the referenced memory and <strong>must not</strong>\r\nwrite <strong>uninitialized</strong> bytes to the slice either.</p>"
+    },
+    {
+      "id": "method.as_uninit_slice_mut",
+      "text": "Return a &amp;mut [MaybeUninit&lt;u8&gt;] to this slice’s buffer.",
+      "full_p": "<p>Return a <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code> to this slice’s buffer.</p>"
+    },
+    {
+      "id": "method.as_uninit_slice_mut",
+      "text": "The caller must not read from the referenced memory and must not write\r\nuninitialized bytes to the slice either. This is because BufMut implementation\r\nthat created the UninitSlice knows which parts are initialized. Writing uninitialized\r\nbytes to the slice may cause the BufMut to read those bytes and trigger undefined\r\nbehavior.",
+      "full_p": "<p>The caller <strong>must not</strong> read from the referenced memory and <strong>must not</strong> write\r\n<strong>uninitialized</strong> bytes to the slice either. This is because <code>BufMut</code> implementation\r\nthat created the <code>UninitSlice</code> knows which parts are initialized. Writing uninitialized\r\nbytes to the slice may cause the <code>BufMut</code> to read those bytes and trigger undefined\r\nbehavior.</p>"
+    },
+    {
+      "id": "method.len",
+      "text": "Returns the number of bytes in the slice.",
+      "full_p": "<p>Returns the number of bytes in the slice.</p>"
+    }
+  ],
+  "buf\\struct.Writer.html": [
+    {
+      "id": "method.get_ref",
+      "text": "Gets a reference to the underlying BufMut.",
+      "full_p": "<p>Gets a reference to the underlying <code>BufMut</code>.</p>"
+    },
+    {
+      "id": "method.get_ref",
+      "text": "It is inadvisable to directly write to the underlying BufMut.",
+      "full_p": "<p>It is inadvisable to directly write to the underlying <code>BufMut</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "Gets a mutable reference to the underlying BufMut.",
+      "full_p": "<p>Gets a mutable reference to the underlying <code>BufMut</code>.</p>"
+    },
+    {
+      "id": "method.get_mut",
+      "text": "It is inadvisable to directly write to the underlying BufMut.",
+      "full_p": "<p>It is inadvisable to directly write to the underlying <code>BufMut</code>.</p>"
+    },
+    {
+      "id": "method.into_inner",
+      "text": "Consumes this Writer, returning the underlying value.",
+      "full_p": "<p>Consumes this <code>Writer</code>, returning the underlying value.</p>"
+    }
+  ],
+  "buf\\trait.Buf.html": [
+    {
+      "id": "tymethod.remaining",
+      "text": "Returns the number of bytes between the current position and the end of\r\nthe buffer.",
+      "full_p": "<p>Returns the number of bytes between the current position and the end of\r\nthe buffer.</p>"
+    },
+    {
+      "id": "tymethod.remaining",
+      "text": "This value is greater than or equal to the length of the slice returned\r\nby chunk().",
+      "full_p": "<p>This value is greater than or equal to the length of the slice returned\r\nby <code>chunk()</code>.</p>"
+    },
+    {
+      "id": "tymethod.remaining",
+      "text": "Implementations of remaining should ensure that the return value does\r\nnot change unless a call is made to advance or any other function that\r\nis documented to change the Buf’s current position.",
+      "full_p": "<p>Implementations of <code>remaining</code> should ensure that the return value does\r\nnot change unless a call is made to <code>advance</code> or any other function that\r\nis documented to change the <code>Buf</code>’s current position.</p>"
+    },
+    {
+      "id": "tymethod.chunk",
+      "text": "Returns a slice starting at the current position and of length between 0\r\nand Buf::remaining(). Note that this can return a shorter slice (this\r\nallows non-continuous internal representation).",
+      "full_p": "<p>Returns a slice starting at the current position and of length between 0\r\nand <code>Buf::remaining()</code>. Note that this <em>can</em> return a shorter slice (this\r\nallows non-continuous internal representation).</p>"
+    },
+    {
+      "id": "tymethod.chunk",
+      "text": "This is a lower level function. Most operations are done with other\r\nfunctions.",
+      "full_p": "<p>This is a lower level function. Most operations are done with other\r\nfunctions.</p>"
+    },
+    {
+      "id": "tymethod.chunk",
+      "text": "This function should never panic. chunk() should return an empty\r\nslice if and only if remaining() returns 0. In other words,\r\nchunk() returning an empty slice implies that remaining() will\r\nreturn 0 and remaining() returning 0 implies that chunk() will\r\nreturn an empty slice.",
+      "full_p": "<p>This function should never panic. <code>chunk()</code> should return an empty\r\nslice <strong>if and only if</strong> <code>remaining()</code> returns 0. In other words,\r\n<code>chunk()</code> returning an empty slice implies that <code>remaining()</code> will\r\nreturn 0 and <code>remaining()</code> returning 0 implies that <code>chunk()</code> will\r\nreturn an empty slice.</p>"
+    },
+    {
+      "id": "tymethod.advance",
+      "text": "Advance the internal cursor of the Buf",
+      "full_p": "<p>Advance the internal cursor of the Buf</p>"
+    },
+    {
+      "id": "tymethod.advance",
+      "text": "The next call to chunk() will return a slice starting cnt bytes\r\nfurther into the underlying buffer.",
+      "full_p": "<p>The next call to <code>chunk()</code> will return a slice starting <code>cnt</code> bytes\r\nfurther into the underlying buffer.</p>"
+    },
+    {
+      "id": "tymethod.advance",
+      "text": "This function may panic if cnt &gt; self.remaining().",
+      "full_p": "<p>This function <strong>may</strong> panic if <code>cnt &gt; self.remaining()</code>.</p>"
+    },
+    {
+      "id": "tymethod.advance",
+      "text": "It is recommended for implementations of advance to panic if cnt &gt; self.remaining(). If the implementation does not panic, the call must\r\nbehave as if cnt == self.remaining().",
+      "full_p": "<p>It is recommended for implementations of <code>advance</code> to panic if <code>cnt &gt; self.remaining()</code>. If the implementation does not panic, the call must\r\nbehave as if <code>cnt == self.remaining()</code>.</p>"
+    },
+    {
+      "id": "tymethod.advance",
+      "text": "A call with cnt == 0 should never panic and be a no-op.",
+      "full_p": "<p>A call with <code>cnt == 0</code> should never panic and be a no-op.</p>"
+    },
+    {
+      "id": "method.has_remaining",
+      "text": "Returns true if there are any more bytes to consume",
+      "full_p": "<p>Returns true if there are any more bytes to consume</p>"
+    },
+    {
+      "id": "method.has_remaining",
+      "text": "This is equivalent to self.remaining() != 0.",
+      "full_p": "<p>This is equivalent to <code>self.remaining() != 0</code>.</p>"
+    },
+    {
+      "id": "method.copy_to_slice",
+      "text": "Copies bytes from self into dst.",
+      "full_p": "<p>Copies bytes from <code>self</code> into <code>dst</code>.</p>"
+    },
+    {
+      "id": "method.copy_to_slice",
+      "text": "The cursor is advanced by the number of bytes copied. self must have\r\nenough remaining bytes to fill dst.",
+      "full_p": "<p>The cursor is advanced by the number of bytes copied. <code>self</code> must have\r\nenough remaining bytes to fill <code>dst</code>.</p>"
+    },
+    {
+      "id": "method.copy_to_slice",
+      "text": "This function panics if self.remaining() &lt; dst.len().",
+      "full_p": "<p>This function panics if <code>self.remaining() &lt; dst.len()</code>.</p>"
+    },
+    {
+      "id": "method.get_u8",
+      "text": "Gets an unsigned 8 bit integer from self.",
+      "full_p": "<p>Gets an unsigned 8 bit integer from <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u8",
+      "text": "This function panics if there is no more remaining data in self.",
+      "full_p": "<p>This function panics if there is no more remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i8",
+      "text": "Gets a signed 8 bit integer from self.",
+      "full_p": "<p>Gets a signed 8 bit integer from <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i8",
+      "text": "This function panics if there is no more remaining data in self.",
+      "full_p": "<p>This function panics if there is no more remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u16",
+      "text": "Gets an unsigned 16 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u16",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u16_le",
+      "text": "Gets an unsigned 16 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u16_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u16_ne",
+      "text": "Gets an unsigned 16 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u16_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i16",
+      "text": "Gets a signed 16 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 16 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i16",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i16_le",
+      "text": "Gets a signed 16 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 16 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i16_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i16_ne",
+      "text": "Gets a signed 16 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 16 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i16_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u32",
+      "text": "Gets an unsigned 32 bit integer from self in the big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in the big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u32",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u32_le",
+      "text": "Gets an unsigned 32 bit integer from self in the little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in the little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u32_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u32_ne",
+      "text": "Gets an unsigned 32 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u32_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i32",
+      "text": "Gets a signed 32 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i32",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i32_le",
+      "text": "Gets a signed 32 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i32_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i32_ne",
+      "text": "Gets a signed 32 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i32_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u64",
+      "text": "Gets an unsigned 64 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u64",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u64_le",
+      "text": "Gets an unsigned 64 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u64_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u64_ne",
+      "text": "Gets an unsigned 64 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u64_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i64",
+      "text": "Gets a signed 64 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i64",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i64_le",
+      "text": "Gets a signed 64 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i64_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i64_ne",
+      "text": "Gets a signed 64 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i64_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u128",
+      "text": "Gets an unsigned 128 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u128",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u128_le",
+      "text": "Gets an unsigned 128 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u128_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_u128_ne",
+      "text": "Gets an unsigned 128 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_u128_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i128",
+      "text": "Gets a signed 128 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i128",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i128_le",
+      "text": "Gets a signed 128 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i128_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_i128_ne",
+      "text": "Gets a signed 128 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_i128_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_uint",
+      "text": "Gets an unsigned n-byte integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_uint",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_uint",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_uint_le",
+      "text": "Gets an unsigned n-byte integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_uint_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_uint_le",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_uint_ne",
+      "text": "Gets an unsigned n-byte integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_uint_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_uint_ne",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_int",
+      "text": "Gets a signed n-byte integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_int",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_int",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_int_le",
+      "text": "Gets a signed n-byte integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_int_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_int_le",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_int_ne",
+      "text": "Gets a signed n-byte integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_int_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.get_int_ne",
+      "text": "This function panics if there is not enough remaining data in self, or\r\nif nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.get_f32",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in big-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f32",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_f32_le",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in little-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f32_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_f32_ne",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in native-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f32_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_f64",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in big-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f64",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_f64_le",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in little-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f64_le",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.get_f64_ne",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in native-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.get_f64_ne",
+      "text": "This function panics if there is not enough remaining data in self.",
+      "full_p": "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+    },
+    {
+      "id": "method.try_copy_to_slice",
+      "text": "Copies bytes from self into dst.",
+      "full_p": "<p>Copies bytes from <code>self</code> into <code>dst</code>.</p>"
+    },
+    {
+      "id": "method.try_copy_to_slice",
+      "text": "The cursor is advanced by the number of bytes copied. self must have\r\nenough remaining bytes to fill dst.",
+      "full_p": "<p>The cursor is advanced by the number of bytes copied. <code>self</code> must have\r\nenough remaining bytes to fill <code>dst</code>.</p>"
+    },
+    {
+      "id": "method.try_copy_to_slice",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u8",
+      "text": "Gets an unsigned 8 bit integer from self.",
+      "full_p": "<p>Gets an unsigned 8 bit integer from <code>self</code>.</p>"
+    },
+    {
+      "id": "method.try_get_u8",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i8",
+      "text": "Gets a signed 8 bit integer from self.",
+      "full_p": "<p>Gets a signed 8 bit integer from <code>self</code>.</p>"
+    },
+    {
+      "id": "method.try_get_i8",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u16",
+      "text": "Gets an unsigned 16 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u16",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u16_le",
+      "text": "Gets an unsigned 16 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u16_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u16_ne",
+      "text": "Gets an unsigned 16 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 16 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u16_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i16",
+      "text": "Gets a signed 16 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 16 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i16",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i16_le",
+      "text": "Gets an signed 16 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an signed 16 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i16_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i16_ne",
+      "text": "Gets a signed 16 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 16 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i16_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u32",
+      "text": "Gets an unsigned 32 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u32",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u32_le",
+      "text": "Gets an unsigned 32 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u32_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u32_ne",
+      "text": "Gets an unsigned 32 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 32 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u32_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i32",
+      "text": "Gets a signed 32 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i32",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i32_le",
+      "text": "Gets a signed 32 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i32_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i32_ne",
+      "text": "Gets a signed 32 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 32 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i32_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u64",
+      "text": "Gets an unsigned 64 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u64",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u64_le",
+      "text": "Gets an unsigned 64 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u64_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u64_ne",
+      "text": "Gets an unsigned 64 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 64 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u64_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i64",
+      "text": "Gets a signed 64 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i64",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i64_le",
+      "text": "Gets a signed 64 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i64_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i64_ne",
+      "text": "Gets a signed 64 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 64 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i64_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u128",
+      "text": "Gets an unsigned 128 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u128",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u128_le",
+      "text": "Gets an unsigned 128 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u128_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_u128_ne",
+      "text": "Gets an unsigned 128 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned 128 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_u128_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i128",
+      "text": "Gets a signed 128 bit integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i128",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i128_le",
+      "text": "Gets a signed 128 bit integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i128_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_i128_ne",
+      "text": "Gets a signed 128 bit integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed 128 bit integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_i128_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_uint",
+      "text": "Gets an unsigned n-byte integer from self in big-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_uint",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_uint",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_uint",
+      "text": "This function panics if nbytes &gt; 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> &gt; 8.</p>"
+    },
+    {
+      "id": "method.try_get_uint_le",
+      "text": "Gets an unsigned n-byte integer from self in little-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_uint_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_uint_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_uint_le",
+      "text": "This function panics if nbytes &gt; 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> &gt; 8.</p>"
+    },
+    {
+      "id": "method.try_get_uint_ne",
+      "text": "Gets an unsigned n-byte integer from self in native-endian byte order.",
+      "full_p": "<p>Gets an unsigned n-byte integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_uint_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_uint_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_uint_ne",
+      "text": "This function panics if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.try_get_int",
+      "text": "Gets a signed n-byte integer from self in big-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_int",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_int",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_int",
+      "text": "This function panics if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.try_get_int_le",
+      "text": "Gets a signed n-byte integer from self in little-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_int_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_int_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_int_le",
+      "text": "This function panics if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.try_get_int_ne",
+      "text": "Gets a signed n-byte integer from self in native-endian byte order.",
+      "full_p": "<p>Gets a signed n-byte integer from <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_int_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.try_get_int_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_int_ne",
+      "text": "This function panics if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.try_get_f32",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in big-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f32",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_f32_le",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in little-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f32_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_f32_ne",
+      "text": "Gets an IEEE754 single-precision (4 bytes) floating point number from\r\nself in native-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f32_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_f64",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in big-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f64",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_f64_le",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in little-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f64_le",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.try_get_f64_ne",
+      "text": "Gets an IEEE754 double-precision (8 bytes) floating point number from\r\nself in native-endian byte order.",
+      "full_p": "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.try_get_f64_ne",
+      "text": "Returns Err(TryGetError) when there are not enough\r\nremaining bytes to read the value.",
+      "full_p": "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>"
+    },
+    {
+      "id": "method.copy_to_bytes",
+      "text": "Consumes len bytes inside self and returns new instance of Bytes\r\nwith this data.",
+      "full_p": "<p>Consumes <code>len</code> bytes inside self and returns new instance of <code>Bytes</code>\r\nwith this data.</p>"
+    },
+    {
+      "id": "method.copy_to_bytes",
+      "text": "This function may be optimized by the underlying type to avoid actual\r\ncopies. For example, Bytes implementation will do a shallow copy\r\n(ref-count increment).",
+      "full_p": "<p>This function may be optimized by the underlying type to avoid actual\r\ncopies. For example, <code>Bytes</code> implementation will do a shallow copy\r\n(ref-count increment).</p>"
+    },
+    {
+      "id": "method.copy_to_bytes",
+      "text": "This function panics if len &gt; self.remaining().",
+      "full_p": "<p>This function panics if <code>len &gt; self.remaining()</code>.</p>"
+    },
+    {
+      "id": "method.take",
+      "text": "Creates an adaptor which will read at most limit bytes from self.",
+      "full_p": "<p>Creates an adaptor which will read at most <code>limit</code> bytes from <code>self</code>.</p>"
+    },
+    {
+      "id": "method.take",
+      "text": "This function returns a new instance of Buf which will read at most\r\nlimit bytes.",
+      "full_p": "<p>This function returns a new instance of <code>Buf</code> which will read at most\r\n<code>limit</code> bytes.</p>"
+    },
+    {
+      "id": "method.chain",
+      "text": "Creates an adaptor which will chain this buffer with another.",
+      "full_p": "<p>Creates an adaptor which will chain this buffer with another.</p>"
+    },
+    {
+      "id": "method.chain",
+      "text": "The returned Buf instance will first consume all bytes from self.\r\nAfterwards the output is equivalent to the output of next.",
+      "full_p": "<p>The returned <code>Buf</code> instance will first consume all bytes from <code>self</code>.\r\nAfterwards the output is equivalent to the output of next.</p>"
+    },
+    {
+      "id": "method.reader",
+      "text": "Creates an adaptor which implements the Read trait for self.",
+      "full_p": "<p>Creates an adaptor which implements the <code>Read</code> trait for <code>self</code>.</p>"
+    },
+    {
+      "id": "method.reader",
+      "text": "This function returns a new value which implements Read by adapting\r\nthe Read trait functions to the Buf trait functions. Given that\r\nBuf operations are infallible, none of the Read functions will\r\nreturn with Err.",
+      "full_p": "<p>This function returns a new value which implements <code>Read</code> by adapting\r\nthe <code>Read</code> trait functions to the <code>Buf</code> trait functions. Given that\r\n<code>Buf</code> operations are infallible, none of the <code>Read</code> functions will\r\nreturn with <code>Err</code>.</p>"
+    }
+  ],
+  "buf\\trait.BufMut.html": [
+    {
+      "id": "tymethod.remaining_mut",
+      "text": "Returns the number of bytes that can be written from the current\r\nposition until the end of the buffer is reached.",
+      "full_p": "<p>Returns the number of bytes that can be written from the current\r\nposition until the end of the buffer is reached.</p>"
+    },
+    {
+      "id": "tymethod.remaining_mut",
+      "text": "This value is greater than or equal to the length of the slice returned\r\nby chunk_mut().",
+      "full_p": "<p>This value is greater than or equal to the length of the slice returned\r\nby <code>chunk_mut()</code>.</p>"
+    },
+    {
+      "id": "tymethod.remaining_mut",
+      "text": "Writing to a BufMut may involve allocating more memory on the fly.\r\nImplementations may fail before reaching the number of bytes indicated\r\nby this method if they encounter an allocation failure.",
+      "full_p": "<p>Writing to a <code>BufMut</code> may involve allocating more memory on the fly.\r\nImplementations may fail before reaching the number of bytes indicated\r\nby this method if they encounter an allocation failure.</p>"
+    },
+    {
+      "id": "tymethod.remaining_mut",
+      "text": "Implementations of remaining_mut should ensure that the return value\r\ndoes not change unless a call is made to advance_mut or any other\r\nfunction that is documented to change the BufMut’s current position.",
+      "full_p": "<p>Implementations of <code>remaining_mut</code> should ensure that the return value\r\ndoes not change unless a call is made to <code>advance_mut</code> or any other\r\nfunction that is documented to change the <code>BufMut</code>’s current position.</p>"
+    },
+    {
+      "id": "tymethod.remaining_mut",
+      "text": "remaining_mut may return value smaller than actual available space.",
+      "full_p": "<p><code>remaining_mut</code> may return value smaller than actual available space.</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "Advance the internal cursor of the BufMut",
+      "full_p": "<p>Advance the internal cursor of the BufMut</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "The next call to chunk_mut will return a slice starting cnt bytes\r\nfurther into the underlying buffer.",
+      "full_p": "<p>The next call to <code>chunk_mut</code> will return a slice starting <code>cnt</code> bytes\r\nfurther into the underlying buffer.</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "The caller must ensure that the next cnt bytes of chunk are\r\ninitialized.",
+      "full_p": "<p>The caller must ensure that the next <code>cnt</code> bytes of <code>chunk</code> are\r\ninitialized.</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "This function may panic if cnt &gt; self.remaining_mut().",
+      "full_p": "<p>This function <strong>may</strong> panic if <code>cnt &gt; self.remaining_mut()</code>.</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "It is recommended for implementations of advance_mut to panic if\r\ncnt &gt; self.remaining_mut(). If the implementation does not panic,\r\nthe call must behave as if cnt == self.remaining_mut().",
+      "full_p": "<p>It is recommended for implementations of <code>advance_mut</code> to panic if\r\n<code>cnt &gt; self.remaining_mut()</code>. If the implementation does not panic,\r\nthe call must behave as if <code>cnt == self.remaining_mut()</code>.</p>"
+    },
+    {
+      "id": "tymethod.advance_mut",
+      "text": "A call with cnt == 0 should never panic and be a no-op.",
+      "full_p": "<p>A call with <code>cnt == 0</code> should never panic and be a no-op.</p>"
+    },
+    {
+      "id": "tymethod.chunk_mut",
+      "text": "Returns a mutable slice starting at the current BufMut position and of\r\nlength between 0 and BufMut::remaining_mut(). Note that this can be shorter than the\r\nwhole remainder of the buffer (this allows non-continuous implementation).",
+      "full_p": "<p>Returns a mutable slice starting at the current BufMut position and of\r\nlength between 0 and <code>BufMut::remaining_mut()</code>. Note that this <em>can</em> be shorter than the\r\nwhole remainder of the buffer (this allows non-continuous implementation).</p>"
+    },
+    {
+      "id": "tymethod.chunk_mut",
+      "text": "This is a lower level function. Most operations are done with other\r\nfunctions.",
+      "full_p": "<p>This is a lower level function. Most operations are done with other\r\nfunctions.</p>"
+    },
+    {
+      "id": "tymethod.chunk_mut",
+      "text": "The returned byte slice may represent uninitialized memory.",
+      "full_p": "<p>The returned byte slice may represent uninitialized memory.</p>"
+    },
+    {
+      "id": "tymethod.chunk_mut",
+      "text": "This function should never panic. chunk_mut() should return an empty\r\nslice if and only if remaining_mut() returns 0. In other words,\r\nchunk_mut() returning an empty slice implies that remaining_mut() will\r\nreturn 0 and remaining_mut() returning 0 implies that chunk_mut() will\r\nreturn an empty slice.",
+      "full_p": "<p>This function should never panic. <code>chunk_mut()</code> should return an empty\r\nslice <strong>if and only if</strong> <code>remaining_mut()</code> returns 0. In other words,\r\n<code>chunk_mut()</code> returning an empty slice implies that <code>remaining_mut()</code> will\r\nreturn 0 and <code>remaining_mut()</code> returning 0 implies that <code>chunk_mut()</code> will\r\nreturn an empty slice.</p>"
+    },
+    {
+      "id": "tymethod.chunk_mut",
+      "text": "This function may trigger an out-of-memory abort if it tries to allocate\r\nmemory and fails to do so.",
+      "full_p": "<p>This function may trigger an out-of-memory abort if it tries to allocate\r\nmemory and fails to do so.</p>"
+    },
+    {
+      "id": "method.has_remaining_mut",
+      "text": "Returns true if there is space in self for more bytes.",
+      "full_p": "<p>Returns true if there is space in <code>self</code> for more bytes.</p>"
+    },
+    {
+      "id": "method.has_remaining_mut",
+      "text": "This is equivalent to self.remaining_mut() != 0.",
+      "full_p": "<p>This is equivalent to <code>self.remaining_mut() != 0</code>.</p>"
+    },
+    {
+      "id": "method.put",
+      "text": "Transfer bytes into self from src and advance the cursor by the\r\nnumber of bytes written.",
+      "full_p": "<p>Transfer bytes into <code>self</code> from <code>src</code> and advance the cursor by the\r\nnumber of bytes written.</p>"
+    },
+    {
+      "id": "method.put",
+      "text": "Panics if self does not have enough capacity to contain src.",
+      "full_p": "<p>Panics if <code>self</code> does not have enough capacity to contain <code>src</code>.</p>"
+    },
+    {
+      "id": "method.put_bytes",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u8",
+      "text": "Writes an unsigned 8 bit integer to self.",
+      "full_p": "<p>Writes an unsigned 8 bit integer to <code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u8",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i8",
+      "text": "Writes a signed 8 bit integer to self.",
+      "full_p": "<p>Writes a signed 8 bit integer to <code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i8",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u16",
+      "text": "Writes an unsigned 16 bit integer to self in big-endian byte order.",
+      "full_p": "<p>Writes an unsigned 16 bit integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u16",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u16_le",
+      "text": "Writes an unsigned 16 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes an unsigned 16 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u16_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u16_ne",
+      "text": "Writes an unsigned 16 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes an unsigned 16 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u16_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i16",
+      "text": "Writes a signed 16 bit integer to self in big-endian byte order.",
+      "full_p": "<p>Writes a signed 16 bit integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i16",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i16_le",
+      "text": "Writes a signed 16 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes a signed 16 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i16_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i16_ne",
+      "text": "Writes a signed 16 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes a signed 16 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i16_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u32",
+      "text": "Writes an unsigned 32 bit integer to self in big-endian byte order.",
+      "full_p": "<p>Writes an unsigned 32 bit integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u32",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u32_le",
+      "text": "Writes an unsigned 32 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes an unsigned 32 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u32_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u32_ne",
+      "text": "Writes an unsigned 32 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes an unsigned 32 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u32_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i32",
+      "text": "Writes a signed 32 bit integer to self in big-endian byte order.",
+      "full_p": "<p>Writes a signed 32 bit integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i32",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i32_le",
+      "text": "Writes a signed 32 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes a signed 32 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i32_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i32_ne",
+      "text": "Writes a signed 32 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes a signed 32 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i32_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u64",
+      "text": "Writes an unsigned 64 bit integer to self in the big-endian byte order.",
+      "full_p": "<p>Writes an unsigned 64 bit integer to <code>self</code> in the big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u64",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u64_le",
+      "text": "Writes an unsigned 64 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes an unsigned 64 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u64_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u64_ne",
+      "text": "Writes an unsigned 64 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes an unsigned 64 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u64_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i64",
+      "text": "Writes a signed 64 bit integer to self in the big-endian byte order.",
+      "full_p": "<p>Writes a signed 64 bit integer to <code>self</code> in the big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i64",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i64_le",
+      "text": "Writes a signed 64 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes a signed 64 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i64_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i64_ne",
+      "text": "Writes a signed 64 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes a signed 64 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i64_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u128",
+      "text": "Writes an unsigned 128 bit integer to self in the big-endian byte order.",
+      "full_p": "<p>Writes an unsigned 128 bit integer to <code>self</code> in the big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u128",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u128_le",
+      "text": "Writes an unsigned 128 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes an unsigned 128 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u128_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_u128_ne",
+      "text": "Writes an unsigned 128 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes an unsigned 128 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_u128_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i128",
+      "text": "Writes a signed 128 bit integer to self in the big-endian byte order.",
+      "full_p": "<p>Writes a signed 128 bit integer to <code>self</code> in the big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i128",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i128_le",
+      "text": "Writes a signed 128 bit integer to self in little-endian byte order.",
+      "full_p": "<p>Writes a signed 128 bit integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i128_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_i128_ne",
+      "text": "Writes a signed 128 bit integer to self in native-endian byte order.",
+      "full_p": "<p>Writes a signed 128 bit integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_i128_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_uint",
+      "text": "Writes an unsigned n-byte integer to self in big-endian byte order.",
+      "full_p": "<p>Writes an unsigned n-byte integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_uint",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_uint",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_uint_le",
+      "text": "Writes an unsigned n-byte integer to self in the little-endian byte order.",
+      "full_p": "<p>Writes an unsigned n-byte integer to <code>self</code> in the little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_uint_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_uint_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_uint_ne",
+      "text": "Writes an unsigned n-byte integer to self in the native-endian byte order.",
+      "full_p": "<p>Writes an unsigned n-byte integer to <code>self</code> in the native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_uint_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_uint_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_int",
+      "text": "Writes low nbytes of a signed integer to self in big-endian byte order.",
+      "full_p": "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_int",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_int",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_int_le",
+      "text": "Writes low nbytes of a signed integer to self in little-endian byte order.",
+      "full_p": "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_int_le",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_int_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_int_ne",
+      "text": "Writes low nbytes of a signed integer to self in native-endian byte order.",
+      "full_p": "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_int_ne",
+      "text": "The current position is advanced by nbytes.",
+      "full_p": "<p>The current position is advanced by <code>nbytes</code>.</p>"
+    },
+    {
+      "id": "method.put_int_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself or if nbytes is greater than 8.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+    },
+    {
+      "id": "method.put_f32",
+      "text": "Writes an IEEE754 single-precision (4 bytes) floating point number to\r\nself in big-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f32",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_f32_le",
+      "text": "Writes an IEEE754 single-precision (4 bytes) floating point number to\r\nself in little-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f32_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_f32_ne",
+      "text": "Writes an IEEE754 single-precision (4 bytes) floating point number to\r\nself in native-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f32_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_f64",
+      "text": "Writes an IEEE754 double-precision (8 bytes) floating point number to\r\nself in big-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in big-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f64",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_f64_le",
+      "text": "Writes an IEEE754 double-precision (8 bytes) floating point number to\r\nself in little-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in little-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f64_le",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.put_f64_ne",
+      "text": "Writes an IEEE754 double-precision (8 bytes) floating point number to\r\nself in native-endian byte order.",
+      "full_p": "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in native-endian byte order.</p>"
+    },
+    {
+      "id": "method.put_f64_ne",
+      "text": "This function panics if there is not enough remaining capacity in\r\nself.",
+      "full_p": "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>"
+    },
+    {
+      "id": "method.limit",
+      "text": "Creates an adaptor which can write at most limit bytes to self.",
+      "full_p": "<p>Creates an adaptor which can write at most <code>limit</code> bytes to <code>self</code>.</p>"
+    },
+    {
+      "id": "method.writer",
+      "text": "Creates an adaptor which implements the Write trait for self.",
+      "full_p": "<p>Creates an adaptor which implements the <code>Write</code> trait for <code>self</code>.</p>"
+    },
+    {
+      "id": "method.writer",
+      "text": "This function returns a new value which implements Write by adapting\r\nthe Write trait functions to the BufMut trait functions. Given that\r\nBufMut operations are infallible, none of the Write functions will\r\nreturn with Err.",
+      "full_p": "<p>This function returns a new value which implements <code>Write</code> by adapting\r\nthe <code>Write</code> trait functions to the <code>BufMut</code> trait functions. Given that\r\n<code>BufMut</code> operations are infallible, none of the <code>Write</code> functions will\r\nreturn with <code>Err</code>.</p>"
+    },
+    {
+      "id": "method.chain_mut",
+      "text": "Creates an adapter which will chain this buffer with another.",
+      "full_p": "<p>Creates an adapter which will chain this buffer with another.</p>"
+    },
+    {
+      "id": "method.chain_mut",
+      "text": "The returned BufMut instance will first write to all bytes from\r\nself. Afterwards, it will write to next.",
+      "full_p": "<p>The returned <code>BufMut</code> instance will first write to all bytes from\r\n<code>self</code>. Afterwards, it will write to <code>next</code>.</p>"
+    }
+  ]
+}

@@ -1,0 +1,6468 @@
+{
+  "The Bytes struct itself is fairly small, limited to 4 usize fields used to track information about which segment of the underlying memory the Bytes handle has access to.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "Bytes keeps both a pointer to the shared state containing the full memory slice and a pointer to the start of the region visible by the handle. Bytes also tracks the length of its view into the memory.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "Bytes contains a vtable, which allows implementations of Bytes to define how sharing/cloning is implemented in detail. When Bytes::clone() is called, Bytes will call the vtable function for cloning the backing storage in order to share it behind multiple Bytes instances.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "For Bytes implementations which refer to constant memory (e.g. created via Bytes::from_static()) the cloning implementation will be a no-op.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "For Bytes implementations which point to a reference counted shared storage (e.g. an Arc&lt;[u8]&gt;), sharing will be implemented by increasing the reference count.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "Due to this mechanism, multiple Bytes instances may point to the same shared memory region. Each Bytes instance can point to different sections within that memory region, and Bytes instances may or may not have overlapping views into the memory.": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "The following diagram visualizes a scenario where 2 Bytes instances make use of an Arc-based backing storage, and provide access to different views:": [
+    [
+      "bytes\\struct.Bytes.html",
+      null
+    ]
+  ],
+  "Creates a new empty Bytes.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.new"
+    ]
+  ],
+  "This will not allocate and the returned Bytes handle will be empty.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.new"
+    ]
+  ],
+  "Creates a new Bytes from a static slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from_static"
+    ]
+  ],
+  "The returned Bytes will point directly to the static slice. There is no allocating or copying.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from_static"
+    ]
+  ],
+  "The owner will be transferred to the constructed Bytes object, which will ensure it is dropped once all remaining clones of the constructed object are dropped. The owner will then be responsible for dropping the specified region of memory as part of its Drop implementation.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from_owner"
+    ]
+  ],
+  "Note that converting Bytes constructed from an owner into a BytesMut will always create a deep copy of the buffer into newly allocated memory.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from_owner"
+    ]
+  ],
+  "Returns the number of bytes contained in this Bytes.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.len"
+    ]
+  ],
+  "Returns true if the Bytes has a length of 0.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_empty"
+    ]
+  ],
+  "Returns true if this is the only reference to the data and Into&lt;BytesMut&gt; would avoid cloning the underlying buffer.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_unique"
+    ]
+  ],
+  "Always returns false if the data is backed by a static slice, or an owner.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_unique"
+    ]
+  ],
+  "The result of this method may be invalidated immediately if another thread clones this value while this is being called. Ensure you have unique access to this value (&amp;mut Bytes) first if you need to be certain the result is valid (i.e. for safety reasons).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_unique"
+    ]
+  ],
+  "Returns a slice of self for the provided range.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice"
+    ]
+  ],
+  "This will increment the reference count for the underlying memory and return a new Bytes handle set to the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice"
+    ]
+  ],
+  "This operation is O(1).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice_ref"
+    ]
+  ],
+  "Requires that begin &lt;= end and end &lt;= self.len(), otherwise slicing will panic.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice"
+    ]
+  ],
+  "Returns a slice of self that is equivalent to the given subset.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice_ref"
+    ]
+  ],
+  "When processing a Bytes buffer with other tools, one often gets a &amp;[u8] which is in fact a slice of the Bytes, i.e. a subset of it. This function turns that &amp;[u8] into another Bytes, as if one had called self.slice() with the offsets that correspond to subset.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice_ref"
+    ]
+  ],
+  "Requires that the given sub slice is in fact contained within the Bytes buffer; otherwise this function will panic.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.slice_ref"
+    ]
+  ],
+  "Splits the bytes into two at the given index.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_off"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off"
+    ]
+  ],
+  "Afterwards self contains elements [0, at), and the returned Bytes contains elements [at, len). It’s guaranteed that the memory does not move, that is, the address of self does not change, and the address of the returned slice is at bytes after that.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_off"
+    ]
+  ],
+  "This is an O(1) operation that just increases the reference count and sets a few indices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_off"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_to"
+    ]
+  ],
+  "Panics if at &gt; len.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_off"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_to"
+    ]
+  ],
+  "Afterwards self contains elements [at, len), and the returned Bytes contains elements [0, at).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_to"
+    ]
+  ],
+  "Shortens the buffer, keeping the first len bytes and dropping the rest.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.truncate"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.truncate"
+    ]
+  ],
+  "If len is greater than the buffer’s current length, this has no effect.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.truncate"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.truncate"
+    ]
+  ],
+  "The split_off method can emulate truncate, but this causes the excess bytes to be returned instead of dropped.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.truncate"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.truncate"
+    ]
+  ],
+  "Clears the buffer, removing all data.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.clear"
+    ]
+  ],
+  "Try to convert self into BytesMut.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.try_into_mut"
+    ]
+  ],
+  "If self is unique for the entire original buffer, this will succeed and return a BytesMut with the contents of self without copying. If self is not unique for the entire original buffer, this will fail and return self.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.try_into_mut"
+    ]
+  ],
+  "This will also always fail if the buffer was constructed via either from_owner or from_static.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.try_into_mut"
+    ]
+  ],
+  "Checks if all bytes in this slice are within the ASCII range.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_ascii"
+    ]
+  ],
+  "An empty slice returns true.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_ascii"
+    ]
+  ],
+  "If this slice is_ascii, returns it as a slice of ASCII characters, otherwise returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ascii"
+    ]
+  ],
+  "Converts this slice of bytes into a slice of ASCII characters, without checking whether they’re valid.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ascii_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ascii_unchecked"
+    ]
+  ],
+  "Every byte in the slice must be in 0..=127, or else this is UB.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ascii_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ascii_unchecked"
+    ]
+  ],
+  "Checks that two slices are an ASCII case-insensitive match.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.eq_ignore_ascii_case"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.eq_ignore_ascii_case"
+    ]
+  ],
+  "Same as to_ascii_lowercase(a) == to_ascii_lowercase(b), but without allocating and copying temporaries.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.eq_ignore_ascii_case"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.eq_ignore_ascii_case"
+    ]
+  ],
+  "Returns an iterator that produces an escaped version of this slice, treating it as an ASCII string.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.escape_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.escape_ascii"
+    ]
+  ],
+  "Returns a byte slice with leading ASCII whitespace bytes removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii_start"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii_start"
+    ]
+  ],
+  "‘Whitespace’ refers to the definition used by u8::is_ascii_whitespace.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii_start"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii_end"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii_start"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii_end"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii"
+    ]
+  ],
+  "Returns a byte slice with trailing ASCII whitespace bytes removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii_end"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii_end"
+    ]
+  ],
+  "Returns a byte slice with leading and trailing ASCII whitespace bytes removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_ascii"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_ascii"
+    ]
+  ],
+  "Returns the number of elements in the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.len-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.len-1"
+    ]
+  ],
+  "Returns true if the slice has a length of 0.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_empty-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_empty-1"
+    ]
+  ],
+  "Returns the first element of the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.first"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first"
+    ]
+  ],
+  "Returns the first and all the rest of the elements of the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_first"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first_mut"
+    ]
+  ],
+  "Returns the last and all the rest of the elements of the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_last"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last_mut"
+    ]
+  ],
+  "Returns the last element of the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.last"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last"
+    ]
+  ],
+  "Returns an array reference to the first N items in the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.first_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first_chunk"
+    ]
+  ],
+  "If the slice is not at least N in length, this will return None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.first_chunk"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_first_chunk"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_last_chunk"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.last_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first_chunk_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first_chunk_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last_chunk_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last_chunk_mut"
+    ]
+  ],
+  "Returns an array reference to the first N items in the slice and the remaining slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_first_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first_chunk"
+    ]
+  ],
+  "Returns an array reference to the last N items in the slice and the remaining slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_last_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last_chunk"
+    ]
+  ],
+  "Returns an array reference to the last N items in the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.last_chunk"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last_chunk"
+    ]
+  ],
+  "Returns a reference to an element or subslice depending on the type of index.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.get"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get"
+    ]
+  ],
+  "Returns a reference to an element or subslice, without doing bounds checking.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.get_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked"
+    ]
+  ],
+  "For a safe alternative see get.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.get_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked"
+    ]
+  ],
+  "Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.get_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked_mut"
+    ]
+  ],
+  "You can think of this like .get(index).unwrap_unchecked(). It’s UB to call .get_unchecked(len), even if you immediately convert to a pointer. And it’s UB to call .get_unchecked(..len + 1), .get_unchecked(..=len), or similar.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.get_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked"
+    ]
+  ],
+  "Returns a raw pointer to the slice’s buffer.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr"
+    ]
+  ],
+  "The caller must ensure that the slice outlives the pointer this function returns, or else it will end up dangling.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr"
+    ]
+  ],
+  "The caller must also ensure that the memory the pointer (non-transitively) points to is never written to (except inside an UnsafeCell) using this pointer or any pointer derived from it. If you need to mutate the contents of the slice, use as_mut_ptr.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr"
+    ]
+  ],
+  "Modifying the container referenced by this slice may cause its buffer to be reallocated, which would also make any pointers to it invalid.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr"
+    ]
+  ],
+  "Returns the two raw pointers spanning the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr_range"
+    ]
+  ],
+  "The returned range is half-open, which means that the end pointer points one past the last element of the slice. This way, an empty slice is represented by two equal pointers, and the difference between the two pointers represents the size of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr_range"
+    ]
+  ],
+  "See as_ptr for warnings on using these pointers. The end pointer requires extra caution, as it does not point to a valid element in the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr_range"
+    ]
+  ],
+  "This function is useful for interacting with foreign interfaces which use two pointers to refer to a range of elements in memory, as is common in C++.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr_range"
+    ]
+  ],
+  "It can also be useful to check if a pointer to an element refers to an element of this slice:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_ptr_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_ptr_range"
+    ]
+  ],
+  "Gets a reference to the underlying array.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_array"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_array"
+    ]
+  ],
+  "If N is not exactly equal to the length of self, then this method returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_array"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_array"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_array"
+    ]
+  ],
+  "Returns an iterator over the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.iter"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.iter"
+    ]
+  ],
+  "The iterator yields all items from start to end.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.iter"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.iter"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.iter_mut"
+    ]
+  ],
+  "Returns an iterator over all contiguous windows of length size. The windows overlap. If the slice is shorter than size, the iterator returns no values.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.windows"
+    ]
+  ],
+  "Panics if size is zero.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.windows"
+    ]
+  ],
+  "If the slice is shorter than size:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.windows"
+    ]
+  ],
+  "Because the Iterator trait cannot represent the required lifetimes, there is no windows_mut analog to windows; [0,1,2].windows_mut(2).collect() would violate the rules of references (though a LendingIterator analog is possible). You can sometimes use Cell::as_slice_of_cells in conjunction with windows instead:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.windows"
+    ]
+  ],
+  "Returns an iterator over chunk_size elements of the slice at a time, starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ]
+  ],
+  "The chunks are slices and do not overlap. If chunk_size does not divide the length of the slice, then the last chunk will not have length chunk_size.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks"
+    ]
+  ],
+  "See chunks_exact for a variant of this iterator that returns chunks of always exactly chunk_size elements, and rchunks for the same iterator but starting at the end of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks"
+    ]
+  ],
+  "If your chunk_size is a constant, consider using as_chunks instead, which will give references to arrays of exactly that length, rather than slices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ]
+  ],
+  "Panics if chunk_size is zero.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "The chunks are slices and do not overlap. If chunk_size does not divide the length of the slice, then the last up to chunk_size-1 elements will be omitted and can be retrieved from the remainder function of the iterator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ]
+  ],
+  "Due to each chunk having exactly chunk_size elements, the compiler can often optimize the resulting code better than in the case of chunks.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ]
+  ],
+  "See chunks for a variant of this iterator that also returns the remainder as a smaller chunk, and rchunks_exact for the same iterator but starting at the end of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact"
+    ]
+  ],
+  "Splits the slice into a slice of N-element arrays, assuming that there’s no remainder.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked_mut"
+    ]
+  ],
+  "This is the inverse operation to as_flattened.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked"
+    ]
+  ],
+  "As this is unsafe, consider whether you could use as_chunks or as_rchunks instead, perhaps via something like if let (chunks, []) = slice.as_chunks() or let (chunks, []) = slice.as_chunks() else { unreachable!() };.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked"
+    ]
+  ],
+  "This may only be called when": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked_mut"
+    ]
+  ],
+  "Splits the slice into a slice of N-element arrays, starting at the beginning of the slice, and a remainder slice with length strictly less than N.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_mut"
+    ]
+  ],
+  "The remainder is meaningful in the division sense. Given let (chunks, remainder) = slice.as_chunks(), then:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ]
+  ],
+  "You can flatten the chunks back into a slice-of-T with as_flattened.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks"
+    ]
+  ],
+  "Panics if N is zero.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.array_windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.array_windows"
+    ]
+  ],
+  "Note that this check is against a const generic parameter, not a runtime value, and thus a particular monomorphization will either always panic or it will never panic.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.array_windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.array_windows"
+    ]
+  ],
+  "If you expect the slice to be an exact multiple, you can combine let-else with an empty slice pattern:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks"
+    ]
+  ],
+  "Splits the slice into a slice of N-element arrays, starting at the end of the slice, and a remainder slice with length strictly less than N.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks_mut"
+    ]
+  ],
+  "The remainder is meaningful in the division sense. Given let (remainder, chunks) = slice.as_rchunks(), then:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks"
+    ]
+  ],
+  "Returns an iterator over overlapping windows of N elements of a slice, starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.array_windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.array_windows"
+    ]
+  ],
+  "This is the const generic equivalent of windows.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.array_windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.array_windows"
+    ]
+  ],
+  "If N is greater than the size of the slice, it will return no windows.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.array_windows"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.array_windows"
+    ]
+  ],
+  "Returns an iterator over chunk_size elements of the slice at a time, starting at the end of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "See rchunks_exact for a variant of this iterator that returns chunks of always exactly chunk_size elements, and chunks for the same iterator but starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks"
+    ]
+  ],
+  "If your chunk_size is a constant, consider using as_rchunks instead, which will give references to arrays of exactly that length, rather than slices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ]
+  ],
+  "Due to each chunk having exactly chunk_size elements, the compiler can often optimize the resulting code better than in the case of rchunks.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ]
+  ],
+  "See rchunks for a variant of this iterator that also returns the remainder as a smaller chunk, and chunks_exact for the same iterator but starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rchunks_exact"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact"
+    ]
+  ],
+  "Returns an iterator over the slice producing non-overlapping runs of elements using the predicate to separate them.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunk_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by"
+    ]
+  ],
+  "The predicate is called for every pair of consecutive elements, meaning that it is called on slice[0] and slice[1], followed by slice[1] and slice[2], and so on.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunk_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by_mut"
+    ]
+  ],
+  "This method can be used to extract the sorted subslices:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.chunk_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by_mut"
+    ]
+  ],
+  "Divides one slice into two at an index.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at"
+    ]
+  ],
+  "The first will contain all indices from [0, mid) (excluding the index mid itself) and the second will contain all indices from [mid, len) (excluding the index len itself).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_unchecked"
+    ]
+  ],
+  "Panics if mid &gt; len. For a non-panicking alternative see split_at_checked.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at"
+    ]
+  ],
+  "Divides one slice into two at an index, without doing bounds checking.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_unchecked"
+    ]
+  ],
+  "For a safe alternative see split_at.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_unchecked"
+    ]
+  ],
+  "Calling this method with an out-of-bounds index is undefined behavior even if the resulting reference is not used. The caller has to ensure that 0 &lt;= mid &lt;= self.len().": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_unchecked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_unchecked"
+    ]
+  ],
+  "Divides one slice into two at an index, returning None if the slice is too short.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_checked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_checked"
+    ]
+  ],
+  "If mid ≤ len returns a pair of slices where the first will contain all indices from [0, mid) (excluding the index mid itself) and the second will contain all indices from [mid, len) (excluding the index len itself).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_checked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_checked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_checked"
+    ]
+  ],
+  "Otherwise, if mid &gt; len, returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_at_checked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_checked"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_checked"
+    ]
+  ],
+  "Returns an iterator over subslices separated by elements that match pred. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split-1"
+    ]
+  ],
+  "If the first element is matched, an empty slice will be the first item returned by the iterator. Similarly, if the last element in the slice is matched, an empty slice will be the last item returned by the iterator:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split-1"
+    ]
+  ],
+  "If two matched elements are directly adjacent, an empty slice will be present between them:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split-1"
+    ]
+  ],
+  "Returns an iterator over subslices separated by elements that match pred. The matched element is contained in the end of the previous subslice as a terminator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_inclusive"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_inclusive"
+    ]
+  ],
+  "If the last element of the slice is matched, that element will be considered the terminator of the preceding slice. That slice will be the last item returned by the iterator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_inclusive"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_inclusive"
+    ]
+  ],
+  "Returns an iterator over subslices separated by elements that match pred, starting at the end of the slice and working backwards. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplit"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplit"
+    ]
+  ],
+  "As with split(), if the first or last element is matched, an empty slice will be the first (or last) item returned by the iterator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplit"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplit"
+    ]
+  ],
+  "Returns an iterator over subslices separated by elements that match pred, limited to returning at most n items. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.splitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.splitn"
+    ]
+  ],
+  "The last element returned, if any, will contain the remainder of the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.splitn"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.splitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.splitn_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplitn_mut"
+    ]
+  ],
+  "Print the slice split once by numbers divisible by 3 (i.e., [10, 40], [20, 60, 50]):": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.splitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.splitn"
+    ]
+  ],
+  "Returns an iterator over subslices separated by elements that match pred limited to returning at most n items. This starts at the end of the slice and works backwards. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplitn_mut"
+    ]
+  ],
+  "Print the slice split once, starting from the end, by numbers divisible by 3 (i.e., [50], [10, 40, 30, 20]):": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplitn"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplitn"
+    ]
+  ],
+  "Splits the slice on the first element that matches the specified predicate.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_once"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_once"
+    ]
+  ],
+  "If any matching elements are present in the slice, returns the prefix before the match and suffix after. The matching element itself is not included. If no elements match, returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.split_once"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplit_once"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_once"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplit_once"
+    ]
+  ],
+  "Splits the slice on the last element that matches the specified predicate.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.rsplit_once"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplit_once"
+    ]
+  ],
+  "Returns true if the slice contains an element with the given value.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.contains"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.contains"
+    ]
+  ],
+  "This operation is O(n).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.contains"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.contains"
+    ]
+  ],
+  "Note that if you have a sorted slice, binary_search may be faster.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.contains"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.contains"
+    ]
+  ],
+  "If you do not have a &amp;T, but some other value that you can compare with one (for example, String implements PartialEq&lt;str&gt;), you can use iter().any:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.contains"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.contains"
+    ]
+  ],
+  "Returns true if needle is a prefix of the slice or equal to the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.starts_with"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.starts_with"
+    ]
+  ],
+  "Always returns true if needle is an empty slice:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.starts_with"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.ends_with"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.starts_with"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.ends_with"
+    ]
+  ],
+  "Returns true if needle is a suffix of the slice or equal to the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.ends_with"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.ends_with"
+    ]
+  ],
+  "Returns a subslice with the prefix removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_prefix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_prefix"
+    ]
+  ],
+  "If the slice starts with prefix, returns the subslice after the prefix, wrapped in Some. If prefix is empty, simply returns the original slice. If prefix is equal to the original slice, returns an empty slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_prefix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_prefix"
+    ]
+  ],
+  "If the slice does not start with prefix, returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_prefix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_prefix"
+    ]
+  ],
+  "Returns a subslice with the suffix removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_suffix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_suffix"
+    ]
+  ],
+  "If the slice ends with suffix, returns the subslice before the suffix, wrapped in Some. If suffix is empty, simply returns the original slice. If suffix is equal to the original slice, returns an empty slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_suffix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_suffix"
+    ]
+  ],
+  "If the slice does not end with suffix, returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_suffix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_suffix"
+    ]
+  ],
+  "Returns a subslice with the prefix and suffix removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_circumfix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_circumfix"
+    ]
+  ],
+  "If the slice starts with prefix and ends with suffix, returns the subslice after the prefix and before the suffix, wrapped in Some.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_circumfix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_circumfix"
+    ]
+  ],
+  "If the slice does not start with prefix or does not end with suffix, returns None.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.strip_circumfix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.strip_circumfix"
+    ]
+  ],
+  "Returns a subslice with the optional prefix removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_prefix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_prefix"
+    ]
+  ],
+  "If the slice starts with prefix, returns the subslice after the prefix. If prefix is empty or the slice does not start with prefix, simply returns the original slice. If prefix is equal to the original slice, returns an empty slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_prefix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_prefix"
+    ]
+  ],
+  "Returns a subslice with the optional suffix removed.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_suffix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_suffix"
+    ]
+  ],
+  "If the slice ends with suffix, returns the subslice before the suffix. If suffix is empty or the slice does not end with suffix, simply returns the original slice. If suffix is equal to the original slice, returns an empty slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.trim_suffix"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.trim_suffix"
+    ]
+  ],
+  "Binary searches this slice for a given element. If the slice is not sorted, the returned result is unspecified and meaningless.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ]
+  ],
+  "If the value is found then Result::Ok is returned, containing the index of the matching element. If there are multiple matches, then any one of the matches could be returned. The index is chosen deterministically, but is subject to change in future versions of Rust. If the value is not found then Result::Err is returned, containing the index where a matching element could be inserted while maintaining sorted order.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by_key"
+    ]
+  ],
+  "See also binary_search_by, binary_search_by_key, and partition_point.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ]
+  ],
+  "Looks up a series of four elements. The first is found, with a uniquely determined position; the second and third are not found; the fourth could match any position in [1, 4].": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by"
+    ]
+  ],
+  "If you want to find that whole range of matching items, rather than an arbitrary matching one, that can be done using partition_point:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ]
+  ],
+  "If you want to insert an item to a sorted vector, while maintaining sort order, consider using partition_point:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search"
+    ]
+  ],
+  "Binary searches this slice with a comparator function.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by"
+    ]
+  ],
+  "The comparator function should return an order code that indicates whether its argument is Less, Equal or Greater the desired target. If the slice is not sorted or if the comparator function does not implement an order consistent with the sort order of the underlying slice, the returned result is unspecified and meaningless.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by"
+    ]
+  ],
+  "See also binary_search, binary_search_by_key, and partition_point.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by"
+    ]
+  ],
+  "Binary searches this slice with a key extraction function.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by_key"
+    ]
+  ],
+  "Assumes that the slice is sorted by the key, for instance with sort_by_key using the same key extraction function. If the slice is not sorted by the key, the returned result is unspecified and meaningless.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by_key"
+    ]
+  ],
+  "See also binary_search, binary_search_by, and partition_point.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by_key"
+    ]
+  ],
+  "Looks up a series of four elements in a slice of pairs sorted by their second elements. The first is found, with a uniquely determined position; the second and third are not found; the fourth could match any position in [1, 4].": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.binary_search_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.binary_search_by_key"
+    ]
+  ],
+  "Transmutes the slice to a slice of another type, ensuring alignment of the types is maintained.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to"
+    ]
+  ],
+  "This method splits the slice into three distinct slices: prefix, correctly aligned middle slice of a new type, and the suffix slice. The middle part will be as big as possible under the given alignment constraint and element size.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to_mut"
+    ]
+  ],
+  "This method has no purpose when either input element T or output element U are zero-sized and will return the original slice without splitting anything.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to_mut"
+    ]
+  ],
+  "This method is essentially a transmute with respect to the elements in the returned middle slice, so all the usual caveats pertaining to transmute::&lt;T, U&gt; also apply here.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to_mut"
+    ]
+  ],
+  "Basic usage:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      null
+    ]
+  ],
+  "Splits a slice into a prefix, a middle of aligned SIMD types, and a suffix.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd"
+    ]
+  ],
+  "This is a safe wrapper around slice::align_to, so inherits the same guarantees as that method.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd"
+    ]
+  ],
+  "This will panic if the size of the SIMD type is different from LANES times that of the scalar.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd_mut"
+    ]
+  ],
+  "At the time of writing, the trait restrictions on Simd&lt;T, LANES&gt; keeps that from ever happening, as only power-of-two numbers of lanes are supported. It’s possible that, in the future, those restrictions might be lifted in a way that would make it possible to see panics from this method for something like LANES == 3.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd_mut"
+    ]
+  ],
+  "Checks if the elements of this slice are sorted.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted"
+    ]
+  ],
+  "That is, for each element a and its following element b, a &lt;= b must hold. If the slice yields exactly zero or one element, true is returned.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted"
+    ]
+  ],
+  "Note that if Self::Item is only PartialOrd, but not Ord, the above definition implies that this function returns false if any two consecutive items are not comparable.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted"
+    ]
+  ],
+  "Checks if the elements of this slice are sorted using the given comparator function.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted_by"
+    ]
+  ],
+  "Instead of using PartialOrd::partial_cmp, this function uses the given compare function to determine whether two elements are to be considered in sorted order.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted_by"
+    ]
+  ],
+  "Checks if the elements of this slice are sorted using the given key extraction function.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted_by_key"
+    ]
+  ],
+  "Instead of comparing the slice’s elements directly, this function compares the keys of the elements, as determined by f. Apart from that, it’s equivalent to is_sorted; see its documentation for more information.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.is_sorted_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_sorted_by_key"
+    ]
+  ],
+  "Returns the index of the partition point according to the given predicate (the index of the first element of the second partition).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "The slice is assumed to be partitioned according to the given predicate. This means that all elements for which the predicate returns true are at the start of the slice and all elements for which the predicate returns false are at the end. For example, [7, 15, 3, 5, 4, 12, 6] is partitioned under the predicate x % 2 != 0 (all odd numbers are at the start, all even at the end).": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "If this slice is not partitioned, the returned result is unspecified and meaningless, as this method performs a kind of binary search.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "See also binary_search, binary_search_by, and binary_search_by_key.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "If all elements of the slice match the predicate, including if the slice is empty, then the length of the slice will be returned:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "If you want to insert an item to a sorted vector, while maintaining sort order:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.partition_point"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_point"
+    ]
+  ],
+  "Returns the index that an element reference points to.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ]
+  ],
+  "Returns None if element does not point to the start of an element within the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ]
+  ],
+  "This method is useful for extending slice iterators like slice::split.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "Note that this uses pointer arithmetic and does not compare elements. To find the index of an element via comparison, use .iter().position() instead.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ]
+  ],
+  "Panics if T is zero-sized.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "Returning None with an unaligned element:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.element_offset"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.element_offset"
+    ]
+  ],
+  "Returns the range of indices that a subslice points to.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "Returns None if subslice does not point within the slice or if it is not aligned with the elements in the slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "This method does not compare elements. Instead, this method finds the location in the slice that subslice was obtained from. To find the index of a subslice via comparison, instead use .windows().position().": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "Note that this may return a false positive (either Some(0..0) or Some(self.len()..self.len())) if subslice has a length of zero and points to the beginning or end of another, separate, slice.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.subslice_range"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.subslice_range"
+    ]
+  ],
+  "Returns the same slice &amp;[T].": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_slice"
+    ]
+  ],
+  "This method is redundant when used directly on &amp;[T], but it helps dereferencing other “container” types to slices, for example Box&lt;[T]&gt; or Arc&lt;[T]&gt;.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.as_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_slice"
+    ]
+  ],
+  "Creates an iterator over the contiguous valid UTF-8 ranges of this slice, and the non-UTF-8 fragments in between.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.utf8_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.utf8_chunks"
+    ]
+  ],
+  "See the Utf8Chunk type for documentation of the items yielded by this iterator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.utf8_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.utf8_chunks"
+    ]
+  ],
+  "This function formats arbitrary but mostly-UTF-8 bytes into Rust source code in the form of a C-string literal (c\"...\").": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.utf8_chunks"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.utf8_chunks"
+    ]
+  ],
+  "Copies self into a new Vec.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_vec"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_vec"
+    ]
+  ],
+  "Copies self into a new Vec with an allocator.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_vec_in"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_vec_in"
+    ]
+  ],
+  "Creates a vector by copying a slice n times.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.repeat"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.repeat"
+    ]
+  ],
+  "This function will panic if the capacity would overflow.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.repeat"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.repeat"
+    ]
+  ],
+  "A panic upon overflow:": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.repeat"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.repeat"
+    ]
+  ],
+  "Flattens a slice of T into a single value Self::Output.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.concat"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.concat"
+    ]
+  ],
+  "Flattens a slice of T into a single value Self::Output, placing a given separator between each.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.join"
+    ],
+    [
+      "bytes\\struct.Bytes.html",
+      "method.connect"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.join"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.connect"
+    ]
+  ],
+  "Returns a vector containing a copy of this slice where each byte is mapped to its ASCII upper case equivalent.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_uppercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_uppercase"
+    ]
+  ],
+  "ASCII letters ‘a’ to ‘z’ are mapped to ‘A’ to ‘Z’, but non-ASCII letters are unchanged.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_uppercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_uppercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_uppercase"
+    ]
+  ],
+  "To uppercase the value in-place, use make_ascii_uppercase.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_uppercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_uppercase"
+    ]
+  ],
+  "Returns a vector containing a copy of this slice where each byte is mapped to its ASCII lower case equivalent.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_lowercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_lowercase"
+    ]
+  ],
+  "ASCII letters ‘A’ to ‘Z’ are mapped to ‘a’ to ‘z’, but non-ASCII letters are unchanged.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_lowercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_lowercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_lowercase"
+    ]
+  ],
+  "To lowercase the value in-place, use make_ascii_lowercase.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.to_ascii_lowercase"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.to_ascii_lowercase"
+    ]
+  ],
+  "Convert self into BytesMut.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from-4"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.from"
+    ]
+  ],
+  "If bytes is unique for the entire original buffer, this will return a BytesMut with the contents of bytes without copying. If bytes is not unique for the entire original buffer, this will make a copy of bytes subset of the original buffer in a new BytesMut.": [
+    [
+      "bytes\\struct.Bytes.html",
+      "method.from-4"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.from"
+    ]
+  ],
+  "Creates a new BytesMut with the specified capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.with_capacity"
+    ]
+  ],
+  "The returned BytesMut will be able to hold at least capacity bytes without reallocating.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.with_capacity"
+    ]
+  ],
+  "It is important to note that this function does not specify the length of the returned BytesMut, but only the capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.with_capacity"
+    ]
+  ],
+  "Creates a new BytesMut with default capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.new"
+    ]
+  ],
+  "Resulting object has length 0 and unspecified capacity. This function does not allocate.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.new"
+    ]
+  ],
+  "Returns the number of bytes contained in this BytesMut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.len"
+    ]
+  ],
+  "Returns true if the BytesMut has a length of 0.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.is_empty"
+    ]
+  ],
+  "Returns the number of bytes the BytesMut can hold without reallocating.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.capacity"
+    ]
+  ],
+  "Converts self into an immutable Bytes.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.freeze"
+    ]
+  ],
+  "The conversion is zero cost and is used to indicate that the slice referenced by the handle will no longer be mutated. Once the conversion is done, the handle can be cloned and shared across threads.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.freeze"
+    ]
+  ],
+  "Creates a new BytesMut containing len zeros.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.zeroed"
+    ]
+  ],
+  "The resulting object has a length of len and a capacity greater than or equal to len. The entire length of the object will be filled with zeros.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.zeroed"
+    ]
+  ],
+  "On some platforms or allocators this function may be faster than a manual implementation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.zeroed"
+    ]
+  ],
+  "Afterwards self contains elements [0, at), and the returned BytesMut contains elements [at, capacity). It’s guaranteed that the memory does not move, that is, the address of self does not change, and the address of the returned slice is at bytes after that.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off"
+    ]
+  ],
+  "Panics if at &gt; capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off"
+    ]
+  ],
+  "Removes the bytes from the current view, returning them in a new BytesMut handle.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split"
+    ]
+  ],
+  "Afterwards, self will be empty, but will retain any additional capacity that it had before the operation. This is identical to self.split_to(self.len()).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split"
+    ]
+  ],
+  "Splits the buffer into two at the given index.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_to"
+    ]
+  ],
+  "Afterwards self contains elements [at, len), and the returned BytesMut contains elements [0, at).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_to"
+    ]
+  ],
+  "Existing underlying capacity is preserved.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.truncate"
+    ]
+  ],
+  "Clears the buffer, removing all data. Existing capacity is preserved.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clear"
+    ]
+  ],
+  "Resizes the buffer so that len is equal to new_len.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.resize"
+    ]
+  ],
+  "If new_len is greater than len, the buffer is extended by the difference with each additional byte set to value. If new_len is less than len, the buffer is simply truncated.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.resize"
+    ]
+  ],
+  "Sets the length of the buffer.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.set_len"
+    ]
+  ],
+  "This will explicitly set the size of the buffer without actually modifying the data, so it is up to the caller to ensure that the data has been initialized.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.set_len"
+    ]
+  ],
+  "Reserves capacity for at least additional more bytes to be inserted into the given BytesMut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "More than additional bytes may be reserved in order to avoid frequent reallocations. A call to reserve may result in an allocation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "Before allocating new buffer space, the function will attempt to reclaim space in the existing buffer. If the current handle references a view into a larger original buffer, and all other handles referencing part of the same original buffer have been dropped, then the current view can be copied/shifted to the front of the buffer and the handle can take ownership of the full buffer, provided that the full buffer is large enough to fit the requested additional capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "This optimization will only happen if shifting the data from the current view to the front of the buffer is not too expensive in terms of the (amortized) time required. The precise condition is subject to change; as of now, the length of the data being shifted needs to be at least as large as the distance that it’s shifted by. If the current view is empty and the original buffer is large enough to fit the requested additional capacity, then reallocations will never happen.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "This method does not preserve data stored in the unused capacity.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_reclaim"
+    ]
+  ],
+  "In the following example, a new buffer is allocated.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "In the following example, the existing buffer is reclaimed.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "Panics if the new capacity overflows usize.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reserve"
+    ]
+  ],
+  "Attempts to cheaply reclaim already allocated capacity for at least additional more bytes to be inserted into the given BytesMut and returns true if it succeeded.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_reclaim"
+    ]
+  ],
+  "try_reclaim behaves exactly like reserve, except that it never allocates new storage and returns a bool indicating whether it was successful in doing so:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_reclaim"
+    ]
+  ],
+  "try_reclaim returns false under these conditions:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_reclaim"
+    ]
+  ],
+  "Reclaiming the allocation cheaply is possible if the BytesMut has no outstanding references through other BytesMuts or Bytes which point to the same underlying storage.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_reclaim"
+    ]
+  ],
+  "Appends given bytes to this BytesMut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.extend_from_slice"
+    ]
+  ],
+  "If this BytesMut object does not have enough capacity, it is resized first.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.extend_from_slice"
+    ]
+  ],
+  "Clones the elements in the given range within this BytesMut and appends them to the end.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.extend_from_within"
+    ]
+  ],
+  "Panics if range is out of bounds for this BytesMut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.extend_from_within"
+    ]
+  ],
+  "Absorbs a BytesMut that was previously split off if they are contiguous, otherwise appends its bytes to this BytesMut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.unsplit"
+    ]
+  ],
+  "If the two BytesMut objects were previously contiguous and not mutated in a way that causes re-allocation i.e., if other was created by calling split_off on this BytesMut, then this is an O(1) operation that just decreases a reference count and sets a few indices. Otherwise this method degenerates to self.extend_from_slice(other.as_ref()).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.unsplit"
+    ]
+  ],
+  "Absorbs a BytesMut that was previously split off.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_unsplit"
+    ]
+  ],
+  "If the two BytesMut objects were previously contiguous, i.e., if other was created by calling split_off on this BytesMut, then this is an O(1) operation that just decreases a reference count and sets a few indices. Otherwise this method returns an error containing the original other.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.try_unsplit"
+    ]
+  ],
+  "Returns the remaining spare capacity of the buffer as a slice of MaybeUninit&lt;u8&gt;.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.spare_capacity_mut"
+    ]
+  ],
+  "The returned slice can be used to fill the buffer with data (e.g. by reading from a file) before marking the data as initialized using the set_len method.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.spare_capacity_mut"
+    ]
+  ],
+  "Converts this slice to its ASCII upper case equivalent in-place.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_uppercase"
+    ]
+  ],
+  "To return a new uppercased value without modifying the existing one, use to_ascii_uppercase.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_uppercase"
+    ]
+  ],
+  "Converts this slice to its ASCII lower case equivalent in-place.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_lowercase"
+    ]
+  ],
+  "To return a new lowercased value without modifying the existing one, use to_ascii_lowercase.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.make_ascii_lowercase"
+    ]
+  ],
+  "Returns a mutable reference to the first element of the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first_mut"
+    ]
+  ],
+  "Returns a mutable reference to the last item in the slice, or None if it is empty.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last_mut"
+    ]
+  ],
+  "Returns a mutable array reference to the first N items in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.first_chunk_mut"
+    ]
+  ],
+  "Returns a mutable array reference to the first N items in the slice and the remaining slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_first_chunk_mut"
+    ]
+  ],
+  "Returns a mutable array reference to the last N items in the slice and the remaining slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_last_chunk_mut"
+    ]
+  ],
+  "Returns a mutable array reference to the last N items in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.last_chunk_mut"
+    ]
+  ],
+  "Returns a mutable reference to an element or subslice depending on the type of index (see get) or None if the index is out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_mut"
+    ]
+  ],
+  "Returns a mutable reference to an element or subslice, without doing bounds checking.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked_mut"
+    ]
+  ],
+  "For a safe alternative see get_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked_mut"
+    ]
+  ],
+  "You can think of this like .get_mut(index).unwrap_unchecked(). It’s UB to call .get_unchecked_mut(len), even if you immediately convert to a pointer. And it’s UB to call .get_unchecked_mut(..len + 1), .get_unchecked_mut(..=len), or similar.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_unchecked_mut"
+    ]
+  ],
+  "Returns an unsafe mutable pointer to the slice’s buffer.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr"
+    ]
+  ],
+  "Returns the two unsafe mutable pointers spanning the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr_range"
+    ]
+  ],
+  "See as_mut_ptr for warnings on using these pointers. The end pointer requires extra caution, as it does not point to a valid element in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_ptr_range"
+    ]
+  ],
+  "Gets a mutable reference to the slice’s underlying array.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_array"
+    ]
+  ],
+  "Swaps two elements in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap"
+    ]
+  ],
+  "If a equals to b, it’s guaranteed that elements won’t change value.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap"
+    ]
+  ],
+  "Panics if a or b are out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap"
+    ]
+  ],
+  "Swaps two elements in the slice, without doing bounds checking.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_unchecked"
+    ]
+  ],
+  "For a safe alternative see swap.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_unchecked"
+    ]
+  ],
+  "Calling this method with an out-of-bounds index is undefined behavior. The caller has to ensure that a &lt; self.len() and b &lt; self.len().": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_unchecked"
+    ]
+  ],
+  "Reverses the order of elements in the slice, in place.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.reverse"
+    ]
+  ],
+  "Returns an iterator that allows modifying each value.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.iter_mut"
+    ]
+  ],
+  "The chunks are mutable slices, and do not overlap. If chunk_size does not divide the length of the slice, then the last chunk will not have length chunk_size.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_mut"
+    ]
+  ],
+  "See chunks_exact_mut for a variant of this iterator that returns chunks of always exactly chunk_size elements, and rchunks_mut for the same iterator but starting at the end of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_mut"
+    ]
+  ],
+  "If your chunk_size is a constant, consider using as_chunks_mut instead, which will give references to arrays of exactly that length, rather than slices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ]
+  ],
+  "The chunks are mutable slices, and do not overlap. If chunk_size does not divide the length of the slice, then the last up to chunk_size-1 elements will be omitted and can be retrieved from the into_remainder function of the iterator.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "Due to each chunk having exactly chunk_size elements, the compiler can often optimize the resulting code better than in the case of chunks_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "See chunks_mut for a variant of this iterator that also returns the remainder as a smaller chunk, and rchunks_exact_mut for the same iterator but starting at the end of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunks_exact_mut"
+    ]
+  ],
+  "This is the inverse operation to as_flattened_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked_mut"
+    ]
+  ],
+  "As this is unsafe, consider whether you could use as_chunks_mut or as_rchunks_mut instead, perhaps via something like if let (chunks, []) = slice.as_chunks_mut() or let (chunks, []) = slice.as_chunks_mut() else { unreachable!() };.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_unchecked_mut"
+    ]
+  ],
+  "The remainder is meaningful in the division sense. Given let (chunks, remainder) = slice.as_chunks_mut(), then:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_mut"
+    ]
+  ],
+  "You can flatten the chunks back into a slice-of-T with as_flattened_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_chunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks_mut"
+    ]
+  ],
+  "The remainder is meaningful in the division sense. Given let (remainder, chunks) = slice.as_rchunks_mut(), then:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_rchunks_mut"
+    ]
+  ],
+  "See rchunks_exact_mut for a variant of this iterator that returns chunks of always exactly chunk_size elements, and chunks_mut for the same iterator but starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_mut"
+    ]
+  ],
+  "If your chunk_size is a constant, consider using as_rchunks_mut instead, which will give references to arrays of exactly that length, rather than slices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "See rchunks_mut for a variant of this iterator that also returns the remainder as a smaller chunk, and chunks_exact_mut for the same iterator but starting at the beginning of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rchunks_exact_mut"
+    ]
+  ],
+  "Returns an iterator over the slice producing non-overlapping mutable runs of elements using the predicate to separate them.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.chunk_by_mut"
+    ]
+  ],
+  "Divides one mutable slice into two at an index.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut"
+    ]
+  ],
+  "Panics if mid &gt; len. For a non-panicking alternative see split_at_mut_checked.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut"
+    ]
+  ],
+  "Divides one mutable slice into two at an index, without doing bounds checking.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_unchecked"
+    ]
+  ],
+  "For a safe alternative see split_at_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_unchecked"
+    ]
+  ],
+  "Divides one mutable slice into two at an index, returning None if the slice is too short.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_at_mut_checked"
+    ]
+  ],
+  "Returns an iterator over mutable subslices separated by elements that match pred. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_mut"
+    ]
+  ],
+  "Returns an iterator over mutable subslices separated by elements that match pred. The matched element is contained in the previous subslice as a terminator.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_inclusive_mut"
+    ]
+  ],
+  "Returns an iterator over mutable subslices separated by elements that match pred, starting at the end of the slice and working backwards. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rsplit_mut"
+    ]
+  ],
+  "Returns an iterator over mutable subslices separated by elements that match pred, limited to returning at most n items. The matched element is not contained in the subslices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.splitn_mut"
+    ]
+  ],
+  "Sorts the slice in ascending order without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ]
+  ],
+  "This sort is unstable (i.e., may reorder equal elements), in-place (i.e., does not allocate), and O(n * log(n)) worst-case.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ]
+  ],
+  "If the implementation of Ord for T does not implement a total order, the function may panic; even if the function exits normally, the resulting order of elements in the slice is unspecified. See also the note on panicking below.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ]
+  ],
+  "For example |a, b| (a - b).cmp(a) is a comparison function that is neither transitive nor reflexive nor total, a &lt; b &lt; c &lt; a with a = 1, b = 2, c = 3. For more information and examples see the Ord documentation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ]
+  ],
+  "All original elements will remain in the slice and any possible modifications via interior mutability are observed in the input. Same is true if the implementation of Ord for T panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ]
+  ],
+  "Sorting types that only implement PartialOrd such as f32 and f64 require additional precautions. For example, f32::NAN != f32::NAN, which doesn’t fulfill the reflexivity requirement of Ord. By using an alternative comparison function with slice::sort_unstable_by such as f32::total_cmp or f64::total_cmp that defines a total order users can sort slices containing floating-point values. Alternatively, if all values in the slice are guaranteed to be in a subset for which PartialOrd::partial_cmp forms a total order, it’s possible to sort the slice with sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ]
+  ],
+  "The current implementation is based on ipnsort by Lukas Bergdoll and Orson Peters, which combines the fast average case of quicksort with the fast worst case of heapsort, achieving linear time on fully sorted and reversed inputs. On inputs with k distinct elements, the expected time to sort the data is O(n * log(k)).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ]
+  ],
+  "It is typically faster than stable sorting, except in a few special cases, e.g., when the slice is partially sorted.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ]
+  ],
+  "May panic if the implementation of Ord for T does not implement a total order, or if the Ord implementation panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable"
+    ]
+  ],
+  "Sorts the slice in ascending order with a comparison function, without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ]
+  ],
+  "If the comparison function compare does not implement a total order, the function may panic; even if the function exits normally, the resulting order of elements in the slice is unspecified. See also the note on panicking below.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ]
+  ],
+  "All original elements will remain in the slice and any possible modifications via interior mutability are observed in the input. Same is true if compare panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ]
+  ],
+  "May panic if the compare does not implement a total order, or if the compare itself panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by"
+    ]
+  ],
+  "Sorts the slice in ascending order with a key extraction function, without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ]
+  ],
+  "If the implementation of Ord for K does not implement a total order, the function may panic; even if the function exits normally, the resulting order of elements in the slice is unspecified. See also the note on panicking below.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "All original elements will remain in the slice and any possible modifications via interior mutability are observed in the input. Same is true if the implementation of Ord for K panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ]
+  ],
+  "May panic if the implementation of Ord for K does not implement a total order, or if the Ord implementation panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_unstable_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "Partially sorts the slice in ascending order without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ]
+  ],
+  "Upon completion, for the specified range start..end, it’s guaranteed that:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "This partial sort is unstable, meaning it may reorder equal elements in the specified range. It may reorder elements outside the specified range as well, but the guarantees above still hold.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "This partial sort is in-place (i.e., does not allocate), and O(n + k * log(k)) worst-case, where n is the length of the slice and k is the length of the specified range.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "See the documentation of sort_unstable for implementation notes.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ]
+  ],
+  "May panic if the implementation of Ord for T does not implement a total order, or if the Ord implementation panics, or if the specified range is out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable"
+    ]
+  ],
+  "Partially sorts the slice in ascending order with a comparison function, without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ]
+  ],
+  "See the documentation of sort_unstable_by for implementation notes.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ]
+  ],
+  "May panic if the compare does not implement a total order, or if the compare itself panics, or if the specified range is out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by"
+    ]
+  ],
+  "Partially sorts the slice in ascending order with a key extraction function, without preserving the initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "See the documentation of sort_unstable_by_key for implementation notes.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "May panic if the implementation of Ord for K does not implement a total order, or if the Ord implementation panics, or if the specified range is out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partial_sort_unstable_by_key"
+    ]
+  ],
+  "Reorders the slice such that the element at index is at a sort-order position. All elements before index will be &lt;= to this value, and all elements after will be &gt;= to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ]
+  ],
+  "This reordering is unstable (i.e. any element that compares equal to the nth element may end up at that position), in-place (i.e. does not allocate), and runs in O(n) time. This function is also known as “kth element” in other libraries.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "Returns a triple that partitions the reordered slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ]
+  ],
+  "The unsorted subslice before index, whose elements all satisfy x &lt;= self[index].": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ]
+  ],
+  "The element at index.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "The unsorted subslice after index, whose elements all satisfy x &gt;= self[index].": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ]
+  ],
+  "The current algorithm is an introselect implementation based on ipnsort by Lukas Bergdoll and Orson Peters, which is also the basis for sort_unstable. The fallback algorithm is Median of Medians using Tukey’s Ninther for pivot selection, which guarantees linear runtime for all inputs.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "Panics when index &gt;= len(), and so always panics on empty slices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ]
+  ],
+  "May panic if the implementation of Ord for T does not implement a total order.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable"
+    ]
+  ],
+  "Reorders the slice with a comparator function such that the element at index is at a sort-order position. All elements before index will be &lt;= to this value, and all elements after will be &gt;= to it, according to the comparator function.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ]
+  ],
+  "Returns a triple partitioning the reordered slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "The unsorted subslice before index, whose elements all satisfy compare(x, self[index]).is_le().": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ]
+  ],
+  "The unsorted subslice after index, whose elements all satisfy compare(x, self[index]).is_ge().": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ]
+  ],
+  "May panic if compare does not implement a total order.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by"
+    ]
+  ],
+  "Reorders the slice with a key extraction function such that the element at index is at a sort-order position. All elements before index will have keys &lt;= to the key at index, and all elements after will have keys &gt;= to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "The unsorted subslice before index, whose elements all satisfy f(x) &lt;= f(self[index]).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "The unsorted subslice after index, whose elements all satisfy f(x) &gt;= f(self[index]).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "Panics when index &gt;= len(), meaning it always panics on empty slices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "May panic if K: Ord does not implement a total order.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.select_nth_unstable_by_key"
+    ]
+  ],
+  "Moves all consecutive repeated elements to the end of the slice according to the PartialEq trait implementation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup"
+    ]
+  ],
+  "Returns two slices. The first contains no consecutive repeated elements. The second contains all the duplicates in no specified order.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by_key"
+    ]
+  ],
+  "If the slice is sorted, the first returned slice contains no duplicates.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by_key"
+    ]
+  ],
+  "Moves all but the first of consecutive elements to the end of the slice satisfying a given equality relation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by"
+    ]
+  ],
+  "The same_bucket function is passed references to two elements from the slice and must determine if the elements compare equal. The elements are passed in opposite order from their order in the slice, so if same_bucket(a, b) returns true, a is moved at the end of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by"
+    ]
+  ],
+  "Moves all but the first of consecutive elements to the end of the slice that resolve to the same key.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.partition_dedup_by_key"
+    ]
+  ],
+  "Rotates the slice in-place such that the first mid elements of the slice move to the end while the last self.len() - mid elements move to the front.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_left"
+    ]
+  ],
+  "After calling rotate_left, the element previously at index mid will become the first element in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_left"
+    ]
+  ],
+  "This function will panic if mid is greater than the length of the slice. Note that mid == self.len() does not panic and is a no-op rotation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_left"
+    ]
+  ],
+  "Takes linear (in self.len()) time.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_left"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_right"
+    ]
+  ],
+  "Rotating a subslice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_left"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_right"
+    ]
+  ],
+  "Rotates the slice in-place such that the first self.len() - k elements of the slice move to the end while the last k elements move to the front.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_right"
+    ]
+  ],
+  "After calling rotate_right, the element previously at index self.len() - k will become the first element in the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_right"
+    ]
+  ],
+  "This function will panic if k is greater than the length of the slice. Note that k == self.len() does not panic and is a no-op rotation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.rotate_right"
+    ]
+  ],
+  "Moves the elements of this slice N places to the left, returning the ones that “fall off” the front, and putting inserted at the end.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_left"
+    ]
+  ],
+  "Equivalently, you can think of concatenating self and inserted into one long sequence, then returning the left-most N items and the rest into self:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_left"
+    ]
+  ],
+  "See also Self::shift_right and compare Self::rotate_left.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_left"
+    ]
+  ],
+  "Moves the elements of this slice N places to the right, returning the ones that “fall off” the back, and putting inserted at the beginning.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_right"
+    ]
+  ],
+  "Equivalently, you can think of concatenating inserted and self into one long sequence, then returning the right-most N items and the rest into self:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_right"
+    ]
+  ],
+  "See also Self::shift_left and compare Self::rotate_right.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.shift_right"
+    ]
+  ],
+  "Fills self with elements by cloning value.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.fill"
+    ]
+  ],
+  "Fills self with elements returned by calling a closure repeatedly.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.fill_with"
+    ]
+  ],
+  "This method uses a closure to create new values. If you’d rather Clone a given value, use fill. If you want to use the Default trait to generate values, you can pass Default::default as the argument.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.fill_with"
+    ]
+  ],
+  "Copies the elements from src into self.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ]
+  ],
+  "The length of src must be the same as self.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ],
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "This function will panic if the two slices have different lengths.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "Cloning two elements from a slice into another:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ]
+  ],
+  "Rust enforces that there can only be one mutable reference with no immutable references to a particular piece of data in a particular scope. Because of this, attempting to use clone_from_slice on a single slice will result in a compile failure:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ]
+  ],
+  "To work around this, we can use split_at_mut to create two distinct sub-slices from a slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.clone_from_slice"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "Copies all elements from src into self, using a memcpy.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "If T does not implement Copy, use clone_from_slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "Copying two elements from a slice into another:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "Rust enforces that there can only be one mutable reference with no immutable references to a particular piece of data in a particular scope. Because of this, attempting to use copy_from_slice on a single slice will result in a compile failure:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "Copies elements from one part of the slice to another part of itself, using a memmove.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_within"
+    ]
+  ],
+  "src is the range within self to copy from. dest is the starting index of the range within self to copy to, which will have the same length as src. The two ranges may overlap. The ends of the two ranges must be less than or equal to self.len().": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_within"
+    ]
+  ],
+  "This function will panic if either range exceeds the end of the slice, or if the end of src is before the start.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_within"
+    ]
+  ],
+  "Copying four bytes within a slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.copy_within"
+    ]
+  ],
+  "Swaps all elements in self with those in other.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "The length of other must be the same as self.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "Swapping two elements across slices:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "Rust enforces that there can only be one mutable reference to a particular piece of data in a particular scope. Because of this, attempting to use swap_with_slice on a single slice will result in a compile failure:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "To work around this, we can use split_at_mut to create two distinct mutable sub-slices from a slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.swap_with_slice"
+    ]
+  ],
+  "Transmutes the mutable slice to a mutable slice of another type, ensuring alignment of the types is maintained.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.align_to_mut"
+    ]
+  ],
+  "Splits a mutable slice into a mutable prefix, a middle of aligned SIMD types, and a mutable suffix.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd_mut"
+    ]
+  ],
+  "This is a safe wrapper around slice::align_to_mut, so inherits the same guarantees as that method.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd_mut"
+    ]
+  ],
+  "This is the mutable version of slice::as_simd; see that for examples.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_simd_mut"
+    ]
+  ],
+  "Removes the subslice corresponding to the given range and returns a reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ]
+  ],
+  "Returns None and does not modify the slice if the given range is out of bounds.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Note that this method only accepts one-sided ranges such as 2.. or ..6, but not 2..6.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Splitting off the first three elements of a slice:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Splitting off a slice starting with the third element:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Getting None when range is out of bounds:": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off-1"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Removes the subslice corresponding to the given range and returns a mutable reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_mut"
+    ]
+  ],
+  "Removes the first element of the slice and returns a reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_first"
+    ]
+  ],
+  "Returns None if the slice is empty.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_first"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_first_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_last"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_last_mut"
+    ]
+  ],
+  "Removes the first element of the slice and returns a mutable reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_first_mut"
+    ]
+  ],
+  "Removes the last element of the slice and returns a reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_last"
+    ]
+  ],
+  "Removes the last element of the slice and returns a mutable reference to it.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.split_off_last_mut"
+    ]
+  ],
+  "Returns mutable references to many indices at once, without doing any checks.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_unchecked_mut"
+    ]
+  ],
+  "An index can be either a usize, a Range or a RangeInclusive. Note that this method takes an array, so all indices must be of the same type. If passed an array of usizes this method gives back an array of mutable references to single elements, while if passed an array of ranges it gives back an array of mutable references to slices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_unchecked_mut"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_mut"
+    ]
+  ],
+  "For a safe alternative see get_disjoint_mut.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_unchecked_mut"
+    ]
+  ],
+  "Calling this method with overlapping or out-of-bounds indices is undefined behavior even if the resulting references are not used.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_unchecked_mut"
+    ]
+  ],
+  "Returns mutable references to many indices at once.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_mut"
+    ]
+  ],
+  "Returns an error if any index is out-of-bounds, or if there are overlapping indices. An empty range is not considered to overlap if it is located at the beginning or at the end of another range, but is considered to overlap if it is located in the middle.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_mut"
+    ]
+  ],
+  "This method does a O(n^2) check to check that there are no overlapping indices, so be careful when passing many indices.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.get_disjoint_mut"
+    ]
+  ],
+  "Returns the same slice &amp;mut [T].": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_slice"
+    ]
+  ],
+  "This method is redundant when used directly on &amp;mut [T], but it helps dereferencing other “container” types to slices, for example Box&lt;[T]&gt; or MutexGuard&lt;[T]&gt;.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.as_mut_slice"
+    ]
+  ],
+  "Sorts the slice in ascending order, preserving initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ]
+  ],
+  "This sort is stable (i.e., does not reorder equal elements) and O(n * log(n)) worst-case.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ]
+  ],
+  "When applicable, unstable sorting is preferred because it is generally faster than stable sorting and it doesn’t allocate auxiliary memory. See sort_unstable. The exception are partially sorted slices, which may be better served with slice::sort.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ]
+  ],
+  "Sorting types that only implement PartialOrd such as f32 and f64 require additional precautions. For example, f32::NAN != f32::NAN, which doesn’t fulfill the reflexivity requirement of Ord. By using an alternative comparison function with slice::sort_by such as f32::total_cmp or f64::total_cmp that defines a total order users can sort slices containing floating-point values. Alternatively, if all values in the slice are guaranteed to be in a subset for which PartialOrd::partial_cmp forms a total order, it’s possible to sort the slice with sort_by(|a, b| a.partial_cmp(b).unwrap()).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ]
+  ],
+  "The current implementation is based on driftsort by Orson Peters and Lukas Bergdoll, which combines the fast average case of quicksort with the fast worst case and partial run detection of mergesort, achieving linear time on fully sorted and reversed inputs. On inputs with k distinct elements, the expected time to sort the data is O(n * log(k)).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ]
+  ],
+  "The auxiliary memory allocation behavior depends on the input length. Short slices are handled without allocation, medium sized slices allocate self.len() and beyond that it clamps at self.len() / 2.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ]
+  ],
+  "May panic if the implementation of Ord for T does not implement a total order, or if the Ord implementation itself panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ]
+  ],
+  "All safe functions on slices preserve the invariant that even if the function panics, all original elements will remain in the slice and any possible modifications via interior mutability are observed in the input. This ensures that recovery code (for instance inside of a Drop or following a catch_unwind) will still have access to all the original elements. For instance, if the slice belongs to a Vec, the Vec::drop method will be able to dispose of all contained elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "Sorts the slice in ascending order with a comparison function, preserving initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ]
+  ],
+  "May panic if compare does not implement a total order, or if compare itself panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by"
+    ]
+  ],
+  "Sorts the slice in ascending order with a key extraction function, preserving initial order of equal elements.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ],
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "This sort is stable (i.e., does not reorder equal elements) and O(m * n * log(n)) worst-case, where the key function is O(m).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ]
+  ],
+  "May panic if the implementation of Ord for K does not implement a total order, or if the Ord implementation or the key-function f panics.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_key"
+    ]
+  ],
+  "This sort is stable (i.e., does not reorder equal elements) and O(m * n + n * log(n)) worst-case, where the key function is O(m).": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "During sorting, the key function is called at most once per element, by using temporary storage to remember the results of key evaluation. The order of calls to the key function is unspecified and may change in future versions of the standard library.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "For simple key functions (e.g., functions that are property accesses or basic operations), sort_by_key is likely to be faster.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "The current implementation is based on instruction-parallel-network sort by Lukas Bergdoll, which combines the fast average case of randomized quicksort with the fast worst case of heapsort, while achieving linear time on fully sorted and reversed inputs. And O(k * log(n)) where k is the number of distinct elements in the input. It leverages superscalar out-of-order execution capabilities commonly found in CPUs, to efficiently perform the operation.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "In the worst case, the algorithm allocates temporary storage in a Vec&lt;(K, usize)&gt; the length of the slice.": [
+    [
+      "bytes\\struct.BytesMut.html",
+      "method.sort_by_cached_key"
+    ]
+  ],
+  "Error type for the try_get_ methods of Buf. Indicates that there were not enough remaining bytes in the buffer while attempting to get a value from a Buf with one of the try_get_ methods.": [
+    [
+      "bytes\\struct.TryGetError.html",
+      null
+    ]
+  ],
+  "The number of bytes necessary to get the value": [
+    [
+      "bytes\\struct.TryGetError.html",
+      "structfield.requested"
+    ]
+  ],
+  "The number of bytes available in the buffer": [
+    [
+      "bytes\\struct.TryGetError.html",
+      "structfield.available"
+    ]
+  ],
+  "A Chain sequences two buffers.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      null
+    ]
+  ],
+  "Chain is an adapter that links two underlying buffers and provides a continuous view across both buffers. It is able to sequence either immutable buffers (Buf values) or mutable buffers (BufMut values).": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      null
+    ]
+  ],
+  "This struct is generally created by calling Buf::chain. Please see that function’s documentation for more detail.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      null
+    ]
+  ],
+  "Gets a reference to the first underlying Buf.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      "method.first_ref"
+    ]
+  ],
+  "Gets a mutable reference to the first underlying Buf.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      "method.first_mut"
+    ]
+  ],
+  "Gets a reference to the last underlying Buf.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      "method.last_ref"
+    ]
+  ],
+  "Gets a mutable reference to the last underlying Buf.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      "method.last_mut"
+    ]
+  ],
+  "Consumes this Chain, returning the underlying values.": [
+    [
+      "bytes\\buf\\struct.Chain.html",
+      "method.into_inner"
+    ]
+  ],
+  "Iterator over the bytes contained by the buffer.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      null
+    ]
+  ],
+  "Creates an iterator over the bytes contained by the buffer.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.new"
+    ]
+  ],
+  "Consumes this IntoIter, returning the underlying value.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.into_inner"
+    ]
+  ],
+  "Gets a reference to the underlying Buf.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.Reader.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.get_ref"
+    ]
+  ],
+  "It is inadvisable to directly read from the underlying Buf.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.get_mut"
+    ],
+    [
+      "bytes\\buf\\struct.Reader.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.get_mut"
+    ]
+  ],
+  "Gets a mutable reference to the underlying Buf.": [
+    [
+      "bytes\\buf\\struct.IntoIter.html",
+      "method.get_mut"
+    ],
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.get_mut"
+    ]
+  ],
+  "A BufMut adapter which limits the amount of bytes that can be written to an underlying buffer.": [
+    [
+      "bytes\\buf\\struct.Limit.html",
+      null
+    ]
+  ],
+  "A Buf adapter which implements io::Read for the inner value.": [
+    [
+      "bytes\\buf\\struct.Reader.html",
+      null
+    ]
+  ],
+  "This struct is generally created by calling reader() on Buf. See documentation of reader() for more details.": [
+    [
+      "bytes\\buf\\struct.Reader.html",
+      null
+    ]
+  ],
+  "Consumes this Reader, returning the underlying value.": [
+    [
+      "bytes\\buf\\struct.Reader.html",
+      "method.into_inner"
+    ]
+  ],
+  "A Buf adapter which limits the bytes read from an underlying buffer.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      null
+    ]
+  ],
+  "This struct is generally created by calling take() on Buf. See documentation of take() for more details.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      null
+    ]
+  ],
+  "Consumes this Take, returning the underlying value.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.into_inner"
+    ]
+  ],
+  "Returns the maximum number of bytes that can be read.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.limit"
+    ]
+  ],
+  "If the inner Buf has fewer bytes than indicated by this method then that is the actual number of available bytes.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.limit"
+    ]
+  ],
+  "Sets the maximum number of bytes that can be read.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.set_limit"
+    ]
+  ],
+  "If the inner Buf has fewer bytes than lim then that is the actual number of available bytes.": [
+    [
+      "bytes\\buf\\struct.Take.html",
+      "method.set_limit"
+    ]
+  ],
+  "Uninitialized byte slice.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      null
+    ]
+  ],
+  "Returned by BufMut::chunk_mut(), the referenced byte slice may be uninitialized. The wrapper provides safe access without introducing undefined behavior.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      null
+    ]
+  ],
+  "The safety invariants of this wrapper are:": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      null
+    ]
+  ],
+  "The difference between &amp;mut UninitSlice and &amp;mut [MaybeUninit&lt;u8&gt;] is that it is possible in safe code to write uninitialized bytes to an &amp;mut [MaybeUninit&lt;u8&gt;], which this type prohibits.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      null
+    ]
+  ],
+  "Creates a &amp;mut UninitSlice wrapping a slice of initialised memory.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.new"
+    ]
+  ],
+  "Creates a &amp;mut UninitSlice wrapping a slice of uninitialised memory.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.uninit"
+    ]
+  ],
+  "Create a &amp;mut UninitSlice from a pointer and a length.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.from_raw_parts_mut"
+    ]
+  ],
+  "The caller must ensure that ptr references a valid memory region owned by the caller representing a byte slice for the duration of 'a.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.from_raw_parts_mut"
+    ]
+  ],
+  "Write a single byte at the specified offset.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.write_byte"
+    ]
+  ],
+  "The function panics if index is out of bounds.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.write_byte"
+    ]
+  ],
+  "Copies bytes from src into self.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "The function panics if src has a different length than self.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.copy_from_slice"
+    ]
+  ],
+  "Return a raw pointer to the slice’s buffer.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.as_mut_ptr"
+    ]
+  ],
+  "The caller must not read from the referenced memory and must not write uninitialized bytes to the slice either.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.as_mut_ptr"
+    ]
+  ],
+  "Return a &amp;mut [MaybeUninit&lt;u8&gt;] to this slice’s buffer.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.as_uninit_slice_mut"
+    ]
+  ],
+  "The caller must not read from the referenced memory and must not write uninitialized bytes to the slice either. This is because BufMut implementation that created the UninitSlice knows which parts are initialized. Writing uninitialized bytes to the slice may cause the BufMut to read those bytes and trigger undefined behavior.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.as_uninit_slice_mut"
+    ]
+  ],
+  "Returns the number of bytes in the slice.": [
+    [
+      "bytes\\buf\\struct.UninitSlice.html",
+      "method.len"
+    ]
+  ],
+  "A BufMut adapter which implements io::Write for the inner value.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      null
+    ]
+  ],
+  "This struct is generally created by calling writer() on BufMut. See documentation of writer() for more details.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      null
+    ]
+  ],
+  "Gets a reference to the underlying BufMut.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      "method.get_ref"
+    ]
+  ],
+  "It is inadvisable to directly write to the underlying BufMut.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      "method.get_ref"
+    ],
+    [
+      "bytes\\buf\\struct.Writer.html",
+      "method.get_mut"
+    ]
+  ],
+  "Gets a mutable reference to the underlying BufMut.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      "method.get_mut"
+    ]
+  ],
+  "Consumes this Writer, returning the underlying value.": [
+    [
+      "bytes\\buf\\struct.Writer.html",
+      "method.into_inner"
+    ]
+  ],
+  "Read bytes from a buffer.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      null
+    ]
+  ],
+  "A buffer stores bytes in memory such that read operations are infallible. The underlying storage may or may not be in contiguous memory. A Buf value is a cursor into the buffer. Reading from Buf advances the cursor position. It can be thought of as an efficient Iterator for collections of bytes.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      null
+    ]
+  ],
+  "The simplest Buf is a &amp;[u8].": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      null
+    ]
+  ],
+  "Returns the number of bytes between the current position and the end of the buffer.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.remaining"
+    ]
+  ],
+  "This value is greater than or equal to the length of the slice returned by chunk().": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.remaining"
+    ]
+  ],
+  "Implementations of remaining should ensure that the return value does not change unless a call is made to advance or any other function that is documented to change the Buf’s current position.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.remaining"
+    ]
+  ],
+  "Returns a slice starting at the current position and of length between 0 and Buf::remaining(). Note that this can return a shorter slice (this allows non-continuous internal representation).": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.chunk"
+    ]
+  ],
+  "This is a lower level function. Most operations are done with other functions.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.chunk"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.chunk_mut"
+    ]
+  ],
+  "This function should never panic. chunk() should return an empty slice if and only if remaining() returns 0. In other words, chunk() returning an empty slice implies that remaining() will return 0 and remaining() returning 0 implies that chunk() will return an empty slice.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.chunk"
+    ]
+  ],
+  "Advance the internal cursor of the Buf": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.advance"
+    ]
+  ],
+  "The next call to chunk() will return a slice starting cnt bytes further into the underlying buffer.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.advance"
+    ]
+  ],
+  "This function may panic if cnt &gt; self.remaining().": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.advance"
+    ]
+  ],
+  "It is recommended for implementations of advance to panic if cnt &gt; self.remaining(). If the implementation does not panic, the call must behave as if cnt == self.remaining().": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.advance"
+    ]
+  ],
+  "A call with cnt == 0 should never panic and be a no-op.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "tymethod.advance"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "Returns true if there are any more bytes to consume": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.has_remaining"
+    ]
+  ],
+  "This is equivalent to self.remaining() != 0.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.has_remaining"
+    ]
+  ],
+  "Copies bytes from self into dst.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_slice"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_copy_to_slice"
+    ]
+  ],
+  "The cursor is advanced by the number of bytes copied. self must have enough remaining bytes to fill dst.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_slice"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_copy_to_slice"
+    ]
+  ],
+  "This function panics if self.remaining() &lt; dst.len().": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_slice"
+    ]
+  ],
+  "Gets an unsigned 8 bit integer from self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u8"
+    ]
+  ],
+  "The current position is advanced by 1.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i8"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u8"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i8"
+    ]
+  ],
+  "This function panics if there is no more remaining data in self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i8"
+    ]
+  ],
+  "Gets a signed 8 bit integer from self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i8"
+    ]
+  ],
+  "Gets an unsigned 16 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16"
+    ]
+  ],
+  "The current position is advanced by 2.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_ne"
+    ]
+  ],
+  "This function panics if there is not enough remaining data in self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_ne"
+    ]
+  ],
+  "Gets an unsigned 16 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_le"
+    ]
+  ],
+  "Gets an unsigned 16 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_ne"
+    ]
+  ],
+  "Gets a signed 16 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16"
+    ]
+  ],
+  "Gets a signed 16 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_le"
+    ]
+  ],
+  "Gets a signed 16 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_ne"
+    ]
+  ],
+  "Gets an unsigned 32 bit integer from self in the big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32"
+    ]
+  ],
+  "The current position is advanced by 4.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_ne"
+    ]
+  ],
+  "Gets an unsigned 32 bit integer from self in the little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_le"
+    ]
+  ],
+  "Gets an unsigned 32 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_ne"
+    ]
+  ],
+  "Gets a signed 32 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32"
+    ]
+  ],
+  "Gets a signed 32 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_le"
+    ]
+  ],
+  "Gets a signed 32 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_ne"
+    ]
+  ],
+  "Gets an unsigned 64 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64"
+    ]
+  ],
+  "The current position is advanced by 8.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_ne"
+    ]
+  ],
+  "Gets an unsigned 64 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_le"
+    ]
+  ],
+  "Gets an unsigned 64 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_ne"
+    ]
+  ],
+  "Gets a signed 64 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64"
+    ]
+  ],
+  "Gets a signed 64 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_le"
+    ]
+  ],
+  "Gets a signed 64 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_ne"
+    ]
+  ],
+  "Gets an unsigned 128 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128"
+    ]
+  ],
+  "The current position is advanced by 16.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_ne"
+    ]
+  ],
+  "Gets an unsigned 128 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_le"
+    ]
+  ],
+  "Gets an unsigned 128 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_ne"
+    ]
+  ],
+  "Gets a signed 128 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128"
+    ]
+  ],
+  "Gets a signed 128 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_le"
+    ]
+  ],
+  "Gets a signed 128 bit integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_ne"
+    ]
+  ],
+  "Gets an unsigned n-byte integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint"
+    ]
+  ],
+  "The current position is advanced by nbytes.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_ne"
+    ]
+  ],
+  "This function panics if there is not enough remaining data in self, or if nbytes is greater than 8.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_ne"
+    ]
+  ],
+  "Gets an unsigned n-byte integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_le"
+    ]
+  ],
+  "Gets an unsigned n-byte integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_ne"
+    ]
+  ],
+  "Gets a signed n-byte integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int"
+    ]
+  ],
+  "Gets a signed n-byte integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_le"
+    ]
+  ],
+  "Gets a signed n-byte integer from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_int_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_ne"
+    ]
+  ],
+  "Gets an IEEE754 single-precision (4 bytes) floating point number from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32"
+    ]
+  ],
+  "Gets an IEEE754 single-precision (4 bytes) floating point number from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_le"
+    ]
+  ],
+  "Gets an IEEE754 single-precision (4 bytes) floating point number from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_ne"
+    ]
+  ],
+  "Gets an IEEE754 double-precision (8 bytes) floating point number from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64"
+    ]
+  ],
+  "Gets an IEEE754 double-precision (8 bytes) floating point number from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_le"
+    ]
+  ],
+  "Gets an IEEE754 double-precision (8 bytes) floating point number from self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.get_f64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_ne"
+    ]
+  ],
+  "Returns Err(TryGetError) when there are not enough remaining bytes to read the value.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_copy_to_slice"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i8"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_f64_ne"
+    ]
+  ],
+  "Gets an signed 16 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_i16_le"
+    ]
+  ],
+  "Gets an unsigned 32 bit integer from self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32"
+    ]
+  ],
+  "Gets an unsigned 32 bit integer from self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_u32_le"
+    ]
+  ],
+  "This function panics if nbytes &gt; 8.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_le"
+    ]
+  ],
+  "This function panics if nbytes is greater than 8.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.try_get_int_ne"
+    ]
+  ],
+  "Consumes len bytes inside self and returns new instance of Bytes with this data.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_bytes"
+    ]
+  ],
+  "This function may be optimized by the underlying type to avoid actual copies. For example, Bytes implementation will do a shallow copy (ref-count increment).": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_bytes"
+    ]
+  ],
+  "This function panics if len &gt; self.remaining().": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.copy_to_bytes"
+    ]
+  ],
+  "Creates an adaptor which will read at most limit bytes from self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.take"
+    ]
+  ],
+  "This function returns a new instance of Buf which will read at most limit bytes.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.take"
+    ]
+  ],
+  "Creates an adaptor which will chain this buffer with another.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.chain"
+    ]
+  ],
+  "The returned Buf instance will first consume all bytes from self. Afterwards the output is equivalent to the output of next.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.chain"
+    ]
+  ],
+  "Creates an adaptor which implements the Read trait for self.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.reader"
+    ]
+  ],
+  "This function returns a new value which implements Read by adapting the Read trait functions to the Buf trait functions. Given that Buf operations are infallible, none of the Read functions will return with Err.": [
+    [
+      "bytes\\buf\\trait.Buf.html",
+      "method.reader"
+    ]
+  ],
+  "A trait for values that provide sequential write access to bytes.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      null
+    ]
+  ],
+  "Write bytes to a buffer": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      null
+    ]
+  ],
+  "A buffer stores bytes in memory such that write operations are infallible. The underlying storage may or may not be in contiguous memory. A BufMut value is a cursor into the buffer. Writing to BufMut advances the cursor position.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      null
+    ]
+  ],
+  "The simplest BufMut is a Vec&lt;u8&gt;.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      null
+    ]
+  ],
+  "Returns the number of bytes that can be written from the current position until the end of the buffer is reached.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.remaining_mut"
+    ]
+  ],
+  "This value is greater than or equal to the length of the slice returned by chunk_mut().": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.remaining_mut"
+    ]
+  ],
+  "Writing to a BufMut may involve allocating more memory on the fly. Implementations may fail before reaching the number of bytes indicated by this method if they encounter an allocation failure.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.remaining_mut"
+    ]
+  ],
+  "Implementations of remaining_mut should ensure that the return value does not change unless a call is made to advance_mut or any other function that is documented to change the BufMut’s current position.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.remaining_mut"
+    ]
+  ],
+  "remaining_mut may return value smaller than actual available space.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.remaining_mut"
+    ]
+  ],
+  "Advance the internal cursor of the BufMut": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "The next call to chunk_mut will return a slice starting cnt bytes further into the underlying buffer.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "The caller must ensure that the next cnt bytes of chunk are initialized.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "This function may panic if cnt &gt; self.remaining_mut().": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "It is recommended for implementations of advance_mut to panic if cnt &gt; self.remaining_mut(). If the implementation does not panic, the call must behave as if cnt == self.remaining_mut().": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.advance_mut"
+    ]
+  ],
+  "Returns a mutable slice starting at the current BufMut position and of length between 0 and BufMut::remaining_mut(). Note that this can be shorter than the whole remainder of the buffer (this allows non-continuous implementation).": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.chunk_mut"
+    ]
+  ],
+  "The returned byte slice may represent uninitialized memory.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.chunk_mut"
+    ]
+  ],
+  "This function should never panic. chunk_mut() should return an empty slice if and only if remaining_mut() returns 0. In other words, chunk_mut() returning an empty slice implies that remaining_mut() will return 0 and remaining_mut() returning 0 implies that chunk_mut() will return an empty slice.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.chunk_mut"
+    ]
+  ],
+  "This function may trigger an out-of-memory abort if it tries to allocate memory and fails to do so.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "tymethod.chunk_mut"
+    ]
+  ],
+  "Returns true if there is space in self for more bytes.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.has_remaining_mut"
+    ]
+  ],
+  "This is equivalent to self.remaining_mut() != 0.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.has_remaining_mut"
+    ]
+  ],
+  "Transfer bytes into self from src and advance the cursor by the number of bytes written.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put"
+    ]
+  ],
+  "Panics if self does not have enough capacity to contain src.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put"
+    ]
+  ],
+  "This function panics if there is not enough remaining capacity in self.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_bytes"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u8"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i8"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_ne"
+    ]
+  ],
+  "Writes an unsigned 8 bit integer to self.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u8"
+    ]
+  ],
+  "Writes a signed 8 bit integer to self.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i8"
+    ]
+  ],
+  "Writes an unsigned 16 bit integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16"
+    ]
+  ],
+  "Writes an unsigned 16 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_le"
+    ]
+  ],
+  "Writes an unsigned 16 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u16_ne"
+    ]
+  ],
+  "Writes a signed 16 bit integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16"
+    ]
+  ],
+  "Writes a signed 16 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_le"
+    ]
+  ],
+  "Writes a signed 16 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i16_ne"
+    ]
+  ],
+  "Writes an unsigned 32 bit integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32"
+    ]
+  ],
+  "Writes an unsigned 32 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_le"
+    ]
+  ],
+  "Writes an unsigned 32 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u32_ne"
+    ]
+  ],
+  "Writes a signed 32 bit integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32"
+    ]
+  ],
+  "Writes a signed 32 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_le"
+    ]
+  ],
+  "Writes a signed 32 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i32_ne"
+    ]
+  ],
+  "Writes an unsigned 64 bit integer to self in the big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64"
+    ]
+  ],
+  "Writes an unsigned 64 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_le"
+    ]
+  ],
+  "Writes an unsigned 64 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u64_ne"
+    ]
+  ],
+  "Writes a signed 64 bit integer to self in the big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64"
+    ]
+  ],
+  "Writes a signed 64 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_le"
+    ]
+  ],
+  "Writes a signed 64 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i64_ne"
+    ]
+  ],
+  "Writes an unsigned 128 bit integer to self in the big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128"
+    ]
+  ],
+  "Writes an unsigned 128 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_le"
+    ]
+  ],
+  "Writes an unsigned 128 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_u128_ne"
+    ]
+  ],
+  "Writes a signed 128 bit integer to self in the big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128"
+    ]
+  ],
+  "Writes a signed 128 bit integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_le"
+    ]
+  ],
+  "Writes a signed 128 bit integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_i128_ne"
+    ]
+  ],
+  "Writes an unsigned n-byte integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint"
+    ]
+  ],
+  "This function panics if there is not enough remaining capacity in self or if nbytes is greater than 8.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_ne"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_le"
+    ],
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_ne"
+    ]
+  ],
+  "Writes an unsigned n-byte integer to self in the little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_le"
+    ]
+  ],
+  "Writes an unsigned n-byte integer to self in the native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_uint_ne"
+    ]
+  ],
+  "Writes low nbytes of a signed integer to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int"
+    ]
+  ],
+  "Writes low nbytes of a signed integer to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_le"
+    ]
+  ],
+  "Writes low nbytes of a signed integer to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_int_ne"
+    ]
+  ],
+  "Writes an IEEE754 single-precision (4 bytes) floating point number to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32"
+    ]
+  ],
+  "Writes an IEEE754 single-precision (4 bytes) floating point number to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_le"
+    ]
+  ],
+  "Writes an IEEE754 single-precision (4 bytes) floating point number to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f32_ne"
+    ]
+  ],
+  "Writes an IEEE754 double-precision (8 bytes) floating point number to self in big-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64"
+    ]
+  ],
+  "Writes an IEEE754 double-precision (8 bytes) floating point number to self in little-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_le"
+    ]
+  ],
+  "Writes an IEEE754 double-precision (8 bytes) floating point number to self in native-endian byte order.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.put_f64_ne"
+    ]
+  ],
+  "Creates an adaptor which can write at most limit bytes to self.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.limit"
+    ]
+  ],
+  "Creates an adaptor which implements the Write trait for self.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.writer"
+    ]
+  ],
+  "This function returns a new value which implements Write by adapting the Write trait functions to the BufMut trait functions. Given that BufMut operations are infallible, none of the Write functions will return with Err.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.writer"
+    ]
+  ],
+  "Creates an adapter which will chain this buffer with another.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.chain_mut"
+    ]
+  ],
+  "The returned BufMut instance will first write to all bytes from self. Afterwards, it will write to next.": [
+    [
+      "bytes\\buf\\trait.BufMut.html",
+      "method.chain_mut"
+    ]
+  ]
+}
