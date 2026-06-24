@@ -1,0 +1,982 @@
+[
+  [
+    "<p>Creates a new empty <code>Bytes</code>.</p>",
+    "<p>创建一个空的 <code>Bytes</code>。</p>"
+  ],
+  [
+    "<p>This will not allocate and the returned <code>Bytes</code> handle will be empty.</p>",
+    "<p>不会分配内存，返回的 <code>Bytes</code> 句柄为空。</p>"
+  ],
+  [
+    "<p>Creates a new <code>Bytes</code> from a static slice.</p>",
+    "<p>从静态切片创建新的 <code>Bytes</code>。</p>"
+  ],
+  [
+    "<p>The returned <code>Bytes</code> will point directly to the static slice. There is\r\nno allocating or copying.</p>",
+    "<p>返回的 <code>Bytes</code> 将直接指向静态切片。不进行分配或拷贝。</p>"
+  ],
+  [
+    "<p>The <code>owner</code> will be transferred to the constructed <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> object, which\r\nwill ensure it is dropped once all remaining clones of the constructed\r\nobject are dropped. The owner will then be responsible for dropping the\r\nspecified region of memory as part of its <a href=\"https://doc.rust-lang.org/1.95.0/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> implementation.</p>",
+    "<p>owner 将被转移到已构造的 <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> 对象中，确保在已构造对象的所有剩余克隆都被丢弃后被释放。然后 owner 将负责释放指定的内存。</p>"
+  ],
+  [
+    "<p>Note that converting <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> constructed from an owner into a <a href=\"struct.BytesMut.html\" title=\"struct bytes::BytesMut\">BytesMut</a>\r\nwill always create a deep copy of the buffer into newly allocated memory.</p>",
+    "<p>请注意，将由 owner 构造的 <a href=\"struct.Bytes.html\" title=\"struct bytes::Bytes\">Bytes</a> 转换为 <a href=\"struct.BytesMut.html\" title=\"struct bytes::BytesMut\">BytesMut</a> 总会将缓冲区的深度拷贝到新分配的内存中。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes contained in this <code>Bytes</code>.</p>",
+    "<p>返回此 <code>Bytes</code> 所包含的字节数。</p>"
+  ],
+  [
+    "<p>Returns true if the <code>Bytes</code> has a length of 0.</p>",
+    "<p>若 <code>Bytes</code> 长度为 0，返回 true。</p>"
+  ],
+  [
+    "<p>Returns true if this is the only reference to the data and\r\n<code>Into&lt;BytesMut&gt;</code> would avoid cloning the underlying buffer.</p>",
+    "<p>若这是对数据的唯一引用，且 <code>Into&lt;BytesMut&gt;</code> 转换可避免克隆底层缓冲，则返回 true。</p>"
+  ],
+  [
+    "<p>Always returns false if the data is backed by a <a href=\"struct.Bytes.html#method.from_static\" title=\"associated function bytes::Bytes::from_static\">static slice</a>,\r\nor an <a href=\"struct.Bytes.html#method.from_owner\" title=\"associated function bytes::Bytes::from_owner\">owner</a>.</p>",
+    "<p>若数据由静态切片或 owner 支持，则始终返回 false。</p>"
+  ],
+  [
+    "<p>The result of this method may be invalidated immediately if another\r\nthread clones this value while this is being called. Ensure you have\r\nunique access to this value (<code>&amp;mut Bytes</code>) first if you need to be\r\ncertain the result is valid (i.e. for safety reasons).</p>",
+    "<p>若在调用此方法时其他线程克隆此值，则该方法的结果可能立即失效。若需确保结果有效（例如出于安全考虑），请先确保你对此值具有唯一访问权限（<code>&amp;mut Bytes</code>）。</p>"
+  ],
+  [
+    "<p>This will increment the reference count for the underlying memory and\r\nreturn a new <code>Bytes</code> handle set to the slice.</p>",
+    "<p>这会增加底层内存的引用计数，并返回一个设置为该切片的新 <code>Bytes</code> 句柄。</p>"
+  ],
+  [
+    "<p>This operation is <code>O(1)</code>.</p>",
+    "<p>此操作为 <code>O(1)</code>。</p>"
+  ],
+  [
+    "<p>Requires that <code>begin &lt;= end</code> and <code>end &lt;= self.len()</code>, otherwise slicing\r\nwill panic.</p>",
+    "<p>要求 <code>begin &lt;= end</code> 且 <code>end &lt;= self.len()</code>，否则切片操作会 panic。</p>"
+  ],
+  [
+    "<p>Returns a slice of self that is equivalent to the given <code>subset</code>.</p>",
+    "<p>返回与给定 <code>subset</code> 等价的 self 切片。</p>"
+  ],
+  [
+    "<p>When processing a <code>Bytes</code> buffer with other tools, one often gets a\r\n<code>&amp;[u8]</code> which is in fact a slice of the <code>Bytes</code>, i.e. a subset of it.\r\nThis function turns that <code>&amp;[u8]</code> into another <code>Bytes</code>, as if one had\r\ncalled <code>self.slice()</code> with the offsets that correspond to <code>subset</code>.</p>",
+    "<p>使用其他工具处理 <code>Bytes</code> 缓冲区时，经常会得到 <code>&amp;[u8]</code>，它实际上是 <code>Bytes</code> 的一个切片，即其子集。本函数将该 <code>&amp;[u8]</code> 转换为另一个 <code>Bytes</code>，如同调用 <code>self.slice()</code> 并传入与 subset 对应的偏移量。</p>"
+  ],
+  [
+    "<p>Requires that the given <code>sub</code> slice is in fact contained within the\r\n<code>Bytes</code> buffer; otherwise this function will panic.</p>",
+    "<p>要求给定的 <code>sub</code> 切片确实包含在 <code>Bytes</code> 缓冲区中；否则此函数会 panic。</p>"
+  ],
+  [
+    "<p>Afterwards <code>self</code> contains elements <code>[0, at)</code>, and the returned <code>Bytes</code>\r\ncontains elements <code>[at, len)</code>. It’s guaranteed that the memory does not\r\nmove, that is, the address of <code>self</code> does not change, and the address of\r\nthe returned slice is <code>at</code> bytes after that.</p>",
+    "<p>此后 <code>self</code> 包含元素 <code>[0, at)</code>，返回的 <code>Bytes</code> 包含元素 <code>[at, len)</code>。保证内存不会移动，即 <code>self</code> 的地址不变，且返回切片的地址也不变。</p>"
+  ],
+  [
+    "<p>This is an <code>O(1)</code> operation that just increases the reference count and\r\nsets a few indices.</p>",
+    "<p>此操作为 <code>O(1)</code>，仅增加引用计数并设置一些索引。</p>"
+  ],
+  [
+    "<p>Afterwards <code>self</code> contains elements <code>[at, len)</code>, and the returned\r\n<code>Bytes</code> contains elements <code>[0, at)</code>.</p>",
+    "<p>此后 <code>self</code> 包含元素 <code>[at, len)</code>，返回的 <code>Bytes</code> 包含元素 <code>[0, at)</code>。</p>"
+  ],
+  [
+    "<p>Shortens the buffer, keeping the first <code>len</code> bytes and dropping the\r\nrest.</p>",
+    "<p>缩短缓冲区，保留前 <code>len</code> 字节，丢弃其余字节。</p>"
+  ],
+  [
+    "<p>If <code>len</code> is greater than the buffer’s current length, this has no\r\neffect.</p>",
+    "<p>若 <code>len</code> 大于缓冲区的当前长度，则此操作无效。</p>"
+  ],
+  [
+    "<p>The <a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\r\nexcess bytes to be returned instead of dropped.</p>",
+    "<p><a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> 方法可以模拟 <code>truncate</code>，但这会导致多余的字节被返回而不是丢弃。</p>"
+  ],
+  [
+    "<p>Clears the buffer, removing all data.</p>",
+    "<p>清空缓冲区，移除所有数据。</p>"
+  ],
+  [
+    "<p>Try to convert self into <code>BytesMut</code>.</p>",
+    "<p>尝试将 self 转换为 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>If <code>self</code> is unique for the entire original buffer, this will succeed\r\nand return a <code>BytesMut</code> with the contents of <code>self</code> without copying.\r\nIf <code>self</code> is not unique for the entire original buffer, this will fail\r\nand return self.</p>",
+    "<p>若 <code>self</code> 在整个原始缓冲区中是唯一的，则此调用成功，并返回包含 <code>self</code> 内容（无拷贝）的 <code>BytesMut</code>。若 <code>self</code> 在整个原始缓冲区中不是唯一的，则此调用失败并返回 self。</p>"
+  ],
+  [
+    "<p>This will also always fail if the buffer was constructed via either\r\n<a href=\"struct.Bytes.html#method.from_owner\" title=\"associated function bytes::Bytes::from_owner\">from_owner</a> or <a href=\"struct.Bytes.html#method.from_static\" title=\"associated function bytes::Bytes::from_static\">from_static</a>.</p>",
+    "<p>若缓冲区是通过 <a href=\"struct.Bytes.html#method.from_owner\" title=\"associated function bytes::Bytes::from_owner\">from_owner</a> 或 <a href=\"struct.Bytes.html#method.from_static\" title=\"associated function bytes::Bytes::from_static\">from_static</a> 构造的，则此调用也总是失败。</p>"
+  ],
+  [
+    "<p>Convert self into <code>BytesMut</code>.</p>",
+    "<p>将 self 转换为 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>If <code>bytes</code> is unique for the entire original buffer, this will return a\r\n<code>BytesMut</code> with the contents of <code>bytes</code> without copying.\r\nIf <code>bytes</code> is not unique for the entire original buffer, this will make\r\na copy of <code>bytes</code> subset of the original buffer in a new <code>BytesMut</code>.</p>",
+    "<p>若 <code>bytes</code> 在整个原始缓冲区中是唯一的，则返回包含 <code>bytes</code> 内容（无拷贝）的 <code>BytesMut</code>。若 <code>bytes</code> 在整个原始缓冲区中不是唯一的，则会对原始缓冲区中 <code>bytes</code> 子集进行复制。</p>"
+  ],
+  [
+    "<p>Creates a new <code>BytesMut</code> with the specified capacity.</p>",
+    "<p>创建具有指定容量的新 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>The returned <code>BytesMut</code> will be able to hold at least <code>capacity</code> bytes\r\nwithout reallocating.</p>",
+    "<p>返回的 <code>BytesMut</code> 在不重新分配的情况下至少可容纳 <code>capacity</code> 字节。</p>"
+  ],
+  [
+    "<p>It is important to note that this function does not specify the length\r\nof the returned <code>BytesMut</code>, but only the capacity.</p>",
+    "<p>需要注意，本函数不指定返回的 <code>BytesMut</code> 的长度，只指定容量。</p>"
+  ],
+  [
+    "<p>Creates a new <code>BytesMut</code> with default capacity.</p>",
+    "<p>使用默认容量创建新的 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>Resulting object has length 0 and unspecified capacity.\r\nThis function does not allocate.</p>",
+    "<p>生成的对象长度为 0，容量未指定。本函数不分配内存。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes contained in this <code>BytesMut</code>.</p>",
+    "<p>返回此 <code>BytesMut</code> 所包含的字节数。</p>"
+  ],
+  [
+    "<p>Returns true if the <code>BytesMut</code> has a length of 0.</p>",
+    "<p>若 <code>BytesMut</code> 长度为 0，返回 true。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes the <code>BytesMut</code> can hold without reallocating.</p>",
+    "<p>返回 <code>BytesMut</code> 在不重新分配的情况下可容纳的字节数。</p>"
+  ],
+  [
+    "<p>Converts <code>self</code> into an immutable <code>Bytes</code>.</p>",
+    "<p>将 <code>self</code> 转换为不可变的 <code>Bytes</code>。</p>"
+  ],
+  [
+    "<p>The conversion is zero cost and is used to indicate that the slice\r\nreferenced by the handle will no longer be mutated. Once the conversion\r\nis done, the handle can be cloned and shared across threads.</p>",
+    "<p>此转换零开销，用于表示句柄所引用的切片将不再被修改。转换完成后，句柄可被克隆并在线程间共享。</p>"
+  ],
+  [
+    "<p>Creates a new <code>BytesMut</code> containing <code>len</code> zeros.</p>",
+    "<p>创建一个包含 <code>len</code> 个零字节的新 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>The resulting object has a length of <code>len</code> and a capacity greater\r\nthan or equal to <code>len</code>. The entire length of the object will be filled\r\nwith zeros.</p>",
+    "<p>生成对象的长度为 <code>len</code>，容量大于或等于 <code>len</code>。对象的整个长度将填充为零。</p>"
+  ],
+  [
+    "<p>On some platforms or allocators this function may be faster than\r\na manual implementation.</p>",
+    "<p>在某些平台或分配器上，本函数可能比手动实现更快。</p>"
+  ],
+  [
+    "<p>Afterwards <code>self</code> contains elements <code>[0, at)</code>, and the returned\r\n<code>BytesMut</code> contains elements <code>[at, capacity)</code>. It’s guaranteed that the\r\nmemory does not move, that is, the address of <code>self</code> does not change,\r\nand the address of the returned slice is <code>at</code> bytes after that.</p>",
+    "<p>此后 <code>self</code> 包含元素 <code>[0, at)</code>，返回的 <code>BytesMut</code> 包含元素 <code>[at, capacity)</code>。保证内存不会移动，即 <code>self</code> 的地址不变，且返回切片的地址也不变。</p>"
+  ],
+  [
+    "<p>This is an <code>O(1)</code> operation that just increases the reference count\r\nand sets a few indices.</p>",
+    "<p>此操作为 <code>O(1)</code>，仅增加引用计数并设置一些索引。</p>"
+  ],
+  [
+    "<p>Panics if <code>at &gt; capacity</code>.</p>",
+    "<p>若 <code>at &gt; capacity</code> 则 panic。</p>"
+  ],
+  [
+    "<p>Removes the bytes from the current view, returning them in a new\r\n<code>BytesMut</code> handle.</p>",
+    "<p>从当前视图中移除字节，将其作为新的 <code>BytesMut</code> 句柄返回。</p>"
+  ],
+  [
+    "<p>Afterwards, <code>self</code> will be empty, but will retain any additional\r\ncapacity that it had before the operation. This is identical to\r\n<code>self.split_to(self.len())</code>.</p>",
+    "<p>此后 <code>self</code> 将为空，但保留操作前已有的额外容量。这与 <code>self.split_to(self.len())</code> 等价。</p>"
+  ],
+  [
+    "<p>Splits the buffer into two at the given index.</p>",
+    "<p>在给定索引处将缓冲区拆分为两半。</p>"
+  ],
+  [
+    "<p>Afterwards <code>self</code> contains elements <code>[at, len)</code>, and the returned <code>BytesMut</code>\r\ncontains elements <code>[0, at)</code>.</p>",
+    "<p>此后 <code>self</code> 包含元素 <code>[at, len)</code>，返回的 <code>BytesMut</code> 包含元素 <code>[0, at)</code>。</p>"
+  ],
+  [
+    "<p>Existing underlying capacity is preserved.</p>",
+    "<p>保留底层现有容量。</p>"
+  ],
+  [
+    "<p>The <a href=\"struct.BytesMut.html#method.split_off\" title=\"method bytes::BytesMut::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\r\nexcess bytes to be returned instead of dropped.</p>",
+    "<p><a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> 方法可以模拟 <code>truncate</code>，但这会导致多余的字节被返回而不是丢弃。</p>"
+  ],
+  [
+    "<p>Clears the buffer, removing all data. Existing capacity is preserved.</p>",
+    "<p>清空缓冲区，移除所有数据。现有容量保持不变。</p>"
+  ],
+  [
+    "<p>Resizes the buffer so that <code>len</code> is equal to <code>new_len</code>.</p>",
+    "<p>调整缓冲区大小，使 <code>len</code> 等于 <code>new_len</code>。</p>"
+  ],
+  [
+    "<p>If <code>new_len</code> is greater than <code>len</code>, the buffer is extended by the\r\ndifference with each additional byte set to <code>value</code>. If <code>new_len</code> is\r\nless than <code>len</code>, the buffer is simply truncated.</p>",
+    "<p>若 <code>new_len</code> 大于 <code>len</code>，则将缓冲区扩展差值部分，每个新增字节设为 <code>value</code>。若 <code>new_len</code> 小于 <code>len</code>，则缓冲区直接被截断。</p>"
+  ],
+  [
+    "<p>Sets the length of the buffer.</p>",
+    "<p>设置缓冲区的长度。</p>"
+  ],
+  [
+    "<p>This will explicitly set the size of the buffer without actually\r\nmodifying the data, so it is up to the caller to ensure that the data\r\nhas been initialized.</p>",
+    "<p>这会显式设置缓冲区的大小而不实际修改数据，因此调用方负责确保数据已初始化。</p>"
+  ],
+  [
+    "<p>Reserves capacity for at least <code>additional</code> more bytes to be inserted\r\ninto the given <code>BytesMut</code>.</p>",
+    "<p>为给定 <code>BytesMut</code> 中至少可插入的 <code>additional</code> 字节预留容量。</p>"
+  ],
+  [
+    "<p>More than <code>additional</code> bytes may be reserved in order to avoid frequent\r\nreallocations. A call to <code>reserve</code> may result in an allocation.</p>",
+    "<p>为避免频繁重新分配，可能预留多于 <code>additional</code> 字节。调用 <code>reserve</code> 可能导致分配。</p>"
+  ],
+  [
+    "<p>Before allocating new buffer space, the function will attempt to reclaim\r\nspace in the existing buffer. If the current handle references a view\r\ninto a larger original buffer, and all other handles referencing part\r\nof the same original buffer have been dropped, then the current view\r\ncan be copied/shifted to the front of the buffer and the handle can take\r\nownership of the full buffer, provided that the full buffer is large\r\nenough to fit the requested additional capacity.</p>",
+    "<p>在分配新缓冲区空间之前，本函数会尝试回收现有缓冲区中的空间。若当前句柄引用的是较大原始缓冲区的视图，并且引用同一原始缓冲区其他部分的所有其他句柄都已丢弃，则当前视图可被复制或移动到缓冲区开头，句柄可获取完整缓冲区的所有权，前提是完整缓冲区足够容纳所请求的额外容量。</p>"
+  ],
+  [
+    "<p>This optimization will only happen if shifting the data from the current\r\nview to the front of the buffer is not too expensive in terms of the\r\n(amortized) time required. The precise condition is subject to change;\r\nas of now, the length of the data being shifted needs to be at least as\r\nlarge as the distance that it’s shifted by. If the current view is empty\r\nand the original buffer is large enough to fit the requested additional\r\ncapacity, then reallocations will never happen.</p>",
+    "<p>仅当将数据从当前视图移动到缓冲区开头的（摊销）时间开销不太大时，才会执行此优化。具体条件可能会变化；目前要求被移动数据的长度至少与：</p>"
+  ],
+  [
+    "<p>This method does not preserve data stored in the unused capacity.</p>",
+    "<p>此方法不会保留未使用容量中存储的数据。</p>"
+  ],
+  [
+    "<p>In the following example, a new buffer is allocated.</p>",
+    "<p>在下面的示例中，分配了新缓冲区。</p>"
+  ],
+  [
+    "<p>In the following example, the existing buffer is reclaimed.</p>",
+    "<p>在下面的示例中，回收了现有缓冲区。</p>"
+  ],
+  [
+    "<p>Panics if the new capacity overflows <code>usize</code>.</p>",
+    "<p>若新容量溢出 <code>usize</code> 则 panic。</p>"
+  ],
+  [
+    "<p>Attempts to cheaply reclaim already allocated capacity for at least <code>additional</code> more\r\nbytes to be inserted into the given <code>BytesMut</code> and returns <code>true</code> if it succeeded.</p>",
+    "<p>尝试以低成本回收已分配容量，使给定 <code>BytesMut</code> 至少可插入 <code>additional</code> 字节；成功则返回 true。</p>"
+  ],
+  [
+    "<p><code>try_reclaim</code> behaves exactly like <code>reserve</code>, except that it never allocates new storage\r\nand returns a <code>bool</code> indicating whether it was successful in doing so:</p>",
+    "<p><code>try_reclaim</code> 行为与 <code>reserve</code> 完全相同，只是它从不分配新存储，并返回一个 <code>bool</code> 指示是否成功：</p>"
+  ],
+  [
+    "<p><code>try_reclaim</code> returns false under these conditions:</p>",
+    "<p><code>try_reclaim</code> 在以下条件下返回 false：</p>"
+  ],
+  [
+    "<p>Reclaiming the allocation cheaply is possible if the <code>BytesMut</code> has no outstanding\r\nreferences through other <code>BytesMut</code>s or <code>Bytes</code> which point to the same underlying\r\nstorage.</p>",
+    "<p>若 <code>BytesMut</code> 没有其他指向同一底层存储的 <code>BytesMut</code> 或 <code>Bytes</code> 的未完成引用，则可以低成本回收分配。</p>"
+  ],
+  [
+    "<p>Appends given bytes to this <code>BytesMut</code>.</p>",
+    "<p>将给定字节追加到此 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>If this <code>BytesMut</code> object does not have enough capacity, it is resized\r\nfirst.</p>",
+    "<p>若此 <code>BytesMut</code> 对象没有足够容量，则先调整大小。</p>"
+  ],
+  [
+    "<p>Clones the elements in the given <code>range</code> within this <code>BytesMut</code> and\r\nappends them to the end.</p>",
+    "<p>克隆此 <code>BytesMut</code> 中给定 <code>range</code> 范围内的元素，并将其追加到末尾。</p>"
+  ],
+  [
+    "<p>Panics if <code>range</code> is out of bounds for this <code>BytesMut</code>.</p>",
+    "<p>若 <code>range</code> 超出此 <code>BytesMut</code> 的范围则 panic。</p>"
+  ],
+  [
+    "<p>Absorbs a <code>BytesMut</code> that was previously split off if they are\r\ncontiguous, otherwise appends its bytes to this <code>BytesMut</code>.</p>",
+    "<p>若先前分离出的两个 <code>BytesMut</code> 是连续的，则吸收之；否则将其字节追加到此 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>If the two <code>BytesMut</code> objects were previously contiguous and not mutated\r\nin a way that causes re-allocation i.e., if <code>other</code> was created by\r\ncalling <code>split_off</code> on this <code>BytesMut</code>, then this is an <code>O(1)</code> operation\r\nthat just decreases a reference count and sets a few indices.\r\nOtherwise this method degenerates to\r\n<code>self.extend_from_slice(other.as_ref())</code>.</p>",
+    "<p>若两个 <code>BytesMut</code> 对象先前是连续的，且未以导致重新分配的方式被修改，即 <code>other</code> 是通过对此 <code>BytesMut</code> 调用 <code>split_off</code> 创建的，则此操作为 <code>O(1)</code>，仅减少引用计数并设置一些索引。否则此方法的行为与将 <code>other</code> 的字节追加到 <code>self</code> 末尾相同。</p>"
+  ],
+  [
+    "<p>Absorbs a <code>BytesMut</code> that was previously split off.</p>",
+    "<p>吸收先前分离出的 <code>BytesMut</code>。</p>"
+  ],
+  [
+    "<p>If the two <code>BytesMut</code> objects were previously contiguous, i.e., if\r\n<code>other</code> was created by calling <code>split_off</code> on this <code>BytesMut</code>, then\r\nthis is an <code>O(1)</code> operation that just decreases a reference\r\ncount and sets a few indices. Otherwise this method returns an error\r\ncontaining the original <code>other</code>.</p>",
+    "<p>若两个 <code>BytesMut</code> 对象先前是连续的，即 <code>other</code> 是通过对此 <code>BytesMut</code> 调用 <code>split_off</code> 创建的，则此操作为 <code>O(1)</code>，仅减少引用计数并设置一些索引。否则此方法的行为与将 <code>other</code> 的字节追加到 <code>self</code> 末尾相同。</p>"
+  ],
+  [
+    "<p>Returns the remaining spare capacity of the buffer as a slice of <code>MaybeUninit&lt;u8&gt;</code>.</p>",
+    "<p>将缓冲区的剩余空闲容量作为 <code>MaybeUninit&lt;u8&gt;</code> 切片返回。</p>"
+  ],
+  [
+    "<p>The returned slice can be used to fill the buffer with data (e.g. by\r\nreading from a file) before marking the data as initialized using the\r\n<a href=\"struct.BytesMut.html#method.set_len\" title=\"method bytes::BytesMut::set_len\"><code>set_len</code></a> method.</p>",
+    "<p>返回的切片可用于填充缓冲区数据（例如从文件读取），然后使用 <a href=\"struct.BytesMut.html#method.set_len\" title=\"method bytes::BytesMut::set_len\"><code>set_len</code></a> 方法将数据标记为已初始化。</p>"
+  ],
+  [
+    "<p>The number of bytes necessary to get the value</p>",
+    "<p>获取该值所需的字节数</p>"
+  ],
+  [
+    "<p>The number of bytes available in the buffer</p>",
+    "<p>缓冲区中可用的字节数</p>"
+  ],
+  [
+    "<p>Gets a reference to the first underlying <code>Buf</code>.</p>",
+    "<p>获取对第一个底层 <code>Buf</code> 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the first underlying <code>Buf</code>.</p>",
+    "<p>获取对第一个底层 <code>Buf</code> 的可变引用。</p>"
+  ],
+  [
+    "<p>Gets a reference to the last underlying <code>Buf</code>.</p>",
+    "<p>获取对最后一个底层 <code>Buf</code> 的引用。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the last underlying <code>Buf</code>.</p>",
+    "<p>获取对最后一个底层 <code>Buf</code> 的可变引用。</p>"
+  ],
+  [
+    "<p>Consumes this <code>Chain</code>, returning the underlying values.</p>",
+    "<p>消耗此 <code>Chain</code>，返回底层的值。</p>"
+  ],
+  [
+    "<p>Consumes this <code>IntoIter</code>, returning the underlying value.</p>",
+    "<p>消耗此 <code>IntoIter</code>，返回底层的值。</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying <code>Buf</code>.</p>",
+    "<p>获取对底层 <code>Buf</code> 的引用。</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>",
+    "<p>不建议直接从底层 <code>Buf</code> 读取。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying <code>Buf</code>.</p>",
+    "<p>获取对底层 <code>Buf</code> 的可变引用。</p>"
+  ],
+  [
+    "<p>Consumes this <code>Reader</code>, returning the underlying value.</p>",
+    "<p>消耗此 <code>Reader</code>，返回底层的值。</p>"
+  ],
+  [
+    "<p>Consumes this <code>Take</code>, returning the underlying value.</p>",
+    "<p>消耗此 <code>Take</code>，返回底层的值。</p>"
+  ],
+  [
+    "<p>If the inner <code>Buf</code> has fewer bytes than indicated by this method then\r\nthat is the actual number of available bytes.</p>",
+    "<p>若内部 <code>Buf</code> 的字节数少于本方法所指示的数量，则以实际可用字节数为准。</p>"
+  ],
+  [
+    "<p>If the inner <code>Buf</code> has fewer bytes than <code>lim</code> then that is the actual\r\nnumber of available bytes.</p>",
+    "<p>若内部 <code>Buf</code> 的字节数少于 <code>lim</code>，则以实际可用字节数为准。</p>"
+  ],
+  [
+    "<p>Creates a <code>&amp;mut UninitSlice</code> wrapping a slice of initialised memory.</p>",
+    "<p>创建一个 <code>&amp;mut UninitSlice</code>，包装一段已初始化的内存切片。</p>"
+  ],
+  [
+    "<p>Creates a <code>&amp;mut UninitSlice</code> wrapping a slice of uninitialised memory.</p>",
+    "<p>创建一个 <code>&amp;mut UninitSlice</code>，包装一段未初始化的内存切片。</p>"
+  ],
+  [
+    "<p>Create a <code>&amp;mut UninitSlice</code> from a pointer and a length.</p>",
+    "<p>从指针和长度创建 <code>&amp;mut UninitSlice</code>。</p>"
+  ],
+  [
+    "<p>The caller must ensure that <code>ptr</code> references a valid memory region owned\r\nby the caller representing a byte slice for the duration of <code>'a</code>.</p>",
+    "<p>调用方必须确保 <code>ptr</code> 引用了由调用方拥有的有效内存区域，且在 'a 的整个生命周期内代表一个字节切片。</p>"
+  ],
+  [
+    "<p>The function panics if <code>index</code> is out of bounds.</p>",
+    "<p>若 <code>index</code> 越界，本函数会 panic。</p>"
+  ],
+  [
+    "<p>Copies bytes from <code>src</code> into <code>self</code>.</p>",
+    "<p>从 <code>src</code> 复制字节到 <code>self</code>。</p>"
+  ],
+  [
+    "<p>The length of <code>src</code> must be the same as <code>self</code>.</p>",
+    "<p><code>src</code> 的长度必须与 <code>self</code> 相同。</p>"
+  ],
+  [
+    "<p>The function panics if <code>src</code> has a different length than <code>self</code>.</p>",
+    "<p>若 <code>src</code> 与 <code>self</code> 长度不同，本函数会 panic。</p>"
+  ],
+  [
+    "<p>The caller <strong>must not</strong> read from the referenced memory and <strong>must not</strong>\r\nwrite <strong>uninitialized</strong> bytes to the slice either.</p>",
+    "<p>调用方不得读取所引用的内存，也不得向切片写入未初始化的字节。</p>"
+  ],
+  [
+    "<p>Return a <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code> to this slice’s buffer.</p>",
+    "<p>返回此切片缓冲区的 <code>&amp;mut [MaybeUninit&lt;u8&gt;]</code>。</p>"
+  ],
+  [
+    "<p>The caller <strong>must not</strong> read from the referenced memory and <strong>must not</strong> write\r\n<strong>uninitialized</strong> bytes to the slice either. This is because <code>BufMut</code> implementation\r\nthat created the <code>UninitSlice</code> knows which parts are initialized. Writing uninitialized\r\nbytes to the slice may cause the <code>BufMut</code> to read those bytes and trigger undefined\r\nbehavior.</p>",
+    "<p>调用方不得读取所引用的内存，也不得向切片写入未初始化的字节。这是因为创建 <code>UninitSlice</code> 的 <code>BufMut</code> 实现知道哪些部分是初始化的。向切片写入未初始化的字节可能导致 <code>BufMut</code> 之后读取这些字节并触发未定义行为。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes in the slice.</p>",
+    "<p>返回切片中的字节数。</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying <code>BufMut</code>.</p>",
+    "<p>获取对底层 <code>BufMut</code> 的引用。</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly write to the underlying <code>BufMut</code>.</p>",
+    "<p>不建议直接写入底层 <code>BufMut</code>。</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying <code>BufMut</code>.</p>",
+    "<p>获取对底层 <code>BufMut</code> 的可变引用。</p>"
+  ],
+  [
+    "<p>Consumes this <code>Writer</code>, returning the underlying value.</p>",
+    "<p>消耗此 <code>Writer</code>，返回底层的值。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes between the current position and the end of\r\nthe buffer.</p>",
+    "<p>返回从当前位置到缓冲区末尾的字节数。</p>"
+  ],
+  [
+    "<p>This value is greater than or equal to the length of the slice returned\r\nby <code>chunk()</code>.</p>",
+    "<p>此值大于或等于 <code>chunk()</code> 返回切片的长度。</p>"
+  ],
+  [
+    "<p>Implementations of <code>remaining</code> should ensure that the return value does\r\nnot change unless a call is made to <code>advance</code> or any other function that\r\nis documented to change the <code>Buf</code>’s current position.</p>",
+    "<p><code>remaining</code> 的实现应确保返回值不会改变，除非调用了 <code>advance</code> 或任何其他文档明确会改变 <code>Buf’s</code> 当前位置的函数。</p>"
+  ],
+  [
+    "<p>Returns a slice starting at the current position and of length between 0\r\nand <code>Buf::remaining()</code>. Note that this <em>can</em> return a shorter slice (this\r\nallows non-continuous internal representation).</p>",
+    "<p>返回从当前位置开始、长度介于 0 和 <code>Buf::remaining()</code> 之间的切片。注意这可能返回较短的切片（允许非连续的内部表示）。</p>"
+  ],
+  [
+    "<p>This is a lower level function. Most operations are done with other\r\nfunctions.</p>",
+    "<p>这是一个较低级别的函数。大多数操作通过其他函数完成。</p>"
+  ],
+  [
+    "<p>This function should never panic. <code>chunk()</code> should return an empty\r\nslice <strong>if and only if</strong> <code>remaining()</code> returns 0. In other words,\r\n<code>chunk()</code> returning an empty slice implies that <code>remaining()</code> will\r\nreturn 0 and <code>remaining()</code> returning 0 implies that <code>chunk()</code> will\r\nreturn an empty slice.</p>",
+    "<p>此函数不应 panic。<code>chunk()</code> 返回空切片当且仅当 <code>remaining()</code> 返回 0。换言之，<code>chunk()</code> 返回空切片意味着 <code>remaining()</code> 将返回 0，而 <code>remaining()</code> 返回 0 意味着 <code>chunk()</code> 将返回空切片。</p>"
+  ],
+  [
+    "<p>Advance the internal cursor of the Buf</p>",
+    "<p>推进 <code>Buf</code> 的内部游标</p>"
+  ],
+  [
+    "<p>The next call to <code>chunk()</code> will return a slice starting <code>cnt</code> bytes\r\nfurther into the underlying buffer.</p>",
+    "<p>下一次调用 <code>chunk()</code> 时将返回一个从底层缓冲区再深入 <code>cnt</code> 字节开始的切片。</p>"
+  ],
+  [
+    "<p>This function <strong>may</strong> panic if <code>cnt &gt; self.remaining()</code>.</p>",
+    "<p>若 <code>cnt &gt; self.remaining()</code>，此函数可能会 panic。</p>"
+  ],
+  [
+    "<p>It is recommended for implementations of <code>advance</code> to panic if <code>cnt &gt; self.remaining()</code>. If the implementation does not panic, the call must\r\nbehave as if <code>cnt == self.remaining()</code>.</p>",
+    "<p>建议 <code>advance</code> 的实现在 <code>cnt &gt; self.remaining()</code> 时 panic。若实现不 panic，则调用行为必须如同 <code>cnt == self.remaining()</code>。</p>"
+  ],
+  [
+    "<p>A call with <code>cnt == 0</code> should never panic and be a no-op.</p>",
+    "<p>调用 <code>cnt == 0</code> 时绝不应 panic，且应为无操作。</p>"
+  ],
+  [
+    "<p>Returns true if there are any more bytes to consume</p>",
+    "<p>若还有更多字节可供消费则返回 true</p>"
+  ],
+  [
+    "<p>This is equivalent to <code>self.remaining() != 0</code>.</p>",
+    "<p>这等价于 <code>self.remaining() != 0</code>。</p>"
+  ],
+  [
+    "<p>Copies bytes from <code>self</code> into <code>dst</code>.</p>",
+    "<p>将 self 中的字节复制到 <code>dst</code>。</p>"
+  ],
+  [
+    "<p>The cursor is advanced by the number of bytes copied. <code>self</code> must have\r\nenough remaining bytes to fill <code>dst</code>.</p>",
+    "<p>游标按已复制的字节数推进。self 必须有足够的剩余字节填满 <code>dst</code>。</p>"
+  ],
+  [
+    "<p>This function panics if <code>self.remaining() &lt; dst.len()</code>.</p>",
+    "<p>若 <code>self.remaining() &lt; dst.len()</code>，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 8 bit integer from <code>self</code>.</p>",
+    "<p>从 self 读取一个无符号 8 位整数。</p>"
+  ],
+  [
+    "<p>This function panics if there is no more remaining data in <code>self</code>.</p>",
+    "<p>若 self 中没有更多剩余数据，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Gets a signed 8 bit integer from <code>self</code>.</p>",
+    "<p>从 self 读取一个有符号 8 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 16 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取无符号 16 位整数。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>",
+    "<p>若 self 中没有足够剩余数据，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 16 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取无符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 16 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取无符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 16 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取有符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 16 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取有符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 16 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取有符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 32 bit integer from <code>self</code> in the big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取无符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 32 bit integer from <code>self</code> in the little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取无符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 32 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取无符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 32 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取有符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 32 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取有符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 32 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取有符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 64 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取无符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 64 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取无符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 64 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取无符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 64 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取有符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 64 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取有符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 64 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取有符号 64 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 128 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取无符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 128 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取无符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 128 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取无符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 128 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取有符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 128 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取有符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets a signed 128 bit integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取有符号 128 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned n-byte integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取一个 n 字节无符号整数。</p>"
+  ],
+  [
+    "<p>The current position is advanced by <code>nbytes</code>.</p>",
+    "<p>当前位置推进 <code>nbytes</code> 字节。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in <code>self</code>, or\r\nif <code>nbytes</code> is greater than 8.</p>",
+    "<p>若 self 中没有足够剩余数据，或 <code>nbytes</code> 大于 8，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Gets an unsigned n-byte integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取一个 n 字节无符号整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned n-byte integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取一个 n 字节无符号整数。</p>"
+  ],
+  [
+    "<p>Gets a signed n-byte integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取一个 n 字节有符号整数。</p>"
+  ],
+  [
+    "<p>Gets a signed n-byte integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取一个 n 字节有符号整数。</p>"
+  ],
+  [
+    "<p>Gets a signed n-byte integer from <code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取一个 n 字节有符号整数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取 IEEE754 单精度（4 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取 IEEE754 单精度（4 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 single-precision (4 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取 IEEE754 单精度（4 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取 IEEE754 双精度（8 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取 IEEE754 双精度（8 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Gets an IEEE754 double-precision (8 bytes) floating point number from\r\n<code>self</code> in native-endian byte order.</p>",
+    "<p>从 self 以原生字节序读取 IEEE754 双精度（8 字节）浮点数。</p>"
+  ],
+  [
+    "<p>Returns <code>Err(TryGetError)</code> when there are not enough\r\nremaining bytes to read the value.</p>",
+    "<p>当没有足够的剩余字节读取值时返回 <code>Err(TryGetError)</code>。</p>"
+  ],
+  [
+    "<p>Gets an signed 16 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取有符号 16 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 32 bit integer from <code>self</code> in big-endian byte order.</p>",
+    "<p>从 self 以大端字节序读取无符号 32 位整数。</p>"
+  ],
+  [
+    "<p>Gets an unsigned 32 bit integer from <code>self</code> in little-endian byte order.</p>",
+    "<p>从 self 以小端字节序读取无符号 32 位整数。</p>"
+  ],
+  [
+    "<p>This function panics if <code>nbytes</code> &gt; 8.</p>",
+    "<p>若 <code>nbytes &gt; 8</code>，此函数会 panic。</p>"
+  ],
+  [
+    "<p>This function panics if <code>nbytes</code> is greater than 8.</p>",
+    "<p>若 <code>nbytes</code> 大于 8，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Consumes <code>len</code> bytes inside self and returns new instance of <code>Bytes</code>\r\nwith this data.</p>",
+    "<p>消耗 self 中的 <code>len</code> 字节，并返回包含此数据的新 <code>Bytes</code> 实例。</p>"
+  ],
+  [
+    "<p>This function may be optimized by the underlying type to avoid actual\r\ncopies. For example, <code>Bytes</code> implementation will do a shallow copy\r\n(ref-count increment).</p>",
+    "<p>此函数可由底层类型优化以避免实际复制。例如，<code>Bytes</code> 的实现将执行浅拷贝（引用计数递增）。</p>"
+  ],
+  [
+    "<p>This function panics if <code>len &gt; self.remaining()</code>.</p>",
+    "<p>若 <code>len &gt; self.remaining()</code>，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Creates an adaptor which will read at most <code>limit</code> bytes from <code>self</code>.</p>",
+    "<p>创建一个适配器，从 self 中最多读取 <code>limit</code> 字节。</p>"
+  ],
+  [
+    "<p>This function returns a new instance of <code>Buf</code> which will read at most\r\n<code>limit</code> bytes.</p>",
+    "<p>此函数返回一个新的 <code>Buf</code> 实例，其最多读取 <code>limit</code> 字节。</p>"
+  ],
+  [
+    "<p>Creates an adaptor which will chain this buffer with another.</p>",
+    "<p>创建一个将此缓冲区与另一个缓冲区链接起来的适配器。</p>"
+  ],
+  [
+    "<p>The returned <code>Buf</code> instance will first consume all bytes from <code>self</code>.\r\nAfterwards the output is equivalent to the output of next.</p>",
+    "<p>返回的 <code>Buf</code> 实例将先消耗 self 中的所有字节。之后其输出等价于 <code>next</code> 的输出。</p>"
+  ],
+  [
+    "<p>Creates an adaptor which implements the <code>Read</code> trait for <code>self</code>.</p>",
+    "<p>创建一个为 self 实现 <code>Read</code> trait 的适配器。</p>"
+  ],
+  [
+    "<p>This function returns a new value which implements <code>Read</code> by adapting\r\nthe <code>Read</code> trait functions to the <code>Buf</code> trait functions. Given that\r\n<code>Buf</code> operations are infallible, none of the <code>Read</code> functions will\r\nreturn with <code>Err</code>.</p>",
+    "<p>此函数返回一个新值，通过将 <code>Read</code> trait 函数适配到 <code>Buf</code> trait 函数来实现 <code>Read</code>。由于 <code>Buf</code> 操作是 infallible 的，<code>Read</code> 函数都不会返回 <code>Err</code>。</p>"
+  ],
+  [
+    "<p>Returns the number of bytes that can be written from the current\r\nposition until the end of the buffer is reached.</p>",
+    "<p>返回从当前位置到缓冲区末尾可写入的字节数。</p>"
+  ],
+  [
+    "<p>This value is greater than or equal to the length of the slice returned\r\nby <code>chunk_mut()</code>.</p>",
+    "<p>此值大于或等于 <code>chunk_mut()</code> 返回切片的长度。</p>"
+  ],
+  [
+    "<p>Writing to a <code>BufMut</code> may involve allocating more memory on the fly.\r\nImplementations may fail before reaching the number of bytes indicated\r\nby this method if they encounter an allocation failure.</p>",
+    "<p>向 <code>BufMut</code> 写入可能涉及按需分配更多内存。若遇到分配失败，实现可能在该方法指示的字节数之前就失败。</p>"
+  ],
+  [
+    "<p>Implementations of <code>remaining_mut</code> should ensure that the return value\r\ndoes not change unless a call is made to <code>advance_mut</code> or any other\r\nfunction that is documented to change the <code>BufMut</code>’s current position.</p>",
+    "<p><code>remaining_mut</code> 的实现应确保返回值不会改变，除非调用了 <code>advance_mut</code> 或任何其他文档明确会改变 <code>BufMut’s</code> 当前位置的函数。</p>"
+  ],
+  [
+    "<p><code>remaining_mut</code> may return value smaller than actual available space.</p>",
+    "<p><code>remaining_mut</code> 可能返回比实际可用空间更小的值。</p>"
+  ],
+  [
+    "<p>Advance the internal cursor of the BufMut</p>",
+    "<p>推进 <code>BufMut</code> 的内部游标</p>"
+  ],
+  [
+    "<p>The next call to <code>chunk_mut</code> will return a slice starting <code>cnt</code> bytes\r\nfurther into the underlying buffer.</p>",
+    "<p>下一次调用 <code>chunk_mut()</code> 时将返回一个从底层缓冲区再深入 <code>cnt</code> 字节开始的切片。</p>"
+  ],
+  [
+    "<p>The caller must ensure that the next <code>cnt</code> bytes of <code>chunk</code> are\r\ninitialized.</p>",
+    "<p>调用方必须确保 <code>chunk</code> 的下 <code>cnt</code> 字节已初始化。</p>"
+  ],
+  [
+    "<p>This function <strong>may</strong> panic if <code>cnt &gt; self.remaining_mut()</code>.</p>",
+    "<p>若 <code>cnt &gt; self.remaining_mut()</code>，此函数可能会 panic。</p>"
+  ],
+  [
+    "<p>It is recommended for implementations of <code>advance_mut</code> to panic if\r\n<code>cnt &gt; self.remaining_mut()</code>. If the implementation does not panic,\r\nthe call must behave as if <code>cnt == self.remaining_mut()</code>.</p>",
+    "<p>建议 <code>advance_mut</code> 的实现在 <code>cnt &gt; self.remaining_mut()</code> 时 panic。若实现不 panic，则调用行为必须如同 <code>cnt == self.remaining_mut()</code>。</p>"
+  ],
+  [
+    "<p>Returns a mutable slice starting at the current BufMut position and of\r\nlength between 0 and <code>BufMut::remaining_mut()</code>. Note that this <em>can</em> be shorter than the\r\nwhole remainder of the buffer (this allows non-continuous implementation).</p>",
+    "<p>返回从当前 <code>BufMut</code> 位置开始、长度介于 0 和 <code>BufMut::remaining_mut()</code> 之间的可变切片。注意这可能比缓冲区剩余总量更短（允许非连续的内部实现）。</p>"
+  ],
+  [
+    "<p>The returned byte slice may represent uninitialized memory.</p>",
+    "<p>返回的字节切片可能表示未初始化的内存。</p>"
+  ],
+  [
+    "<p>This function should never panic. <code>chunk_mut()</code> should return an empty\r\nslice <strong>if and only if</strong> <code>remaining_mut()</code> returns 0. In other words,\r\n<code>chunk_mut()</code> returning an empty slice implies that <code>remaining_mut()</code> will\r\nreturn 0 and <code>remaining_mut()</code> returning 0 implies that <code>chunk_mut()</code> will\r\nreturn an empty slice.</p>",
+    "<p>此函数不应 panic。<code>chunk_mut()</code> 返回空切片当且仅当 <code>remaining_mut()</code> 返回 0。换言之，<code>chunk_mut()</code> 返回空切片意味着 <code>remaining_mut()</code> 将返回 0，而 <code>remaining_mut()</code> 返回 0 意味着 <code>chunk_mut()</code> 将返回空切片。</p>"
+  ],
+  [
+    "<p>This function may trigger an out-of-memory abort if it tries to allocate\r\nmemory and fails to do so.</p>",
+    "<p>若此函数尝试分配内存但失败，可能会触发内存不足中止。</p>"
+  ],
+  [
+    "<p>Returns true if there is space in <code>self</code> for more bytes.</p>",
+    "<p>若 self 中还有更多字节的空间则返回 true。</p>"
+  ],
+  [
+    "<p>This is equivalent to <code>self.remaining_mut() != 0</code>.</p>",
+    "<p>这等价于 <code>self.remaining_mut() != 0</code>。</p>"
+  ],
+  [
+    "<p>Transfer bytes into <code>self</code> from <code>src</code> and advance the cursor by the\r\nnumber of bytes written.</p>",
+    "<p>将 <code>src</code> 的字节转移到 self 中，并按已写入字节数推进游标。</p>"
+  ],
+  [
+    "<p>Panics if <code>self</code> does not have enough capacity to contain <code>src</code>.</p>",
+    "<p>若 self 没有足够容量容纳 <code>src</code>，则 panic。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code>.</p>",
+    "<p>若 self 中没有足够剩余容量，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 8 bit integer to <code>self</code>.</p>",
+    "<p>将无符号 8 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 8 bit integer to <code>self</code>.</p>",
+    "<p>将有符号 8 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 16 bit integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将无符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 16 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将无符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 16 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将无符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 16 bit integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将有符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 16 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将有符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 16 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将有符号 16 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 32 bit integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将无符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 32 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将无符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 32 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将无符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 32 bit integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将有符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 32 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将有符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 32 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将有符号 32 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 64 bit integer to <code>self</code> in the big-endian byte order.</p>",
+    "<p>以大端字节序将无符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 64 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将无符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 64 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将无符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 64 bit integer to <code>self</code> in the big-endian byte order.</p>",
+    "<p>以大端字节序将有符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 64 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将有符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 64 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将有符号 64 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 128 bit integer to <code>self</code> in the big-endian byte order.</p>",
+    "<p>以大端字节序将无符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 128 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将无符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned 128 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将无符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 128 bit integer to <code>self</code> in the big-endian byte order.</p>",
+    "<p>以大端字节序将有符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 128 bit integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将有符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes a signed 128 bit integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将有符号 128 位整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned n-byte integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将无符号 n 字节整数写入 self。</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in\r\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>",
+    "<p>若 self 中没有足够剩余容量，或 <code>nbytes</code> 大于 8，此函数会 panic。</p>"
+  ],
+  [
+    "<p>Writes an unsigned n-byte integer to <code>self</code> in the little-endian byte order.</p>",
+    "<p>以小端字节序将无符号 n 字节整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an unsigned n-byte integer to <code>self</code> in the native-endian byte order.</p>",
+    "<p>以原生字节序将无符号 n 字节整数写入 self。</p>"
+  ],
+  [
+    "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将有符号整数的低 <code>nbytes</code> 位写入 self。</p>"
+  ],
+  [
+    "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将有符号整数的低 <code>nbytes</code> 位写入 self。</p>"
+  ],
+  [
+    "<p>Writes low <code>nbytes</code> of a signed integer to <code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将有符号整数的低 <code>nbytes</code> 位写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将 IEEE754 单精度（4 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将 IEEE754 单精度（4 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 single-precision (4 bytes) floating point number to\r\n<code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将 IEEE754 单精度（4 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in big-endian byte order.</p>",
+    "<p>以大端字节序将 IEEE754 双精度（8 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in little-endian byte order.</p>",
+    "<p>以小端字节序将 IEEE754 双精度（8 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Writes an IEEE754 double-precision (8 bytes) floating point number to\r\n<code>self</code> in native-endian byte order.</p>",
+    "<p>以原生字节序将 IEEE754 双精度（8 字节）浮点数写入 self。</p>"
+  ],
+  [
+    "<p>Creates an adaptor which can write at most <code>limit</code> bytes to <code>self</code>.</p>",
+    "<p>创建一个适配器，向 self 写入最多 <code>limit</code> 字节。</p>"
+  ],
+  [
+    "<p>Creates an adaptor which implements the <code>Write</code> trait for <code>self</code>.</p>",
+    "<p>创建一个为 self 实现 <code>Write</code> trait 的适配器。</p>"
+  ],
+  [
+    "<p>This function returns a new value which implements <code>Write</code> by adapting\r\nthe <code>Write</code> trait functions to the <code>BufMut</code> trait functions. Given that\r\n<code>BufMut</code> operations are infallible, none of the <code>Write</code> functions will\r\nreturn with <code>Err</code>.</p>",
+    "<p>此函数返回一个新值，通过将 <code>Write</code> trait 函数适配到 <code>BufMut</code> trait 函数来实现 <code>Write</code>。由于 <code>BufMut</code> 操作是 infallible 的，<code>Write</code> 函数都不会返回 <code>Err</code>。</p>"
+  ],
+  [
+    "<p>Creates an adapter which will chain this buffer with another.</p>",
+    "<p>创建一个将此缓冲区与另一个缓冲区链接起来的适配器。</p>"
+  ],
+  [
+    "<p>The returned <code>BufMut</code> instance will first write to all bytes from\r\n<code>self</code>. Afterwards, it will write to <code>next</code>.</p>",
+    "<p>返回的 <code>BufMut</code> 实例将先写入 self 中的所有字节。之后将写入 <code>next</code>。</p>"
+  ]
+]

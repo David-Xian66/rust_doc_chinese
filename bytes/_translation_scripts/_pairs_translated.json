@@ -1,0 +1,398 @@
+[
+  [
+    "<p>This operation is <code>O(1)</code>.</p>",
+    "<p>This operation is <code>O(1)</code>.</p>"
+  ],
+  [
+    "<p>This is an <code>O(1)</code> operation that just increases the reference count and\nsets a few indices.</p>",
+    "<p>This is an <code>O(1)</code> operation that just increases the reference count and\nsets a few indices.</p>"
+  ],
+  [
+    "<p>Shortens the buffer, keeping the first <code>len</code> bytes and dropping the\nrest.</p>",
+    "<p>Shortens the buffer, keeping the first <code>len</code> bytes and dropping the\nrest.</p>"
+  ],
+  [
+    "<p>If <code>len</code> is greater than the buffer’s current length, this has no\neffect.</p>",
+    "<p>If <code>len</code> is greater than the buffer’s current length, this has no\neffect.</p>"
+  ],
+  [
+    "<p>The <a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\nexcess bytes to be returned instead of dropped.</p>",
+    "<p>The <a href=\"struct.Bytes.html#method.split_off\" title=\"method bytes::Bytes::split_off\">split_off</a> method can emulate <code>truncate</code>, but this causes the\nexcess bytes to be returned instead of dropped.</p>"
+  ],
+  [
+    "<p>An empty slice returns <code>true</code>.</p>",
+    "<p>An empty slice returns <code>true</code>.</p>"
+  ],
+  [
+    "<p>If this slice <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.is_ascii\" title=\"method slice::is_ascii\"><code>is_ascii</code></a>, returns it as a slice of\n<a href=\"https://doc.rust-lang.org/1.95.0/core/ascii/ascii_char/enum.AsciiChar.html\" title=\"enum core::ascii::ascii_char::AsciiChar\">ASCII characters</a>, otherwise returns <code>None</code>.</p>",
+    "<p>If this slice <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.is_ascii\" title=\"method slice::is_ascii\"><code>is_ascii</code></a>, returns it as a slice of\n<a href=\"https://doc.rust-lang.org/1.95.0/core/ascii/ascii_char/enum.AsciiChar.html\" title=\"enum core::ascii::ascii_char::AsciiChar\">ASCII characters</a>, otherwise returns <code>None</code>.</p>"
+  ],
+  [
+    "<p>Converts this slice of bytes into a slice of ASCII characters,\nwithout checking whether they’re valid.</p>",
+    "<p>Converts this slice of bytes into a slice of ASCII characters,\nwithout checking whether they’re valid.</p>"
+  ],
+  [
+    "<p>Every byte in the slice must be in <code>0..=127</code>, or else this is UB.</p>",
+    "<p>Every byte in the slice must be in <code>0..=127</code>, or else this is UB.</p>"
+  ],
+  [
+    "<p>Same as <code>to_ascii_lowercase(a) == to_ascii_lowercase(b)</code>,\nbut without allocating and copying temporaries.</p>",
+    "<p>Same as <code>to_ascii_lowercase(a) == to_ascii_lowercase(b)</code>,\nbut without allocating and copying temporaries.</p>"
+  ],
+  [
+    "<p>Returns an iterator that produces an escaped version of this slice,\ntreating it as an ASCII string.</p>",
+    "<p>Returns an iterator that produces an escaped version of this slice,\ntreating it as an ASCII string.</p>"
+  ],
+  [
+    "<p>Returns a byte slice with leading and trailing ASCII whitespace bytes\nremoved.</p>",
+    "<p>Returns a byte slice with leading and trailing ASCII whitespace bytes\nremoved.</p>"
+  ],
+  [
+    "<p>Returns the first and all the rest of the elements of the slice, or <code>None</code> if it is empty.</p>",
+    "<p>Returns the first and all the rest of the elements of the slice, or <code>None</code> if it is empty.</p>"
+  ],
+  [
+    "<p>Returns the last and all the rest of the elements of the slice, or <code>None</code> if it is empty.</p>",
+    "<p>Returns the last and all the rest of the elements of the slice, or <code>None</code> if it is empty.</p>"
+  ],
+  [
+    "<p>If the slice is not at least <code>N</code> in length, this will return <code>None</code>.</p>",
+    "<p>If the slice is not at least <code>N</code> in length, this will return <code>None</code>.</p>"
+  ],
+  [
+    "<p>Calling this method with an out-of-bounds index is <em><a href=\"https://doc.rust-lang.org/reference/behavior-considered-undefined.html\">undefined behavior</a></em>\neven if the resulting reference is not used.</p>",
+    "<p>Calling this method with an out-of-bounds index is <em><a href=\"https://doc.rust-lang.org/reference/behavior-considered-undefined.html\">undefined behavior</a></em>\neven if the resulting reference is not used.</p>"
+  ],
+  [
+    "<p>The caller must ensure that the slice outlives the pointer this\nfunction returns, or else it will end up dangling.</p>",
+    "<p>The caller must ensure that the slice outlives the pointer this\nfunction returns, or else it will end up dangling.</p>"
+  ],
+  [
+    "<p>Modifying the container referenced by this slice may cause its buffer\nto be reallocated, which would also make any pointers to it invalid.</p>",
+    "<p>Modifying the container referenced by this slice may cause its buffer\nto be reallocated, which would also make any pointers to it invalid.</p>"
+  ],
+  [
+    "<p>The returned range is half-open, which means that the end pointer\npoints <em>one past</em> the last element of the slice. This way, an empty\nslice is represented by two equal pointers, and the difference between\nthe two pointers represents the size of the slice.</p>",
+    "<p>The returned range is half-open, which means that the end pointer\npoints <em>one past</em> the last element of the slice. This way, an empty\nslice is represented by two equal pointers, and the difference between\nthe two pointers represents the size of the slice.</p>"
+  ],
+  [
+    "<p>This function is useful for interacting with foreign interfaces which\nuse two pointers to refer to a range of elements in memory, as is\ncommon in C++.</p>",
+    "<p>This function is useful for interacting with foreign interfaces which\nuse two pointers to refer to a range of elements in memory, as is\ncommon in C++.</p>"
+  ],
+  [
+    "<p>If <code>N</code> is not exactly equal to the length of <code>self</code>, then this method returns <code>None</code>.</p>",
+    "<p>If <code>N</code> is not exactly equal to the length of <code>self</code>, then this method returns <code>None</code>.</p>"
+  ],
+  [
+    "<p>Returns an iterator over <code>chunk_size</code> elements of the slice at a time, starting at the\nbeginning of the slice.</p>",
+    "<p>Returns an iterator over <code>chunk_size</code> elements of the slice at a time, starting at the\nbeginning of the slice.</p>"
+  ],
+  [
+    "<p>The chunks are slices and do not overlap. If <code>chunk_size</code> does not divide the length of the\nslice, then the last chunk will not have length <code>chunk_size</code>.</p>",
+    "<p>The chunks are slices and do not overlap. If <code>chunk_size</code> does not divide the length of the\nslice, then the last chunk will not have length <code>chunk_size</code>.</p>"
+  ],
+  [
+    "<p>If your <code>chunk_size</code> is a constant, consider using <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_chunks\" title=\"method slice::as_chunks\"><code>as_chunks</code></a> instead, which will\ngive references to arrays of exactly that length, rather than slices.</p>",
+    "<p>If your <code>chunk_size</code> is a constant, consider using <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_chunks\" title=\"method slice::as_chunks\"><code>as_chunks</code></a> instead, which will\ngive references to arrays of exactly that length, rather than slices.</p>"
+  ],
+  [
+    "<p>Panics if <code>chunk_size</code> is zero.</p>",
+    "<p>Panics if <code>chunk_size</code> is zero.</p>"
+  ],
+  [
+    "<p>The chunks are slices and do not overlap. If <code>chunk_size</code> does not divide the length of the\nslice, then the last up to <code>chunk_size-1</code> elements will be omitted and can be retrieved\nfrom the <code>remainder</code> function of the iterator.</p>",
+    "<p>The chunks are slices and do not overlap. If <code>chunk_size</code> does not divide the length of the\nslice, then the last up to <code>chunk_size-1</code> elements will be omitted and can be retrieved\nfrom the <code>remainder</code> function of the iterator.</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nassuming that there’s no remainder.</p>",
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nassuming that there’s no remainder.</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nstarting at the beginning of the slice,\nand a remainder slice with length strictly less than <code>N</code>.</p>",
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nstarting at the beginning of the slice,\nand a remainder slice with length strictly less than <code>N</code>.</p>"
+  ],
+  [
+    "<p>You can flatten the chunks back into a slice-of-<code>T</code> with <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_flattened\" title=\"method slice::as_flattened\"><code>as_flattened</code></a>.</p>",
+    "<p>You can flatten the chunks back into a slice-of-<code>T</code> with <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_flattened\" title=\"method slice::as_flattened\"><code>as_flattened</code></a>.</p>"
+  ],
+  [
+    "<p>Panics if <code>N</code> is zero.</p>",
+    "<p>Panics if <code>N</code> is zero.</p>"
+  ],
+  [
+    "<p>Note that this check is against a const generic parameter, not a runtime\nvalue, and thus a particular monomorphization will either always panic\nor it will never panic.</p>",
+    "<p>Note that this check is against a const generic parameter, not a runtime\nvalue, and thus a particular monomorphization will either always panic\nor it will never panic.</p>"
+  ],
+  [
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nstarting at the end of the slice,\nand a remainder slice with length strictly less than <code>N</code>.</p>",
+    "<p>Splits the slice into a slice of <code>N</code>-element arrays,\nstarting at the end of the slice,\nand a remainder slice with length strictly less than <code>N</code>.</p>"
+  ],
+  [
+    "<p>Returns an iterator over <code>chunk_size</code> elements of the slice at a time, starting at the end\nof the slice.</p>",
+    "<p>Returns an iterator over <code>chunk_size</code> elements of the slice at a time, starting at the end\nof the slice.</p>"
+  ],
+  [
+    "<p>If your <code>chunk_size</code> is a constant, consider using <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_rchunks\" title=\"method slice::as_rchunks\"><code>as_rchunks</code></a> instead, which will\ngive references to arrays of exactly that length, rather than slices.</p>",
+    "<p>If your <code>chunk_size</code> is a constant, consider using <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.as_rchunks\" title=\"method slice::as_rchunks\"><code>as_rchunks</code></a> instead, which will\ngive references to arrays of exactly that length, rather than slices.</p>"
+  ],
+  [
+    "<p>The predicate is called for every pair of consecutive elements,\nmeaning that it is called on <code>slice[0]</code> and <code>slice[1]</code>,\nfollowed by <code>slice[1]</code> and <code>slice[2]</code>, and so on.</p>",
+    "<p>The predicate is called for every pair of consecutive elements,\nmeaning that it is called on <code>slice[0]</code> and <code>slice[1]</code>,\nfollowed by <code>slice[1]</code> and <code>slice[2]</code>, and so on.</p>"
+  ],
+  [
+    "<p>The first will contain all indices from <code>[0, mid)</code> (excluding\nthe index <code>mid</code> itself) and the second will contain all\nindices from <code>[mid, len)</code> (excluding the index <code>len</code> itself).</p>",
+    "<p>The first will contain all indices from <code>[0, mid)</code> (excluding\nthe index <code>mid</code> itself) and the second will contain all\nindices from <code>[mid, len)</code> (excluding the index <code>len</code> itself).</p>"
+  ],
+  [
+    "<p>The last element returned, if any, will contain the remainder of the\nslice.</p>",
+    "<p>The last element returned, if any, will contain the remainder of the\nslice.</p>"
+  ],
+  [
+    "<p>Returns an iterator over subslices separated by elements that match\n<code>pred</code> limited to returning at most <code>n</code> items. This starts at the end of\nthe slice and works backwards. The matched element is not contained in\nthe subslices.</p>",
+    "<p>Returns an iterator over subslices separated by elements that match\n<code>pred</code> limited to returning at most <code>n</code> items. This starts at the end of\nthe slice and works backwards. The matched element is not contained in\nthe subslices.</p>"
+  ],
+  [
+    "<p>If any matching elements are present in the slice, returns the prefix\nbefore the match and suffix after. The matching element itself is not\nincluded. If no elements match, returns <code>None</code>.</p>",
+    "<p>If any matching elements are present in the slice, returns the prefix\nbefore the match and suffix after. The matching element itself is not\nincluded. If no elements match, returns <code>None</code>.</p>"
+  ],
+  [
+    "<p>Always returns <code>true</code> if <code>needle</code> is an empty slice:</p>",
+    "<p>Always returns <code>true</code> if <code>needle</code> is an empty slice:</p>"
+  ],
+  [
+    "<p>If the value is found then <a href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html#variant.Ok\" title=\"variant core::result::Result::Ok\"><code>Result::Ok</code></a> is returned, containing the\nindex of the matching element. If there are multiple matches, then any\none of the matches could be returned. The index is chosen\ndeterministically, but is subject to change in future versions of Rust.\nIf the value is not found then <a href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html#variant.Err\" title=\"variant core::result::Result::Err\"><code>Result::Err</code></a> is returned, containing\nthe index where a matching element could be inserted while maintaining\nsorted order.</p>",
+    "<p>If the value is found then <a href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html#variant.Ok\" title=\"variant core::result::Result::Ok\"><code>Result::Ok</code></a> is returned, containing the\nindex of the matching element. If there are multiple matches, then any\none of the matches could be returned. The index is chosen\ndeterministically, but is subject to change in future versions of Rust.\nIf the value is not found then <a href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html#variant.Err\" title=\"variant core::result::Result::Err\"><code>Result::Err</code></a> is returned, containing\nthe index where a matching element could be inserted while maintaining\nsorted order.</p>"
+  ],
+  [
+    "<p>Looks up a series of four elements. The first is found, with a\nuniquely determined position; the second and third are not\nfound; the fourth could match any position in <code>[1, 4]</code>.</p>",
+    "<p>Looks up a series of four elements. The first is found, with a\nuniquely determined position; the second and third are not\nfound; the fourth could match any position in <code>[1, 4]</code>.</p>"
+  ],
+  [
+    "<p>This method splits the slice into three distinct slices: prefix, correctly aligned middle\nslice of a new type, and the suffix slice. The middle part will be as big as possible under\nthe given alignment constraint and element size.</p>",
+    "<p>This method splits the slice into three distinct slices: prefix, correctly aligned middle\nslice of a new type, and the suffix slice. The middle part will be as big as possible under\nthe given alignment constraint and element size.</p>"
+  ],
+  [
+    "<p>This method has no purpose when either input element <code>T</code> or output element <code>U</code> are\nzero-sized and will return the original slice without splitting anything.</p>",
+    "<p>This method has no purpose when either input element <code>T</code> or output element <code>U</code> are\nzero-sized and will return the original slice without splitting anything.</p>"
+  ],
+  [
+    "<p>This will panic if the size of the SIMD type is different from\n<code>LANES</code> times that of the scalar.</p>",
+    "<p>This will panic if the size of the SIMD type is different from\n<code>LANES</code> times that of the scalar.</p>"
+  ],
+  [
+    "<p>This method is useful for extending slice iterators like <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.split\" title=\"method slice::split\"><code>slice::split</code></a>.</p>",
+    "<p>This method is useful for extending slice iterators like <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.split\" title=\"method slice::split\"><code>slice::split</code></a>.</p>"
+  ],
+  [
+    "<p>Panics if <code>T</code> is zero-sized.</p>",
+    "<p>Panics if <code>T</code> is zero-sized.</p>"
+  ],
+  [
+    "<p>Flattens a slice of <code>T</code> into a single value <code>Self::Output</code>, placing a\ngiven separator between each.</p>",
+    "<p>Flattens a slice of <code>T</code> into a single value <code>Self::Output</code>, placing a\ngiven separator between each.</p>"
+  ],
+  [
+    "<p>ASCII letters ‘a’ to ‘z’ are mapped to ‘A’ to ‘Z’,\nbut non-ASCII letters are unchanged.</p>",
+    "<p>ASCII letters ‘a’ to ‘z’ are mapped to ‘A’ to ‘Z’,\nbut non-ASCII letters are unchanged.</p>"
+  ],
+  [
+    "<p>ASCII letters ‘A’ to ‘Z’ are mapped to ‘a’ to ‘z’,\nbut non-ASCII letters are unchanged.</p>",
+    "<p>ASCII letters ‘A’ to ‘Z’ are mapped to ‘a’ to ‘z’,\nbut non-ASCII letters are unchanged.</p>"
+  ],
+  [
+    "<p>This sort is unstable (i.e., may reorder equal elements), in-place (i.e., does not\nallocate), and <em>O</em>(<em>n</em> * log(<em>n</em>)) worst-case.</p>",
+    "<p>This sort is unstable (i.e., may reorder equal elements), in-place (i.e., does not\nallocate), and <em>O</em>(<em>n</em> * log(<em>n</em>)) worst-case.</p>"
+  ],
+  [
+    "<p>It is typically faster than stable sorting, except in a few special cases, e.g., when the\nslice is partially sorted.</p>",
+    "<p>It is typically faster than stable sorting, except in a few special cases, e.g., when the\nslice is partially sorted.</p>"
+  ],
+  [
+    "<p>If the implementation of <a href=\"https://doc.rust-lang.org/1.95.0/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\"><code>Ord</code></a> for <code>K</code> does not implement a <a href=\"https://en.wikipedia.org/wiki/Total_order\">total order</a>, the function\nmay panic; even if the function exits normally, the resulting order of elements in the slice\nis unspecified. See also the note on panicking below.</p>",
+    "<p>If the implementation of <a href=\"https://doc.rust-lang.org/1.95.0/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\"><code>Ord</code></a> for <code>K</code> does not implement a <a href=\"https://en.wikipedia.org/wiki/Total_order\">total order</a>, the function\nmay panic; even if the function exits normally, the resulting order of elements in the slice\nis unspecified. See also the note on panicking below.</p>"
+  ],
+  [
+    "<p>Upon completion, for the specified range <code>start..end</code>, it’s guaranteed that:</p>",
+    "<p>Upon completion, for the specified range <code>start..end</code>, it’s guaranteed that:</p>"
+  ],
+  [
+    "<p>This partial sort is unstable, meaning it may reorder equal elements in the specified range.\nIt may reorder elements outside the specified range as well, but the guarantees above still hold.</p>",
+    "<p>This partial sort is unstable, meaning it may reorder equal elements in the specified range.\nIt may reorder elements outside the specified range as well, but the guarantees above still hold.</p>"
+  ],
+  [
+    "<p>This partial sort is in-place (i.e., does not allocate), and <em>O</em>(<em>n</em> + <em>k</em> * log(<em>k</em>)) worst-case,\nwhere <em>n</em> is the length of the slice and <em>k</em> is the length of the specified range.</p>",
+    "<p>This partial sort is in-place (i.e., does not allocate), and <em>O</em>(<em>n</em> + <em>k</em> * log(<em>k</em>)) worst-case,\nwhere <em>n</em> is the length of the slice and <em>k</em> is the length of the specified range.</p>"
+  ],
+  [
+    "<p>This reordering is unstable (i.e. any element that compares equal to the nth element may end\nup at that position), in-place (i.e.  does not allocate), and runs in <em>O</em>(<em>n</em>) time. This\nfunction is also known as “kth element” in other libraries.</p>",
+    "<p>This reordering is unstable (i.e. any element that compares equal to the nth element may end\nup at that position), in-place (i.e.  does not allocate), and runs in <em>O</em>(<em>n</em>) time. This\nfunction is also known as “kth element” in other libraries.</p>"
+  ],
+  [
+    "<p>The element at <code>index</code>.</p>",
+    "<p>The element at <code>index</code>.</p>"
+  ],
+  [
+    "<p>The current algorithm is an introselect implementation based on <a href=\"https://github.com/Voultapher/sort-research-rs/tree/main/ipnsort\">ipnsort</a> by Lukas Bergdoll\nand Orson Peters, which is also the basis for <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.sort_unstable\" title=\"method slice::sort_unstable\"><code>sort_unstable</code></a>. The fallback algorithm is\nMedian of Medians using Tukey’s Ninther for pivot selection, which guarantees linear runtime\nfor all inputs.</p>",
+    "<p>The current algorithm is an introselect implementation based on <a href=\"https://github.com/Voultapher/sort-research-rs/tree/main/ipnsort\">ipnsort</a> by Lukas Bergdoll\nand Orson Peters, which is also the basis for <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.slice.html#method.sort_unstable\" title=\"method slice::sort_unstable\"><code>sort_unstable</code></a>. The fallback algorithm is\nMedian of Medians using Tukey’s Ninther for pivot selection, which guarantees linear runtime\nfor all inputs.</p>"
+  ],
+  [
+    "<p>Returns two slices. The first contains no consecutive repeated elements.\nThe second contains all the duplicates in no specified order.</p>",
+    "<p>Returns two slices. The first contains no consecutive repeated elements.\nThe second contains all the duplicates in no specified order.</p>"
+  ],
+  [
+    "<p>The length of <code>src</code> must be the same as <code>self</code>.</p>",
+    "<p>The length of <code>src</code> must be the same as <code>self</code>.</p>"
+  ],
+  [
+    "<p>Returns <code>None</code> if the slice is empty.</p>",
+    "<p>Returns <code>None</code> if the slice is empty.</p>"
+  ],
+  [
+    "<p>The current implementation is based on <a href=\"https://github.com/Voultapher/driftsort\">driftsort</a> by Orson Peters and Lukas Bergdoll, which\ncombines the fast average case of quicksort with the fast worst case and partial run\ndetection of mergesort, achieving linear time on fully sorted and reversed inputs. On inputs\nwith k distinct elements, the expected time to sort the data is <em>O</em>(<em>n</em> * log(<em>k</em>)).</p>",
+    "<p>The current implementation is based on <a href=\"https://github.com/Voultapher/driftsort\">driftsort</a> by Orson Peters and Lukas Bergdoll, which\ncombines the fast average case of quicksort with the fast worst case and partial run\ndetection of mergesort, achieving linear time on fully sorted and reversed inputs. On inputs\nwith k distinct elements, the expected time to sort the data is <em>O</em>(<em>n</em> * log(<em>k</em>)).</p>"
+  ],
+  [
+    "<p>The auxiliary memory allocation behavior depends on the input length. Short slices are\nhandled without allocation, medium sized slices allocate <code>self.len()</code> and beyond that it\nclamps at <code>self.len() / 2</code>.</p>",
+    "<p>The auxiliary memory allocation behavior depends on the input length. Short slices are\nhandled without allocation, medium sized slices allocate <code>self.len()</code> and beyond that it\nclamps at <code>self.len() / 2</code>.</p>"
+  ],
+  [
+    "<p>All safe functions on slices preserve the invariant that even if the function panics, all\noriginal elements will remain in the slice and any possible modifications via interior\nmutability are observed in the input. This ensures that recovery code (for instance inside\nof a <code>Drop</code> or following a <code>catch_unwind</code>) will still have access to all the original\nelements. For instance, if the slice belongs to a <code>Vec</code>, the <code>Vec::drop</code> method will be able\nto dispose of all contained elements.</p>",
+    "<p>All safe functions on slices preserve the invariant that even if the function panics, all\noriginal elements will remain in the slice and any possible modifications via interior\nmutability are observed in the input. This ensures that recovery code (for instance inside\nof a <code>Drop</code> or following a <code>catch_unwind</code>) will still have access to all the original\nelements. For instance, if the slice belongs to a <code>Vec</code>, the <code>Vec::drop</code> method will be able\nto dispose of all contained elements.</p>"
+  ],
+  [
+    "<p>A <code>Chain</code> sequences two buffers.</p>",
+    "<p>A <code>Chain</code> sequences two buffers.</p>"
+  ],
+  [
+    "<p><code>Chain</code> is an adapter that links two underlying buffers and provides a\ncontinuous view across both buffers. It is able to sequence either immutable\nbuffers (<a href=\"trait.Buf.html\" title=\"trait bytes::buf::Buf\"><code>Buf</code></a> values) or mutable buffers (<a href=\"trait.BufMut.html\" title=\"trait bytes::buf::BufMut\"><code>BufMut</code></a> values).</p>",
+    "<p><code>Chain</code> is an adapter that links two underlying buffers and provides a\ncontinuous view across both buffers. It is able to sequence either immutable\nbuffers (<a href=\"trait.Buf.html\" title=\"trait bytes::buf::Buf\"><code>Buf</code></a> values) or mutable buffers (<a href=\"trait.BufMut.html\" title=\"trait bytes::buf::BufMut\"><code>BufMut</code></a> values).</p>"
+  ],
+  [
+    "<p>This struct is generally created by calling <a href=\"trait.Buf.html#method.chain\" title=\"method bytes::buf::Buf::chain\"><code>Buf::chain</code></a>. Please see that\nfunction’s documentation for more detail.</p>",
+    "<p>This struct is generally created by calling <a href=\"trait.Buf.html#method.chain\" title=\"method bytes::buf::Buf::chain\"><code>Buf::chain</code></a>. Please see that\nfunction’s documentation for more detail.</p>"
+  ],
+  [
+    "<p>Gets a reference to the first underlying <code>Buf</code>.</p>",
+    "<p>Gets a reference to the first underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the first underlying <code>Buf</code>.</p>",
+    "<p>Gets a mutable reference to the first underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>Gets a reference to the last underlying <code>Buf</code>.</p>",
+    "<p>Gets a reference to the last underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the last underlying <code>Buf</code>.</p>",
+    "<p>Gets a mutable reference to the last underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>Consumes this <code>Chain</code>, returning the underlying values.</p>",
+    "<p>Consumes this <code>Chain</code>, returning the underlying values.</p>"
+  ],
+  [
+    "<p>Consumes this <code>IntoIter</code>, returning the underlying value.</p>",
+    "<p>Consumes this <code>IntoIter</code>, returning the underlying value.</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying <code>Buf</code>.</p>",
+    "<p>Gets a reference to the underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>",
+    "<p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying <code>Buf</code>.</p>",
+    "<p>Gets a mutable reference to the underlying <code>Buf</code>.</p>"
+  ],
+  [
+    "<p>A <code>Buf</code> adapter which implements <code>io::Read</code> for the inner value.</p>",
+    "<p>A <code>Buf</code> adapter which implements <code>io::Read</code> for the inner value.</p>"
+  ],
+  [
+    "<p>This struct is generally created by calling <code>reader()</code> on <code>Buf</code>. See\ndocumentation of <a href=\"trait.Buf.html#method.reader\" title=\"method bytes::buf::Buf::reader\"><code>reader()</code></a> for more\ndetails.</p>",
+    "<p>This struct is generally created by calling <code>reader()</code> on <code>Buf</code>. See\ndocumentation of <a href=\"trait.Buf.html#method.reader\" title=\"method bytes::buf::Buf::reader\"><code>reader()</code></a> for more\ndetails.</p>"
+  ],
+  [
+    "<p>Consumes this <code>Reader</code>, returning the underlying value.</p>",
+    "<p>Consumes this <code>Reader</code>, returning the underlying value.</p>"
+  ],
+  [
+    "<p>A <code>Buf</code> adapter which limits the bytes read from an underlying buffer.</p>",
+    "<p>A <code>Buf</code> adapter which limits the bytes read from an underlying buffer.</p>"
+  ],
+  [
+    "<p>Consumes this <code>Take</code>, returning the underlying value.</p>",
+    "<p>Consumes this <code>Take</code>, returning the underlying value.</p>"
+  ],
+  [
+    "<p>If the inner <code>Buf</code> has fewer bytes than indicated by this method then\nthat is the actual number of available bytes.</p>",
+    "<p>If the inner <code>Buf</code> has fewer bytes than indicated by this method then\nthat is the actual number of available bytes.</p>"
+  ],
+  [
+    "<p>If the inner <code>Buf</code> has fewer bytes than <code>lim</code> then that is the actual\nnumber of available bytes.</p>",
+    "<p>If the inner <code>Buf</code> has fewer bytes than <code>lim</code> then that is the actual\nnumber of available bytes.</p>"
+  ],
+  [
+    "<p>The caller must ensure that <code>ptr</code> references a valid memory region owned\nby the caller representing a byte slice for the duration of <code>'a</code>.</p>",
+    "<p>The caller must ensure that <code>ptr</code> references a valid memory region owned\nby the caller representing a byte slice for the duration of <code>'a</code>.</p>"
+  ],
+  [
+    "<p>The function panics if <code>index</code> is out of bounds.</p>",
+    "<p>The function panics if <code>index</code> is out of bounds.</p>"
+  ],
+  [
+    "<p>Copies bytes from <code>src</code> into <code>self</code>.</p>",
+    "<p>Copies bytes from <code>src</code> into <code>self</code>.</p>"
+  ],
+  [
+    "<p>The function panics if <code>src</code> has a different length than <code>self</code>.</p>",
+    "<p>The function panics if <code>src</code> has a different length than <code>self</code>.</p>"
+  ],
+  [
+    "<p>Gets a reference to the underlying <code>BufMut</code>.</p>",
+    "<p>Gets a reference to the underlying <code>BufMut</code>.</p>"
+  ],
+  [
+    "<p>It is inadvisable to directly write to the underlying <code>BufMut</code>.</p>",
+    "<p>It is inadvisable to directly write to the underlying <code>BufMut</code>.</p>"
+  ],
+  [
+    "<p>Gets a mutable reference to the underlying <code>BufMut</code>.</p>",
+    "<p>Gets a mutable reference to the underlying <code>BufMut</code>.</p>"
+  ],
+  [
+    "<p>Consumes this <code>Writer</code>, returning the underlying value.</p>",
+    "<p>Consumes this <code>Writer</code>, returning the underlying value.</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>",
+    "<p>This function panics if there is not enough remaining data in <code>self</code>.</p>"
+  ],
+  [
+    "<p>The current position is advanced by <code>nbytes</code>.</p>",
+    "<p>The current position is advanced by <code>nbytes</code>.</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining data in <code>self</code>, or\nif <code>nbytes</code> is greater than 8.</p>",
+    "<p>This function panics if there is not enough remaining data in <code>self</code>, or\nif <code>nbytes</code> is greater than 8.</p>"
+  ],
+  [
+    "<p>Returns <code>Err(TryGetError)</code> when there are not enough\nremaining bytes to read the value.</p>",
+    "<p>Returns <code>Err(TryGetError)</code> when there are not enough\nremaining bytes to read the value.</p>"
+  ],
+  [
+    "<p>This function panics if <code>nbytes</code> is greater than 8.</p>",
+    "<p>This function panics if <code>nbytes</code> is greater than 8.</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in\n<code>self</code>.</p>",
+    "<p>This function panics if there is not enough remaining capacity in\n<code>self</code>.</p>"
+  ],
+  [
+    "<p>This function panics if there is not enough remaining capacity in\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>",
+    "<p>This function panics if there is not enough remaining capacity in\n<code>self</code> or if <code>nbytes</code> is greater than 8.</p>"
+  ]
+]
