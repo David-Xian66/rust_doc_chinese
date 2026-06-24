@@ -2,7 +2,7 @@
 
 > 把流行的 Rust crate 的 `cargo doc` 生成的 HTML 文档**逐字翻译成中文**，部署在 Cloudflare Pages 上，提供双引擎搜索（原生 rustdoc + MiniSearch 中文索引）。
 
-**在线访问**：[https://rust-doc-chinese.pages.dev](https://rust-doc-chinese.pages.dev) （部署到 Cloudflare Pages 后生效）
+**在线访问**：[https://rustdoc.p-cat.fun/](https://rustdoc.p-cat.fun/) （自定义域名，部署到 Cloudflare Pages）
 
 **GitHub 仓库**：[David-Xian66/rust_doc_chinese](https://github.com/David-Xian66/rust_doc_chinese)
 
