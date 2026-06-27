@@ -90,7 +90,7 @@ def main():
             with open(path, 'rb') as f:
                 before = f.read()
 
-            if b'chinese-search.js' in before:
+            if b'minisearch.min.js' in before or b'chinese-search' in before:
                 skipped += 1
                 continue
 

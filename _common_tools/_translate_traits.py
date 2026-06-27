@@ -318,6 +318,73 @@ TRAIT_PAIRS = [
      '非穷尽结构体未来可能添加新的字段。因此，非穷尽结构体无法在外部 crate '
      '使用传统的 Struct { .. } 语法构造；模式匹配时必须有通配符 ..；'
      '且结构体更新语法将无法使用。'),
+
+    # ===== bitflags 1.x / 2.x 标准方法 docblock =====
+    ('bitflags::empty', 'Get a flags value with all bits unset.',
+     '获取一个所有位均为 0 的 flags 值。'),
+    ('bitflags::all', 'Get a flags value with all known bits set.',
+     '获取一个所有已知位均为 1 的 flags 值。'),
+    ('bitflags::bits',
+     'Get the underlying bits value.\nThe returned value is exactly the bits set in this flags value.',
+     '获取底层的位值。\n返回值正是该 flags 值中已设置的位。'),
+    ('bitflags::from_bits',
+     'Convert from a bits value.\nThis method will return None if any unknown bits are set.',
+     '从位值转换。\n若设置了任何未知位，则该方法将返回 None。'),
+    ('bitflags::from_bits_truncate',
+     'Convert from a bits value, unsetting any unknown bits.',
+     '从位值转换，未知的位会被清除。'),
+    ('bitflags::from_bits_retain',
+     'Convert from a bits value exactly.',
+     '按位值原样转换（保留所有位）。'),
+    ('bitflags::from_name',
+     'Get a flags value with the bits of a flag with the given name set.\n'
+     'This method will return None if name is empty or doesn’t correspond to any named flag.',
+     '获取一个 flags 值，其位为具有给定名称的 flag 所对应的位。\n'
+     '若 name 为空或不与任何已命名的 flag 对应，则该方法将返回 None。'),
+    ('bitflags::is_empty', 'Whether all bits in self are unset.',
+     '判断 self 中的所有位是否都未设置。'),
+    ('bitflags::is_all', 'Whether all known bits in this flags value are set.',
+     '判断该 flags 值的所有已知位是否都已设置。'),
+    ('bitflags::intersects', 'Whether any set bits in other are also set in self .',
+     '判断 other 中是否至少有一位也在 self 中被设置。'),
+    ('bitflags::contains', 'Whether all set bits in other are also set in self .',
+     '判断 other 中所有已设置的位是否都在 self 中被设置（即 self ⊇ other）。'),
+    ('bitflags::insert', 'The bitwise or ( | ) of the bits in self and other .',
+     'self 与 other 的按位或（|）。'),
+    ('bitflags::remove',
+     'The intersection of self with the complement of other ( &! ).\n'
+     'This method is not equivalent to self & !other when other has unknown bits set.\n'
+     'remove won’t truncate other , but the ! operator will.',
+     'self 与 other 的补的交集（&!）。\n'
+     '当 other 含有未知位时，该方法不等价于 self & !other。\n'
+     'remove 不会截断 other，而 ! 运算符会。'),
+    ('bitflags::toggle', 'The bitwise exclusive-or ( ^ ) of the bits in self and other .',
+     'self 与 other 的按位异或（^）。'),
+    ('bitflags::set',
+     'Call insert when value is true or remove when value is false .',
+     '当 value 为 true 时调用 insert，当 value 为 false 时调用 remove。'),
+    ('bitflags::intersection',
+     'The bitwise and ( & ) of the bits in self and other .',
+     'self 与 other 的按位与（&）。'),
+    ('bitflags::union',
+     'The bitwise or ( | ) of the bits in self and other .',
+     'self 与 other 的按位或（|）。'),
+    ('bitflags::difference',
+     'The intersection of self with the complement of other ( &! ).',
+     'self 与 other 的补的交集（&!）。'),
+    ('bitflags::symmetric_difference',
+     'The bitwise exclusive-or ( ^ ) of the bits in self and other .',
+     'self 与 other 的按位异或（^）。'),
+    ('bitflags::complement', 'The bitwise complement ( ~ ) of this flags value.',
+     '该 flags 值的按位取反（~）。'),
+    ('bitflags::iter', 'Yield a set of contained named flags values.',
+     '逐个产出该 flags 值中所包含的已命名 flag 集合。'),
+    ('bitflags::iter_names',
+     'Yield a set of contained named flags values along with their names.',
+     '逐个产出该 flags 值中所包含的已命名 flag 及其名称。'),
+    ('bitflags::known_bits',
+     'The value of all known bits, i.e. the value of `Self::all()` at compile-time.',
+     '所有已知位的值，即编译期 `Self::all()` 的值。'),
 ]
 
 # U+2019 右单引号（'）
@@ -361,6 +428,7 @@ CHROME_PAIRS = [
     ('>Functions<', '>函数<'),
     ('>Type Definitions<', '>类型定义<'),
     ('>Constants<', '>常量<'),
+    ('>Re-exports<', '>重新导出<'),
     # section-header class 形式
     ('<h2 class="variants section-header">Variants</h2>',
      '<h2 class="variants section-header">变体</h2>'),

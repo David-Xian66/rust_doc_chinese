@@ -1,0 +1,1070 @@
+[
+  {
+    "category": "h3-heading",
+    "text": "°ÏWASM support",
+    "file": "tokio\\index.html",
+    "pos": 18179
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏUnstable WASM support",
+    "file": "tokio\\index.html",
+    "pos": 18772
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Readiness event interest.",
+    "file": "tokio\\io\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A wrapper around a byte buffer that is incrementally filled and initialized.",
+    "file": "tokio\\io\\index.html",
+    "pos": 136
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Describes the readiness state of an I/O resources.",
+    "file": "tokio\\io\\index.html",
+    "pos": 320
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Reads bytes asynchronously.",
+    "file": "tokio\\io\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Reads bytes from a source.",
+    "file": "tokio\\io\\index.html",
+    "pos": 152
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Seek bytes asynchronously.",
+    "file": "tokio\\io\\index.html",
+    "pos": 294
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Writes bytes asynchronously.",
+    "file": "tokio\\io\\index.html",
+    "pos": 436
+  },
+  {
+    "category": "h2-section-header",
+    "text": "trait°Ï",
+    "file": "tokio\\io\\index.html",
+    "pos": 16098
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏBuffered Readers and Writers",
+    "file": "tokio\\io\\index.html",
+    "pos": 7738
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏImplementing AsyncRead and AsyncWrite",
+    "file": "tokio\\io\\index.html",
+    "pos": 11172
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏConversion to and from Stream/Sink",
+    "file": "tokio\\io\\index.html",
+    "pos": 11671
+  },
+  {
+    "category": "item-table-dd",
+    "text": "TCP utility types.",
+    "file": "tokio\\net\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Windows specific network types.",
+    "file": "tokio\\net\\index.html",
+    "pos": 108
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A TCP socket server, listening for connections.",
+    "file": "tokio\\net\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A TCP socket that has not yet been converted to a TcpStream or\nTcpListener.",
+    "file": "tokio\\net\\index.html",
+    "pos": 168
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A TCP stream between a local and a remote socket.",
+    "file": "tokio\\net\\index.html",
+    "pos": 384
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A UDP socket.",
+    "file": "tokio\\net\\index.html",
+    "pos": 548
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Converts or resolves without blocking to one or more SocketAddr values.",
+    "file": "tokio\\net\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Performs a DNS resolution.",
+    "file": "tokio\\net\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Owned read half of a TcpStream, created by into_split.",
+    "file": "tokio\\net\\tcp\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Owned write half of a TcpStream, created by into_split.",
+    "file": "tokio\\net\\tcp\\index.html",
+    "pos": 404
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Borrowed read half of a TcpStream, created by split.",
+    "file": "tokio\\net\\tcp\\index.html",
+    "pos": 812
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error indicating that two halves were not from the same socket, and thus could\nnot be reunited.",
+    "file": "tokio\\net\\tcp\\index.html",
+    "pos": 1184
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Borrowed write half of a TcpStream, created by split.",
+    "file": "tokio\\net\\tcp\\index.html",
+    "pos": 1413
+  },
+  {
+    "category": "h2-section-header",
+    "text": "Tuple Fields°Ï",
+    "file": "tokio\\net\\tcp\\struct.ReuniteError.html",
+    "pos": 5611
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Tokio support for Windows named pipes.",
+    "file": "tokio\\net\\windows\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "h2-section-header",
+    "text": "Variants (Non-exhaustive)°Ï",
+    "file": "tokio\\net\\windows\\named_pipe\\enum.PipeEnd.html",
+    "pos": 5804
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A builder suitable for building and interacting with named pipes from the\nclient side.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A Windows named pipe client.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 239
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A Windows named pipe server.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 508
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Information about a named pipe.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 777
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A builder structure for construct a named pipe with named pipe-specific\noptions. This is required to use for named pipe servers who wants to modify\npipe-related options.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 946
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Indicates the end of a named pipe.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "The pipe mode of a named pipe.",
+    "file": "tokio\\net\\windows\\named_pipe\\index.html",
+    "pos": 158
+  },
+  {
+    "category": "h2-section-header",
+    "text": "Fields (Non-exhaustive)°Ï",
+    "file": "tokio\\net\\windows\\named_pipe\\struct.PipeInfo.html",
+    "pos": 6629
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Builds Tokio Runtime with custom configuration values.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Runtime context guard.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 167
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Handle to the runtime.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 316
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An opaque ID that uniquely identifies a runtime relative to all other currently\nrunning runtimes.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 448
+  },
+  {
+    "category": "item-table-dd",
+    "text": "LocalRuntime-only config options",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 643
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A local Tokio runtime.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 904
+  },
+  {
+    "category": "item-table-dd",
+    "text": "The Tokio runtime.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 1059
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Handle to the runtime°Øs metrics.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 1190
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by try_current when no Runtime has been started",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 1361
+  },
+  {
+    "category": "item-table-dd",
+    "text": "The flavor of a Runtime.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Checks whether the given error was emitted by Tokio when shutting down its runtime.",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏBridging with sync code",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 7091
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏNUMA awareness",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 7323
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏRuntime Configurations",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 13149
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏDriving the runtime",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 15059
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏLifetime of spawned threads",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 16457
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏIO and timers",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 18875
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏCurrent thread runtime (behavior at the time of writing)",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 19128
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏMulti threaded runtime (behavior at the time of writing)",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 20240
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏFile descriptor table pre-warming",
+    "file": "tokio\\runtime\\index.html",
+    "pos": 22452
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A multi-producer, multi-consumer broadcast queue. Each sent value is seen by\nall consumers.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Named future types.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 200
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A multi-producer, single-consumer queue for sending values between\nasynchronous tasks.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 322
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A one-shot channel is used for sending a single message between\nasynchronous tasks. The channel function is used to create a\nSender and Receiver handle pair that form the channel.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 502
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A multi-producer, multi-consumer channel that only retains the last sent\nvalue.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1076
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned from the Semaphore::acquire function.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A barrier enables multiple tasks to synchronize the beginning of some computation.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 293
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A BarrierWaitResult is returned by wait when all tasks in the Barrier have rendezvoused.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 485
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A handle to a held Mutex that has had a function applied to it via MutexGuard::map.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 762
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An asynchronous Mutex-like type.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1123
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A handle to a held Mutex. The guard can be held across any .await point\nas it is Send.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1272
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Notifies a single task to wake up.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1629
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A thread-safe cell that can be written to only once.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1770
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A owned handle to a held Mutex that has had a function applied to it via\nOwnedMutexGuard::map.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 1940
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An owned handle to a held Mutex.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 2342
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Owned RAII structure used to release the exclusive write access of a lock when\ndropped.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 2531
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Owned RAII structure used to release the shared read access of a lock when\ndropped.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 2808
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An owned permit from the semaphore.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 3309
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An asynchronous reader-writer lock.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 3503
+  },
+  {
+    "category": "item-table-dd",
+    "text": "RAII structure used to release the exclusive write access of a lock when\ndropped.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 3645
+  },
+  {
+    "category": "item-table-dd",
+    "text": "RAII structure used to release the shared read access of a lock when\ndropped.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 3896
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Counting semaphore performing asynchronous permit acquisition.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 4345
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A permit from the semaphore.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 4523
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error that can be returned from SetOnce::set.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 4852
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned from the Mutex::try_lock, RwLock::try_read and\nRwLock::try_write functions.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 5126
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Errors that can be returned from OnceCell::set.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned from the Semaphore::try_acquire function.",
+    "file": "tokio\\sync\\index.html",
+    "pos": 255
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïoneshot channel",
+    "file": "tokio\\sync\\index.html",
+    "pos": 4568
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïmpsc channel",
+    "file": "tokio\\sync\\index.html",
+    "pos": 6727
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïbroadcast channel",
+    "file": "tokio\\sync\\index.html",
+    "pos": 12941
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïwatch channel",
+    "file": "tokio\\sync\\index.html",
+    "pos": 14494
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏLimit the number of simultaneously opened files in your program",
+    "file": "tokio\\sync\\struct.Semaphore.html",
+    "pos": 8759
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏLimit the number of outgoing requests being sent at the same time",
+    "file": "tokio\\sync\\struct.Semaphore.html",
+    "pos": 10301
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏLimit the number of incoming requests being handled at the same time",
+    "file": "tokio\\sync\\struct.Semaphore.html",
+    "pos": 12691
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏPrevent tests from running in parallel",
+    "file": "tokio\\sync\\struct.Semaphore.html",
+    "pos": 15022
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏRate limiting using a token bucket",
+    "file": "tokio\\sync\\struct.Semaphore.html",
+    "pos": 18993
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Broadcast error types",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Receiving-half of the broadcast channel.",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Sending-half of the broadcast channel.",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 237
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A sender that does not prevent the channel from being closed.",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 466
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Create a bounded, multi-producer, multi-consumer channel where each sent\nvalue is broadcasted to all active receivers.",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏLagging",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 5215
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏClosing",
+    "file": "tokio\\sync\\broadcast\\index.html",
+    "pos": 6475
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by the send function on a Sender.",
+    "file": "tokio\\sync\\broadcast\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An error returned from the recv function on a Receiver.",
+    "file": "tokio\\sync\\broadcast\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An error returned from the try_recv function on a Receiver.",
+    "file": "tokio\\sync\\broadcast\\error\\index.html",
+    "pos": 404
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future returned from Notify::notified().",
+    "file": "tokio\\sync\\futures\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future returned from Notify::notified_owned().",
+    "file": "tokio\\sync\\futures\\index.html",
+    "pos": 272
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Channel error types.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Owned permit to send one value into the channel.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Permits to send one value into the channel.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 181
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An Iterator of Permit that can be used to hold n slots in the channel.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 337
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Receives values from the associated Sender.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 808
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Sends values to the associated Receiver.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 983
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Receive values from the associated UnboundedSender.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 1149
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Send values to the associated UnboundedReceiver.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 1364
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An unbounded sender that does not prevent the channel from being closed.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 1761
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates a bounded mpsc channel for communicating between asynchronous tasks\nwith backpressure.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates an unbounded mpsc channel for communicating between asynchronous\ntasks without backpressure.",
+    "file": "tokio\\sync\\mpsc\\index.html",
+    "pos": 198
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by Sender::send.",
+    "file": "tokio\\sync\\mpsc\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by Sender::send_timeout.",
+    "file": "tokio\\sync\\mpsc\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by Receiver::try_recv.",
+    "file": "tokio\\sync\\mpsc\\error\\index.html",
+    "pos": 317
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by Sender::try_send.",
+    "file": "tokio\\sync\\mpsc\\error\\index.html",
+    "pos": 611
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Oneshot error types.",
+    "file": "tokio\\sync\\oneshot\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Receives a value from the associated Sender.",
+    "file": "tokio\\sync\\oneshot\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Sends a value to the associated Receiver.",
+    "file": "tokio\\sync\\oneshot\\index.html",
+    "pos": 256
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates a new one-shot channel for sending single values across asynchronous\ntasks.",
+    "file": "tokio\\sync\\oneshot\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by the Future implementation for Receiver.",
+    "file": "tokio\\sync\\oneshot\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error returned by the try_recv function on Receiver.",
+    "file": "tokio\\sync\\oneshot\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Watch error types.",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Returns a reference to the inner value.",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 251
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates a new watch channel, returning the °∞send°± and °∞receive°± handles.",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏChange notifications",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 5683
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïchanged versus has_changed",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 8226
+  },
+  {
+    "category": "h3-heading",
+    "text": "°Ïborrow_and_update versus borrow",
+    "file": "tokio\\sync\\watch\\index.html",
+    "pos": 9925
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error produced when receiving a change notification.",
+    "file": "tokio\\sync\\watch\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Error produced when sending a value fails.",
+    "file": "tokio\\sync\\watch\\error\\index.html",
+    "pos": 187
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏNon-guarantees",
+    "file": "tokio\\task\\fn.yield_now.html",
+    "pos": 3566
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Utilities for improved cooperative scheduling.",
+    "file": "tokio\\task\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Task-related futures.",
+    "file": "tokio\\task\\index.html",
+    "pos": 140
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An owned permission to abort a spawned task, without awaiting its completion.",
+    "file": "tokio\\task\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An opaque ID that uniquely identifies a task relative to all other currently\nrunning tasks.",
+    "file": "tokio\\task\\index.html",
+    "pos": 204
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Task failed to execute to completion.",
+    "file": "tokio\\task\\index.html",
+    "pos": 390
+  },
+  {
+    "category": "item-table-dd",
+    "text": "An owned permission to join on a task (await its termination).",
+    "file": "tokio\\task\\index.html",
+    "pos": 548
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A collection of tasks spawned on a Tokio runtime.",
+    "file": "tokio\\task\\index.html",
+    "pos": 734
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Context guard for LocalSet",
+    "file": "tokio\\task\\index.html",
+    "pos": 893
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A key for task-local data.",
+    "file": "tokio\\task\\index.html",
+    "pos": 1076
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A set of tasks which are executed on the same thread.",
+    "file": "tokio\\task\\index.html",
+    "pos": 1220
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Returns the Id of the currently running task.",
+    "file": "tokio\\task\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Spawns a new asynchronous task, returning a\nJoinHandle for it.",
+    "file": "tokio\\task\\index.html",
+    "pos": 201
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Runs the provided closure on a thread where blocking is acceptable.",
+    "file": "tokio\\task\\index.html",
+    "pos": 444
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Spawns a !Send future on the current LocalSet or LocalRuntime.",
+    "file": "tokio\\task\\index.html",
+    "pos": 635
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Returns the Id of the currently running task, or None if called outside\nof a task.",
+    "file": "tokio\\task\\index.html",
+    "pos": 1017
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Yields execution back to the Tokio runtime.",
+    "file": "tokio\\task\\index.html",
+    "pos": 1280
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏWhat are Tasks?",
+    "file": "tokio\\task\\index.html",
+    "pos": 3691
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏWorking with Tasks",
+    "file": "tokio\\task\\index.html",
+    "pos": 4894
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏAwaiting a LocalSet",
+    "file": "tokio\\task\\struct.LocalSet.html",
+    "pos": 9092
+  },
+  {
+    "category": "h3-heading",
+    "text": "°ÏUse inside tokio::spawn",
+    "file": "tokio\\task\\struct.LocalSet.html",
+    "pos": 10625
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future wrapper to ensure cooperative scheduling created by cooperative.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Value returned by the poll_proceed method.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 267
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future for the unconstrained method.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 548
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Consumes a unit of budget and returns the execution back to the Tokio\nruntime if the task°Øs coop budget was exhausted.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates a wrapper future that makes the inner future cooperate with the Tokio scheduler.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 257
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Returns true if there is still budget left on the task.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 461
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Decrements the task budget and returns Poll::Pending if the budget is depleted.\nThis indicates that the task should yield to the scheduler. Otherwise, returns\nRestoreOnPending which can be used to commit the budget consumption.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 682
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Turn off cooperative scheduling for a future. The future will never be forced to yield by\nTokio. Using this exposes your service to starvation if the unconstrained future never yields\notherwise.",
+    "file": "tokio\\task\\coop\\index.html",
+    "pos": 1294
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A future that sets a value T of a task local for the future F during\nits execution.",
+    "file": "tokio\\task\\futures\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Time error types.",
+    "file": "tokio\\time\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "A measurement of a monotonically nondecreasing clock.\nOpaque and useful only with Duration.",
+    "file": "tokio\\time\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Interval returned by interval and interval_at.",
+    "file": "tokio\\time\\index.html",
+    "pos": 214
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future returned by sleep and sleep_until.",
+    "file": "tokio\\time\\index.html",
+    "pos": 533
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Future returned by timeout and timeout_at.",
+    "file": "tokio\\time\\index.html",
+    "pos": 832
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Defines the behavior of an Interval when it misses a tick.",
+    "file": "tokio\\time\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates new Interval that yields with interval of period. The first\ntick completes immediately. The default MissedTickBehavior is\nBurst, but this can be configured\nby calling set_missed_tick_behavior.",
+    "file": "tokio\\time\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Creates new Interval that yields with interval of period with the\nfirst tick completing at start. The default MissedTickBehavior is\nBurst, but this can be configured\nby calling set_missed_tick_behavior.",
+    "file": "tokio\\time\\index.html",
+    "pos": 768
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Waits until duration has elapsed.",
+    "file": "tokio\\time\\index.html",
+    "pos": 1565
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Waits until deadline is reached.",
+    "file": "tokio\\time\\index.html",
+    "pos": 1703
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Requires a Future to complete before the specified duration has elapsed.",
+    "file": "tokio\\time\\index.html",
+    "pos": 1863
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Requires a Future to complete before the specified instant in time.",
+    "file": "tokio\\time\\index.html",
+    "pos": 2046
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Errors returned by Timeout.",
+    "file": "tokio\\time\\error\\index.html",
+    "pos": 0
+  },
+  {
+    "category": "item-table-dd",
+    "text": "Errors encountered by the timer implementation.",
+    "file": "tokio\\time\\error\\index.html",
+    "pos": 157
+  }
+]
