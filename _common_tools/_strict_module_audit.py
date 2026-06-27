@@ -33,6 +33,8 @@ CHROME_TERMS = {
     'Methods from Deref<Target = [u8]>',
     'Methods from Deref&lt;Target=[u8]&gt;',
     'Methods from Deref&lt;Target = [u8]&gt;',
+    # quinn-specific section heading (cannot translate)
+    'QUIC Token',
     'Implementations on Foreign Types',
     'Auto trait implementations',
     'Blanket implementations',
@@ -76,11 +78,11 @@ def strip_tags(s):
 
 
 def normalize_chrome_label(s):
-    """Normalize chrome label for matching: collapse whitespace, strip trailing
-    anchor characters (e.g. ZWJ U+200D from <a class="anchor">‍</a>)."""
+    """Normalize chrome label for matching: collapse whitespace, strip leading/trailing
+    anchor characters (e.g. ZWJ U+200D / § U+00A7 from <a class="anchor">§</a>)."""
     s = re.sub(r'\s+', ' ', s).strip()
-    # Strip trailing ZWJ (U+200D) and other zero-width chars
-    s = re.sub(r'[​-‍﻿⁠]', '', s).strip()
+    # Strip leading/trailing ZWJ (U+200D), section sign (§), other zero-width chars
+    s = re.sub(r'^[​-‍﻿⁠§¶†‡•⁃‣⁒⁓]+|[​-‍﻿⁠§¶†‡•⁃‣⁒⁓]+$', '', s).strip()
     return s
 
 
@@ -143,12 +145,25 @@ def audit_module_index(html, path):
     )
     for m in h3_pattern.finditer(html):
         body = strip_tags(m.group(1)).strip()
+        body_norm = normalize_chrome_label(body)
+        # h3 with id="X" where body == X (case-insensitive) 是 rustdoc 自动生成的模块子标题（如 "Linux"、"Event"）
+        h3_full_pre = m.group(0)
+        id_match = re.search(r'\bid="([^"]+)"', h3_full_pre)
+        if id_match:
+            h3_id = id_match.group(1).lower()
+            body_norm_lower = body_norm.lower()
+            # id 等于 body（去除尾部章节号）说明是模块自动标题
+            if h3_id == body_norm_lower or h3_id.replace('-', '') == body_norm_lower:
+                continue
+            # body 在 id 里（子标题前缀）
+            if body_norm_lower and (h3_id == body_norm_lower or h3_id.endswith('-' + body_norm_lower)):
+                continue
         if not body or has_cjk(body):
             continue
         if len(body) < 3:
             continue
         # 跳过 chrome 标签（重复检测）
-        if body in CHROME_TERMS:
+        if body in CHROME_TERMS or body_norm in CHROME_TERMS:
             continue
         # 跳过 trait impl 标题（impl X for Y）
         if H3_IGNORE_RE.match(body):
