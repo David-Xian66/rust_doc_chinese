@@ -283,7 +283,17 @@
         div.onmouseover = function () { this.style.background = '#f5f5f5'; };
         div.onmouseout = function () { this.style.background = ''; };
         div.onclick = function (url) {
-            return function () { window.location.href = url; };
+            return function () {
+                // Normalize to a site-root-absolute path. h.url is a relative
+                // path like "quinn/struct.Connecting.html" (no leading slash);
+                // if we feed that straight into window.location.href while
+                // already on /quinn/index.html, the browser resolves it
+                // against the current page and produces /quinn/quinn/...
+                // Prepend '/' so it's always relative to the site root.
+                var target = url;
+                if (target.charAt(0) !== '/') target = '/' + target;
+                window.location.href = target;
+            };
         }(h.url);
 
         var title = document.createElement('div');
