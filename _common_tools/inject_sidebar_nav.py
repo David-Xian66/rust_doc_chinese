@@ -35,11 +35,15 @@ import sys
 
 # === Markers (NEW injection) ===
 NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
-NEW_HOME_MARKER = b'sidebar-home-link'
+# The home button marker checks for the opening tag (with angle brackets) so we
+# don't false-match the .sidebar-home-link CSS class definition in the injected
+# <style> block. The CSS contains bare `sidebar-home-link` substrings, while
+# the HTML element has `<div class="sidebar-home-link">`.
+NEW_HOME_MARKER = b'<div class="sidebar-home-link">'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
 NAV_SIDEBAR = b'<nav class="sidebar">'
-GITHUB_LINK_CLASS = b'sidebar-github-link'
+GITHUB_LINK_CLASS = b'<div class="sidebar-github-link"'
 
 # === Markers (OLD injection — to detect and roll back) ===
 OLD_TOGGLE_RE = re.compile(
@@ -302,23 +306,35 @@ def roll_back_old(html_bytes: bytes) -> bytes:
 def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     """
     Returns (new_bytes, modified, reason).
-    reason ∈ {'injected', 'upgraded', 'already-injected', 'no-topbar',
-              'no-sidebar', 'no-body', 'no-head', 'malformed-nav',
-              'malformed-github-link'}.
+    reason ∈ {'injected', 'upgraded', 'site-root-home-removed', 'already-injected',
+              'no-topbar', 'no-sidebar', 'no-body', 'no-head',
+              'malformed-nav', 'malformed-github-link'}.
     """
     # Idempotency check on the NEW injection.
     # We first roll back any partial/duplicate old injections so the count check is reliable.
+    #
+    # Only check substrings that appear in OLD content but NOT in NEW content —
+    # otherwise we'd falsely match NEW files (e.g. the JS id
+    # `rustdoc-cn-nav-script` is reused by the NEW block). The OLD_RUSTDOC_CN_TOGGLE_RE
+    # regex below also matches the NEW toggle button format, so we can't use
+    # `rustdoc-cn-toggle` as a "presence of OLD" signal either.
     has_any_old = (
-        b'sidebar-menu-toggle' in html_bytes
-        or b'rustdoc-cn-nav-script' in html_bytes
-        or b'rustdoc-cn-sidebar-handle' in html_bytes
-        or b'rustdoc-cn-sidebar-peek-zone' in html_bytes
-        or b'rustdoc-cn-kbd-hint' in html_bytes
+        b'sidebar-menu-toggle' in html_bytes               # old toggle class
+        or b'rustdoc-cn-sidebar-handle' in html_bytes        # old floating handle
+        or b'rustdoc-cn-sidebar-peek-zone' in html_bytes     # old hover peek zone
+        or b'rustdoc-cn-kbd-hint' in html_bytes              # old kbd-shortcut hint
         # Old-format home button (the previous fixed-position variant)
         or b'<a class="rustdoc-cn-home"' in html_bytes
     )
     if has_any_old:
         html_bytes = roll_back_old(html_bytes)
+
+    # Detect site root: the repo-root index.html (crate list page). rustdoc sets
+    # `data-current-crate=""` (empty string) in the rustdoc-vars meta tag for
+    # this page, meaning no specific crate is being viewed. The home button
+    # would just link back to itself here, so we skip its injection on this page
+    # and strip any pre-existing instance.
+    is_site_root = bool(re.search(rb'data-current-crate=""', html_bytes))
 
     # Check current state of each NEW piece after rollback
     has_toggle = NEW_HANDLE_MARKER in html_bytes
@@ -326,11 +342,29 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     has_css = CSS_MARKER in html_bytes
     has_js = b'rustdoc-cn-nav-script' in html_bytes
 
-    if has_toggle and has_home and has_css and has_js:
-        # Everything up to date
+    # Strip the home button from site-root files that already have it.
+    # Idempotent cleanup: removing it from files that never had it is a no-op.
+    site_root_home_removed = False
+    if is_site_root and has_home:
+        home_re = re.compile(rb'<div class="sidebar-home-link">.*?</div>', re.DOTALL)
+        html_bytes = home_re.sub(b'', html_bytes)
+        has_home = False
+        site_root_home_removed = True
+
+    # Decide whether the file's current state matches what we want:
+    # - non-site-root: toggle + home + css + js all present
+    # - site-root:     toggle + (no home) + css + js all present
+    home_should_be_present = not is_site_root
+    fully_injected = (
+        has_toggle
+        and has_css
+        and has_js
+        and (has_home == home_should_be_present)
+    )
+    if fully_injected and not site_root_home_removed:
         return html_bytes, False, 'already-injected'
 
-    upgraded = has_any_old or has_toggle or has_home
+    upgraded = has_any_old or has_toggle or has_home or site_root_home_removed
 
     new_bytes = html_bytes
 
@@ -355,7 +389,10 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     #    _common_tools/inject_github_link.py — that script should normally run
     #    before this one. We also fall back to plain <nav class="sidebar"> for
     #    files where the github link has not been injected.
-    if not has_home:
+    #
+    #    SKIP on site-root files (crate list page) — the home button would just
+    #    link back to itself there.
+    if not has_home and not is_site_root:
         github_idx = new_bytes.find(GITHUB_LINK_CLASS)
         if github_idx >= 0:
             # Find the end of the github-link div (the first </div> after the class attr).
@@ -384,6 +421,9 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
             return html_bytes, False, 'no-body'
         new_bytes = new_bytes[:body_end] + JS_BLOCK + new_bytes[body_end:]
 
+    if site_root_home_removed:
+        # Only the home-button cleanup ran; everything else was already in place.
+        return new_bytes, True, 'site-root-home-removed'
     return new_bytes, True, 'upgraded' if upgraded else 'injected'
 
 
@@ -398,6 +438,7 @@ def main():
     modified = 0
     upgraded = 0
     injected = 0
+    site_root_cleaned = 0
     skipped_already = 0
     skipped_no_topbar = 0
     skipped_no_sidebar = 0
@@ -435,13 +476,15 @@ def main():
             modified += 1
             if reason == 'upgraded':
                 upgraded += 1
+            elif reason == 'site-root-home-removed':
+                site_root_cleaned += 1
             else:
                 injected += 1
 
     print(f'Total HTML files scanned: {total}')
     if report_only:
         print('(REPORT ONLY - no files modified)')
-    print(f'Modified: {modified}  (upgraded old: {upgraded}, fresh inject: {injected})')
+    print(f'Modified: {modified}  (upgraded old: {upgraded}, fresh inject: {injected}, site-root cleaned: {site_root_cleaned})')
     print(f'Already injected: {skipped_already}')
     if skipped_no_topbar:
         print(f'No </rustdoc-topbar> (likely redirect/stub): {skipped_no_topbar}')

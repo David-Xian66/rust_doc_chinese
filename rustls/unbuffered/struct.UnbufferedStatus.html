@@ -6,8 +6,7 @@
 <p>After the <code>state</code> field of this object has been handled, <code>discard</code> bytes must be
 removed 从 the <em>front</em> of the <code>incoming_tls</code> 缓冲区 that was passed 到
 the <a href="struct.UnbufferedConnectionCommon.html#method.process_tls_records" title="method rustls::unbuffered::UnbufferedConnectionCommon::process_tls_records"><code>UnbufferedConnectionCommon::process_tls_records</code></a> call that returned this object.</p>
-<p>This discard operation MUST happen <em>before</em>
-<a href="struct.UnbufferedConnectionCommon.html#method.process_tls_records" title="method rustls::unbuffered::UnbufferedConnectionCommon::process_tls_records"><code>UnbufferedConnectionCommon::process_tls_records</code></a> is called again.</p>
+<p>此弃版操作必须在再次调用 <a href="struct.UnbufferedConnectionCommon.html#method.process_tls_records" title="method rustls::unbuffered::UnbufferedConnectionCommon::process_tls_records"><code>UnbufferedConnectionCommon::process_tls_records</code></a> 之前完成。</p>
 <span id="structfield.state" class="structfield section-header"><a href="#structfield.state" class="anchor field">§</a><code>state: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="enum.ConnectionState.html" title="enum rustls::unbuffered::ConnectionState">ConnectionState</a>&lt;'c, 'i, Data&gt;, <a class="enum" href="../enum.Error.html" title="enum rustls::Error">Error</a>&gt;</code></span><div class="docblock"><p>此 current state of the handshake process</p>
 <p>This value MUST be handled prior 到 calling
 <a href="struct.UnbufferedConnectionCommon.html#method.process_tls_records" title="method rustls::unbuffered::UnbufferedConnectionCommon::process_tls_records"><code>UnbufferedConnectionCommon::process_tls_records</code></a> again. ，请参见 documentation on the

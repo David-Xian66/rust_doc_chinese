@@ -6,7 +6,7 @@ characteristics of the <code>ClientHello</code>。 In particular it is useful �
 servers that need 到 do some I/O 到 加载 一个 certificate 并 its 私钥
 并 don’t want 到 use the blocking interface provided by
 <a href="trait.ResolvesServerCert.html" title="trait rustls::server::ResolvesServerCert"><code>super::ResolvesServerCert</code></a>。</p>
-<p>Create an Acceptor with <a href="struct.Acceptor.html#method.default" title="associated function rustls::server::Acceptor::default"><code>Acceptor::default()</code></a>。</p>
+<p>使用 <a href="struct.Acceptor.html#method.default" title="associated function rustls::server::Acceptor::default"><code>Acceptor::default()</code></a> 创建 <code>Acceptor</code>。</p>
 <h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rustls::server::{Acceptor, ServerConfig};
 <span class="kw">let </span>listener = std::net::TcpListener::bind(<span class="string">"127.0.0.1:0"</span>).unwrap();
