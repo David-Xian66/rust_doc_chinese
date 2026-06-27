@@ -86,7 +86,13 @@ CSS_BLOCK = (
     # Pinned at top:8px left:8px — does NOT move with the resizer, so the user
     # can drag the sidebar resizer without the button getting in the way.
     # 28x28px is small enough to be unobtrusive.
-    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:background-color .15s ease,border-color .15s ease}'
+    # --- Toggle button: positioned just outside the sidebar's right edge ---
+    # Pinned at top:8px, left = sidebar_width + 14px. The 14px gap puts the
+    # button clear of the 9px-wide .sidebar-resizer (which sits at left:
+    # var(--desktop-sidebar-width) .. +9px), so the user can still drag the
+    # resizer to resize the sidebar. Because we use the CSS variable, the
+    # button follows the sidebar's right border as the user resizes it.
+    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--desktop-sidebar-width) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}'
     b'.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
     b'.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     # Icon swaps based on sidebar state
@@ -97,14 +103,22 @@ CSS_BLOCK = (
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
     # --- Sidebar transitions ---
-    b'.rustdoc .sidebar,.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}'
+    # When the sidebar is hidden, we collapse its flex-basis to 0 so main
+    # actually takes the full viewport (instead of leaving an empty 200px
+    # gap on the left where the sidebar used to be). The width transition
+    # gives a smooth slide-out animation.
+    b'.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}'
+    b'.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}'
     # --- Desktop: hidden state ---
     b'@media (min-width:701px){'
-    b'html.hide-sidebar .sidebar{opacity:0;pointer-events:none;margin-left:-100%}'
+    # Collapse the sidebar to 0 flex-basis so main fills the full viewport.
+    # Previously we used margin-left:-100%, but that left the sidebar occupying
+    # 200px in the flex layout — causing asymmetric left/right padding on main.
+    b'html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}'
     b'html.hide-sidebar .sidebar-resizer{display:none !important}'
-    # When sidebar is hidden, keep a comfortable left margin so the content doesn't touch the edge
-    b'html.hide-sidebar main{padding-left:24px !important}'
-    b'html.hide-sidebar .width-limiter{margin-left:0 !important}'
+    # Symmetric left/right padding so the content sits centered in the viewport.
+    b'html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}'
+    b'html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}'
     b'}'
     # --- Hide rustdoc's built-in duplicate expand button ---
     # rustdoc's main.js dynamically creates <div id="sidebar-button"> inside
