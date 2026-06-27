@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-Inject two fixed-position navigation buttons + JS into every translated HTML file.
+Inject navigation UI + JS into every translated HTML file.
 
-1. Sidebar toggle button (chevron icon, follows the sidebar's right border)
-2. Home button (house icon, links to /index.html — the crate list page)
+1. Sidebar toggle button (chevron icon, follows the sidebar's right border).
+   Lives as a `position:fixed` element after </rustdoc-topbar> because rustdoc
+   sets the topbar to `display:none` on desktop, which would hide anything inside.
+   The toggle button's `left` is driven by a custom CSS variable --cn-sidebar-w
+   mirrored from the sidebar's actual rendered width via ResizeObserver.
 
-Both live as `position:fixed` elements on <body>, NOT inside <rustdoc-topbar>,
-because rustdoc CSS sets the topbar to `display:none` on desktop, which would
-hide anything inside it.
-
-The toggle button's `left` is driven by a custom CSS variable --cn-sidebar-w
-that's mirrored from the sidebar's actual rendered width via ResizeObserver
-(rustdoc sets --desktop-sidebar-width on the .sidebar element itself, which
-CSS variables don't propagate up to <body>). When html.hide-sidebar is set,
-the toggle slides back to top-left while the home button stays at top-right.
+2. Home button (house icon, links to /index.html — the crate list page).
+   Placed INSIDE the sidebar nav, directly below the GitHub repo link block,
+   so the two appear as a unified navigation header at the top of the sidebar.
+   The home button is part of the sidebar flow, so it scrolls with the sidebar
+   and is hidden when the sidebar is hidden (the toggle button on the top-left
+   remains visible to bring the sidebar back).
 
 Behavior (added via injected JS):
   * click to toggle sidebar
@@ -24,8 +24,8 @@ Behavior (added via injected JS):
   * during collapse, --cn-sidebar-w is frozen at its last visible value
     so the button doesn't drift toward the viewport's left edge
 
-Idempotent: skipped if marker `<button class="rustdoc-cn-toggle"` is already
-present in the file.
+Idempotent: skipped if BOTH new markers (`<button class="rustdoc-cn-toggle"` and
+`class="sidebar-home-link"`) are already present.
 
 Pattern follows _common_tools/inject_github_link.py.
 """
@@ -35,8 +35,11 @@ import sys
 
 # === Markers (NEW injection) ===
 NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
+NEW_HOME_MARKER = b'sidebar-home-link'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
+NAV_SIDEBAR = b'<nav class="sidebar">'
+GITHUB_LINK_CLASS = b'sidebar-github-link'
 
 # === Markers (OLD injection — to detect and roll back) ===
 OLD_TOGGLE_RE = re.compile(
@@ -127,15 +130,16 @@ CSS_BLOCK = (
     b'html.hide-sidebar .rustdoc-cn-toggle{left:8px}'
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
-    # --- Home button: fixed top-right corner ---
-    # Links to /index.html (the site root / crate list page). Lives at the
-    # viewport's top-right so it's always visible on desktop, regardless of
-    # sidebar state, and clearly distinct from the sidebar toggle on the left.
-    b'.rustdoc-cn-home{position:fixed;top:8px;right:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:background-color .15s ease,border-color .15s ease}'
-    b'.rustdoc-cn-home:hover,.rustdoc-cn-home:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
-    b'.rustdoc-cn-home svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-    # Hide on mobile (rustdoc's mobile topbar handles navigation)
-    b'@media (max-width:700px){.rustdoc-cn-home{display:none}}'
+    # --- Home button: inside the sidebar, below the GitHub link ---
+    # Placed inside <nav class="sidebar"> as a sibling block to the GitHub
+    # repo link. Matches the github link's visual style (inline-flex icon +
+    # label) so the two appear as a unified navigation header at the top of
+    # the sidebar. Hidden whenever the sidebar is hidden (via the parent
+    # sidebar's own opacity:0 / pointer-events:none transition).
+    b'.sidebar-home-link{padding:6px 16px;margin-bottom:8px}'
+    b'.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}'
+    b'.sidebar-home-link a:hover{text-decoration:underline}'
+    b'.sidebar-home-link svg{flex-shrink:0}'
     # --- Sidebar transitions ---
     # When the sidebar is hidden, we collapse its flex-basis to 0 so main
     # actually takes the full viewport (instead of leaving an empty 200px
@@ -192,18 +196,22 @@ TOGGLE_BUTTON = (
 # (Removed: floating handle + peek zone — now using a single toggle button)
 
 # === Home button HTML ===
-# Fixed-position house icon linking to /index.html (the site root / crate list).
-# Visible at top-right of viewport on desktop; hidden on mobile (rustdoc's own
-# mobile topbar handles navigation there).
+# In-sidebar navigation block (placed below the GitHub link). Mirrors the
+# structure of the github-link block: a wrapping <div> for layout + a single
+# inline-flex <a> with an icon + text label.
 HOME_BUTTON = (
-    b'<a class="rustdoc-cn-home" href="/index.html" '
+    b'<div class="sidebar-home-link">'
+    b'<a href="/index.html" '
     b'title="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8" '
     b'aria-label="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8">'
-    # House icon: roof + walls
-    b'<svg viewBox="0 0 24 24" aria-hidden="true">'
+    # House icon: roof + walls (stroke, matches the link label color)
+    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
     b'<path d="M3 11l9-8 9 8"/>'
     b'<path d="M5 10v10h14V10"/>'
-    b'</svg></a>'
+    b'</svg>'
+    b'<span>crate \xe5\x88\x97\xe8\xa1\xa8</span>'
+    b'</a>'
+    b'</div>'
 )
 
 # === JS to inject before </body> ===
@@ -294,7 +302,9 @@ def roll_back_old(html_bytes: bytes) -> bytes:
 def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     """
     Returns (new_bytes, modified, reason).
-    reason ∈ {'injected', 'upgraded', 'already-injected', 'no-topbar', 'no-search-menu', 'no-body', 'no-head'}.
+    reason ∈ {'injected', 'upgraded', 'already-injected', 'no-topbar',
+              'no-sidebar', 'no-body', 'no-head', 'malformed-nav',
+              'malformed-github-link'}.
     """
     # Idempotency check on the NEW injection.
     # We first roll back any partial/duplicate old injections so the count check is reliable.
@@ -304,50 +314,75 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
         or b'rustdoc-cn-sidebar-handle' in html_bytes
         or b'rustdoc-cn-sidebar-peek-zone' in html_bytes
         or b'rustdoc-cn-kbd-hint' in html_bytes
+        # Old-format home button (the previous fixed-position variant)
+        or b'<a class="rustdoc-cn-home"' in html_bytes
     )
-    has_new = NEW_HANDLE_MARKER in html_bytes
-
     if has_any_old:
         html_bytes = roll_back_old(html_bytes)
-        # After rollback, check if NEW is also gone (it should be if there was a clean
-        # old install). If still present after rollback, that means we had a partial
-        # state and need to re-inject.
-        has_new = NEW_HANDLE_MARKER in html_bytes
 
-    if has_new:
-        # Already up to date — no roll-back needed, no re-inject needed
+    # Check current state of each NEW piece after rollback
+    has_toggle = NEW_HANDLE_MARKER in html_bytes
+    has_home = NEW_HOME_MARKER in html_bytes
+    has_css = CSS_MARKER in html_bytes
+    has_js = b'rustdoc-cn-nav-script' in html_bytes
+
+    if has_toggle and has_home and has_css and has_js:
+        # Everything up to date
         return html_bytes, False, 'already-injected'
 
-    upgraded = has_any_old
+    upgraded = has_any_old or has_toggle or has_home
 
-    # 1. Inject CSS into <head>
-    head_end = html_bytes.find(b'</head>')
-    if head_end < 0:
-        return html_bytes, False, 'no-head'
+    new_bytes = html_bytes
 
-    if CSS_MARKER not in html_bytes:
-        new_bytes = html_bytes[:head_end] + CSS_BLOCK + html_bytes[head_end:]
-    else:
-        new_bytes = html_bytes
+    # 1. Inject CSS into <head> (only if missing)
+    if not has_css:
+        head_end = new_bytes.find(b'</head>')
+        if head_end < 0:
+            return html_bytes, False, 'no-head'
+        new_bytes = new_bytes[:head_end] + CSS_BLOCK + new_bytes[head_end:]
 
-    # 2. We need <rustdoc-topbar> as the anchor for inserting the toggle UI.
-    tb_open = new_bytes.find(TOPBAR_OPEN)
-    if tb_open < 0:
-        return html_bytes, False, 'no-topbar'
-
-    # 3. Inject toggle button immediately AFTER </rustdoc-topbar>.
+    # 2. Inject toggle button immediately AFTER </rustdoc-topbar>.
     #    It's position:fixed so it doesn't depend on the topbar being visible.
-    tb_close = new_bytes.find(TOPBAR_CLOSE)
-    if tb_close < 0:
-        return html_bytes, False, 'no-topbar'
-    insert_pos = tb_close + len(TOPBAR_CLOSE)
-    new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + HOME_BUTTON + new_bytes[insert_pos:]
+    if not has_toggle:
+        tb_close = new_bytes.find(TOPBAR_CLOSE)
+        if tb_close < 0:
+            return html_bytes, False, 'no-topbar'
+        insert_pos = tb_close + len(TOPBAR_CLOSE)
+        new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + new_bytes[insert_pos:]
+
+    # 3. Inject home button AFTER the github-link div, OR after <nav class="sidebar">
+    #    if no github link is present yet. The github link is injected by
+    #    _common_tools/inject_github_link.py — that script should normally run
+    #    before this one. We also fall back to plain <nav class="sidebar"> for
+    #    files where the github link has not been injected.
+    if not has_home:
+        github_idx = new_bytes.find(GITHUB_LINK_CLASS)
+        if github_idx >= 0:
+            # Find the end of the github-link div (the first </div> after the class attr).
+            # The github-link div has no nested divs, so the first </div> after the class
+            # attribute is the closing tag of that block.
+            div_end = new_bytes.find(b'</div>', github_idx)
+            if div_end < 0:
+                return html_bytes, False, 'malformed-github-link'
+            insert_pos = div_end + len(b'</div>')
+        else:
+            # Fallback: insert immediately after <nav class="sidebar">
+            nav_idx = new_bytes.find(NAV_SIDEBAR)
+            if nav_idx < 0:
+                # No sidebar at all (redirect stub) — skip
+                return html_bytes, False, 'no-sidebar'
+            nav_end = new_bytes.find(b'>', nav_idx)
+            if nav_end < 0:
+                return html_bytes, False, 'malformed-nav'
+            insert_pos = nav_end + 1
+        new_bytes = new_bytes[:insert_pos] + HOME_BUTTON + new_bytes[insert_pos:]
 
     # 4. Inject JS before </body>
-    body_end = new_bytes.rfind(b'</body>')
-    if body_end < 0:
-        return html_bytes, False, 'no-body'
-    new_bytes = new_bytes[:body_end] + JS_BLOCK + new_bytes[body_end:]
+    if not has_js:
+        body_end = new_bytes.rfind(b'</body>')
+        if body_end < 0:
+            return html_bytes, False, 'no-body'
+        new_bytes = new_bytes[:body_end] + JS_BLOCK + new_bytes[body_end:]
 
     return new_bytes, True, 'upgraded' if upgraded else 'injected'
 
@@ -365,9 +400,10 @@ def main():
     injected = 0
     skipped_already = 0
     skipped_no_topbar = 0
-    skipped_no_search_menu = 0
+    skipped_no_sidebar = 0
     skipped_no_head = 0
     skipped_no_body = 0
+    skipped_malformed = 0
 
     for top, dirs, files in os.walk(root):
         dirs[:] = [d for d in dirs if not should_skip_dir(d)]
@@ -384,12 +420,14 @@ def main():
                     skipped_already += 1
                 elif reason == 'no-topbar':
                     skipped_no_topbar += 1
-                elif reason == 'no-search-menu':
-                    skipped_no_search_menu += 1
+                elif reason == 'no-sidebar':
+                    skipped_no_sidebar += 1
                 elif reason == 'no-head':
                     skipped_no_head += 1
                 elif reason == 'no-body':
                     skipped_no_body += 1
+                elif reason.startswith('malformed'):
+                    skipped_malformed += 1
                 continue
             if not report_only:
                 with open(path, 'wb') as f:
@@ -406,13 +444,15 @@ def main():
     print(f'Modified: {modified}  (upgraded old: {upgraded}, fresh inject: {injected})')
     print(f'Already injected: {skipped_already}')
     if skipped_no_topbar:
-        print(f'No <rustdoc-topbar> (likely redirect/stub): {skipped_no_topbar}')
-    if skipped_no_search_menu:
-        print(f'No <div class="search-menu">: {skipped_no_search_menu}')
+        print(f'No </rustdoc-topbar> (likely redirect/stub): {skipped_no_topbar}')
+    if skipped_no_sidebar:
+        print(f'No <nav class="sidebar"> (redirect stub): {skipped_no_sidebar}')
     if skipped_no_head:
         print(f'No </head>: {skipped_no_head}')
     if skipped_no_body:
         print(f'No </body>: {skipped_no_body}')
+    if skipped_malformed:
+        print(f'Malformed markup: {skipped_malformed}')
 
 
 if __name__ == '__main__':
