@@ -254,12 +254,11 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     insert_pos = tb_close + len(TOPBAR_CLOSE)
     new_bytes = new_bytes[:insert_pos] + SIDEBAR_HANDLE + new_bytes[insert_pos:]
 
-    # 4. Inject home button inside <div class="search-menu">
+    # 4. Inject home button inside <div class="search-menu"> (optional — skip if missing)
     sm_open = new_bytes.find(SEARCH_MENU_OPEN)
-    if sm_open < 0:
-        return html_bytes, False, 'no-search-menu'
-    insert_pos = sm_open + len(SEARCH_MENU_OPEN)
-    new_bytes = new_bytes[:insert_pos] + HOME_BUTTON + new_bytes[insert_pos:]
+    if sm_open >= 0:
+        insert_pos = sm_open + len(SEARCH_MENU_OPEN)
+        new_bytes = new_bytes[:insert_pos] + HOME_BUTTON + new_bytes[insert_pos:]
 
     # 5. Inject JS before </body>
     body_end = new_bytes.rfind(b'</body>')
