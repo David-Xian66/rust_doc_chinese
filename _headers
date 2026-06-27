@@ -25,3 +25,7 @@
 # 源代码 HTML — 短时间缓存
 /src/*
   Cache-Control: public, max-age=300, must-revalidate
+
+# trait.impl JS（trait 方法实现者清单）— 较长时间缓存（与搜索索引一致）
+/trait.impl/*
+  Cache-Control: public, max-age=3600, must-revalidate

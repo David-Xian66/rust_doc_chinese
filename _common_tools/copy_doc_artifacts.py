@@ -100,11 +100,31 @@ def main():
         print(f'  OK: copied, {n} source HTML files')
 
     # 3. help.html
-    print('[3/3] Copying help.html + writing crates.js...')
+    print('[3/5] Copying help.html + writing crates.js...')
     if copy_file('help.html'):
         print('  OK: help.html copied')
     if write_crates_js():
         print(f'  OK: crates.js written ({len(OUR_CRATES)} crates)')
+
+    # 4. trait.impl/（trait 方法实现者清单的 JS 数据）
+    print('[4/5] Copying trait.impl/...')
+    if copy_dir_tree('trait.impl', 'trait.impl'):
+        n = 0
+        for _, _, fs in os.walk(os.path.join(DST, 'trait.impl')):
+            n += len(fs)
+        print(f'  OK: copied, {n} implementor JS files')
+    else:
+        print('  SKIP: trait.impl not found in source (build demo_sc first)')
+
+    # 5. 为旧 crate（demo_sc 没构建过）生成空实现者 stub
+    print('[5/5] Generating empty-implementor stubs for non-demo_sc crates...')
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import _gen_trait_impl_stubs as gen
+    n = gen.generate()
+    if n:
+        print(f'  OK: {n} stubs generated')
+    else:
+        print('  OK: no missing references')
 
     print('\nDone. Run: python -m http.server 8080')
     print('Then open http://localhost:8080/quinn/index.html')
