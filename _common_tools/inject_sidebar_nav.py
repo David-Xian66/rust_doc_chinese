@@ -1,16 +1,28 @@
 #!/usr/bin/env python3
 """
-Inject a sidebar toggle button + JS into every translated HTML file.
+Inject two fixed-position navigation buttons + JS into every translated HTML file.
 
-The button lives in <body> as `position:fixed; top:8px; left:8px` (NOT inside
-<rustdoc-topbar>, because rustdoc CSS sets topbar to display:none on desktop,
-which would hide the button).
+1. Sidebar toggle button (chevron icon, follows the sidebar's right border)
+2. Home button (house icon, links to /index.html — the crate list page)
+
+Both live as `position:fixed` elements on <body>, NOT inside <rustdoc-topbar>,
+because rustdoc CSS sets the topbar to `display:none` on desktop, which would
+hide anything inside it.
+
+The toggle button's `left` is driven by a custom CSS variable --cn-sidebar-w
+that's mirrored from the sidebar's actual rendered width via ResizeObserver
+(rustdoc sets --desktop-sidebar-width on the .sidebar element itself, which
+CSS variables don't propagate up to <body>). When html.hide-sidebar is set,
+the toggle slides back to top-left while the home button stays at top-right.
 
 Behavior (added via injected JS):
   * click to toggle sidebar
   * localStorage persistence (key: rustdoc-cn-sidebar-hidden)
   * keyboard shortcuts: `\\` or `[` to toggle, Esc to close
-  * icon swaps between left-chevron (collapse) and right-chevron (expand)
+  * ResizeObserver on .sidebar updates --cn-sidebar-w so the toggle button
+    follows the sidebar's right border as the user resizes it
+  * during collapse, --cn-sidebar-w is frozen at its last visible value
+    so the button doesn't drift toward the viewport's left edge
 
 Idempotent: skipped if marker `<button class="rustdoc-cn-toggle"` is already
 present in the file.
@@ -115,6 +127,15 @@ CSS_BLOCK = (
     b'html.hide-sidebar .rustdoc-cn-toggle{left:8px}'
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
+    # --- Home button: fixed top-right corner ---
+    # Links to /index.html (the site root / crate list page). Lives at the
+    # viewport's top-right so it's always visible on desktop, regardless of
+    # sidebar state, and clearly distinct from the sidebar toggle on the left.
+    b'.rustdoc-cn-home{position:fixed;top:8px;right:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:background-color .15s ease,border-color .15s ease}'
+    b'.rustdoc-cn-home:hover,.rustdoc-cn-home:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
+    b'.rustdoc-cn-home svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+    # Hide on mobile (rustdoc's mobile topbar handles navigation)
+    b'@media (max-width:700px){.rustdoc-cn-home{display:none}}'
     # --- Sidebar transitions ---
     # When the sidebar is hidden, we collapse its flex-basis to 0 so main
     # actually takes the full viewport (instead of leaving an empty 200px
@@ -169,9 +190,21 @@ TOGGLE_BUTTON = (
 )
 
 # (Removed: floating handle + peek zone — now using a single toggle button)
-# (Removed: home button — rustdoc's topbar on mobile already has its own
-#  sidebar-menu-toggle button from the web component. Adding a second one
-#  in the topbar created two "expand"-looking buttons in the same area.)
+
+# === Home button HTML ===
+# Fixed-position house icon linking to /index.html (the site root / crate list).
+# Visible at top-right of viewport on desktop; hidden on mobile (rustdoc's own
+# mobile topbar handles navigation there).
+HOME_BUTTON = (
+    b'<a class="rustdoc-cn-home" href="/index.html" '
+    b'title="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8" '
+    b'aria-label="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8">'
+    # House icon: roof + walls
+    b'<svg viewBox="0 0 24 24" aria-hidden="true">'
+    b'<path d="M3 11l9-8 9 8"/>'
+    b'<path d="M5 10v10h14V10"/>'
+    b'</svg></a>'
+)
 
 # === JS to inject before </body> ===
 # - Click handler for sidebar toggle (desktop + mobile)
@@ -308,7 +341,7 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     if tb_close < 0:
         return html_bytes, False, 'no-topbar'
     insert_pos = tb_close + len(TOPBAR_CLOSE)
-    new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + new_bytes[insert_pos:]
+    new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + HOME_BUTTON + new_bytes[insert_pos:]
 
     # 4. Inject JS before </body>
     body_end = new_bytes.rfind(b'</body>')
