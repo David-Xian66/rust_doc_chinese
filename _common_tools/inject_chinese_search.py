@@ -6,7 +6,7 @@
 注入位置：在 <meta name="rustdoc-vars"> 之后
 注入片段（绝对路径，根部署下适用于所有页面深度）：
     <script src="/static.files/minisearch.min.js"></script>
-    <script src="/static.files/chinese-search-8f86f8c0.js"></script>
+    <script src="/static.files/chinese-search-82c803ae.js"></script>
 
 要点：
 - bytes 模式
@@ -31,7 +31,7 @@ def should_skip_dir(d):
 # 绝对路径：根部署（Cloudflare Pages / 本地 http.server）下，深度无关地解析到 /static.files/...
 SCRIPT_BLOCK = (
     b'<script src="/static.files/minisearch.min.js"></script>'
-    b'<script src="/static.files/chinese-search-8f86f8c0.js"></script>'
+    b'<script src="/static.files/chinese-search-82c803ae.js"></script>'
 )
 
 # 用于 --fix-broken-paths：将已注入的错误相对路径替换为绝对路径

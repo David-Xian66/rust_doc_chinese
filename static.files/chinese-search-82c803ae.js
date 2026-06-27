@@ -272,6 +272,63 @@
         });
     }
 
+    // 分页渲染：每次渲染 pageSize（50）条，超出部分用 "加载更多" 按钮按需追加。
+    // 替代旧的硬截断 + "缩小查询范围" nag —— 后者 UX 差（合法查询也常 > 50 条），
+    // 用户应有"看到全部"的主动权。
+    var PAGE_SIZE = 50;
+
+    function buildHitDiv(h) {
+        var div = document.createElement('div');
+        div.style.cssText = 'padding:8px 10px;border-bottom:1px solid #f0f0f0;cursor:pointer';
+        div.onmouseover = function () { this.style.background = '#f5f5f5'; };
+        div.onmouseout = function () { this.style.background = ''; };
+        div.onclick = function (url) {
+            return function () { window.location.href = url; };
+        }(h.url);
+
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight:bold;color:#2a6f97;font-size:13px';
+        title.textContent = '[' + (h.crate || '') + '] ' + (h.title || h.url);
+
+        var moduleDoc = document.createElement('div');
+        moduleDoc.style.cssText = 'color:#444;font-size:12px;margin-top:2px';
+        moduleDoc.textContent = (h.module_doc || '').slice(0, 200);
+
+        var urlDiv = document.createElement('div');
+        urlDiv.style.cssText = 'color:#999;font-size:11px;margin-top:2px';
+        urlDiv.textContent = h.url;
+
+        div.appendChild(title);
+        div.appendChild(moduleDoc);
+        div.appendChild(urlDiv);
+        return div;
+    }
+
+    function buildLoadMore(remaining, onClick) {
+        var more = document.createElement('div');
+        more.className = 'chi-load-more';
+        more.style.cssText = 'padding:10px;text-align:center;color:#2a6f97;font-size:13px;cursor:pointer;border-top:1px solid #eee;user-select:none';
+        more.textContent = '加载更多（剩余 ' + remaining + ' 条）';
+        more.onclick = onClick;
+        return more;
+    }
+
+    function buildEndNote(total) {
+        var endDiv = document.createElement('div');
+        endDiv.className = 'chi-end';
+        endDiv.style.cssText = 'padding:8px 10px;text-align:center;color:#aaa;font-size:11px;border-top:1px solid #f0f0f0';
+        endDiv.textContent = '共 ' + total + ' 条结果';
+        return endDiv;
+    }
+
+    // 移除旧的分页控件（每次重渲染前调用）
+    function clearPager(results) {
+        var old = results.querySelector('.chi-load-more');
+        if (old) old.remove();
+        var end = results.querySelector('.chi-end');
+        if (end) end.remove();
+    }
+
     function renderResults(hits) {
         var results = document.getElementById('chinese-search-results');
         results.innerHTML = '';
@@ -279,40 +336,30 @@
             results.innerHTML = '<div style="padding:20px;color:#888;text-align:center">无匹配结果</div>';
             return;
         }
-        var max = Math.min(hits.length, 50);
-        for (var i = 0; i < max; i++) {
-            var h = hits[i];
-            var div = document.createElement('div');
-            div.style.cssText = 'padding:8px 10px;border-bottom:1px solid #f0f0f0;cursor:pointer';
-            div.onmouseover = function () { this.style.background = '#f5f5f5'; };
-            div.onmouseout = function () { this.style.background = ''; };
-            div.onclick = function (url) {
-                return function () { window.location.href = url; };
-            }(h.url);
 
-            var title = document.createElement('div');
-            title.style.cssText = 'font-weight:bold;color:#2a6f97;font-size:13px';
-            title.textContent = '[' + (h.crate || '') + '] ' + (h.title || h.url);
+        // 已渲染条数（闭包内可修改）
+        var rendered = 0;
 
-            var moduleDoc = document.createElement('div');
-            moduleDoc.style.cssText = 'color:#444;font-size:12px;margin-top:2px';
-            moduleDoc.textContent = (h.module_doc || '').slice(0, 200);
+        function appendBatch() {
+            var end = Math.min(rendered + PAGE_SIZE, hits.length);
+            var frag = document.createDocumentFragment();
+            for (var i = rendered; i < end; i++) {
+                frag.appendChild(buildHitDiv(hits[i]));
+            }
+            // 把分页控件暂时挪开，批量结果插在它前面
+            clearPager(results);
+            results.appendChild(frag);
+            rendered = end;
 
-            var urlDiv = document.createElement('div');
-            urlDiv.style.cssText = 'color:#999;font-size:11px;margin-top:2px';
-            urlDiv.textContent = h.url;
-
-            div.appendChild(title);
-            div.appendChild(moduleDoc);
-            div.appendChild(urlDiv);
-            results.appendChild(div);
+            // 若还有剩余，追加 "加载更多" 按钮；否则追加结尾标记
+            if (rendered < hits.length) {
+                results.appendChild(buildLoadMore(hits.length - rendered, appendBatch));
+            } else {
+                results.appendChild(buildEndNote(hits.length));
+            }
         }
-        if (hits.length > max) {
-            var more = document.createElement('div');
-            more.style.cssText = 'padding:10px;text-align:center;color:#888;font-size:12px';
-            more.textContent = '还有 ' + (hits.length - max) + ' 条结果未显示，请缩小查询范围';
-            results.appendChild(more);
-        }
+
+        appendBatch();
     }
 
     // ===== 触发与打开 =====

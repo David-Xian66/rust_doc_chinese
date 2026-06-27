@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="用于异步上下文的同步原语。"><title>tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-8f86f8c0.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Module sync</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module sync</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#message-passing" title="消息传递">消息传递</a><ul><li><a href="#oneshot-channel" title="`oneshot` channel"><code>oneshot</code> channel</a></li><li><a href="#mpsc-channel" title="`mpsc` channel"><code>mpsc</code> channel</a></li><li><a href="#broadcast-channel" title="`broadcast` channel"><code>broadcast</code> channel</a></li><li><a href="#watch-channel" title="`watch` channel"><code>watch</code> channel</a></li></ul></li><li><a href="#state-synchronization" title="状态同步">状态同步</a></li><li><a href="#runtime-compatibility" title="Runtime 兼容性">Runtime 兼容性</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#enums" title="Enums">枚举</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>Module <span>sync</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/mod.rs.html#1-524">源代码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>用于异步上下文的同步原语。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="用于异步上下文的同步原语。"><title>tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-82c803ae.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Module sync</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module sync</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#message-passing" title="消息传递">消息传递</a><ul><li><a href="#oneshot-channel" title="`oneshot` channel"><code>oneshot</code> channel</a></li><li><a href="#mpsc-channel" title="`mpsc` channel"><code>mpsc</code> channel</a></li><li><a href="#broadcast-channel" title="`broadcast` channel"><code>broadcast</code> channel</a></li><li><a href="#watch-channel" title="`watch` channel"><code>watch</code> channel</a></li></ul></li><li><a href="#state-synchronization" title="状态同步">状态同步</a></li><li><a href="#runtime-compatibility" title="Runtime 兼容性">Runtime 兼容性</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#enums" title="Enums">枚举</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>Module <span>sync</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/mod.rs.html#1-524">源代码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>用于异步上下文的同步原语。</p>
 <p>Tokio 程序往往被组织为一组<a href="../task/index.html" title="mod tokio::task">任务</a>，其中每个任务独立操作，可能在不同的物理线程上执行。本模块提供的同步原语允许这些独立任务彼此通信。</p>
 <h2 id="message-passing"><a class="doc-anchor" href="#message-passing">§</a>消息传递</h2>
 <p>Tokio 程序中最常见的同步形式是消息传递。两个任务独立运行，并通过相互发送消息来进行同步。这样做的好处是避免了共享状态。</p>
@@ -21,9 +21,9 @@ tokio::spawn(<span class="kw">async move </span>{
     tx.send(res).unwrap();
 });
 
-<span class="comment">// Do other work while the computation is happening in the background
+<span class="comment">// 在后台进行计算的同时处理其它工作
 
-// Wait for the computation result
+// 等待计算结果
 </span><span class="kw">let </span>res = rx.<span class="kw">await</span>.unwrap();</code></pre></div>
 <p>请注意，如果任务在终止之前的最后动作是产生计算结果，则可以使用 <a href="../task/struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 来接收该值，而无需为 <code>oneshot</code> 通道分配资源。等待 <a href="../task/struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> 返回 <code>Result</code>。如果任务 panic，则 <code>Joinhandle</code> 会产生带有 panic 原因的 <code>Err</code>。</p>
 <p><strong>示例：</strong></p>
@@ -36,9 +36,9 @@ tokio::spawn(<span class="kw">async move </span>{
     some_computation().<span class="kw">await
 </span>});
 
-<span class="comment">// Do other work while the computation is happening in the background
+<span class="comment">// 在后台进行计算的同时处理其它工作
 
-// Wait for the computation result
+// 等待计算结果
 </span><span class="kw">let </span>res = join_handle.<span class="kw">await</span>.unwrap();</code></pre></div><h3 id="mpsc-channel"><a class="doc-anchor" href="#mpsc-channel">§</a><code>mpsc</code> channel</h3>
 <p><a href="mpsc/index.html" title="mod tokio::sync::mpsc"><code>mpsc</code> 通道</a>支持从<strong>多个</strong>生产者向单个消费者发送<strong>许多</strong>值。该通道通常用于将工作发送给任务，或接收许多计算的结果。</p>
 <p>如果要将许多消息从单个生产者发送到单个消费者，也应该使用此通道。没有专用的 spsc 通道。</p>
@@ -76,8 +76,8 @@ tokio::spawn(<span class="kw">async move </span>{
     <span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">100</span>);
 
     <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10 </span>{
-        <span class="comment">// Each task needs its own `tx` handle. This is done by cloning the
-        // original handle.
+        <span class="comment">// 每个任务都需要自己的 `tx` 句柄，这通过克隆
+        // 原始句柄完成。
         </span><span class="kw">let </span>tx = tx.clone();
 
         tokio::spawn(<span class="kw">async move </span>{
@@ -85,10 +85,10 @@ tokio::spawn(<span class="kw">async move </span>{
         });
     }
 
-    <span class="comment">// The `rx` half of the channel returns `None` once **all** `tx` clones
-    // drop. To ensure `None` is returned, drop the handle owned by the
-    // current task. If this `tx` handle is not dropped, there will always
-    // be a single outstanding `tx` handle.
+    <span class="comment">// 通道的 `rx` 一旦所有 `tx` 克隆都被丢弃就返回 `None`。
+    // 为确保返回 `None`，应丢弃当前任务持有的句柄。
+    // 如果不丢弃这个 `tx` 句柄，将始终存在一个
+    // 未释放的 `tx` 句柄。
     </span>drop(tx);
 
     <span class="kw">while let </span><span class="prelude-val">Some</span>(res) = rx.recv().<span class="kw">await </span>{
@@ -105,12 +105,12 @@ tokio::spawn(<span class="kw">async move </span>{
 
 <span class="kw">enum </span>Command {
     Increment,
-    <span class="comment">// Other commands can be added here
+    <span class="comment">// 此处可添加其它命令
 </span>}
 
 <span class="kw">let </span>(cmd_tx, <span class="kw-2">mut </span>cmd_rx) = mpsc::channel::&lt;(Command, oneshot::Sender&lt;u64&gt;)&gt;(<span class="number">100</span>);
 
-<span class="comment">// Spawn a task to manage the counter
+<span class="comment">// 派生一个任务来管理计数器
 </span>tokio::spawn(<span class="kw">async move </span>{
     <span class="kw">let </span><span class="kw-2">mut </span>counter: u64 = <span class="number">0</span>;
 
@@ -127,7 +127,7 @@ tokio::spawn(<span class="kw">async move </span>{
 
 <span class="kw">let </span><span class="kw-2">mut </span>join_handles = <span class="macro">vec!</span>[];
 
-<span class="comment">// Spawn tasks that will send the increment command.
+<span class="comment">// 派生任务来发送增加命令。
 </span><span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10 </span>{
     <span class="kw">let </span>cmd_tx = cmd_tx.clone();
 
@@ -141,7 +141,7 @@ tokio::spawn(<span class="kw">async move </span>{
     }));
 }
 
-<span class="comment">// Wait for all tasks to complete
+<span class="comment">// 等待所有任务完成
 </span><span class="kw">for </span>join_handle <span class="kw">in </span>join_handles.drain(..) {
     join_handle.<span class="kw">await</span>.unwrap();
 }</code></pre></div><h3 id="broadcast-channel"><a class="doc-anchor" href="#broadcast-channel">§</a><code>broadcast</code> channel</h3>
@@ -184,31 +184,31 @@ tx.send(<span class="number">20</span>).unwrap();</code></pre></div><h3 id="watc
 
 <span class="kw">impl </span>Config {
     <span class="kw">async fn </span>load_from_file() -&gt; io::Result&lt;Config&gt; {
-        <span class="comment">// file loading and deserialization logic here
+        <span class="comment">// 此处为文件加载和反序列化逻辑
     </span>}
 }
 
 <span class="kw">async fn </span>my_async_operation() {
-    <span class="comment">// Do something here
+    <span class="comment">// 在此处执行操作
 </span>}
 
-<span class="comment">// Load initial configuration value
+<span class="comment">// 加载初始配置值
 </span><span class="kw">let </span><span class="kw-2">mut </span>config = Config::load_from_file().<span class="kw">await</span>.unwrap();
 
-<span class="comment">// Create the watch channel, initialized with the loaded configuration
+<span class="comment">// 创建 watch 通道，使用加载的配置进行初始化
 </span><span class="kw">let </span>(tx, rx) = watch::channel(config.clone());
 
-<span class="comment">// Spawn a task to monitor the file.
+<span class="comment">// 派生一个任务来监视文件。
 </span>tokio::spawn(<span class="kw">async move </span>{
     <span class="kw">loop </span>{
-        <span class="comment">// Wait 10 seconds between checks
+        <span class="comment">// 每 10 秒检查一次
         </span>time::sleep(Duration::from_secs(<span class="number">10</span>)).<span class="kw">await</span>;
 
-        <span class="comment">// Load the configuration file
+        <span class="comment">// 加载配置文件
         </span><span class="kw">let </span>new_config = Config::load_from_file().<span class="kw">await</span>.unwrap();
 
-        <span class="comment">// If the configuration changed, send the new config value
-        // on the watch channel.
+        <span class="comment">// 如果配置发生变化，则将新的配置值
+        // 发送到 watch 通道。
         </span><span class="kw">if </span>new_config != config {
             tx.send(new_config.clone()).unwrap();
             config = new_config;
@@ -218,24 +218,24 @@ tx.send(<span class="number">20</span>).unwrap();</code></pre></div><h3 id="watc
 
 <span class="kw">let </span><span class="kw-2">mut </span>handles = <span class="macro">vec!</span>[];
 
-<span class="comment">// Spawn tasks that runs the async operation for at most `timeout`. If
-// the timeout elapses, restart the operation.
+<span class="comment">// 派生任务来运行异步操作，最长持续 `timeout`。
+// 如果超时，则重新启动该操作。
 //
-// The task simultaneously watches the `Config` for changes. When the
-// timeout duration changes, the timeout is updated without restarting
-// the in-flight operation.
+// 该任务同时监听 `Config` 的变化。当 timeout
+// 持续时间变化时，会更新 timeout 而不重新启动
+// 正在进行的操作。
 </span><span class="kw">for _ in </span><span class="number">0</span>..<span class="number">5 </span>{
-    <span class="comment">// Clone a config watch handle for use in this task
+    <span class="comment">// 克隆一个 config watch 句柄供本任务使用
     </span><span class="kw">let </span><span class="kw-2">mut </span>rx = rx.clone();
 
     <span class="kw">let </span>handle = tokio::spawn(<span class="kw">async move </span>{
-        <span class="comment">// Start the initial operation and pin the future to the stack.
-        // Pinning to the stack is required to resume the operation
-        // across multiple calls to `select!`
+        <span class="comment">// 启动初始操作并将 future pin 到栈上。
+        // 必须 pin 到栈上才能在多次调用 `select!` 之间
+        // 恢复该操作
         </span><span class="kw">let </span>op = my_async_operation();
         <span class="macro">tokio::pin!</span>(op);
 
-        <span class="comment">// Get the initial config value
+        <span class="comment">// 获取初始 config 值
         </span><span class="kw">let </span><span class="kw-2">mut </span>conf = rx.borrow().clone();
 
         <span class="kw">let </span><span class="kw-2">mut </span>op_start = Instant::now();
@@ -245,24 +245,24 @@ tx.send(<span class="number">20</span>).unwrap();</code></pre></div><h3 id="watc
         <span class="kw">loop </span>{
             <span class="macro">tokio::select!</span> {
                 <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>sleep =&gt; {
-                    <span class="comment">// The operation elapsed. Restart it
+                    <span class="comment">// 操作超时，重新启动它
                     </span>op.set(my_async_operation());
 
-                    <span class="comment">// Track the new start time
+                    <span class="comment">// 记录新的开始时间
                     </span>op_start = Instant::now();
 
-                    <span class="comment">// Restart the timeout
+                    <span class="comment">// 重新开始计时
                     </span>sleep.set(time::sleep_until(op_start + conf.timeout));
                 }
                 <span class="kw">_ </span>= rx.changed() =&gt; {
                     conf = rx.borrow_and_update().clone();
 
-                    <span class="comment">// The configuration has been updated. Update the
-                    // `sleep` using the new `timeout` value.
+                    <span class="comment">// 配置已更新，根据新的 `timeout`
+                    // 值更新 `sleep` 的等待时间。
                     </span>sleep.as_mut().reset(op_start + conf.timeout);
                 }
                 <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>op =&gt; {
-                    <span class="comment">// The operation completed!
+                    <span class="comment">// 操作完成！
                     </span><span class="kw">return
                 </span>}
             }
@@ -297,4 +297,4 @@ tx.send(<span class="number">20</span>).unwrap();</code></pre></div><h3 id="watc
 <p>本模块提供的所有同步原语都与运行时无关。你可以在 Tokio 运行时的不同实例之间自由移动它们，甚至可以从非 Tokio 运行时使用它们。</p>
 <p>在 Tokio 运行时中使用时，这些同步原语参与<a href="../task/coop/index.html#cooperative-scheduling" title="mod tokio::task::coop">协作调度</a>以避免饥饿。从非 Tokio 运行时使用时，此功能不适用。</p>
 <p>作为例外，以 <code>_timeout</code> 结尾的方法不是与运行时无关的，因为它们需要访问 Tokio 定时器。有关其使用的更多信息，请参阅各个 <code>*_timeout</code> 方法的文档。</p>
-</div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="broadcast/index.html" title="mod tokio::sync::broadcast">broadcast</a></dt><dd>一个多生产者、多消费者的广播队列。每个发送的值都会被所有消费者看到。</dd><dt><a class="mod" href="futures/index.html" title="mod tokio::sync::futures">futures</a></dt><dd>命名的 future 类型。</dd><dt><a class="mod" href="mpsc/index.html" title="mod tokio::sync::mpsc">mpsc</a></dt><dd>用于在异步任务之间发送值的多生产者、单消费者队列。</dd><dt><a class="mod" href="oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a></dt><dd>oneshot channel 用于在异步任务之间发送单个消息。可使用 <a href="oneshot/fn.channel.html" title="fn tokio::sync::oneshot::channel"><code>channel</code></a> 函数创建 <a href="oneshot/struct.Sender.html" title="struct tokio::sync::oneshot::Sender"><code>Sender</code></a> 和 <a href="oneshot/struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> 句柄对，二者构成该 channel。</dd><dt><a class="mod" href="watch/index.html" title="mod tokio::sync::watch">watch</a></dt><dd>一个多生产者、多消费者的 channel，仅保留最近一次发送的值。</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.AcquireError.html" title="struct tokio::sync::AcquireError">Acquire<wbr>Error</a></dt><dd>由 <a href="struct.Semaphore.html#method.acquire" title="method tokio::sync::Semaphore::acquire"><code>Semaphore::acquire</code></a> 函数返回的错误。</dd><dt><a class="struct" href="struct.Barrier.html" title="struct tokio::sync::Barrier">Barrier</a></dt><dd>Barrier（屏障）使多个 task 能够同步开始某段计算。</dd><dt><a class="struct" href="struct.BarrierWaitResult.html" title="struct tokio::sync::BarrierWaitResult">Barrier<wbr>Wait<wbr>Result</a></dt><dd>当 <code>Barrier</code> 中所有 task 都在 <code>wait</code> 处汇合时，<code>wait</code> 返回一个 <code>BarrierWaitResult</code>。</dd><dt><a class="struct" href="struct.MappedMutexGuard.html" title="struct tokio::sync::MappedMutexGuard">Mapped<wbr>Mutex<wbr>Guard</a></dt><dd>对持有的 <code>Mutex</code> 通过 <a href="struct.MutexGuard.html#method.map" title="associated function tokio::sync::MutexGuard::map"><code>MutexGuard::map</code></a> 应用函数后得到的句柄。</dd><dt><a class="struct" href="struct.Mutex.html" title="struct tokio::sync::Mutex">Mutex</a></dt><dd>一个异步的、类似 <code>Mutex</code> 的类型。</dd><dt><a class="struct" href="struct.MutexGuard.html" title="struct tokio::sync::MutexGuard">Mutex<wbr>Guard</a></dt><dd>持有的 <code>Mutex</code> 的句柄。由于实现了 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send"><code>Send</code></a>，可以在任意 <code>.await</code> 点持有该 guard。</dd><dt><a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></dt><dd>通知单个 task 唤醒。</dd><dt><a class="struct" href="struct.OnceCell.html" title="struct tokio::sync::OnceCell">Once<wbr>Cell</a></dt><dd>一个线程安全的 cell，只能写入一次。</dd><dt><a class="struct" href="struct.OwnedMappedMutexGuard.html" title="struct tokio::sync::OwnedMappedMutexGuard">Owned<wbr>Mapped<wbr>Mutex<wbr>Guard</a></dt><dd>对持有的 <code>Mutex</code> 通过 <a href="struct.OwnedMutexGuard.html#method.map" title="associated function tokio::sync::OwnedMutexGuard::map"><code>OwnedMutexGuard::map</code></a> 应用函数后得到的 owned 句柄。</dd><dt><a class="struct" href="struct.OwnedMutexGuard.html" title="struct tokio::sync::OwnedMutexGuard">Owned<wbr>Mutex<wbr>Guard</a></dt><dd>持有的 <code>Mutex</code> 的 owned 句柄。</dd><dt><a class="struct" href="struct.OwnedRwLockMappedWriteGuard.html" title="struct tokio::sync::OwnedRwLockMappedWriteGuard">Owned<wbr>RwLock<wbr>Mapped<wbr>Write<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.OwnedRwLockReadGuard.html" title="struct tokio::sync::OwnedRwLockReadGuard">Owned<wbr>RwLock<wbr>Read<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的共享读访问。</dd><dt><a class="struct" href="struct.OwnedRwLockWriteGuard.html" title="struct tokio::sync::OwnedRwLockWriteGuard">Owned<wbr>RwLock<wbr>Write<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.OwnedSemaphorePermit.html" title="struct tokio::sync::OwnedSemaphorePermit">Owned<wbr>Semaphore<wbr>Permit</a></dt><dd>来自 semaphore 的 owned permit。</dd><dt><a class="struct" href="struct.RwLock.html" title="struct tokio::sync::RwLock">RwLock</a></dt><dd>一个异步的读者-写者锁。</dd><dt><a class="struct" href="struct.RwLockMappedWriteGuard.html" title="struct tokio::sync::RwLockMappedWriteGuard">RwLock<wbr>Mapped<wbr>Write<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.RwLockReadGuard.html" title="struct tokio::sync::RwLockReadGuard">RwLock<wbr>Read<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的共享读访问。</dd><dt><a class="struct" href="struct.RwLockWriteGuard.html" title="struct tokio::sync::RwLockWriteGuard">RwLock<wbr>Write<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.Semaphore.html" title="struct tokio::sync::Semaphore">Semaphore</a></dt><dd>执行异步 permit 获取的计数信号量（counting semaphore）。</dd><dt><a class="struct" href="struct.SemaphorePermit.html" title="struct tokio::sync::SemaphorePermit">Semaphore<wbr>Permit</a></dt><dd>来自 semaphore 的 permit。</dd><dt><a class="struct" href="struct.SetOnce.html" title="struct tokio::sync::SetOnce">SetOnce</a></dt><dd>一个线程安全的 cell，只能写入一次。</dd><dt><a class="struct" href="struct.SetOnceError.html" title="struct tokio::sync::SetOnceError">SetOnce<wbr>Error</a></dt><dd>可由 <a href="struct.SetOnce.html#method.set" title="method tokio::sync::SetOnce::set"><code>SetOnce::set</code></a> 返回的错误。</dd><dt><a class="struct" href="struct.TryLockError.html" title="struct tokio::sync::TryLockError">TryLock<wbr>Error</a></dt><dd>由 <a href="struct.Mutex.html#method.try_lock" title="method tokio::sync::Mutex::try_lock"><code>Mutex::try_lock</code></a>、<a href="struct.RwLock.html#method.try_read" title="method tokio::sync::RwLock::try_read"><code>RwLock::try_read</code></a> 和 <a href="struct.RwLock.html#method.try_write" title="method tokio::sync::RwLock::try_write"><code>RwLock::try_write</code></a> 函数返回的错误。</dd></dl><h2 id="enums" class="section-header">枚举<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.SetError.html" title="enum tokio::sync::SetError">SetError</a></dt><dd>可由 <a href="struct.OnceCell.html#method.set" title="method tokio::sync::OnceCell::set"><code>OnceCell::set</code></a> 返回的错误。</dd><dt><a class="enum" href="enum.TryAcquireError.html" title="enum tokio::sync::TryAcquireError">TryAcquire<wbr>Error</a></dt><dd>由 <a href="struct.Semaphore.html#method.try_acquire" title="method tokio::sync::Semaphore::try_acquire"><code>Semaphore::try_acquire</code></a> 函数返回的错误。</dd></dl></section></div></main></body></html>
+</div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="broadcast/index.html" title="mod tokio::sync::broadcast">broadcast</a></dt><dd>一个多生产者、多消费者的广播队列。每个发送的值都会被所有消费者看到。</dd><dt><a class="mod" href="futures/index.html" title="mod tokio::sync::futures">futures</a></dt><dd>命名的 future 类型。</dd><dt><a class="mod" href="mpsc/index.html" title="mod tokio::sync::mpsc">mpsc</a></dt><dd>用于在异步任务之间发送值的多生产者、单消费者队列。</dd><dt><a class="mod" href="oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a></dt><dd>oneshot channel 用于在异步任务之间发送单个消息。可使用 <a href="oneshot/fn.channel.html" title="fn tokio::sync::oneshot::channel"><code>channel</code></a> 函数创建 <a href="oneshot/struct.Sender.html" title="struct tokio::sync::oneshot::Sender"><code>Sender</code></a> 和 <a href="oneshot/struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> 句柄对，二者构成该 channel。</dd><dt><a class="mod" href="watch/index.html" title="mod tokio::sync::watch">watch</a></dt><dd>一个多生产者、多消费者的 channel，仅保留最近一次发送的值。</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.AcquireError.html" title="struct tokio::sync::AcquireError">Acquire<wbr>Error</a></dt><dd>由 <a href="struct.Semaphore.html#method.acquire" title="method tokio::sync::Semaphore::acquire"><code>Semaphore::acquire</code></a> 函数返回的错误。</dd><dt><a class="struct" href="struct.Barrier.html" title="struct tokio::sync::Barrier">Barrier</a></dt><dd>Barrier（屏障）使多个 task 能够同步开始某段计算。</dd><dt><a class="struct" href="struct.BarrierWaitResult.html" title="struct tokio::sync::BarrierWaitResult">Barrier<wbr>Wait<wbr>Result</a></dt><dd>当 <code>Barrier</code> 中所有 task 都在 <code>wait</code> 处汇合时，<code>wait</code> 返回一个 <code>BarrierWaitResult</code>。</dd><dt><a class="struct" href="struct.MappedMutexGuard.html" title="struct tokio::sync::MappedMutexGuard">Mapped<wbr>Mutex<wbr>Guard</a></dt><dd>对持有的 <code>Mutex</code> 通过 <a href="struct.MutexGuard.html#method.map" title="associated function tokio::sync::MutexGuard::map"><code>MutexGuard::map</code></a> 应用函数后得到的句柄。</dd><dt><a class="struct" href="struct.Mutex.html" title="struct tokio::sync::Mutex">Mutex</a></dt><dd>一个异步的、类似 <code>Mutex</code> 的类型。</dd><dt><a class="struct" href="struct.MutexGuard.html" title="struct tokio::sync::MutexGuard">Mutex<wbr>Guard</a></dt><dd>持有的 <code>Mutex</code> 的句柄。由于实现了 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send"><code>Send</code></a>，可以在任意 <code>.await</code> 点持有该 guard。</dd><dt><a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></dt><dd>通知单个 task 唤醒。</dd><dt><a class="struct" href="struct.OnceCell.html" title="struct tokio::sync::OnceCell">Once<wbr>Cell</a></dt><dd>一个线程安全的 cell，只能写入一次。</dd><dt><a class="struct" href="struct.OwnedMappedMutexGuard.html" title="struct tokio::sync::OwnedMappedMutexGuard">Owned<wbr>Mapped<wbr>Mutex<wbr>Guard</a></dt><dd>对持有的 <code>Mutex</code> 通过 <a href="struct.OwnedMutexGuard.html#method.map" title="associated function tokio::sync::OwnedMutexGuard::map"><code>OwnedMutexGuard::map</code></a> 应用函数后得到的 owned 句柄。</dd><dt><a class="struct" href="struct.OwnedMutexGuard.html" title="struct tokio::sync::OwnedMutexGuard">Owned<wbr>Mutex<wbr>Guard</a></dt><dd>持有的 <code>Mutex</code> 的 owned 句柄。</dd><dt><a class="struct" href="struct.OwnedRwLockMappedWriteGuard.html" title="struct tokio::sync::OwnedRwLockMappedWriteGuard">Owned<wbr>RwLock<wbr>Mapped<wbr>Write<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.OwnedRwLockReadGuard.html" title="struct tokio::sync::OwnedRwLockReadGuard">Owned<wbr>RwLock<wbr>Read<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的共享读访问。</dd><dt><a class="struct" href="struct.OwnedRwLockWriteGuard.html" title="struct tokio::sync::OwnedRwLockWriteGuard">Owned<wbr>RwLock<wbr>Write<wbr>Guard</a></dt><dd>Owned RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.OwnedSemaphorePermit.html" title="struct tokio::sync::OwnedSemaphorePermit">Owned<wbr>Semaphore<wbr>Permit</a></dt><dd>来自 semaphore 的 owned permit。</dd><dt><a class="struct" href="struct.RwLock.html" title="struct tokio::sync::RwLock">RwLock</a></dt><dd>一个异步的读者-写者锁。</dd><dt><a class="struct" href="struct.RwLockMappedWriteGuard.html" title="struct tokio::sync::RwLockMappedWriteGuard">RwLock<wbr>Mapped<wbr>Write<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.RwLockReadGuard.html" title="struct tokio::sync::RwLockReadGuard">RwLock<wbr>Read<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的共享读访问。</dd><dt><a class="struct" href="struct.RwLockWriteGuard.html" title="struct tokio::sync::RwLockWriteGuard">RwLock<wbr>Write<wbr>Guard</a></dt><dd>RAII 结构，在 drop 时释放锁的独占写访问。</dd><dt><a class="struct" href="struct.Semaphore.html" title="struct tokio::sync::Semaphore">Semaphore</a></dt><dd>执行异步 permit 获取的计数信号量（counting semaphore）。</dd><dt><a class="struct" href="struct.SemaphorePermit.html" title="struct tokio::sync::SemaphorePermit">Semaphore<wbr>Permit</a></dt><dd>来自 semaphore 的 permit。</dd><dt><a class="struct" href="struct.SetOnce.html" title="struct tokio::sync::SetOnce">SetOnce</a></dt><dd>一个线程安全的 cell，只能写入一次。</dd><dt><a class="struct" href="struct.SetOnceError.html" title="struct tokio::sync::SetOnceError">SetOnce<wbr>Error</a></dt><dd>可由 <a href="struct.SetOnce.html#method.set" title="method tokio::sync::SetOnce::set"><code>SetOnce::set</code></a> 返回的错误。</dd><dt><a class="struct" href="struct.TryLockError.html" title="struct tokio::sync::TryLockError">TryLock<wbr>Error</a></dt
