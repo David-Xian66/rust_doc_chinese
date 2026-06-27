@@ -85,8 +85,8 @@ PAIRS = [
     ),
     (
         'Tokio runtime。',
-        'Tokio runtime。',
-    ),  # already Chinese period, skip
+        'Tokio 运行时。',
+    ),
     (
         'Error returned by <code>try_current</code> when no Runtime has been started',
         '当没有 Runtime 启动时，由 <code>try_current</code> 返回的错误',
