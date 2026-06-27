@@ -90,7 +90,7 @@ TLS1.2 connections.</p>
 </div><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-ClientConfig" class="impl"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#292-455">Source</a><a href="#impl-ClientConfig" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.ClientConfig.html" title="struct rustls::client::ClientConfig">ClientConfig</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.builder" class="method"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#299-301">Source</a><h4 class="code-header">pub fn <a href="#method.builder" class="fn">builder</a>() -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVerifier.html" title="struct rustls::WantsVerifier">WantsVerifier</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 client configuration with
 <a href="../crypto/struct.CryptoProvider.html#using-the-per-process-default-cryptoprovider" title="struct rustls::crypto::CryptoProvider">the process-default <code>CryptoProvider</code></a>
 并 safe protocol version defaults.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_protocol_versions" class="method"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#316-327">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_protocol_versions" class="fn">builder_with_protocol_versions</a>(
     versions: &amp;[&amp;'static <a class="struct" href="../struct.SupportedProtocolVersion.html" title="struct rustls::SupportedProtocolVersion">SupportedProtocolVersion</a>],
 ) -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVerifier.html" title="struct rustls::WantsVerifier">WantsVerifier</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 client configuration with
@@ -104,7 +104,7 @@ versions lead to zero cipher suites being usable),</li>
 <li>if a <code>CryptoProvider</code> cannot be resolved using a combination of
 the crate features and process default.</li>
 </ul>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_provider" class="method"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#338-347">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_provider" class="fn">builder_with_provider</a>(
     provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;<a class="struct" href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider">CryptoProvider</a>&gt;,
 ) -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVersions.html" title="struct rustls::WantsVersions">WantsVersions</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 client configuration with 一个 specific <a href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider"><code>CryptoProvider</code></a>。</p>
@@ -112,7 +112,7 @@ the crate features and process default.</li>
 which protocol versions 到 enable, using <code>with_protocol_versions</code> 或
 <code>with_safe_default_protocol_versions</code> 并 handling the <code>Result</code> in case 一个 protocol
 version is not supported by the provider’s ciphersuites.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_details" class="method"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#362-372">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_details" class="fn">builder_with_details</a>(
     provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;<a class="struct" href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider">CryptoProvider</a>&gt;,
     time_provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="../time_provider/trait.TimeProvider.html" title="trait rustls::time_provider::TimeProvider">TimeProvider</a>&gt;,
@@ -124,7 +124,7 @@ version is not supported by the provider’s ciphersuites.</p>
 which protocol versions 到 enable, using <code>with_protocol_versions</code> 或
 <code>with_safe_default_protocol_versions</code> 并 handling the <code>Result</code> in case 一个 protocol
 version is not supported by the provider’s ciphersuites.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.fips" class="method"><a class="src rightside" href="../../src/rustls/client/client_conn.rs.html#380-393">Source</a><h4 class="code-header">pub fn <a href="#method.fips" class="fn">fips</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>返回 true if connections made with this <code>ClientConfig</code> will
 operate in FIPS mode.</p>
 <p>This is different 从 <a href="../crypto/struct.CryptoProvider.html#method.fips" title="method rustls::crypto::CryptoProvider::fips"><code>CryptoProvider::fips()</code></a>: <a href="../crypto/struct.CryptoProvider.html#method.fips" title="method rustls::crypto::CryptoProvider::fips"><code>CryptoProvider::fips()</code></a>

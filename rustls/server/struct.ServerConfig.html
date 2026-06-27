@@ -40,8 +40,8 @@ implementation.</li>
 <p>In 一个 program using many <code>ServerConfig</code>s it may improve resumption rates
 (which has 一个 significant impact on connection performance) if those
 configs share <a href="struct.ServerConfig.html#structfield.session_storage" title="field rustls::server::ServerConfig::session_storage"><code>ServerConfig::session_storage</code></a> 或 <a href="struct.ServerConfig.html#structfield.ticketer" title="field rustls::server::ServerConfig::ticketer"><code>ServerConfig::ticketer</code></a>。</p>
-<p>However, caution is needed: other fields influence the security of 一个 session
-并 resumption between them can be surprising.  If sharing
+<p>但是，需要注意：其他字段也会影响会话的安全性，
+不同会话之间恢复连接时可能会出现意外。如果共享
 <a href="struct.ServerConfig.html#structfield.session_storage" title="field rustls::server::ServerConfig::session_storage"><code>ServerConfig::session_storage</code></a> 或 <a href="struct.ServerConfig.html#structfield.ticketer" title="field rustls::server::ServerConfig::ticketer"><code>ServerConfig::ticketer</code></a> between two
 <code>ServerConfig</code>s, you should also evaluate the following fields 并 ensure
 they are equivalent:</p>
@@ -66,17 +66,17 @@ A value of None is equivalent 到 the <a href="https://datatracker.ietf.org/doc/
 Out of range values are reported as errors 从 <a href="struct.ServerConnection.html#method.new" title="associated function rustls::server::ServerConnection::new">ServerConnection::new</a>。</p>
 <p>Setting this value 到 一个 little less than the TCP MSS may improve latency
 用于 stream-y workloads.</p>
-<span id="structfield.session_storage" class="structfield section-header"><a href="#structfield.session_storage" class="anchor field">§</a><code>session_storage: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.StoresServerSessions.html" title="trait rustls::server::StoresServerSessions">StoresServerSessions</a>&gt;</code></span><div class="docblock"><p>How 到 store client sessions.</p>
+<span id="structfield.session_storage" class="structfield section-header"><a href="#structfield.session_storage" class="anchor field">§</a><code>session_storage: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.StoresServerSessions.html" title="trait rustls::server::StoresServerSessions">StoresServerSessions</a>&gt;</code></span><div class="docblock"><p>如何存储客户端会话。</p>
 <p>，请参见<a href="struct.ServerConfig.html#sharing-resumption-storage-between-serverconfigs" title="struct rustls::server::ServerConfig">ServerConfig</a>
 用于 一个 warning related 到 this field.</p>
-</div><span id="structfield.ticketer" class="structfield section-header"><a href="#structfield.ticketer" class="anchor field">§</a><code>ticketer: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.ProducesTickets.html" title="trait rustls::server::ProducesTickets">ProducesTickets</a>&gt;</code></span><div class="docblock"><p>How 到 produce tickets.</p>
+</div><span id="structfield.ticketer" class="structfield section-header"><a href="#structfield.ticketer" class="anchor field">§</a><code>ticketer: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.ProducesTickets.html" title="trait rustls::server::ProducesTickets">ProducesTickets</a>&gt;</code></span><div class="docblock"><p>如何生成 ticket。</p>
 <p>，请参见<a href="struct.ServerConfig.html#sharing-resumption-storage-between-serverconfigs" title="struct rustls::server::ServerConfig">ServerConfig</a>
 用于 一个 warning related 到 this field.</p>
-</div><span id="structfield.cert_resolver" class="structfield section-header"><a href="#structfield.cert_resolver" class="anchor field">§</a><code>cert_resolver: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.ResolvesServerCert.html" title="trait rustls::server::ResolvesServerCert">ResolvesServerCert</a>&gt;</code></span><div class="docblock"><p>How 到 choose 一个 server cert 并 key. This is usually set by
+</div><span id="structfield.cert_resolver" class="structfield section-header"><a href="#structfield.cert_resolver" class="anchor field">§</a><code>cert_resolver: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="trait.ResolvesServerCert.html" title="trait rustls::server::ResolvesServerCert">ResolvesServerCert</a>&gt;</code></span><div class="docblock"><p>如何选择服务器证书和密钥。通常通过
 <a href="../struct.ConfigBuilder.html#method.with_single_cert" title="method rustls::ConfigBuilder::with_single_cert">ConfigBuilder::with_single_cert</a> 或 <a href="../struct.ConfigBuilder.html#method.with_cert_resolver" title="method rustls::ConfigBuilder::with_cert_resolver">ConfigBuilder::with_cert_resolver</a>。
 For async applications, see also <a href="struct.Acceptor.html" title="struct rustls::server::Acceptor">Acceptor</a>。</p>
-<span id="structfield.alpn_protocols" class="structfield section-header"><a href="#structfield.alpn_protocols" class="anchor field">§</a><code>alpn_protocols: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>&gt;&gt;</code></span><div class="docblock"><p>Protocol names we support, most preferred first.
-If empty we don’t do ALPN at all.</p>
+<span id="structfield.alpn_protocols" class="structfield section-header"><a href="#structfield.alpn_protocols" class="anchor field">§</a><code>alpn_protocols: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>&gt;&gt;</code></span><div class="docblock"><p>我们支持的协议名称，最优先的排在最前面。
+如果为空，则完全不做 ALPN 协商。</p>
 </div><span id="structfield.key_log" class="structfield section-header"><a href="#structfield.key_log" class="anchor field">§</a><code>key_log: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="../trait.KeyLog.html" title="trait rustls::KeyLog">KeyLog</a>&gt;</code></span><div class="docblock"><p>How 到 output 密钥材料 用于 debugging.  此 default
 does nothing.</p>
 <span id="structfield.enable_secret_extraction" class="structfield section-header"><a href="#structfield.enable_secret_extraction" class="anchor field">§</a><code>enable_secret_extraction: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></code></span><div class="docblock"><p>Allows traffic secrets 到 be extracted after the handshake,
@@ -106,15 +106,15 @@ authentication.</p>
 <p>This defaults 到 false.  This means the first application data
 sent by the server comes after receiving 并 validating the client’s
 handshake up 到 the <code>Finished</code> message.  This 是 safest option.</p>
-</div><span id="structfield.send_tls13_tickets" class="structfield section-header"><a href="#structfield.send_tls13_tickets" class="anchor field">§</a><code>send_tls13_tickets: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></code></span><div class="docblock"><p>How many TLS 1.3 tickets 到 send immediately after 一个 successful
-handshake.</p>
+</div><span id="structfield.send_tls13_tickets" class="structfield section-header"><a href="#structfield.send_tls13_tickets" class="anchor field">§</a><code>send_tls13_tickets: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></code></span><div class="docblock"><p>在一次成功的
+握手后立即发送多少 TLS 1.3 ticket。</p>
 <p>Because TLS 1.3 tickets are single-use, this allows
 一个 client 到 perform multiple resumptions.</p>
 <p>此 default is 2.</p>
 <p>If this is 0, no tickets are sent 并 clients will not be able 到
 do any resumption.</p>
 <span id="structfield.time_provider" class="structfield section-header"><a href="#structfield.time_provider" class="anchor field">§</a><code>time_provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="../time_provider/trait.TimeProvider.html" title="trait rustls::time_provider::TimeProvider">TimeProvider</a>&gt;</code></span><div class="docblock"><p>提供当前系统时间</p>
-</div><span id="structfield.cert_compressors" class="structfield section-header"><a href="#structfield.cert_compressors" class="anchor field">§</a><code>cert_compressors: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'static dyn <a class="trait" href="../compress/trait.CertCompressor.html" title="trait rustls::compress::CertCompressor">CertCompressor</a>&gt;</code></span><div class="docblock"><p>How 到 compress the server’s certificate chain.</p>
+</div><span id="structfield.cert_compressors" class="structfield section-header"><a href="#structfield.cert_compressors" class="anchor field">§</a><code>cert_compressors: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'static dyn <a class="trait" href="../compress/trait.CertCompressor.html" title="trait rustls::compress::CertCompressor">CertCompressor</a>&gt;</code></span><div class="docblock"><p>如何压缩服务器的证书链。</p>
 <p>If 一个 client supports this extension, 并 advertises support
 用于 one of the compression algorithms included here, the
 server certificate ， compressed according 到 <a href="https://datatracker.ietf.org/doc/rfc8879/">RFC8779</a>。</p>
@@ -123,7 +123,7 @@ TLS1.2 connections.</p>
 <span id="structfield.cert_compression_cache" class="structfield section-header"><a href="#structfield.cert_compression_cache" class="anchor field">§</a><code>cert_compression_cache: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;<a class="enum" href="../compress/enum.CompressionCache.html" title="enum rustls::compress::CompressionCache">CompressionCache</a>&gt;</code></span><div class="docblock"><p>Caching 用于 compressed 证书</p>
 <p>This is optional: <a href="../compress/enum.CompressionCache.html#variant.Disabled" title="variant rustls::compress::CompressionCache::Disabled"><code>compress::CompressionCache::Disabled</code></a> gives
 一个 cache that does no caching.</p>
-</div><span id="structfield.cert_decompressors" class="structfield section-header"><a href="#structfield.cert_decompressors" class="anchor field">§</a><code>cert_decompressors: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'static dyn <a class="trait" href="../compress/trait.CertDecompressor.html" title="trait rustls::compress::CertDecompressor">CertDecompressor</a>&gt;</code></span><div class="docblock"><p>How 到 decompress the clients’s certificate chain.</p>
+</div><span id="structfield.cert_decompressors" class="structfield section-header"><a href="#structfield.cert_decompressors" class="anchor field">§</a><code>cert_decompressors: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'static dyn <a class="trait" href="../compress/trait.CertDecompressor.html" title="trait rustls::compress::CertDecompressor">CertDecompressor</a>&gt;</code></span><div class="docblock"><p>如何解压客户端的证书链。</p>
 <p>If this is non-empty, the <a href="https://datatracker.ietf.org/doc/rfc8879/">RFC8779</a> certificate compression
 extension is offered when requesting client authentication,
 并 any compressed certificates are transparently decompressed
@@ -133,7 +133,7 @@ TLS1.2 connections.</p>
 </div><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-ServerConfig" class="impl"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#452-583">Source</a><a href="#impl-ServerConfig" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.ServerConfig.html" title="struct rustls::server::ServerConfig">ServerConfig</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.builder" class="method"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#459-461">Source</a><h4 class="code-header">pub fn <a href="#method.builder" class="fn">builder</a>() -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVerifier.html" title="struct rustls::WantsVerifier">WantsVerifier</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 server configuration with
 <a href="../crypto/struct.CryptoProvider.html#using-the-per-process-default-cryptoprovider" title="struct rustls::crypto::CryptoProvider">the process-default <code>CryptoProvider</code></a>
 并 safe protocol version defaults.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_protocol_versions" class="method"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#476-487">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_protocol_versions" class="fn">builder_with_protocol_versions</a>(
     versions: &amp;[&amp;'static <a class="struct" href="../struct.SupportedProtocolVersion.html" title="struct rustls::SupportedProtocolVersion">SupportedProtocolVersion</a>],
 ) -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVerifier.html" title="struct rustls::WantsVerifier">WantsVerifier</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 server configuration with
@@ -147,7 +147,7 @@ versions lead to zero cipher suites being usable),</li>
 <li>if a <code>CryptoProvider</code> cannot be resolved using a combination of
 the crate features and process default.</li>
 </ul>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_provider" class="method"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#498-507">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_provider" class="fn">builder_with_provider</a>(
     provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;<a class="struct" href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider">CryptoProvider</a>&gt;,
 ) -&gt; <a class="struct" href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder">ConfigBuilder</a>&lt;Self, <a class="struct" href="../struct.WantsVersions.html" title="struct rustls::WantsVersions">WantsVersions</a>&gt;</h4></section></summary><div class="docblock"><p>创建一个 builder 用于 一个 server configuration with 一个 specific <a href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider"><code>CryptoProvider</code></a>。</p>
@@ -155,7 +155,7 @@ the crate features and process default.</li>
 which protocol versions 到 enable, using <code>with_protocol_versions</code> 或
 <code>with_safe_default_protocol_versions</code> 并 handling the <code>Result</code> in case 一个 protocol
 version is not supported by the provider’s ciphersuites.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.builder_with_details" class="method"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#523-533">Source</a><h4 class="code-header">pub fn <a href="#method.builder_with_details" class="fn">builder_with_details</a>(
     provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;<a class="struct" href="../crypto/struct.CryptoProvider.html" title="struct rustls::crypto::CryptoProvider">CryptoProvider</a>&gt;,
     time_provider: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn <a class="trait" href="../time_provider/trait.TimeProvider.html" title="trait rustls::time_provider::TimeProvider">TimeProvider</a>&gt;,
@@ -167,7 +167,7 @@ version is not supported by the provider’s ciphersuites.</p>
 which protocol versions 到 enable, using <code>with_protocol_versions</code> 或
 <code>with_safe_default_protocol_versions</code> 并 handling the <code>Result</code> in case 一个 protocol
 version is not supported by the provider’s ciphersuites.</p>
-<p>For more information, see the <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> documentation.</p>
+<p>更多信息请参阅 <a href="../struct.ConfigBuilder.html" title="struct rustls::ConfigBuilder"><code>ConfigBuilder</code></a> 文档。</p>
 </details><details class="toggle method-toggle" open><summary><section id="method.fips" class="method"><a class="src rightside" href="../../src/rustls/server/server_conn.rs.html#541-551">Source</a><h4 class="code-header">pub fn <a href="#method.fips" class="fn">fips</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>Return <code>true</code> if connections made with this <code>ServerConfig</code> will
 operate in FIPS mode.</p>
 <p>This is different 从 <a href="../crypto/struct.CryptoProvider.html#method.fips" title="method rustls::crypto::CryptoProvider::fips"><code>CryptoProvider::fips()</code></a>: <a href="../crypto/struct.CryptoProvider.html#method.fips" title="method rustls::crypto::CryptoProvider::fips"><code>CryptoProvider::fips()</code></a>
