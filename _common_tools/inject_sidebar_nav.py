@@ -87,12 +87,21 @@ CSS_BLOCK = (
     # can drag the sidebar resizer without the button getting in the way.
     # 28x28px is small enough to be unobtrusive.
     # --- Toggle button: positioned just outside the sidebar's right edge ---
-    # Pinned at top:8px, left = sidebar_width + 14px. The 14px gap puts the
+    # Pinned at top:8px, left = --cn-sidebar-w + 14px. The 14px gap puts the
     # button clear of the 9px-wide .sidebar-resizer (which sits at left:
     # var(--desktop-sidebar-width) .. +9px), so the user can still drag the
-    # resizer to resize the sidebar. Because we use the CSS variable, the
-    # button follows the sidebar's right border as the user resizes it.
-    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--desktop-sidebar-width) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}'
+    # resizer to resize the sidebar.
+    #
+    # We use a custom CSS variable --cn-sidebar-w (mirrored from the sidebar's
+    # actual rendered width via ResizeObserver) instead of rustdoc's own
+    # --desktop-sidebar-width, because rustdoc sets that variable on the
+    # .sidebar element only — CSS variables don't inherit upward, so our
+    # fixed-position button on <body> can't see it.
+    #
+    # When the sidebar is collapsed, we do NOT update --cn-sidebar-w, so the
+    # button stays at its last position (i.e., where the sidebar's right
+    # border used to be) instead of jumping to the viewport's left edge.
+    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}'
     b'.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
     b'.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     # Icon swaps based on sidebar state
@@ -190,6 +199,25 @@ JS_BLOCK = (
     b'document.addEventListener("DOMContentLoaded",function(){'
     b'var btn=document.querySelector(BTN);'
     b'if(!btn){return;}'
+    # Mirror the sidebar's rendered width into --cn-sidebar-w on documentElement.
+    # rustdoc only sets --desktop-sidebar-width on the .sidebar element itself,
+    # which CSS variables can't propagate up to <body>. Our fixed-position
+    # button on body needs its own global copy.
+    #
+    # Two guards prevent the button from drifting during collapse:
+    #   1. Skip updates when html.hide-sidebar is set — once the user clicks
+    #      to collapse, the variable freezes at its last visible value, so the
+    #      button stays at the original position even as the sidebar shrinks.
+    #   2. Skip updates when width < 50 — defensive guard against any stray
+    #      resize events at near-zero width.
+    b'var sidebar=document.querySelector(".sidebar");'
+    b'var cnW=200;'
+    b'try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}'
+    b'document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");'
+    b'if(sidebar&&window.ResizeObserver){'
+    b'var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};'
+    b'var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();'
+    b'}'
     # Initial state from localStorage
     b'var initialHidden=false;'
     b'try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}'
