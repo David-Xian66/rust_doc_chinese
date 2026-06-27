@@ -2,9 +2,11 @@
 """
 Inject two navigation aids into every translated HTML file:
 
-1. A sidebar toggle button (collapsible left sidebar)
-   - Placed as the FIRST child of <rustdoc-topbar>
-   - Uses class "sidebar-menu-toggle" so rustdoc's main.js auto-binds the mobile toggle
+1. A sidebar toggle button + keyboard hint chip (collapsible left sidebar)
+   - Position:fixed at top-left (NOT inside <rustdoc-topbar>, because rustdoc
+     CSS sets topbar to display:none on desktop, which would hide the button).
+   - Always visible on desktop; hidden on mobile (rustdoc's own mobile hamburger
+     inside <rustdoc-topbar> is kept untouched).
    - Adds desktop behavior via injected JS:
        * click to toggle
        * localStorage persistence (key: rustdoc-cn-sidebar-hidden)
@@ -17,7 +19,7 @@ Inject two navigation aids into every translated HTML file:
    - Placed inside <div class="search-menu"> so it sits alongside the search button
    - Uses absolute path "/index.html" so it works regardless of file depth
 
-Idempotent: skipped if marker `rustdoc-cn-sidebar-handle` is already present.
+Idempotent: skipped if marker `<button class="rustdoc-cn-toggle"` is already present.
 
 Pattern follows _common_tools/inject_github_link.py.
 """
@@ -26,7 +28,7 @@ import re
 import sys
 
 # === Markers (NEW injection) ===
-NEW_HANDLE_MARKER = b'<span class="rustdoc-cn-kbd-hint"'
+NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
 SEARCH_MENU_OPEN = b'<div class="search-menu">'
@@ -35,21 +37,32 @@ SEARCH_MENU_OPEN = b'<div class="search-menu">'
 OLD_TOGGLE_RE = re.compile(
     rb'<button class="sidebar-menu-toggle"[^>]*></button>'
 )
+OLD_RUSTDOC_CN_TOGGLE_RE = re.compile(
+    rb'<button class="rustdoc-cn-toggle"[^>]*>.*?</button>',
+    re.DOTALL,
+)
+OLD_KBD_HINT_RE = re.compile(
+    rb'<span class="rustdoc-cn-kbd-hint"[^>]*>.*?</span>',
+    re.DOTALL,
+)
+OLD_HANDLE_RE = re.compile(
+    rb'<button class="rustdoc-cn-sidebar-handle"[^>]*></button>'
+)
+OLD_PEEK_ZONE_RE = re.compile(
+    rb'<div class="rustdoc-cn-sidebar-peek-zone"[^>]*></div>'
+)
 OLD_HOME_RE = re.compile(
     rb'<a class="rustdoc-cn-home"[^>]*>.*?</a>',
     re.DOTALL,
 )
 # The OLD JS block contained id="rustdoc-cn-nav-script"; the NEW block reuses that id
-# but has different content. We detect the OLD content via its distinctive elements:
-#   - function applyHidden uses classList toggle
-#   - listens for keydown with `e.key !== "["` (only `[`, not `\`)
-# To be safe we match by the unique substring that the NEW script does NOT have but the OLD does.
+# but has different content. We detect the OLD content via the unique substring that
+# the NEW script does NOT have but the OLD does.
 OLD_JS_RE = re.compile(
     rb'<script defer id="rustdoc-cn-nav-script">.*?</script>',
     re.DOTALL,
 )
-# OLD CSS block had `transition:margin-left .2s ease,opacity .2s ease` (no .18s)
-# We match the full <style id="rustdoc-cn-nav-style"> + <style>...</style> pair
+# OLD CSS block: we match by the unique id="rustdoc-cn-nav-style" anchor.
 OLD_CSS_RE = re.compile(
     rb'<style id="rustdoc-cn-nav-style">[^<]*</style><style>[^<]*</style>'
 )
@@ -76,25 +89,26 @@ def should_skip_dir(dirname: str) -> bool:
 CSS_BLOCK = (
     b'<style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style>'
     b'<style>'
-    # --- Toggle button (matches rustdoc's hamburger style) ---
-    # On desktop, show the toggle button in BOTH states (rustdoc hides it by default).
-    b'.sidebar-menu-toggle{width:41px;min-width:41px;border:none;line-height:0;background:transparent;cursor:pointer;padding:0;margin:0;border-radius:4px;flex-shrink:0;transition:background-color .15s ease}'
-    b'.sidebar-menu-toggle::before{content:var(--hamburger-image);opacity:.75;filter:var(--mobile-sidebar-menu-filter);display:block;width:22px;height:22px;margin:0 auto}'
-    b'.sidebar-menu-toggle:hover,.sidebar-menu-toggle:focus{background:rgba(0,0,0,.06);outline:none}'
-    b'.sidebar-menu-toggle:hover::before,.sidebar-menu-toggle:focus::before{opacity:1}'
-    # Small keyboard hint chip next to the toggle button (desktop only)
-    b'.rustdoc-cn-kbd-hint{display:inline-flex;align-items:center;justify-content:center;height:22px;margin-left:2px;padding:0 6px;border:1px solid rgba(0,0,0,.18);border-radius:4px;font:11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:#666;background:rgba(0,0,0,.04);user-select:none;flex-shrink:0;cursor:help}'
-    b'.rustdoc-cn-kbd-hint:hover{background:rgba(0,0,0,.08);color:#333}'
+    # --- Toggle button (fixed top-left, always visible on desktop) ---
+    # We avoid the <rustdoc-topbar> because rustdoc CSS sets it to display:none on desktop.
+    # We use position:fixed so the button is independent of the (hidden) topbar.
+    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:34px;height:34px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:var(--button-border-radius);cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;transition:background-color .15s ease,border-color .15s ease}'
+    b'.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
+    b'.rustdoc-cn-toggle svg{display:block;width:20px;height:20px}'
+    # --- Small keyboard hint chip next to the toggle button (desktop only) ---
+    b'.rustdoc-cn-kbd-hint{position:fixed;top:14px;left:50px;z-index:calc(var(--desktop-sidebar-z-index) + 1);display:inline-flex;align-items:center;justify-content:center;height:22px;padding:0 7px;border:1px solid var(--border-color);border-radius:4px;font:11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--main-color);background-color:var(--main-background-color);user-select:none;flex-shrink:0;cursor:help;opacity:.7;transition:opacity .15s ease}'
+    b'.rustdoc-cn-kbd-hint:hover{opacity:1}'
     b'@media (max-width:700px){.rustdoc-cn-kbd-hint{display:none}}'
-    # --- Home button ---
+    # --- Hide on mobile (mobile has its own hamburger inside rustdoc-topbar) ---
+    b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
+    # --- Home button (lives inside rustdoc-topbar's search-menu) ---
     b'.rustdoc-cn-home{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:6px;padding:0;border-radius:4px;color:inherit;text-decoration:none;font-size:18px;line-height:1;flex-shrink:0;transition:background-color .15s ease;cursor:pointer;user-select:none}'
     b'.rustdoc-cn-home:hover,.rustdoc-cn-home:focus{background:rgba(0,0,0,.06);outline:none}'
     b'.rustdoc-cn-home svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     # --- Sidebar transitions ---
     b'.rustdoc .sidebar,.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}'
-    # --- Desktop: ensure toggle button is visible in BOTH states (rustdoc hides it by default) ---
+    # --- Desktop: hidden state ---
     b'@media (min-width:701px){'
-    b'.sidebar-menu-toggle{display:flex !important;align-items:center;justify-content:center}'
     b'html.hide-sidebar .sidebar{opacity:0;pointer-events:none;margin-left:-100%}'
     b'html.hide-sidebar .sidebar-resizer{display:none !important}'
     # When sidebar is hidden, keep a comfortable left margin so the content doesn't touch the edge
@@ -121,14 +135,19 @@ CSS_BLOCK = (
 CSS_MARKER = b'id="rustdoc-cn-nav-style"'
 
 # === Toggle button + keyboard hint ===
-# Placed as first children of <rustdoc-topbar>
+# Placed as fixed-position elements inside <body> (NOT inside <rustdoc-topbar>,
+# which is display:none on desktop). Includes an inline SVG hamburger icon.
 TOGGLE_BUTTON = (
-    b'<button class="sidebar-menu-toggle" type="button" '
+    b'<button class="rustdoc-cn-toggle" type="button" '
     b'aria-label="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f" '
     b'title="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
     b'data-show-title="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
-    b'data-hide-title="\xe6\x8a\x98\xe5\x8f\xa0\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)"></button>'
-    b'<span class="rustdoc-cn-kbd-hint" title="\xe9\x94\xae\xe7\x9b\x98\xe5\xbf\xab\xe6\x8d\xb7\xe9\x94\xae\xe5\x88\x87\xe6\x8d\xa2\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f">\\</span>'
+    b'data-hide-title="\xe6\x8a\x98\xe5\x8f\xa0\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)">'
+    b'<svg viewBox="0 0 24 24" aria-hidden="true">'
+    b'<path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+    b'</svg>'
+    b'</button>'
+    b'<span class="rustdoc-cn-kbd-hint" title="\xe9\x94\xae\xe7\x9b\x98\xe5\xbf\xab\xe6\x8d\xb7\xe9\x94\xae\\ \xe5\x88\x87\xe6\x8d\xa2\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f\xe6\x98\xbe\xe9\x9a\x90">\\</span>'
 )
 
 # === Floating "show sidebar" handle + hover peek zone ===
@@ -160,7 +179,7 @@ HOME_BUTTON = (
 # - Floating handle click + dynamic title
 JS_BLOCK = (
     b'<script defer id="rustdoc-cn-nav-script">(function(){'
-    b'var BTN=".sidebar-menu-toggle",STORAGE="rustdoc-cn-sidebar-hidden";'
+    b'var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";'
     b'var SHOW_TITLE="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)";'
     b'var HIDE_TITLE="\xe6\x8a\x98\xe5\x8f\xa0\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)";'
     b'function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}'
@@ -219,6 +238,10 @@ def roll_back_old(html_bytes: bytes) -> bytes:
     out = html_bytes
     out = OLD_CSS_RE.sub(b'', out)
     out = OLD_TOGGLE_RE.sub(b'', out)
+    out = OLD_RUSTDOC_CN_TOGGLE_RE.sub(b'', out)
+    out = OLD_KBD_HINT_RE.sub(b'', out)
+    out = OLD_HANDLE_RE.sub(b'', out)
+    out = OLD_PEEK_ZONE_RE.sub(b'', out)
     out = OLD_HOME_RE.sub(b'', out)
     out = OLD_JS_RE.sub(b'', out)
     return out
@@ -229,14 +252,29 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     Returns (new_bytes, modified, reason).
     reason ∈ {'injected', 'upgraded', 'already-injected', 'no-topbar', 'no-search-menu', 'no-body', 'no-head'}.
     """
-    # Idempotency check on the NEW injection
-    if NEW_HANDLE_MARKER in html_bytes:
+    # Idempotency check on the NEW injection.
+    # We first roll back any partial/duplicate old injections so the count check is reliable.
+    has_any_old = (
+        b'sidebar-menu-toggle' in html_bytes
+        or b'rustdoc-cn-nav-script' in html_bytes
+        or b'rustdoc-cn-sidebar-handle' in html_bytes
+        or b'rustdoc-cn-sidebar-peek-zone' in html_bytes
+        or b'rustdoc-cn-kbd-hint' in html_bytes
+    )
+    has_new = NEW_HANDLE_MARKER in html_bytes
+
+    if has_any_old:
+        html_bytes = roll_back_old(html_bytes)
+        # After rollback, check if NEW is also gone (it should be if there was a clean
+        # old install). If still present after rollback, that means we had a partial
+        # state and need to re-inject.
+        has_new = NEW_HANDLE_MARKER in html_bytes
+
+    if has_new:
+        # Already up to date — no roll-back needed, no re-inject needed
         return html_bytes, False, 'already-injected'
 
-    upgraded = False
-    if b'sidebar-menu-toggle' in html_bytes or b'rustdoc-cn-nav-script' in html_bytes:
-        upgraded = True
-        html_bytes = roll_back_old(html_bytes)
+    upgraded = has_any_old
 
     # 1. Inject CSS into <head>
     head_end = html_bytes.find(b'</head>')
@@ -248,19 +286,20 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     else:
         new_bytes = html_bytes
 
-    # 2. Inject toggle button at start of <rustdoc-topbar>
+    # 2. We need <rustdoc-topbar> as the anchor for inserting the toggle UI.
     tb_open = new_bytes.find(TOPBAR_OPEN)
     if tb_open < 0:
         return html_bytes, False, 'no-topbar'
-    insert_pos = tb_open + len(TOPBAR_OPEN)
-    new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + new_bytes[insert_pos:]
 
-    # 3. Inject floating handle + peek zone right after </rustdoc-topbar>
+    # 3. Inject floating toggle button + kbd hint + handle + peek zone
+    #    immediately AFTER </rustdoc-topbar>. These are position:fixed so
+    #    they don't depend on the topbar being visible.
     tb_close = new_bytes.find(TOPBAR_CLOSE)
     if tb_close < 0:
         return html_bytes, False, 'no-topbar'
     insert_pos = tb_close + len(TOPBAR_CLOSE)
-    new_bytes = new_bytes[:insert_pos] + SIDEBAR_HANDLE + new_bytes[insert_pos:]
+    bundle = TOGGLE_BUTTON + SIDEBAR_HANDLE
+    new_bytes = new_bytes[:insert_pos] + bundle + new_bytes[insert_pos:]
 
     # 4. Inject home button inside <div class="search-menu"> (optional — skip if missing)
     sm_open = new_bytes.find(SEARCH_MENU_OPEN)
