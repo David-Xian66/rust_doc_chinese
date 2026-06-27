@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["windows_capture",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html\" title=\"trait core::convert::TryInto\">TryInto</a>&lt;<a class=\"enum\" href=\"windows_capture/settings/enum.GraphicsCaptureItemType.html\" title=\"enum windows_capture::settings::GraphicsCaptureItemType\">GraphicsCaptureItemType</a>&gt; for <a class=\"struct\" href=\"windows_capture/graphics_capture_picker/struct.PickedGraphicsCaptureItem.html\" title=\"struct windows_capture::graphics_capture_picker::PickedGraphicsCaptureItem\">PickedGraphicsCaptureItem</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html\" title=\"trait core::convert::TryInto\">TryInto</a>&lt;<a class=\"enum\" href=\"windows_capture/settings/enum.GraphicsCaptureItemType.html\" title=\"enum windows_capture::settings::GraphicsCaptureItemType\">GraphicsCaptureItemType</a>&gt; for <a class=\"struct\" href=\"windows_capture/monitor/struct.Monitor.html\" title=\"struct windows_capture::monitor::Monitor\">Monitor</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html\" title=\"trait core::convert::TryInto\">TryInto</a>&lt;<a class=\"enum\" href=\"windows_capture/settings/enum.GraphicsCaptureItemType.html\" title=\"enum windows_capture::settings::GraphicsCaptureItemType\">GraphicsCaptureItemType</a>&gt; for <a class=\"struct\" href=\"windows_capture/window/struct.Window.html\" title=\"struct windows_capture::window::Window\">Window</a>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[1548]}
