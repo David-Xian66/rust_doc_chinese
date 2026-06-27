@@ -22,4 +22,9 @@ the reference count, and destroy the object when the reference count reaches zer
 <p>Safe Rust code must only be able to interact with these values by accessing them via a
 <code>ComObject</code> reference. <code>ComObject</code> handles adjusting reference counts and associates the
 lifetime of a <code>&amp;&lt;foo&gt;_Impl</code> with the lifetime of the related <code>ComObject</code>.</p>
-<p>The <code>#[implement]</code> macro generates th
+<p>The <code>#[implement]</code> macro generates the implementation of this <code>into_object</code> method.
+The generated <code>into_object</code> method encapsulates the construction of the <code>&lt;foo&gt;_Impl</code>
+object and immediately places it into the heap and returns a <code>ComObject</code> reference to it.
+This ensures that our requirement – that safe Rust code never own a <code>&lt;foo&gt;_Impl</code> value
+directly – is met.</p>
+</div></details></div><h2 id="dyn-compatibility" class="section-header">Dyn Compatibility<a href="#dyn-compatibility" class="anchor">§</a></h2><div class="dyn-compatibility-info"><p>This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.95.0/reference/items/traits.html#dyn-compatibility">dyn compatible</a>.</p><p><i>In older versions of Rust, dyn compatibility was called "object safety", so this trait is not object safe.</i></p></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../trait.impl/windows_core/com_object/trait.ComObjectInner.js" async></script></section></div></main></body></html>

@@ -8,4 +8,21 @@
     in_sample_rate: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     log_offset: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     log_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Al
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Allocate SwrContext if needed and set/reset common parameters.</p>
+<p>This function does not require *ps to be allocated with swr_alloc(). On the
+other hand, swr_alloc() can use swr_alloc_set_opts2() to set the parameters
+on the allocated context.</p>
+<p>@param ps              Pointer to an existing Swr context if available, or to NULL if not.
+On success, <em>ps will be set to the allocated context.
+@param out_ch_layout   output channel layout (e.g. AV_CHANNEL_LAYOUT_</em>)
+@param out_sample_fmt  output sample format (AV_SAMPLE_FMT_<em>).
+@param out_sample_rate output sample rate (frequency in Hz)
+@param in_ch_layout    input channel layout (e.g. AV_CHANNEL_LAYOUT_</em>)
+@param in_sample_fmt   input sample format (AV_SAMPLE_FMT_*).
+@param in_sample_rate  input sample rate (frequency in Hz)
+@param log_offset      logging level offset
+@param log_ctx         parent logging context, can be NULL</p>
+<p>@see swr_init(), swr_free()
+@return 0 on success, a negative AVERROR code on error.
+On error, the Swr context is freed and *ps set to NULL.</p>
+</div></details></section></div></main></body></html>

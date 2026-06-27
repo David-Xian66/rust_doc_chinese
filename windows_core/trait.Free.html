@@ -2,4 +2,9 @@
     // Required method
     unsafe fn <a href="#tymethod.free" class="fn">free</a>(&amp;mut self);
 }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Custom code to free a handle.</p>
-<p>This is similar to the <a href="https://doc.rust-lang.org/1.95.0/core/ops/drop/trait.Drop.html" title="trait c
+<p>This is similar to the <a href="https://doc.rust-lang.org/1.95.0/core/ops/drop/trait.Drop.html" title="trait core::ops::drop::Drop"><code>Drop</code></a> trait, and may be used to implement <a href="https://doc.rust-lang.org/1.95.0/core/ops/drop/trait.Drop.html" title="trait core::ops::drop::Drop"><code>Drop</code></a>, but allows handles
+to be dropped depending on context.</p>
+</div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.free" class="method"><h4 class="code-header">unsafe fn <a href="#tymethod.free" class="fn">free</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Calls the handle’s free function.</p>
+<h5 id="safety"><a class="doc-anchor" href="#safety">§</a>Safety</h5>
+<p>The handle must be owned by the caller and safe to free.</p>
+</div></details></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../trait.impl/windows_core/handles/trait.Free.js" async></script></section></div></main></body></html>

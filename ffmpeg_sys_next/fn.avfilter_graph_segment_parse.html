@@ -4,4 +4,22 @@
     flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     seg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFilterGraphSegment.html" title="struct ffmpeg_sys_next::AVFilterGraphSegment">AVFilterGraphSegment</a>,
 ) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Parse a textual filtergraph description into an intermediate form.</p>
-<p>This in
+<p>This intermediate representation is intended to be modified by the caller as
+described in the documentation of AVFilterGraphSegment and its children, and
+then applied to the graph either manually or with other
+avfilter_graph_segment_*() functions. See the documentation for
+avfilter_graph_segment_apply() for the canonical way to apply
+AVFilterGraphSegment.</p>
+<p>@param graph Filter graph the parsed segment is associated with. Will only be
+used for logging and similar auxiliary purposes. The graph will
+not be actually modified by this function - the parsing results
+are instead stored in seg for further processing.
+@param graph_str a string describing the filtergraph segment
+@param flags reserved for future use, caller must set to 0 for now
+@param seg A pointer to the newly-created AVFilterGraphSegment is written
+here on success. The graph segment is owned by the caller and must
+be freed with avfilter_graph_segment_free() before graph itself is
+freed.</p>
+<p>@retval “non-negative number” success
+@retval “negative error code” failure</p>
+</div></details></section></div></main></body></html>

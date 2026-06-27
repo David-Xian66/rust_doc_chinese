@@ -4,4 +4,20 @@
 ) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Apply parsed options to filter instances in a graph segment.</p>
 <p>Walk through all filter instances in the graph segment that have option
 dictionaries associated with them and apply those options with
-av_opt_set_dict2(…,
+av_opt_set_dict2(…, AV_OPT_SEARCH_CHILDREN). AVFilterParams.opts is
+replaced by the dictionary output by av_opt_set_dict2(), which should be
+empty (NULL) if all options were successfully applied.</p>
+<p>If any options could not be found, this function will continue processing all
+other filters and finally return AVERROR_OPTION_NOT_FOUND (unless another
+error happens). The calling program may then deal with unapplied options as
+it wishes.</p>
+<p>Any creation-pending filters (see avfilter_graph_segment_create_filters())
+present in the segment will cause this function to fail. AVFilterParams with
+no associated filter context are simply skipped.</p>
+<p>@param seg the filtergraph segment to process
+@param flags reserved for future use, caller must set to 0 for now</p>
+<p>@retval “non-negative number” Success, all options were successfully applied.
+@retval AVERROR_OPTION_NOT_FOUND some options were not found in a filter
+@retval “another negative error code” other failures</p>
+<p>@note Calling this function multiple times is safe, as it is idempotent.</p>
+</div></details></section></div></main></body></html>

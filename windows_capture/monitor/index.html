@@ -5,4 +5,10 @@
 以及将显示器转换为捕获项。</p>
 <p>常见任务包括：</p>
 <ul>
-<li>通过 [<code>
+<li>通过 [<code>Monitor::enumerate</code>] 枚举显示器。</li>
+<li>通过基于 1 的索引选择：[<code>Monitor::from_index</code>]。</li>
+<li>通过 [<code>Monitor::primary</code>] 获取主显示器。</li>
+</ul>
+<p>要获取显示器的 <a href="../struct.GraphicsCaptureItem.html" title="struct windows_capture::GraphicsCaptureItem"><code>crate::GraphicsCaptureItem</code></a>，请对 [<code>Monitor</code>] 使用
+[<code>crate::settings::TryIntoCaptureItemWithDetails</code>] 的实现。</p>
+</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Monitor.html" title="struct windows_capture::monitor::Monitor">Monitor</a></dt><dd>表示一个显示显示器。</dd></dl><h2 id="enums" class="section-header">枚举<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Error.html" title="enum windows_capture::monitor::Error">Error</a></dt><dd>查询显示器或将它们转换为捕获项时可能发生的错误。</dd></dl></section></div></main></body></html>

@@ -3,4 +3,23 @@
     flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     inputs: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFilterInOut.html" title="struct ffmpeg_sys_next::AVFilterInOut">AVFilterInOut</a>,
     outputs: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFilterInOut.html" title="struct ffmpeg_sys_next::AVFilterInOut">AVFilterInOut</a>,
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary>
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Apply all filter/link descriptions from a graph segment to the associated filtergraph.</p>
+<p>This functions is currently equivalent to calling the following in sequence:</p>
+<ul>
+<li>avfilter_graph_segment_create_filters();</li>
+<li>avfilter_graph_segment_apply_opts();</li>
+<li>avfilter_graph_segment_init();</li>
+<li>avfilter_graph_segment_link();
+failing if any of them fails. This list may be extended in the future.</li>
+</ul>
+<p>Since the above functions are idempotent, the caller may call some of them
+manually, then do some custom processing on the filtergraph, then call this
+function to do the rest.</p>
+<p>@param seg the filtergraph segment to process
+@param flags reserved for future use, caller must set to 0 for now
+@param[out] inputs passed to avfilter_graph_segment_link()
+@param[out] outputs passed to avfilter_graph_segment_link()</p>
+<p>@retval “non-negative number” success
+@retval “negative error code” failure</p>
+<p>@note Calling this function multiple times is safe, as it is idempotent.</p>
+</div></details></section></div></main></body></html>

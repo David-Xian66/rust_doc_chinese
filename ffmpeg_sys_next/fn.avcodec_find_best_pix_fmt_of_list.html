@@ -3,4 +3,17 @@
     src_pix_fmt: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>,
     has_alpha: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     loss_ptr: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
-) -&gt; <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelForma
+) -&gt; <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Find the best pixel format to convert to given a certain source pixel
+format.  When converting from one pixel format to another, information loss
+may occur.  For example, when converting from RGB24 to GRAY, the color
+information will be lost. Similarly, other losses occur when converting from
+some formats to other formats. avcodec_find_best_pix_fmt_of_2() searches which of
+the given pixel formats should be used to suffer the least amount of loss.
+The pixel formats from which it chooses one, are determined by the
+pix_fmt_list parameter.</p>
+<p>@param[in] pix_fmt_list AV_PIX_FMT_NONE terminated array of pixel formats to choose from
+@param[in] src_pix_fmt source pixel format
+@param[in] has_alpha Whether the source pixel format alpha channel is used.
+@param[out] loss_ptr Combination of flags informing you what kind of losses will occur.
+@return The best pixel format to convert to or -1 if none was found.</p>
+</div></details></section></div></main></body></html>

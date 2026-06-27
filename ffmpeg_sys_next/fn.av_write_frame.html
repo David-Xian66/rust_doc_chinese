@@ -13,4 +13,24 @@ av_interleaved_write_frame(), this function does not take
 ownership of the packet passed to it (though some muxers may make
 an internal reference to the input packet).
 <br>
-This pa
+This parameter can be NULL (at any time, not just at the end), in
+order to immediately flush data buffered within the muxer, for
+muxers that buffer up data internally before writing it to the
+output.
+<br>
+Packet’s @ref AVPacket.stream_index “stream_index” field must be
+set to the index of the corresponding stream in @ref
+AVFormatContext.streams “s-&gt;streams”.
+<br>
+The timestamps (@ref AVPacket.pts “pts”, @ref AVPacket.dts “dts”)
+must be set to correct values in the stream’s timebase (unless the
+output format is flagged with the AVFMT_NOTIMESTAMPS flag, then
+they can be set to AV_NOPTS_VALUE).
+The dts for subsequent packets passed to this function must be strictly
+increasing when compared in their respective timebases (unless the
+output format is flagged with the AVFMT_TS_NONSTRICT, then they
+merely have to be nondecreasing).  @ref AVPacket.duration
+“duration”) should also be set if known.
+@return &lt; 0 on error, = 0 if OK, 1 if flushed and there is no more data to flush</p>
+<p>@see av_interleaved_write_frame()</p>
+</div></details></section></div></main></body></html>

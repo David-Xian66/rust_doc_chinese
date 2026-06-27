@@ -10,4 +10,19 @@ Otherwise, the subtitle is stored in *sub.
 Note that AV_CODEC_CAP_DR1 is not available for subtitle codecs. This is for
 simplicity, because the performance difference is expected to be negligible
 and reusing a get_buffer written for video codecs would probably perform badly
-due
+due to a potentially very different allocation pattern.</p>
+<p>Some decoders (those marked with AV_CODEC_CAP_DELAY) have a delay between input
+and output. This means that for some packets they will not immediately
+produce decoded output and need to be flushed at the end of decoding to get
+all the decoded data. Flushing is done by calling this function with packets
+with avpkt-&gt;data set to NULL and avpkt-&gt;size set to 0 until it stops
+returning subtitles. It is safe to flush even those decoders that are not
+marked with AV_CODEC_CAP_DELAY, then no subtitles will be returned.</p>
+<p>@note The AVCodecContext MUST have been opened with @ref avcodec_open2()
+before packets may be fed to the decoder.</p>
+<p>@param avctx the codec context
+@param[out] sub The preallocated AVSubtitle in which the decoded subtitle will be stored,
+must be freed with avsubtitle_free if *got_sub_ptr is set.
+@param[in,out] got_sub_ptr Zero if no subtitle could be decompressed, otherwise, it is nonzero.
+@param[in] avpkt The input AVPacket containing the input buffer.</p>
+</div></details></section></div></main></body></html>

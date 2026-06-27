@@ -14,4 +14,18 @@ interval.tick().<span class="kw">await</span>; <span class="comment">// 立即 t
 
 // 大约已过去 20ms。</span></code></pre></div>
 <p>使用 <code>interval</code> 每两秒执行一个任务的简单示例。</p>
-<p><code>interval</code> 和 <a href="fn.sleep.html" title="fn tokio::time::sleep"><code>sleep</code></a> 的区别在于，<a href="struct.Interval.html" title="struct tokio::time::Interval"><code>Interval</code></a> 测量自上一个 tick 以来经过的时间，这意味着如果两次调用 <a href="struct.Interval.html#method.tick" title="method tokio::time::Interval::tick"><code>.tick().await</code></a> 之间经过了一些时间，则 <a href="struct.Interval.html#method.tick" title="method tokio::time::Interval::tick"><cod
+<p><code>interval</code> 和 <a href="fn.sleep.html" title="fn tokio::time::sleep"><code>sleep</code></a> 的区别在于，<a href="struct.Interval.html" title="struct tokio::time::Interval"><code>Interval</code></a> 测量自上一个 tick 以来经过的时间，这意味着如果两次调用 <a href="struct.Interval.html#method.tick" title="method tokio::time::Interval::tick"><code>.tick().await</code></a> 之间经过了一些时间，则 <a href="struct.Interval.html#method.tick" title="method tokio::time::Interval::tick"><code>.tick().await</code></a> 可能等待的时间比为间隔指定的时间更短。</p>
+<p>如果将下面示例中的 tick 替换为 <a href="fn.sleep.html" title="fn tokio::time::sleep"><code>sleep</code></a>，那么该任务将每 3 秒才执行一次，而不是每 2 秒执行一次。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::time;
+
+<span class="kw">async fn </span>task_that_takes_a_second() {
+    <span class="macro">println!</span>(<span class="string">"hello"</span>);
+    time::sleep(time::Duration::from_secs(<span class="number">1</span>)).<span class="kw">await
+</span>}
+
+<span class="kw">let </span><span class="kw-2">mut </span>interval = time::interval(time::Duration::from_secs(<span class="number">2</span>));
+<span class="kw">for </span>_i <span class="kw">in </span><span class="number">0</span>..<span class="number">5 </span>{
+    interval.tick().<span class="kw">await</span>;
+    task_that_takes_a_second().<span class="kw">await</span>;
+}</code></pre></div></div></details></section></div></main></body></html>

@@ -4,4 +4,17 @@
     out_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     in_: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>,
     in_count: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type c
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Convert audio.</p>
+<p>in and in_count can be set to 0 to flush the last few samples out at the
+end.</p>
+<p>If more input is provided than output space, then the input will be buffered.
+You can avoid this buffering by using swr_get_out_samples() to retrieve an
+upper bound on the required number of output samples for the given number of
+input samples. Conversion will run directly without copying whenever possible.</p>
+<p>@param s         allocated Swr context, with parameters set
+@param out       output buffers, only the first one need be set in case of packed audio
+@param out_count amount of space available for output in samples per channel
+@param in        input buffers, only the first one need to be set in case of packed audio
+@param in_count  number of input samples available in one channel</p>
+<p>@return number of samples output per channel, negative value on error</p>
+</div></details></section></div></main></body></html>

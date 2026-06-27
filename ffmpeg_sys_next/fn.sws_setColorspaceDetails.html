@@ -6,4 +6,15 @@
     dstRange: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     brightness: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     contrast: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
-    saturation: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="
+    saturation: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>@param c the scaling context
+@param dstRange flag indicating the white-black range of the output (1=jpeg / 0=mpeg)
+@param srcRange flag indicating the white-black range of the input (1=jpeg / 0=mpeg)
+@param table the yuv2rgb coefficients describing the output yuv space, normally ff_yuv2rgb_coeffs[x]
+@param inv_table the yuv2rgb coefficients describing the input yuv space, normally ff_yuv2rgb_coeffs[x]
+@param brightness 16.16 fixed point brightness correction
+@param contrast 16.16 fixed point contrast correction
+@param saturation 16.16 fixed point saturation correction</p>
+<p>@return A negative error code on error, non negative otherwise.
+If <code>LIBSWSCALE_VERSION_MAJOR &lt; 7</code>, returns -1 if not supported.</p>
+</div></details></section></div></main></body></html>

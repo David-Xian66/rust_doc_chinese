@@ -2,4 +2,23 @@
     s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFormatContext.html" title="struct ffmpeg_sys_next::AVFormatContext">AVFormatContext</a>,
     options: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVDictionary.html" title="struct ffmpeg_sys_next::AVDictionary">AVDictionary</a>,
 ) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Allocate the stream private data and initialize the codec, but do not write the header.
-May optionall
+May optionally be used before avformat_write_header() to initialize stream parameters
+before actually writing the header.
+If using this function, do not pass the same options to avformat_write_header().</p>
+<p>@param s        Media file handle, must be allocated with
+avformat_alloc_context().
+Its \ref AVFormatContext.oformat “oformat” field must be set
+to the desired output format;
+Its \ref AVFormatContext.pb “pb” field must be set to an
+already opened ::AVIOContext.
+@param options  An ::AVDictionary filled with AVFormatContext and
+muxer-private options.
+On return this parameter will be destroyed and replaced with
+a dict containing options that were not found. May be NULL.</p>
+<p>@retval AVSTREAM_INIT_IN_WRITE_HEADER On success, if the codec requires
+avformat_write_header to fully initialize.
+@retval AVSTREAM_INIT_IN_INIT_OUTPUT  On success, if the codec has been fully
+initialized.
+@retval AVERROR                       Anegative AVERROR on failure.</p>
+<p>@see av_opt_find, av_dict_set, avio_open, av_oformat_next, avformat_write_header.</p>
+</div></details></section></div></main></body></html>
