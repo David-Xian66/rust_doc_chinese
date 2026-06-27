@@ -1,0 +1,250 @@
+[
+  ["Constrain to the contained number of intermediate certificates", "约束为所含中间证书的数量。"],
+
+  ["The CRL contains only end-entity user certificates.", "CRL 仅包含最终用户证书。"],
+  ["The CRL contains only CA certificates.", "CRL 仅包含 CA 证书。"],
+
+  ["X520StateOrProvinceName", "X520StateOrProvinceName（州或省名）"],
+  ["X520OrganizationName", "X520OrganizationName（组织名）"],
+  ["X520OrganizationalUnitName", "X520OrganizationalUnitName（组织单位名）"],
+  ["Custom distinguished name type", "自定义可分辨名称类型"],
+
+  ["A string encoded using UCS-2", "使用 UCS-2 编码的字符串"],
+  ["A string encoded using UTF-32", "使用 UTF-32 编码的字符串"],
+  ["A string encoded using UTF-8", "使用 UTF-8 编码的字符串"],
+  ["A string of characters from the T.61 character set", "来自 T.61 字符集的字符串"],
+  ["An ASCII string containing only A-Z, a-z, 0-9, ’()+,-./:=? and &lt;SPACE&gt;", "仅包含 A-Z、a-z、0-9、’()+,-./:=? 以及&lt;空格&gt; 的 ASCII 字符串"],
+
+  ["The given certificate couldn’t be parsed", "无法解析给定的证书"],
+  ["The given certificate signing request couldn’t be parsed", "无法解析给定的证书签名请求"],
+  ["The given key pair couldn’t be parsed", "无法解析给定的密钥对"],
+  ["Invalid ASN.1 string", "ASN.1 字符串无效"],
+  ["An IP address was provided as a byte array, but the byte array was an invalid length.", "提供的 IP 地址是字节数组，但该字节数组的长度无效。"],
+  ["There is no support for generating\nkeys for the given algorithm", "不支持为给定算法生成密钥"],
+  ["The requested signature algorithm is not supported", "不支持所请求的签名算法"],
+  ["Unspecified <code>ring</code> error", "未指定的 <code>ring</code> 错误"],
+  ["The <code>ring</code> library rejected the key upon loading", "<code>ring</code> 库在加载时拒绝了该密钥"],
+  ["Time conversion related errors", "时间转换相关错误"],
+
+  ["anyExtendedKeyUsage", "anyExtendedKeyUsage（任意扩展密钥用途）"],
+  ["id-kp-emailProtection", "id-kp-emailProtection（电子邮件保护）"],
+  ["id-kp-timeStamping", "id-kp-timeStamping（时间戳）"],
+  ["A custom purpose not from the pre-specified list of purposes", "不属于预指定用途列表的自定义用途"],
+
+  ["Also known as E-Mail address", "也称为电子邮件地址"],
+
+  ["Invalid PrintableString type", "PrintableString 类型无效"],
+  ["Invalid UniversalString type", "UniversalString 类型无效"],
+  ["Invalid Ia5String type", "Ia5String 类型无效"],
+  ["Invalid TeletexString type", "TeletexString 类型无效"],
+  ["Invalid BmpString type", "BmpString 类型无效"],
+
+  ["The certificate can only sign itself", "该证书只能用于签署自身"],
+  ["The certificate can only sign itself, adding the extension and CA:FALSE", "该证书只能用于签署自身，并添加扩展与 CA:FALSE"],
+  ["The certificate may be used to sign other certificates", "该证书可用于签署其他证书"],
+
+  ["RFC 7093 method 1 - a truncated SHA256 digest.", "RFC 7093 方法 1 —— SHA256 摘要的截断值。"],
+  ["RFC 7093 method 2 - a truncated SHA384 digest.", "RFC 7093 方法 2 —— SHA384 摘要的截断值。"],
+  ["RFC 7093 method 3 - a truncated SHA512 digest.", "RFC 7093 方法 3 —— SHA512 摘要的截断值。"],
+  ["Pre-specified identifier. The exact given value is used as the key identifier.", "预指定的标识符。完全使用给定值作为密钥标识符。"],
+
+  ["digitalSignature", "digitalSignature（数字签名）"],
+  ["contentCommitment / nonRepudiation", "contentCommitment / nonRepudiation（内容承诺 / 不可否认性）"],
+  ["dataEncipherment", "dataEncipherment（数据加密）"],
+
+  ["<code>AttributeType</code> of the <code>Attribute</code>, defined as an <code>OBJECT IDENTIFIER</code>.", "<code>Attribute</code> 的 <code>AttributeType</code>，由 <code>OBJECT IDENTIFIER</code> 定义。"],
+  ["DER-encoded values of the <code>Attribute</code>, defined by <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a> as:", "<code>Attribute</code> 的 DER 编码值，由 <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a> 定义如下："],
+
+  ["Issue date of the CRL.", "CRL 的签发日期。"],
+  ["The date by which the next CRL will be issued.", "下一次 CRL 签发的截止日期。"],
+  ["A monotonically increasing sequence number for a given CRL scope and issuer.", "给定 CRL 范围与签发者的单调递增序列号。"],
+  ["A list of zero or more parameters describing revoked certificates included in the CRL.", "包含在 CRL 中的、描述已吊销证书的零个或多个参数的列表。"],
+
+  ["Method to generate key identifiers from public keys", "从公钥生成密钥标识符的方法"],
+  ["Defaults to a truncated SHA-256 digest. See KeyIdMethod for more information.", "默认为 SHA-256 摘要的截断值。更多信息参见 KeyIdMethod。"],
+
+  ["Parameters for the certificate to be signed.", "待签名证书的参数。"],
+  ["Public key to include in the certificate signing request.", "证书签名请求中包含的公钥。"],
+
+  ["An issued certificate.", "已签发的证书。"],
+  ["The certificate’s subject signing key.", "该证书的主体签名密钥。"],
+
+  ["One or more URI distribution point names, indicating a place the current CRL can\nbe retrieved. When present, SHOULD include at least one LDAP or HTTP URI.", "一个或多个 URI 分发点名称，指示可以获取当前 CRL 的位置。若存在，应至少包含一个 LDAP 或 HTTP URI。"],
+
+  ["The CRL’s distribution point, containing a sequence of URIs the CRL can be retrieved from.", "该 CRL 的分发点，包含可从中获取该 CRL 的 URI 序列。"],
+  ["An optional description of the CRL’s scope. If omitted, the CRL may contain\nboth user certs and CA certs.", "对 CRL 范围的可选描述。若省略，则该 CRL 可同时包含用户证书与 CA 证书。"],
+
+  ["A list of subtrees that the domain has to match.", "该域名必须匹配的子树列表。"],
+  ["A list of subtrees that the domain must not match.", "该域名不得匹配的子树列表。"],
+  ["Any name matching an excluded subtree is invalid even if it also matches a permitted subtree.", "任何匹配被排除子树的名字都无效，即使它也匹配允许的子树。"],
+
+  ["Serial number identifying the revoked certificate.", "标识已吊销证书的序列号。"],
+  ["The date at which the CA processed the revocation.", "CA 处理该吊销的日期。"],
+  ["An optional reason code identifying why the certificate was revoked.", "标识证书为何被吊销的可选原因代码。"],
+  ["An optional field describing the date on which it was known or suspected that the\nprivate key was compromised or the certificate otherwise became invalid.", "可选字段，描述已知或怀疑私钥泄露、或证书以其他方式失效的日期。"],
+
+  ["Error from the pem crate", "pem crate 的错误"],
+  ["Error generated by a remote key operation", "远程密钥操作生成的错误"],
+  ["Unsupported field when generating a CSR", "生成 CSR 时不支持的字段"],
+  ["Invalid certificate revocation list (CRL) next update.", "证书吊销列表（CRL）的下一次更新无效。"],
+  ["CRL issuer specifies Key Usages that don’t include cRLSign.", "CRL 签发者指定的 Key Usages 不包含 cRLSign。"],
+
+  ["If <code>true</code>, the ‘Authority Key Identifier’ extension will be added to the generated cert", "若为 <code>true</code>，则会在生成的证书中添加 ‘Authority Key Identifier’ 扩展"],
+
+  ["The path length constraint (only relevant for CA certificates)", "路径长度约束（仅与 CA 证书相关）"],
+  ["Sets an optional upper limit on the length of the intermediate certificate chain\nlength allowed for this CA certificate (not including the end entity certificate).", "为该 CA 证书所允许的中间证书链长度（不含最终实体证书）设置可选的上限。"],
+
+  ["You might know CIDR subnets better by their textual representation\nwhere they consist of an ip address followed by a slash and a prefix\nnumber, for example 192.168.99.0/24.", "你可能更熟悉 CIDR 子网的文本表示形式——它由一个 IP 地址后跟斜杠和前缀长度组成，例如 192.168.99.0/24。"],
+  ["The first field in the enum is the address, the second is the mask.\nBoth are specified in network byte order.", "枚举中第一个字段是地址，第二个是掩码。两者均按网络字节序指定。"],
+  ["Obtains the CidrSubnet from an ip address\nas well as the specified prefix number.", "从 IP 地址以及指定的前缀长度获取 CidrSubnet。"],
+  ["Obtains the CidrSubnet from an IPv4 address in network byte order\nas well as the specified prefix.", "从网络字节序的 IPv4 地址以及指定的前缀获取 CidrSubnet。"],
+  ["Obtains the CidrSubnet from an IPv6 address in network byte order\nas well as the specified prefix.", "从网络字节序的 IPv6 地址以及指定的前缀获取 CidrSubnet。"],
+  ["Obtains the CidrSubnet from the well-known\naddr/prefix notation.", "从众所周知的 addr/前缀记法获取 CidrSubnet。"],
+
+  ["One of the purposes contained in the extended key usage extension", "扩展密钥用途扩展中包含的用途之一"],
+
+  ["This type has similarities to the SanType enum but is not equal.\nFor example, GeneralSubtree has CIDR subnets for ip addresses\nwhile SanType has IP addresses.", "此类型与 SanType 枚举类似但并不相同。例如，GeneralSubtree 对 IP 地址使用 CIDR 子网，而 SanType 使用 IP 地址。"],
+
+  ["Key identifiers should be derived from the public key data. RFC 7093 defines\nthree methods to do so using a choice of SHA256 (method 1), SHA384 (method 2), or SHA512\n(method 3). In each case the first", "密钥标识符应从公钥数据派生。RFC 7093 定义了三种派生方法：SHA256（方法 1）、SHA384（方法 2）或 SHA512（方法 3）。在每种情况下，前"],
+  ["In addition to the RFC 7093 mechanisms, rcgen supports using a pre-specified key identifier.\nThis can be helpful when working with an existing Certificate.", "除 RFC 7093 机制外，rcgen 还支持使用预指定的密钥标识符。这在与现有证书协作时很有用。"],
+
+  ["One of the purposes contained in the key usage extension", "密钥用途扩展中包含的用途之一"],
+
+  ["An OtherName value, defined in RFC 5280§4.1.2.4.", "RFC 5280 §4.1.2.4 中定义的 OtherName 值。"],
+  ["While the standard specifies this could be any ASN.1 type rcgen limits\nthe value to a UTF-8 encoded string as this will cover the most common\nuse cases, for instance smart card user principal names (U", "虽然标准规定它可以是任意 ASN.1 类型，但 rcgen 将值限定为 UTF-8 编码字符串，因为这能覆盖最常见的用例，例如智能卡的用户主体名（U"],
+
+  ["Identifies the reason a certificate was revoked.\nSee RFC 5280 §5.3.1", "标识证书被吊销的原因。参见 RFC 5280 §5.3.1"],
+
+  ["Helper to obtain an OffsetDateTime from year, month, day values", "从年、月、日取值获取 OffsetDateTime 的辅助函数"],
+  ["The year, month, day values are assumed to be in UTC.", "年、月、日取值假定为 UTC。"],
+  ["This helper function serves two purposes: first, so that you don’t\nhave to import the time crate yourself in order to specify date\ninformation, second so that users don’t have to type unproportionatel", "该辅助函数有两个用途：第一，无需自己导入 time crate 即可指定日期信息；第二，避免用户手动输入不成比例的"],
+
+  ["KISS function to generate a self signed certificate", "用于生成自签名证书的 KISS 函数"],
+  ["Given a set of domain names you want your certificate to be valid for,\nthis function fills in the other generation parameters with\nreasonable defaults and generates a self signed certificate\nand key p", "给定你的证书应生效的一组域名，此函数会使用合理的默认设置填充其他生成参数，并生成自签名证书及密钥对"],
+
+  ["The most simple way of using this crate is by calling the\ngenerate_simple_self_signed function.\nFor more customization abilities, construct a CertificateParams and\na key pair to call CertificateParams", "使用本 crate 最简单的方式是调用 generate_simple_self_signed 函数。若需要更灵活的定制，可构造 CertificateParams 和一个密钥对来调用 CertificateParams"],
+
+  ["ECDSA signing using the P-256 curves and SHA-256 hashing as per RFC 5758", "按 RFC 5758 使用 P-256 曲线与 SHA-256 哈希的 ECDSA 签名"],
+  ["ECDSA signing using the P-384 curves and SHA-384 hashing as per RFC 5758", "按 RFC 5758 使用 P-384 曲线与 SHA-384 哈希的 ECDSA 签名"],
+  ["ED25519 curve signing as per RFC 8410", "按 RFC 8410 进行的 ED25519 曲线签名"],
+  ["RSA signing with PKCS#1 1.5 padding and SHA-256 hashing as per RFC 4055", "按 RFC 4055 使用 PKCS#1 1.5 填充与 SHA-256 哈希的 RSA 签名"],
+  ["RSA signing with PKCS#1 1.5 padding and SHA-384 hashing as per RFC 4055", "按 RFC 4055 使用 PKCS#1 1.5 填充与 SHA-384 哈希的 RSA 签名"],
+  ["RSA signing with PKCS#1 1.5 padding and SHA-512 hashing as per RFC 4055", "按 RFC 4055 使用 PKCS#1 1.5 填充与 SHA-512 哈希的 RSA 签名"],
+
+  ["ASN.1 BMPString type.", "ASN.1 BMPString 类型。"],
+  ["You can create a BmpString from a literal string with BmpString::try_from:", "你可以使用 BmpString::try_from 通过字面量字符串创建 BmpString："],
+  ["Encodes Basic Multilingual Plane (BMP) subset of Unicode (ISO 10646),\na.k.a. UCS-2.", "对 Unicode 基本多文种平面（BMP）子集（ISO 10646），即 UCS-2 进行编码。"],
+  ["Bytes are encoded as UTF-16 big-endian.", "字节以 UTF-16 大端序编码。"],
+  ["BMPString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects.", "包含 BMPString 是为了向后兼容；RFC 5280 规定它不应被用于新证书的主体。"],
+  ["Returns a byte slice of this BmpString’s contents.", "返回此 BmpString 内容的字节切片。"],
+  ["The inverse of this method is from_utf16be.", "该方法的逆操作是 from_utf16be。"],
+  ["Decode a UTF-16BE–encoded vector vec into a BmpString, returning Err if vec contains any invalid data.", "将 UTF-16BE 编码的向量 vec 解码为 BmpString；若 vec 含任何无效数据则返回 Err。"],
+  ["Converts a &amp;str to a BmpString.", "将 &amp;str 转换为 BmpString。"],
+  ["Any character not in the BmpString charset will be rejected.\nSee BmpString documentation for more information.", "任何不属于 BmpString 字符集的字符都将被拒绝。更多信息请参见 BmpString 文档。"],
+  ["Parsing a BmpString allocates memory since the UTF-8 to UTF-16 conversion requires a memory allocation.", "解析 BmpString 会分配内存，因为 UTF-8 到 UTF-16 的转换需要一次内存分配。"],
+
+  ["You can create a Ia5String from a literal string with Ia5String::try_from:", "你可以使用 Ia5String::try_from 通过字面量字符串创建 Ia5String："],
+  ["Supports the International Alphabet No. 5 (IA5) character encoding, i.e.\nthe 128 characters of the ASCII alphabet. (Note: IA5 is now\ntechnically known as the International Reference Alphabet or IRA as", "支持国际字母表第 5 号（IA5）字符编码，即 ASCII 字母表的 128 个字符。（注：IA5 在技术上现在称为国际参考字母表或 IRA，如"],
+  ["Extracts a string slice containing the entire Ia5String.", "提取包含整个 Ia5String 的字符串切片。"],
+  ["Converts a &amp;str to a Ia5String.", "将 &amp;str 转换为 Ia5String。"],
+  ["Any character not in the Ia5String charset will be rejected.\nSee Ia5String documentation for more information.", "任何不属于 Ia5String 字符集的字符都将被拒绝。更多信息请参见 Ia5String 文档。"],
+  ["The result is allocated on the heap.", "结果分配在堆上。"],
+
+  ["ASN.1 PrintableString type.", "ASN.1 PrintableString 类型。"],
+  ["Supports a subset of the ASCII printable characters (described below).", "支持 ASCII 可打印字符的子集（见下文）。"],
+  ["For the full ASCII character set, use\nIa5String.", "对于完整的 ASCII 字符集，请使用 Ia5String。"],
+  ["You can create a PrintableString from a literal string with PrintableString::try_from:", "你可以使用 PrintableString::try_from 通过字面量字符串创建 PrintableString："],
+  ["PrintableString is a subset of the ASCII printable characters.\nFor instance, '@' is a printable character as per ASCII but can’t be part of ASN.1’s PrintableString.", "PrintableString 是 ASCII 可打印字符的子集。例如，'@' 按 ASCII 是可打印字符，但不能作为 ASN.1 PrintableString 的一部分。"],
+  ["The following ASCII characters/ranges are supported:", "支持以下 ASCII 字符/范围："],
+  ["Extracts a string slice containing the entire PrintableString.", "提取包含整个 PrintableString 的字符串切片。"],
+  ["Converts a &amp;str to a PrintableString.", "将 &amp;str 转换为 PrintableString。"],
+  ["Any character not in the PrintableString charset will be rejected.\nSee PrintableString documentation for more information.", "任何不属于 PrintableString 字符集的字符都将被拒绝。更多信息请参见 PrintableString 文档。"],
+
+  ["ASN.1 TeletexString type.", "ASN.1 TeletexString 类型。"],
+  ["You can create a TeletexString from a literal string with TeletexString::try_from:", "你可以使用 TeletexString::try_from 通过字面量字符串创建 TeletexString："],
+  ["The standard defines a complex character set allowed in this type. However, quoting the ASN.1\nmailing list, “a sizable volume of software in the world treats TeletexString (T61String) as a\nsimple 8-bi", "标准为该类型定义了复杂的字符集。然而，引用 ASN.1 邮件列表的说法：“世界上有相当数量的软件将 TeletexString（T61String）视为简单的 8 位"],
+  ["TeletexString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects.", "包含 TeletexString 是为了向后兼容；RFC 5280 规定它不应被用于新证书的主体。"],
+  ["Extracts a string slice containing the entire TeletexString.", "提取包含整个 TeletexString 的字符串切片。"],
+  ["Returns a byte slice of this TeletexString’s contents.", "返回此 TeletexString 内容的字节切片。"],
+  ["Converts a &amp;str to a TeletexString.", "将 &amp;str 转换为 TeletexString。"],
+  ["Any character not in the TeletexString charset will be rejected.\nSee TeletexString documentation for more information.", "任何不属于 TeletexString 字符集的字符都将被拒绝。更多信息请参见 TeletexString 文档。"],
+  ["This conversion does not allocate or copy memory.", "此转换不分配也不复制内存。"],
+
+  ["ASN.1 UniversalString type.", "ASN.1 UniversalString 类型。"],
+  ["You can create a UniversalString from a literal string with UniversalString::try_from:", "你可以使用 UniversalString::try_from 通过字面量字符串创建 UniversalString："],
+  ["The characters which can appear in the UniversalString type are any of the characters allowed by\nISO/IEC 10646 (Unicode).", "UniversalString 类型可出现的字符是 ISO/IEC 10646（Unicode）所允许的任何字符。"],
+  ["Bytes are encoded like UTF-32 big-endian.", "字节以 UTF-32 大端序编码。"],
+  ["UniversalString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects.", "包含 UniversalString 是为了向后兼容；RFC 5280 规定它不应被用于新证书的主体。"],
+  ["Returns a byte slice of this UniversalString’s contents.", "返回此 UniversalString 内容的字节切片。"],
+  ["The inverse of this method is from_utf32be.", "该方法的逆操作是 from_utf32be。"],
+  ["Decode a UTF-32BE–encoded vector vec into a UniversalString, returning Err if vec contains any invalid data.", "将 UTF-32BE 编码的向量 vec 解码为 UniversalString；若 vec 含任何无效数据则返回 Err。"],
+  ["Converts a &amp;str to a UniversalString.", "将 &amp;str 转换为 UniversalString。"],
+  ["Any character not in the UniversalString charset will be rejected.\nSee UniversalString documentation for more information.", "任何不属于 UniversalString 字符集的字符都将被拒绝。更多信息请参见 UniversalString 文档。"],
+  ["Parsing a UniversalString allocates memory since the UTF-8 to UTF-32 conversion requires a memory allocation.", "解析 UniversalString 会分配内存，因为 UTF-8 到 UTF-32 的转换需要一次内存分配。"],
+
+  ["A PKCS #10 CSR attribute, as defined in RFC 5280 and constrained\nby RFC 2986.", "由 RFC 5280 定义、并受 RFC 2986 约束的 PKCS #10 CSR 属性。"],
+
+  ["CertificateDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;, so you can easily\nextract the DER bytes from the return value.", "CertificateDer 实现了 Deref&lt;Target = [u8]&gt; 与 AsRef&lt;[u8]&gt;，因此你可以轻松地从返回值中提取 DER 字节。"],
+  ["CertificateRevocationListDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;,\nso you can easily extract the DER bytes from the return value.", "CertificateRevocationListDer 实现了 Deref&lt;Target = [u8]&gt; 与 AsRef&lt;[u8]&gt;，因此你可以轻松地从返回值中提取 DER 字节。"],
+  ["CertificateSigningRequestDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;,\nso you can easily extract the DER bytes from the return value.", "CertificateSigningRequestDer 实现了 Deref&lt;Target = [u8]&gt; 与 AsRef&lt;[u8]&gt;，因此你可以轻松地从返回值中提取 DER 字节。"],
+
+  ["An optional CRL extension identifying the CRL distribution point and scope for a\nparticular CRL as described in RFC 5280 Section 5.2.5<sup id=\"fnref1\"><a href=\"#fn1\">1</a></sup>.", "标识特定 CRL 分发点与范围的可选 CRL 扩展，如 RFC 5280 第 5.2.5 节<sup id=\"fnref1\"><a href=\"#fn1\">1</a></sup> 所述。"],
+
+  ["Generate a new certificate based on the requested parameters, signed by the provided\nissuer.", "基于所请求的参数生成新证书，并由所提供的签发者签名。"],
+  ["The returned certificate will have its issuer field set to the subject of the provided\nissuer, and the authority key identifier extension will be populated using the subject\npublic key of issuer. It w", "返回的证书将其 issuer 字段设置为所提供的签发者的 subject，并使用该签发者的主体公钥填充 authority key identifier 扩展。它会"],
+  ["Note that no validation of the issuer certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.", "注意，不会对签发者证书进行任何验证。Rcgen 不要求该证书是 CA 证书，也不要求其具有允许签名的密钥用途扩展。"],
+  ["The returned <a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a> may be serialized using <a href=\"struct.Certificate.html#method.der\" title=\"method rcgen::Certificate::der\"><code>Certificate::der</code></a> and\n<a href=\"struct.Certificate.html#method.pem\" title=\"method rcgen::Certificate::pem\"><code>Certificate::pem</code></a>.", "返回的 <a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a> 可通过 <a href=\"struct.Certificate.html#method.der\" title=\"method rcgen::Certificate::der\"><code>Certificate::der</code></a> 与 <a href=\"struct.Certificate.html#method.pem\" title=\"method rcgen::Certificate::pem\"><code>Certificate::pem</code></a> 序列化。"],
+
+  ["Create a new issuer from the given parameters and key, signed by the given issuer.", "从给定参数和密钥创建新签发者，并由给定签发者签名。"],
+
+  ["A certificate revocation list (CRL) distribution point, to be included in a certificate’s\ndistribution points extension or\na CRL’s issuing distribution point extension", "证书吊销列表（CRL）分发点，应包含在证书的分发点扩展中或 CRL 的 issuing distribution point 扩展中"],
+  ["A certificate revocation list (CRL) issuing distribution point, to be included in a CRL’s\nissuing distribution point extension.", "证书吊销列表（CRL）issuing distribution point，应包含在 CRL 的 issuing distribution point 扩展中。"],
+
+  ["A custom extension of a certificate, as specified in\nRFC 5280", "如 RFC 5280 所述的证书自定义扩展"],
+  ["Creates a new acmeIdentifier extension for ACME TLS-ALPN-01\nas specified in RFC 8737", "按 RFC 8737 创建用于 ACME TLS-ALPN-01 的 acmeIdentifier 扩展"],
+  ["Panics if the passed sha_digest parameter doesn’t hold 32 bytes (256 bits).", "若传入的 sha_digest 参数不包含 32 字节（256 位），则会发生 panic。"],
+
+  ["A distinguished name is a set of (attribute type, attribute value) tuples.", "可分辨名称是一组 (属性类型, 属性值) 元组。"],
+  ["This datastructure keeps them ordered by insertion order.", "该数据结构按插入顺序保存它们。"],
+  ["See also the RFC 5280 sections on the issuer\nand subject fields.", "另请参见 RFC 5280 中关于 issuer 与 subject 字段的章节。"],
+  ["Returns true when an actual removal happened, false\nwhen no attribute with the specified DnType was\nfound.", "当实际发生了删除时返回 true；当未找到具有指定 DnType 的属性时返回 false。"],
+
+  ["An issuer that can sign certificates.", "能够签署证书的签发者。"],
+  ["Encapsulates the distinguished name, key identifier method, key usages and signing key\nof the issuing certificate.", "封装了签发证书的可分辨名称、密钥标识符方法、密钥用途以及签名密钥。"],
+  ["Use Issuer::new instead if you want to obtain an Issuer that owns\nits parameters.", "若你希望获得一个拥有其参数的 Issuer，请改用 Issuer::new。"],
+
+  ["Generate a new random PKCS_ECDSA_P256_SHA256 key pair", "生成新的随机 PKCS_ECDSA_P256_SHA256 密钥对"],
+  ["If you’re not sure which algorithm to use, PKCS_ECDSA_P256_SHA256 is a good choice.\nIf passed an RSA signature algorithm, it depends on the backend whether we return\na generated key or an error for ke", "如果你不确定使用哪种算法，PKCS_ECDSA_P256_SHA256 是一个不错的选择。若传入 RSA 签名算法，则根据后端的不同，可能会返回生成的密钥或返回错误（针对密钥"],
+  ["If aws_lc_rs feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”", "若使用 aws_lc_rs feature，则密钥必须是按 PKCS #8/RFC 5958、SEC1/RFC 5915 或 PKCS#1/RFC 3447 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”、“RSA PRIVATE KEY”"],
+  ["Otherwise if the ring feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.", "否则，若使用 ring feature，则密钥必须是按 PKCS #8/RFC 5958 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”。"],
+  ["Obtains the key pair from a DER formatted key\nusing the specified SignatureAlgorithm", "使用指定的 SignatureAlgorithm 从 DER 格式的密钥获取密钥对"],
+  ["The key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files\nSame as from_pkcs8_pem_and_sign_algo.", "密钥必须是按 PKCS #8/RFC 5958 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”。与 from_pkcs8_pem_and_sign_algo 相同。"],
+  ["If you have a PrivatePkcs8KeyDer, you can usually rely on the TryFrom implementation\nto obtain a KeyPair – it will determine the correct SignatureAlgorithm for you.\nHowever, sometimes multiple signatu", "如果你有 PrivatePkcs8KeyDer，通常可依赖 TryFrom 实现来获取 KeyPair —— 它会为你确定正确的 SignatureAlgorithm。但有时可能存在多个签名算法"],
+  ["rustls_pemfile::private_key() is often used to obtain a PrivateKeyDer from PEM\ninput. If the obtained PrivateKeyDer is a Pkcs8 variant, you can use its contents\nas input for this function. Alternative", "rustls_pemfile::private_key() 常用于从 PEM 输入获取 PrivateKeyDer。若获得的 PrivateKeyDer 是 Pkcs8 变体，你可以将其内容用作此函数的输入。另一种方式是"],
+  ["Obtains the key pair from a PEM formatted key\nusing the specified SignatureAlgorithm", "使用指定的 SignatureAlgorithm 从 PEM 格式的密钥获取密钥对"],
+  ["If aws_lc_rs feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”", "若使用 aws_lc_rs feature，则密钥必须是按 PKCS #8/RFC 5958、SEC1/RFC 5915 或 PKCS#1/RFC 3447 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”、“RSA PRIVATE KEY”"],
+  ["Otherwise if the ring feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.", "否则，若使用 ring feature，则密钥必须是按 PKCS #8/RFC 5958 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”。"],
+  ["Same as from_pem_and_sign_algo.", "与 from_pem_and_sign_algo 相同。"],
+  ["Note that using the ring feature, this function only support PrivateKeyDer::Pkcs8 variant.\nConsider using the aws_lc_rs features to support PrivateKeyDer fully.", "注意，使用 ring feature 时，此函数仅支持 PrivateKeyDer::Pkcs8 变体。如需完整支持 PrivateKeyDer，请考虑使用 aws_lc_rs feature。"],
+  ["If you have a PrivateKeyDer, you can usually rely on the TryFrom implementation\nto obtain a KeyPair – it will determine the correct SignatureAlgorithm for you.\nHowever, sometimes multiple signature al", "如果你有 PrivateKeyDer，通常可依赖 TryFrom 实现来获取 KeyPair —— 它会为你确定正确的 SignatureAlgorithm。但有时可能存在多个签名算法"],
+  ["You can use rustls_pemfile::private_key to get the key input. If\nyou have already a byte slice, just calling try_into() will convert it to a PrivateKeyDer.", "你可以使用 rustls_pemfile::private_key 来获取密钥输入。如果你已经有字节切片，直接调用 try_into() 即可将其转换为 PrivateKeyDer。"],
+  ["The key is in raw format, as how KeyPair::public_key()\nwould output, and how UnparsedPublicKey::verify()\nwould accept.", "密钥为原始格式，与 KeyPair::public_key() 输出的格式一致，也是 UnparsedPublicKey::verify() 所接受的格式。"],
+  ["Returns (possibly multiple) compatible SignatureAlgorithm’s\nthat the key can be used with", "返回（可能多个）与该密钥兼容的 SignatureAlgorithm"],
+  ["Returns a reference to the serialized key pair (including the private key)\nin PKCS#8 format in DER", "返回序列化的密钥对（含私钥）的引用，格式为 PKCS#8 的 DER 编码"],
+
+  ["The NameConstraints extension\n(only relevant for CA certificates)", "NameConstraints 扩展（仅与 CA 证书相关）"],
+
+  ["Retrieve the SignatureAlgorithm for the provided OID", "按给定的 OID 检索 SignatureAlgorithm"],
+  ["The Hash trait is not derived, but implemented according to impl of the PartialEq trait", "未派生 Hash trait，但根据 PartialEq trait 的实现方式实现"],
+
+  ["The key is formatted according to the X.509 SubjectPublicKeyInfo struct.\nSee RFC 5280 section 4.1.", "密钥按 X.509 SubjectPublicKeyInfo 结构进行格式化。参见 RFC 5280 第 4.1 节。"],
+
+  ["Calculates a subject key identifier for the certificate subject’s public key.\nThis key identifier is used in the SubjectKeyIdentifier X.509v3 extension.", "为证书主体的公钥计算 subject key identifier。该密钥标识符用于 SubjectKeyIdentifier X.509v3 扩展中。"],
+  ["The constructed CSR will contain attributes based on the certificate parameters,\nand include the subject public key information from <code>subject_key</code>. Additionally,\nthe CSR will be signed using the subject key.", "所构造的 CSR 将包含基于证书参数的属性，并包含来自 <code>subject_key</code> 的主体公钥信息。此外，CSR 将使用主体密钥签名。"],
+  ["Note that subsequent invocations of <code>serialize_request()</code> will not produce the exact\nsame output.", "注意，后续对 <code>serialize_request()</code> 的调用不会产生完全相同的输出。"],
+  ["Generate and serialize a certificate signing request (CSR) with custom PKCS #10 attributes.\nas defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a>.", "按 <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a> 中定义的、带有自定义 PKCS #10 属性的方式，生成并序列化证书签名请求（CSR）。"],
+  ["The constructed CSR will contain attributes based on the certificate parameters,\nand include the subject public key information from <code>subject_key</code>. Additionally,\nthe CSR will be self-signed using the subject key.", "所构造的 CSR 将包含基于证书参数的属性，并包含来自 <code>subject_key</code> 的主体公钥信息。此外，CSR 将使用主体密钥自签名。"],
+  ["Note that subsequent invocations of <code>serialize_request_with_attributes()</code> will not produce the exact\nsame output.", "注意，后续对 <code>serialize_request_with_attributes()</code> 的调用不会产生完全相同的输出。"],
+
+  ["The returned certificate will have its issuer field set to the subject of the\nprovided <code>issuer</code>, and the authority key identifier extension will be populated using\nthe subject public key of <code>issuer</code> (typically either a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> or another <a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>). It will be self-signed if <code>issuer</code> is <code>None</code>.", "返回的证书将其 issuer 字段设置为所提供的 <code>issuer</code> 的 subject，并使用 <code>issuer</code> 的主体公钥（通常为 <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> 或另一个 <a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>）填充 authority key identifier 扩展。若 <code>issuer</code> 为 <code>None</code>，则证书将自签名。"]
+]
