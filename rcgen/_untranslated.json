@@ -1,0 +1,653 @@
+[
+  {
+    "path": "rcgen\\enum.CidrSubnet.html",
+    "relpath": "enum.CidrSubnet.html",
+    "raw_p": "<p>You might know CIDR subnets better by their textual representation\nwhere they consist of an ip address followed by a slash and a prefix\nnumber, for example <code>192.168.99.0/24</code>.</p>",
+    "inner": "You might know CIDR subnets better by their textual representation\nwhere they consist of an ip address followed by a slash and a prefix\nnumber, for example <code>192.168.99.0/24</code>.",
+    "stripped": "You might know CIDR subnets better by their textual representation\nwhere they consist of an ip address followed by a slash and a prefix\nnumber, for example 192.168.99.0/24."
+  },
+  {
+    "path": "rcgen\\enum.ExtendedKeyUsagePurpose.html",
+    "relpath": "enum.ExtendedKeyUsagePurpose.html",
+    "raw_p": "<p>One of the purposes contained in the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.12\">extended key usage extension</a></p>",
+    "inner": "One of the purposes contained in the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.12\">extended key usage extension</a>",
+    "stripped": "One of the purposes contained in the extended key usage extension"
+  },
+  {
+    "path": "rcgen\\enum.GeneralSubtree.html",
+    "relpath": "enum.GeneralSubtree.html",
+    "raw_p": "<p>This type has similarities to the <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> enum but is not equal.\nFor example, <code>GeneralSubtree</code> has CIDR subnets for ip addresses\nwhile <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> has IP addresses.</p>",
+    "inner": "This type has similarities to the <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> enum but is not equal.\nFor example, <code>GeneralSubtree</code> has CIDR subnets for ip addresses\nwhile <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> has IP addresses.",
+    "stripped": "This type has similarities to the SanType enum but is not equal.\nFor example, GeneralSubtree has CIDR subnets for ip addresses\nwhile SanType has IP addresses."
+  },
+  {
+    "path": "rcgen\\enum.KeyIdMethod.html",
+    "relpath": "enum.KeyIdMethod.html",
+    "raw_p": "<p>Key identifiers should be derived from the public key data. <a href=\"https://www.rfc-editor.org/rfc/rfc7093\">RFC 7093</a> defines\nthree methods to do so using a choice of SHA256 (method 1), SHA384 (method 2), or SHA512\n(method 3). In each case the first 160 bits of the hash are used as the key identifier\nto match the output length that would be produced were SHA1 used (a legacy option defined\nin RFC 5280).</p>",
+    "inner": "Key identifiers should be derived from the public key data. <a href=\"https://www.rfc-editor.org/rfc/rfc7093\">RFC 7093</a> defines\nthree methods to do so using a choice of SHA256 (method 1), SHA384 (method 2), or SHA512\n(method 3). In each case the first 160 bits of the hash are used as the key identifier\nto match the output length that would be produced were SHA1 used (a legacy option defined\nin RFC 5280).",
+    "stripped": "Key identifiers should be derived from the public key data. RFC 7093 defines\nthree methods to do so using a choice of SHA256 (method 1), SHA384 (method 2), or SHA512\n(method 3). In each case the first 160 bits of the hash are used as the key identifier\nto match the output length that would be produced were SHA1 used (a legacy option defined\nin RFC 5280)."
+  },
+  {
+    "path": "rcgen\\enum.KeyIdMethod.html",
+    "relpath": "enum.KeyIdMethod.html",
+    "raw_p": "<p>In addition to the RFC 7093 mechanisms, rcgen supports using a pre-specified key identifier.\nThis can be helpful when working with an existing <code>Certificate</code>.</p>",
+    "inner": "In addition to the RFC 7093 mechanisms, rcgen supports using a pre-specified key identifier.\nThis can be helpful when working with an existing <code>Certificate</code>.",
+    "stripped": "In addition to the RFC 7093 mechanisms, rcgen supports using a pre-specified key identifier.\nThis can be helpful when working with an existing Certificate."
+  },
+  {
+    "path": "rcgen\\enum.KeyUsagePurpose.html",
+    "relpath": "enum.KeyUsagePurpose.html",
+    "raw_p": "<p>One of the purposes contained in the <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3\">key usage</a> extension</p>",
+    "inner": "One of the purposes contained in the <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3\">key usage</a> extension",
+    "stripped": "One of the purposes contained in the key usage extension"
+  },
+  {
+    "path": "rcgen\\enum.OtherNameValue.html",
+    "relpath": "enum.OtherNameValue.html",
+    "raw_p": "<p>An <code>OtherName</code> value, defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4\">RFC 5280§4.1.2.4</a>.</p>",
+    "inner": "An <code>OtherName</code> value, defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4\">RFC 5280§4.1.2.4</a>.",
+    "stripped": "An OtherName value, defined in RFC 5280§4.1.2.4."
+  },
+  {
+    "path": "rcgen\\enum.RevocationReason.html",
+    "relpath": "enum.RevocationReason.html",
+    "raw_p": "<p>Identifies the reason a certificate was revoked.\nSee <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.3.1\">RFC 5280 §5.3.1</a></p>",
+    "inner": "Identifies the reason a certificate was revoked.\nSee <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.3.1\">RFC 5280 §5.3.1</a>",
+    "stripped": "Identifies the reason a certificate was revoked.\nSee RFC 5280 §5.3.1"
+  },
+  {
+    "path": "rcgen\\fn.date_time_ymd.html",
+    "relpath": "fn.date_time_ymd.html",
+    "raw_p": "<p>Helper to obtain an <code>OffsetDateTime</code> from year, month, day values</p>",
+    "inner": "Helper to obtain an <code>OffsetDateTime</code> from year, month, day values",
+    "stripped": "Helper to obtain an OffsetDateTime from year, month, day values"
+  },
+  {
+    "path": "rcgen\\index.html",
+    "relpath": "index.html",
+    "raw_p": "<p>The most simple way of using this crate is by calling the\n<a href=\"fn.generate_simple_self_signed.html\" title=\"fn rcgen::generate_simple_self_signed\"><code>generate_simple_self_signed</code></a> function.\nFor more customization abilities, construct a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> and\na key pair to call <a href=\"struct.CertificateParams.html#method.signed_by\" title=\"method rcgen::CertificateParams::signed_by\"><code>CertificateParams::signed_by()</code></a> or <a href=\"struct.CertificateParams.html#method.self_signed\" title=\"method rcgen::CertificateParams::self_signed\"><code>CertificateParams::self_signed()</code></a>.</p>",
+    "inner": "The most simple way of using this crate is by calling the\n<a href=\"fn.generate_simple_self_signed.html\" title=\"fn rcgen::generate_simple_self_signed\"><code>generate_simple_self_signed</code></a> function.\nFor more customization abilities, construct a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> and\na key pair to call <a href=\"struct.CertificateParams.html#method.signed_by\" title=\"method rcgen::CertificateParams::signed_by\"><code>CertificateParams::signed_by()</code></a> or <a href=\"struct.CertificateParams.html#method.self_signed\" title=\"method rcgen::CertificateParams::self_signed\"><code>CertificateParams::self_signed()</code></a>.",
+    "stripped": "The most simple way of using this crate is by calling the\ngenerate_simple_self_signed function.\nFor more customization abilities, construct a CertificateParams and\na key pair to call CertificateParams::signed_by() or CertificateParams::self_signed()."
+  },
+  {
+    "path": "rcgen\\static.PKCS_ECDSA_P256_SHA256.html",
+    "relpath": "static.PKCS_ECDSA_P256_SHA256.html",
+    "raw_p": "<p>ECDSA signing using the P-256 curves and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a></p>",
+    "inner": "ECDSA signing using the P-256 curves and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a>",
+    "stripped": "ECDSA signing using the P-256 curves and SHA-256 hashing as per RFC 5758"
+  },
+  {
+    "path": "rcgen\\static.PKCS_ECDSA_P384_SHA384.html",
+    "relpath": "static.PKCS_ECDSA_P384_SHA384.html",
+    "raw_p": "<p>ECDSA signing using the P-384 curves and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a></p>",
+    "inner": "ECDSA signing using the P-384 curves and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a>",
+    "stripped": "ECDSA signing using the P-384 curves and SHA-384 hashing as per RFC 5758"
+  },
+  {
+    "path": "rcgen\\static.PKCS_ED25519.html",
+    "relpath": "static.PKCS_ED25519.html",
+    "raw_p": "<p>ED25519 curve signing as per <a href=\"https://tools.ietf.org/html/rfc8410\">RFC 8410</a></p>",
+    "inner": "ED25519 curve signing as per <a href=\"https://tools.ietf.org/html/rfc8410\">RFC 8410</a>",
+    "stripped": "ED25519 curve signing as per RFC 8410"
+  },
+  {
+    "path": "rcgen\\static.PKCS_RSA_SHA256.html",
+    "relpath": "static.PKCS_RSA_SHA256.html",
+    "raw_p": "<p>RSA signing with PKCS#1 1.5 padding and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "inner": "RSA signing with PKCS#1 1.5 padding and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a>",
+    "stripped": "RSA signing with PKCS#1 1.5 padding and SHA-256 hashing as per RFC 4055"
+  },
+  {
+    "path": "rcgen\\static.PKCS_RSA_SHA384.html",
+    "relpath": "static.PKCS_RSA_SHA384.html",
+    "raw_p": "<p>RSA signing with PKCS#1 1.5 padding and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "inner": "RSA signing with PKCS#1 1.5 padding and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a>",
+    "stripped": "RSA signing with PKCS#1 1.5 padding and SHA-384 hashing as per RFC 4055"
+  },
+  {
+    "path": "rcgen\\static.PKCS_RSA_SHA512.html",
+    "relpath": "static.PKCS_RSA_SHA512.html",
+    "raw_p": "<p>RSA signing with PKCS#1 1.5 padding and SHA-512 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "inner": "RSA signing with PKCS#1 1.5 padding and SHA-512 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a>",
+    "stripped": "RSA signing with PKCS#1 1.5 padding and SHA-512 hashing as per RFC 4055"
+  },
+  {
+    "path": "rcgen\\struct.Attribute.html",
+    "relpath": "struct.Attribute.html",
+    "raw_p": "<p>A PKCS #10 CSR attribute, as defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#appendix-A.1\">RFC 5280</a> and constrained\nby <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a>.</p>",
+    "inner": "A PKCS #10 CSR attribute, as defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#appendix-A.1\">RFC 5280</a> and constrained\nby <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a>.",
+    "stripped": "A PKCS #10 CSR attribute, as defined in RFC 5280 and constrained\nby RFC 2986."
+  },
+  {
+    "path": "rcgen\\struct.Certificate.html",
+    "relpath": "struct.Certificate.html",
+    "raw_p": "<p><a href=\"../rustls_pki_types/struct.CertificateDer.html\" title=\"struct rustls_pki_types::CertificateDer\"><code>CertificateDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>, so you can easily\nextract the DER bytes from the return value.</p>",
+    "inner": "<a href=\"../rustls_pki_types/struct.CertificateDer.html\" title=\"struct rustls_pki_types::CertificateDer\"><code>CertificateDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>, so you can easily\nextract the DER bytes from the return value.",
+    "stripped": "CertificateDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;, so you can easily\nextract the DER bytes from the return value."
+  },
+  {
+    "path": "rcgen\\struct.CertificateParams.html",
+    "relpath": "struct.CertificateParams.html",
+    "raw_p": "<p><a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13</a>&nbsp;<a href=\"#fnref1\">↩</a></p>",
+    "inner": "<a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13</a>&nbsp;<a href=\"#fnref1\">↩</a>",
+    "stripped": "https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13&nbsp;↩"
+  },
+  {
+    "path": "rcgen\\struct.CertificateParams.html",
+    "relpath": "struct.CertificateParams.html",
+    "raw_p": "<p>The returned certificate will have its issuer field set to the subject of the\nprovided <code>issuer</code>, and the authority key identifier extension will be populated using\nthe subject public key of <code>issuer</code> (typically either a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> or\n<a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>). It will be signed by <code>issuer_key</code>.</p>",
+    "inner": "The returned certificate will have its issuer field set to the subject of the\nprovided <code>issuer</code>, and the authority key identifier extension will be populated using\nthe subject public key of <code>issuer</code> (typically either a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> or\n<a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>). It will be signed by <code>issuer_key</code>.",
+    "stripped": "The returned certificate will have its issuer field set to the subject of the\nprovided issuer, and the authority key identifier extension will be populated using\nthe subject public key of issuer (typically either a CertificateParams or\nCertificate). It will be signed by issuer_key."
+  },
+  {
+    "path": "rcgen\\struct.CertificateParams.html",
+    "relpath": "struct.CertificateParams.html",
+    "raw_p": "<p>Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.</p>",
+    "inner": "Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.",
+    "stripped": "Note that no validation of the issuer certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing."
+  },
+  {
+    "path": "rcgen\\struct.CertificateRevocationList.html",
+    "relpath": "struct.CertificateRevocationList.html",
+    "raw_p": "<p><a href=\"../rustls_pki_types/struct.CertificateRevocationListDer.html\" title=\"struct rustls_pki_types::CertificateRevocationListDer\"><code>CertificateRevocationListDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.</p>",
+    "inner": "<a href=\"../rustls_pki_types/struct.CertificateRevocationListDer.html\" title=\"struct rustls_pki_types::CertificateRevocationListDer\"><code>CertificateRevocationListDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.",
+    "stripped": "CertificateRevocationListDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;,\nso you can easily extract the DER bytes from the return value."
+  },
+  {
+    "path": "rcgen\\struct.CertificateRevocationListParams.html",
+    "relpath": "struct.CertificateRevocationListParams.html",
+    "raw_p": "<p><a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5</a>&nbsp;<a href=\"#fnref1\">↩</a></p>",
+    "inner": "<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5</a>&nbsp;<a href=\"#fnref1\">↩</a>",
+    "stripped": "https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5&nbsp;↩"
+  },
+  {
+    "path": "rcgen\\struct.CertificateSigningRequest.html",
+    "relpath": "struct.CertificateSigningRequest.html",
+    "raw_p": "<p><a href=\"../rustls_pki_types/struct.CertificateSigningRequestDer.html\" title=\"struct rustls_pki_types::CertificateSigningRequestDer\"><code>CertificateSigningRequestDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.</p>",
+    "inner": "<a href=\"../rustls_pki_types/struct.CertificateSigningRequestDer.html\" title=\"struct rustls_pki_types::CertificateSigningRequestDer\"><code>CertificateSigningRequestDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.",
+    "stripped": "CertificateSigningRequestDer implements Deref&lt;Target = [u8]&gt; and AsRef&lt;[u8]&gt;,\nso you can easily extract the DER bytes from the return value."
+  },
+  {
+    "path": "rcgen\\struct.CertificateSigningRequestParams.html",
+    "relpath": "struct.CertificateSigningRequestParams.html",
+    "raw_p": "<p>The returned certificate will have its issuer field set to the subject of the provided\n<code>issuer</code>, and the authority key identifier extension will be populated using the subject\npublic key of <code>issuer</code>. It will be signed by <code>issuer_key</code>.</p>",
+    "inner": "The returned certificate will have its issuer field set to the subject of the provided\n<code>issuer</code>, and the authority key identifier extension will be populated using the subject\npublic key of <code>issuer</code>. It will be signed by <code>issuer_key</code>.",
+    "stripped": "The returned certificate will have its issuer field set to the subject of the provided\nissuer, and the authority key identifier extension will be populated using the subject\npublic key of issuer. It will be signed by issuer_key."
+  },
+  {
+    "path": "rcgen\\struct.CertificateSigningRequestParams.html",
+    "relpath": "struct.CertificateSigningRequestParams.html",
+    "raw_p": "<p>Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.</p>",
+    "inner": "Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.",
+    "stripped": "Note that no validation of the issuer certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing."
+  },
+  {
+    "path": "rcgen\\struct.CrlDistributionPoint.html",
+    "relpath": "struct.CrlDistributionPoint.html",
+    "raw_p": "<p>A certificate revocation list (CRL) distribution point, to be included in a certificate’s\n<a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">distribution points extension</a> or\na CRL’s <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a></p>",
+    "inner": "A certificate revocation list (CRL) distribution point, to be included in a certificate’s\n<a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">distribution points extension</a> or\na CRL’s <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a>",
+    "stripped": "A certificate revocation list (CRL) distribution point, to be included in a certificate’s\ndistribution points extension or\na CRL’s issuing distribution point extension"
+  },
+  {
+    "path": "rcgen\\struct.CrlIssuingDistributionPoint.html",
+    "relpath": "struct.CrlIssuingDistributionPoint.html",
+    "raw_p": "<p>A certificate revocation list (CRL) issuing distribution point, to be included in a CRL’s\n<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a>.</p>",
+    "inner": "A certificate revocation list (CRL) issuing distribution point, to be included in a CRL’s\n<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a>.",
+    "stripped": "A certificate revocation list (CRL) issuing distribution point, to be included in a CRL’s\nissuing distribution point extension."
+  },
+  {
+    "path": "rcgen\\struct.CustomExtension.html",
+    "relpath": "struct.CustomExtension.html",
+    "raw_p": "<p>A custom extension of a certificate, as specified in\n<a href=\"https://tools.ietf.org/html/rfc5280#section-4.2\">RFC 5280</a></p>",
+    "inner": "A custom extension of a certificate, as specified in\n<a href=\"https://tools.ietf.org/html/rfc5280#section-4.2\">RFC 5280</a>",
+    "stripped": "A custom extension of a certificate, as specified in\nRFC 5280"
+  },
+  {
+    "path": "rcgen\\struct.CustomExtension.html",
+    "relpath": "struct.CustomExtension.html",
+    "raw_p": "<p>Creates a new acmeIdentifier extension for ACME TLS-ALPN-01\nas specified in <a href=\"https://tools.ietf.org/html/rfc8737#section-3\">RFC 8737</a></p>",
+    "inner": "Creates a new acmeIdentifier extension for ACME TLS-ALPN-01\nas specified in <a href=\"https://tools.ietf.org/html/rfc8737#section-3\">RFC 8737</a>",
+    "stripped": "Creates a new acmeIdentifier extension for ACME TLS-ALPN-01\nas specified in RFC 8737"
+  },
+  {
+    "path": "rcgen\\struct.DistinguishedName.html",
+    "relpath": "struct.DistinguishedName.html",
+    "raw_p": "<p>See also the RFC 5280 sections on the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.4\">issuer</a>\nand <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.6\">subject</a> fields.</p>",
+    "inner": "See also the RFC 5280 sections on the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.4\">issuer</a>\nand <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.6\">subject</a> fields.",
+    "stripped": "See also the RFC 5280 sections on the issuer\nand subject fields."
+  },
+  {
+    "path": "rcgen\\struct.Issuer.html",
+    "relpath": "struct.Issuer.html",
+    "raw_p": "<p>Use <a href=\"struct.Issuer.html#method.new\" title=\"associated function rcgen::Issuer::new\"><code>Issuer::new</code></a> instead if you want to obtain an <a href=\"struct.Issuer.html\" title=\"struct rcgen::Issuer\"><code>Issuer</code></a> that owns\nits parameters.</p>",
+    "inner": "Use <a href=\"struct.Issuer.html#method.new\" title=\"associated function rcgen::Issuer::new\"><code>Issuer::new</code></a> instead if you want to obtain an <a href=\"struct.Issuer.html\" title=\"struct rcgen::Issuer\"><code>Issuer</code></a> that owns\nits parameters.",
+    "stripped": "Use Issuer::new instead if you want to obtain an Issuer that owns\nits parameters."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Generate a new random <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> key pair</p>",
+    "inner": "Generate a new random <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> key pair",
+    "stripped": "Generate a new random PKCS_ECDSA_P256_SHA256 key pair"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>If you’re not sure which algorithm to use, <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> is a good choice.\nIf passed an RSA signature algorithm, it depends on the backend whether we return\na generated key or an error for key generation being unavailable.\nCurrently, only <code>aws-lc-rs</code> supports RSA key generation.</p>",
+    "inner": "If you’re not sure which algorithm to use, <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> is a good choice.\nIf passed an RSA signature algorithm, it depends on the backend whether we return\na generated key or an error for key generation being unavailable.\nCurrently, only <code>aws-lc-rs</code> supports RSA key generation.",
+    "stripped": "If you’re not sure which algorithm to use, PKCS_ECDSA_P256_SHA256 is a good choice.\nIf passed an RSA signature algorithm, it depends on the backend whether we return\na generated key or an error for key generation being unavailable.\nCurrently, only aws-lc-rs supports RSA key generation."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>If <code>aws_lc_rs</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files.</p>",
+    "inner": "If <code>aws_lc_rs</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files.",
+    "stripped": "If aws_lc_rs feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Otherwise if the <code>ring</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.</p>",
+    "inner": "Otherwise if the <code>ring</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.",
+    "stripped": "Otherwise if the ring feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Obtains the key pair from a DER formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "inner": "Obtains the key pair from a DER formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>",
+    "stripped": "Obtains the key pair from a DER formatted key\nusing the specified SignatureAlgorithm"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>The key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;</p>",
+    "inner": "The key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;",
+    "stripped": "The key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Appears as “PRIVATE KEY” in PEM files\nSame as <a href=\"struct.KeyPair.html#method.from_pkcs8_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_pem_and_sign_algo\">from_pkcs8_pem_and_sign_algo</a>.</p>",
+    "inner": "Appears as “PRIVATE KEY” in PEM files\nSame as <a href=\"struct.KeyPair.html#method.from_pkcs8_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_pem_and_sign_algo\">from_pkcs8_pem_and_sign_algo</a>.",
+    "stripped": "Appears as “PRIVATE KEY” in PEM files\nSame as from_pkcs8_pem_and_sign_algo."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Obtains the key pair from a DER formatted key using the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "inner": "Obtains the key pair from a DER formatted key using the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>",
+    "stripped": "Obtains the key pair from a DER formatted key using the specified SignatureAlgorithm"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>If you have a <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the <code>SignatureAlgorithm</code>.</p>",
+    "inner": "If you have a <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the <code>SignatureAlgorithm</code>.",
+    "stripped": "If you have a PrivatePkcs8KeyDer, you can usually rely on the TryFrom implementation\nto obtain a KeyPair – it will determine the correct SignatureAlgorithm for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the SignatureAlgorithm."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p><a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key()</code></a> is often used to obtain a <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> from PEM\ninput. If the obtained <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> is a <code>Pkcs8</code> variant, you can use its contents\nas input for this function. Alternatively, if you already have a byte slice containing DER,\nit can trivially be converted into <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a> using the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html\" title=\"trait core::convert::Into\"><code>Into</code></a> trait.</p>",
+    "inner": "<a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key()</code></a> is often used to obtain a <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> from PEM\ninput. If the obtained <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> is a <code>Pkcs8</code> variant, you can use its contents\nas input for this function. Alternatively, if you already have a byte slice containing DER,\nit can trivially be converted into <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a> using the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html\" title=\"trait core::convert::Into\"><code>Into</code></a> trait.",
+    "stripped": "rustls_pemfile::private_key() is often used to obtain a PrivateKeyDer from PEM\ninput. If the obtained PrivateKeyDer is a Pkcs8 variant, you can use its contents\nas input for this function. Alternatively, if you already have a byte slice containing DER,\nit can trivially be converted into PrivatePkcs8KeyDer using the Into trait."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Obtains the key pair from a PEM formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "inner": "Obtains the key pair from a PEM formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>",
+    "stripped": "Obtains the key pair from a PEM formatted key\nusing the specified SignatureAlgorithm"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>If <code>aws_lc_rs</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files.</p>",
+    "inner": "If <code>aws_lc_rs</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files.",
+    "stripped": "If aws_lc_rs feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Otherwise if the <code>ring</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.</p>",
+    "inner": "Otherwise if the <code>ring</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.",
+    "stripped": "Otherwise if the ring feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Same as <a href=\"struct.KeyPair.html#method.from_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pem_and_sign_algo\">from_pem_and_sign_algo</a>.</p>",
+    "inner": "Same as <a href=\"struct.KeyPair.html#method.from_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pem_and_sign_algo\">from_pem_and_sign_algo</a>.",
+    "stripped": "Same as from_pem_and_sign_algo."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Obtains the key pair from a DER formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "inner": "Obtains the key pair from a DER formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>",
+    "stripped": "Obtains the key pair from a DER formatted key\nusing the specified SignatureAlgorithm"
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Note that using the <code>ring</code> feature, this function only support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html#variant.Pkcs8\" title=\"variant rustls_pki_types::PrivateKeyDer::Pkcs8\"><code>PrivateKeyDer::Pkcs8</code></a> variant.\nConsider using the <code>aws_lc_rs</code> features to support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a> fully.</p>",
+    "inner": "Note that using the <code>ring</code> feature, this function only support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html#variant.Pkcs8\" title=\"variant rustls_pki_types::PrivateKeyDer::Pkcs8\"><code>PrivateKeyDer::Pkcs8</code></a> variant.\nConsider using the <code>aws_lc_rs</code> features to support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a> fully.",
+    "stripped": "Note that using the ring feature, this function only support PrivateKeyDer::Pkcs8 variant.\nConsider using the aws_lc_rs features to support PrivateKeyDer fully."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>If you have a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the <code>SignatureAlgorithm</code>.</p>",
+    "inner": "If you have a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the <code>SignatureAlgorithm</code>.",
+    "stripped": "If you have a PrivateKeyDer, you can usually rely on the TryFrom implementation\nto obtain a KeyPair – it will determine the correct SignatureAlgorithm for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the SignatureAlgorithm."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>You can use <a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key</code></a> to get the <code>key</code> input. If\nyou have already a byte slice, just calling <code>try_into()</code> will convert it to a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>.</p>",
+    "inner": "You can use <a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key</code></a> to get the <code>key</code> input. If\nyou have already a byte slice, just calling <code>try_into()</code> will convert it to a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>.",
+    "stripped": "You can use rustls_pemfile::private_key to get the key input. If\nyou have already a byte slice, just calling try_into() will convert it to a PrivateKeyDer."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>The key is in raw format, as how <a href=\"../ring/signature/trait.KeyPair.html#tymethod.public_key\" title=\"method ring::signature::KeyPair::public_key\"><code>KeyPair::public_key()</code></a>\nwould output, and how <a href=\"../ring/signature/struct.UnparsedPublicKey.html#method.verify\" title=\"method ring::signature::UnparsedPublicKey::verify\"><code>UnparsedPublicKey::verify()</code></a>\nwould accept.</p>",
+    "inner": "The key is in raw format, as how <a href=\"../ring/signature/trait.KeyPair.html#tymethod.public_key\" title=\"method ring::signature::KeyPair::public_key\"><code>KeyPair::public_key()</code></a>\nwould output, and how <a href=\"../ring/signature/struct.UnparsedPublicKey.html#method.verify\" title=\"method ring::signature::UnparsedPublicKey::verify\"><code>UnparsedPublicKey::verify()</code></a>\nwould accept.",
+    "stripped": "The key is in raw format, as how KeyPair::public_key()\nwould output, and how UnparsedPublicKey::verify()\nwould accept."
+  },
+  {
+    "path": "rcgen\\struct.KeyPair.html",
+    "relpath": "struct.KeyPair.html",
+    "raw_p": "<p>Returns (possibly multiple) compatible <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>’s\nthat the key can be used with</p>",
+    "inner": "Returns (possibly multiple) compatible <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>’s\nthat the key can be used with",
+    "stripped": "Returns (possibly multiple) compatible SignatureAlgorithm’s\nthat the key can be used with"
+  },
+  {
+    "path": "rcgen\\struct.NameConstraints.html",
+    "relpath": "struct.NameConstraints.html",
+    "raw_p": "<p>The <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.10\">NameConstraints extension</a>\n(only relevant for CA certificates)</p>",
+    "inner": "The <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.10\">NameConstraints extension</a>\n(only relevant for CA certificates)",
+    "stripped": "The NameConstraints extension\n(only relevant for CA certificates)"
+  },
+  {
+    "path": "rcgen\\trait.PublicKeyData.html",
+    "relpath": "trait.PublicKeyData.html",
+    "raw_p": "<p>The key is formatted according to the X.509 SubjectPublicKeyInfo struct.\nSee <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1\">RFC 5280 section 4.1</a>.</p>",
+    "inner": "The key is formatted according to the X.509 SubjectPublicKeyInfo struct.\nSee <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1\">RFC 5280 section 4.1</a>.",
+    "stripped": "The key is formatted according to the X.509 SubjectPublicKeyInfo struct.\nSee RFC 5280 section 4.1."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>ASN.1 <code>BMPString</code> type.</p>",
+    "inner": "ASN.1 <code>BMPString</code> type.",
+    "stripped": "ASN.1 BMPString type."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>You can create a <code>BmpString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.BmpString.html#method.try_from\" title=\"associated function rcgen::string::BmpString::try_from\"><code>BmpString::try_from</code></a>:</p>",
+    "inner": "You can create a <code>BmpString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.BmpString.html#method.try_from\" title=\"associated function rcgen::string::BmpString::try_from\"><code>BmpString::try_from</code></a>:",
+    "stripped": "You can create a BmpString from a literal string with BmpString::try_from:"
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p><code>BMPString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+    "inner": "<code>BMPString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.",
+    "stripped": "BMPString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>The inverse of this method is <a href=\"struct.BmpString.html#method.from_utf16be\" title=\"associated function rcgen::string::BmpString::from_utf16be\"><code>from_utf16be</code></a>.</p>",
+    "inner": "The inverse of this method is <a href=\"struct.BmpString.html#method.from_utf16be\" title=\"associated function rcgen::string::BmpString::from_utf16be\"><code>from_utf16be</code></a>.",
+    "stripped": "The inverse of this method is from_utf16be."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>Converts a <code>&amp;str</code> to a <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a>.</p>",
+    "inner": "Converts a <code>&amp;str</code> to a <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a>.",
+    "stripped": "Converts a &amp;str to a BmpString."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> charset will be rejected.\nSee <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> charset will be rejected.\nSee <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> documentation for more information.",
+    "stripped": "Any character not in the BmpString charset will be rejected.\nSee BmpString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> charset will be rejected.\nSee <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> charset will be rejected.\nSee <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> documentation for more information.",
+    "stripped": "Any character not in the BmpString charset will be rejected.\nSee BmpString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.BmpString.html",
+    "relpath": "string\\struct.BmpString.html",
+    "raw_p": "<p>Parsing a <code>BmpString</code> allocates memory since the UTF-8 to UTF-16 conversion requires a memory allocation.</p>",
+    "inner": "Parsing a <code>BmpString</code> allocates memory since the UTF-8 to UTF-16 conversion requires a memory allocation.",
+    "stripped": "Parsing a BmpString allocates memory since the UTF-8 to UTF-16 conversion requires a memory allocation."
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>You can create a <code>Ia5String</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.Ia5String.html#method.try_from\" title=\"associated function rcgen::string::Ia5String::try_from\"><code>Ia5String::try_from</code></a>:</p>",
+    "inner": "You can create a <code>Ia5String</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.Ia5String.html#method.try_from\" title=\"associated function rcgen::string::Ia5String::try_from\"><code>Ia5String::try_from</code></a>:",
+    "stripped": "You can create a Ia5String from a literal string with Ia5String::try_from:"
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>Supports the <a href=\"https://en.wikipedia.org/wiki/T.50_(standard)\">International Alphabet No. 5 (IA5)</a> character encoding, i.e.\nthe 128 characters of the ASCII alphabet. (Note: IA5 is now\ntechnically known as the International Reference Alphabet or IRA as\nspecified in the ITU-T’s T.50 recommendation).</p>",
+    "inner": "Supports the <a href=\"https://en.wikipedia.org/wiki/T.50_(standard)\">International Alphabet No. 5 (IA5)</a> character encoding, i.e.\nthe 128 characters of the ASCII alphabet. (Note: IA5 is now\ntechnically known as the International Reference Alphabet or IRA as\nspecified in the ITU-T’s T.50 recommendation).",
+    "stripped": "Supports the International Alphabet No. 5 (IA5) character encoding, i.e.\nthe 128 characters of the ASCII alphabet. (Note: IA5 is now\ntechnically known as the International Reference Alphabet or IRA as\nspecified in the ITU-T’s T.50 recommendation)."
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>Extracts a string slice containing the entire <code>Ia5String</code>.</p>",
+    "inner": "Extracts a string slice containing the entire <code>Ia5String</code>.",
+    "stripped": "Extracts a string slice containing the entire Ia5String."
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>Converts a <code>&amp;str</code> to a <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.</p>",
+    "inner": "Converts a <code>&amp;str</code> to a <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.",
+    "stripped": "Converts a &amp;str to a Ia5String."
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> charset will be rejected.\nSee <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> charset will be rejected.\nSee <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> documentation for more information.",
+    "stripped": "Any character not in the Ia5String charset will be rejected.\nSee Ia5String documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.Ia5String.html",
+    "relpath": "string\\struct.Ia5String.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> charset will be rejected.\nSee <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> charset will be rejected.\nSee <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> documentation for more information.",
+    "stripped": "Any character not in the Ia5String charset will be rejected.\nSee Ia5String documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>ASN.1 <code>PrintableString</code> type.</p>",
+    "inner": "ASN.1 <code>PrintableString</code> type.",
+    "stripped": "ASN.1 PrintableString type."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>For the full ASCII character set, use\n<a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.</p>",
+    "inner": "For the full ASCII character set, use\n<a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.",
+    "stripped": "For the full ASCII character set, use\nIa5String."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>You can create a <code>PrintableString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.PrintableString.html#method.try_from\" title=\"associated function rcgen::string::PrintableString::try_from\"><code>PrintableString::try_from</code></a>:</p>",
+    "inner": "You can create a <code>PrintableString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.PrintableString.html#method.try_from\" title=\"associated function rcgen::string::PrintableString::try_from\"><code>PrintableString::try_from</code></a>:",
+    "stripped": "You can create a PrintableString from a literal string with PrintableString::try_from:"
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>PrintableString is a subset of the <a href=\"https://en.wikipedia.org/wiki/ASCII#Printable_characters\">ASCII printable characters</a>.\nFor instance, <code>'@'</code> is a printable character as per ASCII but can’t be part of <a href=\"https://en.wikipedia.org/wiki/PrintableString\">ASN.1’s <code>PrintableString</code></a>.</p>",
+    "inner": "PrintableString is a subset of the <a href=\"https://en.wikipedia.org/wiki/ASCII#Printable_characters\">ASCII printable characters</a>.\nFor instance, <code>'@'</code> is a printable character as per ASCII but can’t be part of <a href=\"https://en.wikipedia.org/wiki/PrintableString\">ASN.1’s <code>PrintableString</code></a>.",
+    "stripped": "PrintableString is a subset of the ASCII printable characters.\nFor instance, '@' is a printable character as per ASCII but can’t be part of ASN.1’s PrintableString."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>Extracts a string slice containing the entire <code>PrintableString</code>.</p>",
+    "inner": "Extracts a string slice containing the entire <code>PrintableString</code>.",
+    "stripped": "Extracts a string slice containing the entire PrintableString."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>Converts a <code>&amp;str</code> to a <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a>.</p>",
+    "inner": "Converts a <code>&amp;str</code> to a <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a>.",
+    "stripped": "Converts a &amp;str to a PrintableString."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> charset will be rejected.\nSee <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> charset will be rejected.\nSee <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> documentation for more information.",
+    "stripped": "Any character not in the PrintableString charset will be rejected.\nSee PrintableString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.PrintableString.html",
+    "relpath": "string\\struct.PrintableString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> charset will be rejected.\nSee <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> charset will be rejected.\nSee <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> documentation for more information.",
+    "stripped": "Any character not in the PrintableString charset will be rejected.\nSee PrintableString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>ASN.1 <code>TeletexString</code> type.</p>",
+    "inner": "ASN.1 <code>TeletexString</code> type.",
+    "stripped": "ASN.1 TeletexString type."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>You can create a <code>TeletexString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.TeletexString.html#method.try_from\" title=\"associated function rcgen::string::TeletexString::try_from\"><code>TeletexString::try_from</code></a>:</p>",
+    "inner": "You can create a <code>TeletexString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.TeletexString.html#method.try_from\" title=\"associated function rcgen::string::TeletexString::try_from\"><code>TeletexString::try_from</code></a>:",
+    "stripped": "You can create a TeletexString from a literal string with TeletexString::try_from:"
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>The standard defines a complex character set allowed in this type. However, quoting the ASN.1\n<a href=\"https://www.mail-archive.com/asn1@asn1.org/msg00460.html\">mailing list</a>, “a sizable volume of software in the world treats TeletexString (T61String) as a\nsimple 8-bit string with mostly Windows Latin 1 (superset of iso-8859-1) encoding”.</p>",
+    "inner": "The standard defines a complex character set allowed in this type. However, quoting the ASN.1\n<a href=\"https://www.mail-archive.com/asn1@asn1.org/msg00460.html\">mailing list</a>, “a sizable volume of software in the world treats TeletexString (T61String) as a\nsimple 8-bit string with mostly Windows Latin 1 (superset of iso-8859-1) encoding”.",
+    "stripped": "The standard defines a complex character set allowed in this type. However, quoting the ASN.1\nmailing list, “a sizable volume of software in the world treats TeletexString (T61String) as a\nsimple 8-bit string with mostly Windows Latin 1 (superset of iso-8859-1) encoding”."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p><code>TeletexString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+    "inner": "<code>TeletexString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.",
+    "stripped": "TeletexString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>Extracts a string slice containing the entire <code>TeletexString</code>.</p>",
+    "inner": "Extracts a string slice containing the entire <code>TeletexString</code>.",
+    "stripped": "Extracts a string slice containing the entire TeletexString."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>Converts a <code>&amp;str</code> to a <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a>.</p>",
+    "inner": "Converts a <code>&amp;str</code> to a <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a>.",
+    "stripped": "Converts a &amp;str to a TeletexString."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> charset will be rejected.\nSee <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> charset will be rejected.\nSee <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> documentation for more information.",
+    "stripped": "Any character not in the TeletexString charset will be rejected.\nSee TeletexString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.TeletexString.html",
+    "relpath": "string\\struct.TeletexString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> charset will be rejected.\nSee <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> charset will be rejected.\nSee <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> documentation for more information.",
+    "stripped": "Any character not in the TeletexString charset will be rejected.\nSee TeletexString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>ASN.1 <code>UniversalString</code> type.</p>",
+    "inner": "ASN.1 <code>UniversalString</code> type.",
+    "stripped": "ASN.1 UniversalString type."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>You can create a <code>UniversalString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.UniversalString.html#method.try_from\" title=\"associated function rcgen::string::UniversalString::try_from\"><code>UniversalString::try_from</code></a>:</p>",
+    "inner": "You can create a <code>UniversalString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.UniversalString.html#method.try_from\" title=\"associated function rcgen::string::UniversalString::try_from\"><code>UniversalString::try_from</code></a>:",
+    "stripped": "You can create a UniversalString from a literal string with UniversalString::try_from:"
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>The characters which can appear in the <code>UniversalString</code> type are any of the characters allowed by\nISO/IEC 10646 (Unicode).</p>",
+    "inner": "The characters which can appear in the <code>UniversalString</code> type are any of the characters allowed by\nISO/IEC 10646 (Unicode).",
+    "stripped": "The characters which can appear in the UniversalString type are any of the characters allowed by\nISO/IEC 10646 (Unicode)."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p><code>UniversalString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+    "inner": "<code>UniversalString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.",
+    "stripped": "UniversalString is included for backward compatibility, RFC 5280 say it\nSHOULD NOT be used for certificates for new subjects."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>The inverse of this method is <a href=\"struct.UniversalString.html#method.from_utf32be\" title=\"associated function rcgen::string::UniversalString::from_utf32be\"><code>from_utf32be</code></a>.</p>",
+    "inner": "The inverse of this method is <a href=\"struct.UniversalString.html#method.from_utf32be\" title=\"associated function rcgen::string::UniversalString::from_utf32be\"><code>from_utf32be</code></a>.",
+    "stripped": "The inverse of this method is from_utf32be."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>Converts a <code>&amp;str</code> to a <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a>.</p>",
+    "inner": "Converts a <code>&amp;str</code> to a <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a>.",
+    "stripped": "Converts a &amp;str to a UniversalString."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> charset will be rejected.\nSee <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> charset will be rejected.\nSee <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> documentation for more information.",
+    "stripped": "Any character not in the UniversalString charset will be rejected.\nSee UniversalString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>Any character not in the <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> charset will be rejected.\nSee <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> documentation for more information.</p>",
+    "inner": "Any character not in the <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> charset will be rejected.\nSee <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> documentation for more information.",
+    "stripped": "Any character not in the UniversalString charset will be rejected.\nSee UniversalString documentation for more information."
+  },
+  {
+    "path": "rcgen\\string\\struct.UniversalString.html",
+    "relpath": "string\\struct.UniversalString.html",
+    "raw_p": "<p>Parsing a <code>UniversalString</code> allocates memory since the UTF-8 to UTF-32 conversion requires a memory allocation.</p>",
+    "inner": "Parsing a <code>UniversalString</code> allocates memory since the UTF-8 to UTF-32 conversion requires a memory allocation.",
+    "stripped": "Parsing a UniversalString allocates memory since the UTF-8 to UTF-32 conversion requires a memory allocation."
+  }
+]

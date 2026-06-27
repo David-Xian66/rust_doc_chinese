@@ -23,6 +23,7 @@ OUR_CRATES = [
     "ffmpeg_next",
     "ffmpeg_sys_next",
     "quinn",
+    "rcgen",
     "rdev",
     "rustls_pki_types",
     "scrap",

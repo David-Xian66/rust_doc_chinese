@@ -1,0 +1,353 @@
+#!/usr/bin/env python
+"""构造 rcgen 精确翻译对 (raw <p>...</p> 完整匹配)."""
+import json
+
+pairs = []
+
+# ============ enum.CidrSubnet.html ============
+pairs.append((
+    "<p>You might know CIDR subnets better by their textual representation\nwhere they consist of an ip address followed by a slash and a prefix\nnumber, for example <code>192.168.99.0/24</code>.</p>",
+    "<p>你可能更熟悉 CIDR 子网的文本表示形式——它由一个 IP 地址后跟斜杠和前缀长度组成，例如 <code>192.168.99.0/24</code>。</p>",
+))
+
+# ============ enum.ExtendedKeyUsagePurpose.html ============
+pairs.append((
+    "<p>One of the purposes contained in the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.12\">extended key usage extension</a></p>",
+    "<p>扩展密钥用途扩展中包含的用途之一，详见 <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.12\">RFC 5280 第 4.2.1.12 节</a></p>",
+))
+
+# ============ enum.GeneralSubtree.html ============
+pairs.append((
+    "<p>This type has similarities to the <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> enum but is not equal.\nFor example, <code>GeneralSubtree</code> has CIDR subnets for ip addresses\nwhile <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> has IP addresses.</p>",
+    "<p>此类型与 <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> 枚举类似但并不相同。例如，<code>GeneralSubtree</code> 对 IP 地址使用 CIDR 子网，而 <a href=\"enum.SanType.html\" title=\"enum rcgen::SanType\"><code>SanType</code></a> 使用 IP 地址。</p>",
+))
+
+# ============ enum.KeyIdMethod.html ============
+pairs.append((
+    "<p>Key identifiers should be derived from the public key data. <a href=\"https://www.rfc-editor.org/rfc/rfc7093\">RFC 7093</a> defines\nthree methods to do so using a choice of SHA256 (method 1), SHA384 (method 2), or SHA512\n(method 3). In each case the first 160 bits of the hash are used as the key identifier\nto match the output length that would be produced were SHA1 used (a legacy option defined\nin RFC 5280).</p>",
+    "<p>密钥标识符应从公钥数据派生。<a href=\"https://www.rfc-editor.org/rfc/rfc7093\">RFC 7093</a> 定义了三种派生方法：SHA256（方法 1）、SHA384（方法 2）或 SHA512（方法 3）。在每种情况下，使用哈希的前 160 位作为密钥标识符，以匹配若使用 SHA1（RFC 5280 中定义的遗留选项）所产生的输出长度。</p>",
+))
+pairs.append((
+    "<p>In addition to the RFC 7093 mechanisms, rcgen supports using a pre-specified key identifier.\nThis can be helpful when working with an existing <code>Certificate</code>.</p>",
+    "<p>除 RFC 7093 机制外，rcgen 还支持使用预指定的密钥标识符。这在与现有 <code>Certificate</code> 协作时很有用。</p>",
+))
+
+# ============ enum.KeyUsagePurpose.html ============
+pairs.append((
+    "<p>One of the purposes contained in the <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3\">key usage</a> extension</p>",
+    "<p>密钥用途扩展中包含的用途之一，详见 <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3\">RFC 5280 第 4.2.1.3 节</a></p>",
+))
+
+# ============ enum.OtherNameValue.html ============
+pairs.append((
+    "<p>An <code>OtherName</code> value, defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4\">RFC 5280§4.1.2.4</a>.</p>",
+    "<p><code>OtherName</code> 值，定义见 <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4\">RFC 5280 §4.1.2.4</a>。</p>",
+))
+
+# ============ enum.RevocationReason.html ============
+pairs.append((
+    "<p>Identifies the reason a certificate was revoked.\nSee <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.3.1\">RFC 5280 §5.3.1</a></p>",
+    "<p>标识证书被吊销的原因。参见 <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.3.1\">RFC 5280 §5.3.1</a></p>",
+))
+
+# ============ fn.date_time_ymd.html ============
+pairs.append((
+    "<p>Helper to obtain an <code>OffsetDateTime</code> from year, month, day values</p>",
+    "<p>从年、月、日取值获取 <code>OffsetDateTime</code> 的辅助函数</p>",
+))
+
+# ============ index.html ============
+pairs.append((
+    "<p>The most simple way of using this crate is by calling the\n<a href=\"fn.generate_simple_self_signed.html\" title=\"fn rcgen::generate_simple_self_signed\"><code>generate_simple_self_signed</code></a> function.\nFor more customization abilities, construct a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> and\na key pair to call <a href=\"struct.CertificateParams.html#method.signed_by\" title=\"method rcgen::CertificateParams::signed_by\"><code>CertificateParams::signed_by</code></a> or <a href=\"struct.CertificateParams.html#method.self_signed\" title=\"method rcgen::CertificateParams::self_signed\"><code>CertificateParams::self_signed</code></a>.\nIt is also possible to write a certificate to disk with <a href=\"fn.date_time_ymd.html\" title=\"fn rcgen::date_time_ymd\"><code>date_time_ymd</code></a> helper.</p>",
+    "<p>使用本 crate 最简单的方式是调用 <a href=\"fn.generate_simple_self_signed.html\" title=\"fn rcgen::generate_simple_self_signed\"><code>generate_simple_self_signed</code></a> 函数。若需要更灵活的定制，可构造 <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> 和一个密钥对来调用 <a href=\"struct.CertificateParams.html#method.signed_by\" title=\"method rcgen::CertificateParams::signed_by\"><code>CertificateParams::signed_by</code></a> 或 <a href=\"struct.CertificateParams.html#method.self_signed\" title=\"method rcgen::CertificateParams::self_signed\"><code>CertificateParams::self_signed</code></a>。也可以使用 <a href=\"fn.date_time_ymd.html\" title=\"fn rcgen::date_time_ymd\"><code>date_time_ymd</code></a> 辅助函数将证书写入磁盘。</p>",
+))
+
+# ============ static.PKCS_* (6 个) ============
+pairs.append((
+    "<p>ECDSA signing using the P-256 curves and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758 第 3.2 节</a> 使用 P-256 曲线与 SHA-256 哈希的 ECDSA 签名</p>",
+))
+pairs.append((
+    "<p>ECDSA signing using the P-384 curves and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc5758#section-3.2\">RFC 5758 第 3.2 节</a> 使用 P-384 曲线与 SHA-384 哈希的 ECDSA 签名</p>",
+))
+pairs.append((
+    "<p>ED25519 curve signing as per <a href=\"https://tools.ietf.org/html/rfc8410\">RFC 8410</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc8410\">RFC 8410</a> 进行的 ED25519 曲线签名</p>",
+))
+pairs.append((
+    "<p>RSA signing with PKCS#1 1.5 padding and SHA-256 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a> 使用 PKCS#1 1.5 填充与 SHA-256 哈希的 RSA 签名</p>",
+))
+pairs.append((
+    "<p>RSA signing with PKCS#1 1.5 padding and SHA-384 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a> 使用 PKCS#1 1.5 填充与 SHA-384 哈希的 RSA 签名</p>",
+))
+pairs.append((
+    "<p>RSA signing with PKCS#1 1.5 padding and SHA-512 hashing as per <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc4055\">RFC 4055</a> 使用 PKCS#1 1.5 填充与 SHA-512 哈希的 RSA 签名</p>",
+))
+
+# ============ struct.Attribute.html ============
+pairs.append((
+    "<p>A PKCS #10 CSR attribute, as defined in <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#appendix-A.1\">RFC 5280</a> and constrained\nby <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986</a>.</p>",
+    "<p>由 <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#appendix-A.1\">RFC 5280 附录 A.1</a> 定义、并受 <a href=\"https://datatracker.ietf.org/doc/html/rfc2986#section-4\">RFC 2986 第 4 节</a> 约束的 PKCS #10 CSR 属性。</p>",
+))
+
+# ============ struct.Certificate / Crl / Csr (3 个 DER) ============
+pairs.append((
+    "<p><a href=\"../rustls_pki_types/struct.CertificateDer.html\" title=\"struct rustls_pki_types::CertificateDer\"><code>CertificateDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>, so you can easily\nextract the DER bytes from the return value.</p>",
+    "<p><a href=\"../rustls_pki_types/struct.CertificateDer.html\" title=\"struct rustls_pki_types::CertificateDer\"><code>CertificateDer</code></a> 实现了 <code>Deref&lt;Target = [u8]&gt;</code> 与 <code>AsRef&lt;[u8]&gt;</code>，因此你可以轻松地从返回值中提取 DER 字节。</p>",
+))
+pairs.append((
+    "<p><a href=\"../rustls_pki_types/struct.CertificateRevocationListDer.html\" title=\"struct rustls_pki_types::CertificateRevocationListDer\"><code>CertificateRevocationListDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.</p>",
+    "<p><a href=\"../rustls_pki_types/struct.CertificateRevocationListDer.html\" title=\"struct rustls_pki_types::CertificateRevocationListDer\"><code>CertificateRevocationListDer</code></a> 实现了 <code>Deref&lt;Target = [u8]&gt;</code> 与 <code>AsRef&lt;[u8]&gt;</code>，因此你可以轻松地从返回值中提取 DER 字节。</p>",
+))
+pairs.append((
+    "<p><a href=\"../rustls_pki_types/struct.CertificateSigningRequestDer.html\" title=\"struct rustls_pki_types::CertificateSigningRequestDer\"><code>CertificateSigningRequestDer</code></a> implements <code>Deref&lt;Target = [u8]&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>,\nso you can easily extract the DER bytes from the return value.</p>",
+    "<p><a href=\"../rustls_pki_types/struct.CertificateSigningRequestDer.html\" title=\"struct rustls_pki_types::CertificateSigningRequestDer\"><code>CertificateSigningRequestDer</code></a> 实现了 <code>Deref&lt;Target = [u8]&gt;</code> 与 <code>AsRef&lt;[u8]&gt;</code>，因此你可以轻松地从返回值中提取 DER 字节。</p>",
+))
+
+# ============ struct.CertificateParams 自签名相关 ============
+pairs.append((
+    "<p>The returned certificate will have its issuer field set to the subject of the\nprovided <code>issuer</code>, and the authority key identifier extension will be populated using\nthe subject public key of <code>issuer</code> (typically either a <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> or\n<a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>). It will be signed by <code>issuer_key</code>.</p>",
+    "<p>返回的证书将其 issuer 字段设置为所提供的 <code>issuer</code> 的 subject，并使用 <code>issuer</code> 的主体公钥（通常为 <a href=\"struct.CertificateParams.html\" title=\"struct rcgen::CertificateParams\"><code>CertificateParams</code></a> 或 <a href=\"struct.Certificate.html\" title=\"struct rcgen::Certificate\"><code>Certificate</code></a>）填充 authority key identifier 扩展。它将由 <code>issuer_key</code> 签名。</p>",
+))
+pairs.append((
+    "<p>Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.</p>",
+    "<p>注意，不会对 <code>issuer</code> 证书进行任何验证。Rcgen 不要求该证书是 CA 证书，也不要求其具有允许签名的密钥用途扩展。</p>",
+))
+
+# ============ struct.CertificateSigningRequestParams 自签名相关 ============
+pairs.append((
+    "<p>The returned certificate will have its issuer field set to the subject of the provided\n<code>issuer</code>, and the authority key identifier extension will be populated using the subject\npublic key of <code>issuer</code>. It will be signed by <code>issuer_key</code>.</p>",
+    "<p>返回的证书将其 issuer 字段设置为所提供的 <code>issuer</code> 的 subject，并使用 <code>issuer</code> 的主体公钥填充 authority key identifier 扩展。它将由 <code>issuer_key</code> 签名。</p>",
+))
+pairs.append((
+    "<p>Note that no validation of the <code>issuer</code> certificate is performed. Rcgen will not require\nthe certificate to be a CA certificate, or have key usage extensions that allow signing.</p>",
+    "<p>注意，不会对 <code>issuer</code> 证书进行任何验证。Rcgen 不要求该证书是 CA 证书，也不要求其具有允许签名的密钥用途扩展。</p>",
+))
+
+# ============ struct.CrlDistributionPoint ============
+pairs.append((
+    "<p>A certificate revocation list (CRL) distribution point, to be included in a certificate’s\n<a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">distribution points extension</a> or\na CRL’s <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a></p>",
+    "<p>证书吊销列表（CRL）分发点，应包含在证书的 <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.13\">distribution points extension</a> 或 CRL 的 <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.5\">issuing distribution point extension</a> 中</p>",
+))
+
+# ============ struct.CrlIssuingDistributionPoint ============
+pairs.append((
+    "<p>A certificate revocation list (CRL) issuing distribution point, to be included in a CRL’s\n<a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.2.5\">issuing distribution point extension</a>.</p>",
+    "<p>证书吊销列表（CRL）issuing distribution point，应包含在 CRL 的 <a href=\"https://www.rfc-editor.org/rfc/rfc5280#section-5.2.5\">issuing distribution point extension</a> 中。</p>",
+))
+
+# ============ struct.CustomExtension ============
+pairs.append((
+    "<p>A custom extension of a certificate, as specified in\n<a href=\"https://tools.ietf.org/html/rfc5280#section-4.2\">RFC 5280</a></p>",
+    "<p>证书的自定义扩展，详见 <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2\">RFC 5280 第 4.2 节</a></p>",
+))
+pairs.append((
+    "<p>Creates a new acmeIdentifier extension for ACME TLS-ALPN-01\nas specified in <a href=\"https://tools.ietf.org/html/rfc8737#section-3\">RFC 8737</a></p>",
+    "<p>按 <a href=\"https://tools.ietf.org/html/rfc8737#section-3\">RFC 8737 第 3 节</a> 创建用于 ACME TLS-ALPN-01 的 acmeIdentifier 扩展</p>",
+))
+
+# ============ struct.DistinguishedName ============
+pairs.append((
+    "<p>See also the RFC 5280 sections on the <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.4\">issuer</a>\nand <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.6\">subject</a> fields.</p>",
+    "<p>另请参见 RFC 5280 中关于 <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.4\">issuer</a> 与 <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1.2.6\">subject</a> 字段的章节。</p>",
+))
+
+# ============ struct.Issuer ============
+pairs.append((
+    "<p>Use <a href=\"struct.Issuer.html#method.new\" title=\"associated function rcgen::Issuer::new\"><code>Issuer::new</code></a> instead if you want to obtain an <a href=\"struct.Issuer.html\" title=\"struct rcgen::Issuer\"><code>Issuer</code></a> that owns\nits parameters.</p>",
+    "<p>若你希望获得一个拥有其参数的 <a href=\"struct.Issuer.html\" title=\"struct rcgen::Issuer\"><code>Issuer</code></a>，请改用 <a href=\"struct.Issuer.html#method.new\" title=\"associated function rcgen::Issuer::new\"><code>Issuer::new</code></a>。</p>",
+))
+
+# ============ struct.KeyPair ============
+pairs.append((
+    "<p>Generate a new random <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> key pair</p>",
+    "<p>生成新的随机 <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> 密钥对</p>",
+))
+pairs.append((
+    "<p>If you’re not sure which algorithm to use, <a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> is a good choice.\nIf passed an RSA signature algorithm, it depends on the backend whether we return\na generated key or an error for key generation being unavailable.\nCurrently, only <code>aws-lc-rs</code> supports RSA key generation.</p>",
+    "<p>如果你不确定使用哪种算法，<a href=\"static.PKCS_ECDSA_P256_SHA256.html\" title=\"static rcgen::PKCS_ECDSA_P256_SHA256\"><code>PKCS_ECDSA_P256_SHA256</code></a> 是一个不错的选择。若传入 RSA 签名算法，则根据后端的不同，可能返回生成的密钥，或返回密钥生成不可用的错误。目前，只有 <code>aws-lc-rs</code> 支持 RSA 密钥生成。</p>",
+))
+pairs.append((
+    "<p>If <code>aws_lc_rs</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958, SEC1/RFC 5915, or PKCS#1/RFC 3447;\nAppears as “PRIVATE KEY”, “RSA PRIVATE KEY”, or “EC PRIVATE KEY” in PEM files.</p>",
+    "<p>若使用 <code>aws_lc_rs</code> feature，则密钥必须是按 PKCS #8/RFC 5958、SEC1/RFC 5915 或 PKCS#1/RFC 3447 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”、“RSA PRIVATE KEY”或“EC PRIVATE KEY”。</p>",
+))
+pairs.append((
+    "<p>Otherwise if the <code>ring</code> feature is used, then the key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;\nAppears as “PRIVATE KEY” in PEM files.</p>",
+    "<p>否则，若使用 <code>ring</code> feature，则密钥必须是按 PKCS #8/RFC 5958 规定的 DER 编码明文私钥；在 PEM 文件中显示为“PRIVATE KEY”。</p>",
+))
+pairs.append((
+    "<p>Obtains the key pair from a DER formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "<p>使用指定的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> 从 DER 格式的密钥获取密钥对</p>",
+))
+pairs.append((
+    "<p>The key must be a DER-encoded plaintext private key; as specified in PKCS #8/RFC 5958;</p>",
+    "<p>密钥必须是按 PKCS #8/RFC 5958 规定的 DER 编码明文私钥；</p>",
+))
+pairs.append((
+    "<p>Appears as “PRIVATE KEY” in PEM files\nSame as <a href=\"struct.KeyPair.html#method.from_pkcs8_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_pem_and_sign_algo\">from_pkcs8_pem_and_sign_algo</a>.</p>",
+    "<p>在 PEM 文件中显示为“PRIVATE KEY”。与 <a href=\"struct.KeyPair.html#method.from_pkcs8_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_pem_and_sign_algo\">from_pkcs8_pem_and_sign_algo</a> 相同。</p>",
+))
+pairs.append((
+    "<p>Obtains the key pair from a DER formatted key using the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "<p>使用指定的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> 从 DER 格式的密钥获取密钥对</p>",
+))
+pairs.append((
+    "<p>If you have a <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms are valid for the same input, in which case\nyou’ll need to call <a href=\"struct.KeyPair.html#method.from_pkcs8_der_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_der_and_sign_algo\"><code>from_pkcs8_der_and_sign_algo</code></a> directly.</p>",
+    "<p>如果你有 <a href=\"../rustls_pki_types/struct.PrivatePkcs8KeyDer.html\" title=\"struct rustls_pki_types::PrivatePkcs8KeyDer\"><code>PrivatePkcs8KeyDer</code></a>，通常可依赖 <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> 实现来获取 <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> —— 它会为你确定正确的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>。但有时同一输入可能对应多个有效的签名算法，此时你需要直接调用 <a href=\"struct.KeyPair.html#method.from_pkcs8_der_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pkcs8_der_and_sign_algo\"><code>from_pkcs8_der_and_sign_algo</code></a>。</p>",
+))
+pairs.append((
+    "<p><a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key()</code></a> is often used to obtain a <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> from PEM\ninput. If the obtained <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> is a <code>Pkcs8</code> variant, you can use its contents\nas input for this function. Alternatively, the entire <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> can be passed\nto <a href=\"struct.KeyPair.html#method.from_private_key_der\" title=\"associated function rcgen::KeyPair::from_private_key_der\"><code>from_private_key_der</code></a> directly when using the <code>aws_lc_rs</code> feature.</p>",
+    "<p><a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key()</code></a> 常用于从 PEM 输入获取 <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a>。若获得的 <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> 是 <code>Pkcs8</code> 变体，你可以将其内容用作此函数的输入。或者在使用 <code>aws_lc_rs</code> feature 时，可以直接将整个 <a href=\"https://docs.rs/rustls-pki-types/latest/rustls_pki_types/enum.PrivateKeyDer.html\"><code>PrivateKeyDer</code></a> 传递给 <a href=\"struct.KeyPair.html#method.from_private_key_der\" title=\"associated function rcgen::KeyPair::from_private_key_der\"><code>from_private_key_der</code></a>。</p>",
+))
+pairs.append((
+    "<p>Obtains the key pair from a PEM formatted key\nusing the specified <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+    "<p>使用指定的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> 从 PEM 格式的密钥获取密钥对</p>",
+))
+pairs.append((
+    "<p>Same as <a href=\"struct.KeyPair.html#method.from_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pem_and_sign_algo\">from_pem_and_sign_algo</a>.</p>",
+    "<p>与 <a href=\"struct.KeyPair.html#method.from_pem_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_pem_and_sign_algo\">from_pem_and_sign_algo</a> 相同。</p>",
+))
+pairs.append((
+    "<p>Note that using the <code>ring</code> feature, this function only support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html#variant.Pkcs8\" title=\"variant rustls_pki_types::PrivateKeyDer::Pkcs8\"><code>PrivateKeyDer::Pkcs8</code></a> variant.\nConsider using the <code>aws_lc_rs</code> features to support <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a> fully.</p>",
+    "<p>注意，使用 <code>ring</code> feature 时，此函数仅支持 <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html#variant.Pkcs8\" title=\"variant rustls_pki_types::PrivateKeyDer::Pkcs8\"><code>PrivateKeyDer::Pkcs8</code></a> 变体。如需完整支持 <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>，请考虑使用 <code>aws_lc_rs</code> feature。</p>",
+))
+pairs.append((
+    "<p>If you have a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms are valid for the same input, in which case\nyou’ll need to call <a href=\"struct.KeyPair.html#method.from_private_key_der_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_private_key_der_and_sign_algo\"><code>from_private_key_der_and_sign_algo</code></a> directly.</p>",
+    "<p>如果你有 <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>，通常可依赖 <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> 实现来获取 <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> —— 它会为你确定正确的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>。但有时同一输入可能对应多个有效的签名算法，此时你需要直接调用 <a href=\"struct.KeyPair.html#method.from_private_key_der_and_sign_algo\" title=\"associated function rcgen::KeyPair::from_private_key_der_and_sign_algo\"><code>from_private_key_der_and_sign_algo</code></a>。</p>",
+))
+pairs.append((
+    "<p>You can use <a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key</code></a> to get the <code>key</code> input. If\nyou have already a byte slice, just calling <code>try_into()</code> will convert it to a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>.</p>",
+    "<p>你可以使用 <a href=\"https://docs.rs/rustls-pemfile/latest/rustls_pemfile/fn.private_key.html\"><code>rustls_pemfile::private_key</code></a> 来获取 <code>key</code> 输入。如果你已经有字节切片，直接调用 <code>try_into()</code> 即可将其转换为 <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>。</p>",
+))
+pairs.append((
+    "<p>The key is in raw format, as how <a href=\"../ring/signature/trait.KeyPair.html#tymethod.public_key\" title=\"method ring::signature::KeyPair::public_key\"><code>KeyPair::public_key()</code></a>\nwould output, and how <a href=\"../ring/signature/struct.UnparsedPublicKey.html#method.verify\" title=\"method ring::signature::UnparsedPublicKey::verify\"><code>UnparsedPublicKey::verify()</code></a>\nwould accept.</p>",
+    "<p>密钥为原始格式，与 <a href=\"../ring/signature/trait.KeyPair.html#tymethod.public_key\" title=\"method ring::signature::KeyPair::public_key\"><code>KeyPair::public_key()</code></a> 的输出格式一致，也是 <a href=\"../ring/signature/struct.UnparsedPublicKey.html#method.verify\" title=\"method ring::signature::UnparsedPublicKey::verify\"><code>UnparsedPublicKey::verify()</code></a> 所接受的格式。</p>",
+))
+pairs.append((
+    "<p>Returns (possibly multiple) compatible <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>’s\nthat the key can be used with</p>",
+    "<p>返回（可能多个）与该密钥兼容的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a></p>",
+))
+
+# ============ struct.NameConstraints ============
+pairs.append((
+    "<p>The <a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.10\">NameConstraints extension</a>\n(only relevant for CA certificates)</p>",
+    "<p><a href=\"https://tools.ietf.org/html/rfc5280#section-4.2.1.10\">NameConstraints 扩展</a>（仅与 CA 证书相关）</p>",
+))
+
+# ============ trait.PublicKeyData ============
+pairs.append((
+    "<p>The key is formatted according to the X.509 SubjectPublicKeyInfo struct.\nSee <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1\">RFC 5280 section 4.1</a>.</p>",
+    "<p>密钥按 X.509 SubjectPublicKeyInfo 结构进行格式化。参见 <a href=\"https://tools.ietf.org/html/rfc5280#section-4.1\">RFC 5280 第 4.1 节</a>。</p>",
+))
+
+# ============ string/struct.BmpString.html ============
+bmp_pairs = [
+    ("<p>ASN.1 <code>BMPString</code> type.</p>",
+     "<p>ASN.1 <code>BMPString</code> 类型。</p>"),
+    ("<p>You can create a <code>BmpString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.BmpString.html#method.try_from\" title=\"associated function rcgen::string::BmpString::try_from\"><code>BmpString::try_from</code></a>:</p>",
+     "<p>你可以使用 <a href=\"struct.BmpString.html#method.try_from\" title=\"associated function rcgen::string::BmpString::try_from\"><code>BmpString::try_from</code></a> 从 <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">字面量字符串</a> 创建 <code>BmpString</code>：</p>"),
+    ("<p><code>BMPString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+     "<p>包含 <code>BMPString</code> 是为了向后兼容；<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> 规定它不应被用于新证书的主体。</p>"),
+    ("<p>The inverse of this method is <a href=\"struct.BmpString.html#method.from_utf16be\" title=\"associated function rcgen::string::BmpString::from_utf16be\"><code>from_utf16be</code></a>.</p>",
+     "<p>该方法的逆操作是 <a href=\"struct.BmpString.html#method.from_utf16be\" title=\"associated function rcgen::string::BmpString::from_utf16be\"><code>from_utf16be</code></a>。</p>"),
+    ("<p>Converts a <code>&amp;str</code> to a <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a>.</p>",
+     "<p>将 <code>&amp;str</code> 转换为 <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a>。</p>"),
+    ("<p>Any character not in the <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> charset will be rejected.\nSee <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> documentation for more information.</p>",
+     "<p>任何不属于 <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> 字符集的字符都将被拒绝。更多信息请参见 <a href=\"struct.BmpString.html\" title=\"struct rcgen::string::BmpString\"><code>BmpString</code></a> 文档。</p>"),
+    ("<p>Parsing a <code>BmpString</code> allocates memory since the UTF-8 to UTF-16 conversion requires a memory allocation.</p>",
+     "<p>解析 <code>BmpString</code> 会分配内存，因为 UTF-8 到 UTF-16 的转换需要一次内存分配。</p>"),
+]
+pairs.extend(bmp_pairs)
+
+# ============ string/struct.Ia5String.html ============
+ia5_pairs = [
+    ("<p>You can create a <code>Ia5String</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.Ia5String.html#method.try_from\" title=\"associated function rcgen::string::Ia5String::try_from\"><code>Ia5String::try_from</code></a>:</p>",
+     "<p>你可以使用 <a href=\"struct.Ia5String.html#method.try_from\" title=\"associated function rcgen::string::Ia5String::try_from\"><code>Ia5String::try_from</code></a> 从 <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">字面量字符串</a> 创建 <code>Ia5String</code>：</p>"),
+    ("<p>Supports the <a href=\"https://en.wikipedia.org/wiki/T.50_(standard)\">International Alphabet No. 5 (IA5)</a> character encoding, i.e.\nthe 128 characters of the ASCII alphabet. (Note: IA5 is now\ntechnically known as the International Reference Alphabet or IRA as\nspecified in the ITU-T’s T.50 recommendation).</p>",
+     "<p>支持 <a href=\"https://en.wikipedia.org/wiki/T.50_(standard)\">国际字母表第 5 号（IA5）</a> 字符编码，即 ASCII 字母表的 128 个字符。（注：IA5 在技术上现在称为国际参考字母表（IRA），见 ITU-T 的 T.50 建议书。）</p>"),
+    ("<p>Extracts a string slice containing the entire <code>Ia5String</code>.</p>",
+     "<p>提取包含整个 <code>Ia5String</code> 的字符串切片。</p>"),
+    ("<p>Converts a <code>&amp;str</code> to a <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.</p>",
+     "<p>将 <code>&amp;str</code> 转换为 <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>。</p>"),
+    ("<p>Any character not in the <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> charset will be rejected.\nSee <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> documentation for more information.</p>",
+     "<p>任何不属于 <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> 字符集的字符都将被拒绝。更多信息请参见 <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a> 文档。</p>"),
+]
+pairs.extend(ia5_pairs)
+
+# ============ string/struct.PrintableString.html ============
+ps_pairs = [
+    ("<p>ASN.1 <code>PrintableString</code> type.</p>",
+     "<p>ASN.1 <code>PrintableString</code> 类型。</p>"),
+    ("<p>For the full ASCII character set, use\n<a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>.</p>",
+     "<p>对于完整的 ASCII 字符集，请使用 <a href=\"struct.Ia5String.html\" title=\"struct rcgen::string::Ia5String\"><code>Ia5String</code></a>。</p>"),
+    ("<p>You can create a <code>PrintableString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.PrintableString.html#method.try_from\" title=\"associated function rcgen::string::PrintableString::try_from\"><code>PrintableString::try_from</code></a>:</p>",
+     "<p>你可以使用 <a href=\"struct.PrintableString.html#method.try_from\" title=\"associated function rcgen::string::PrintableString::try_from\"><code>PrintableString::try_from</code></a> 从 <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">字面量字符串</a> 创建 <code>PrintableString</code>：</p>"),
+    ("<p>PrintableString is a subset of the <a href=\"https://en.wikipedia.org/wiki/ASCII#Printable_characters\">ASCII printable characters</a>.\nFor instance, <code>'@'</code> is a printable character as per ASCII but can’t be part of <a href=\"https://en.wikipedia.org/wiki/PrintableString\">ASN.1’s <code>PrintableString</code></a>.</p>",
+     "<p>PrintableString 是 <a href=\"https://en.wikipedia.org/wiki/ASCII#Printable_characters\">ASCII 可打印字符</a>的子集。例如，<code>'@'</code> 按 ASCII 是可打印字符，但不能作为 <a href=\"https://en.wikipedia.org/wiki/PrintableString\">ASN.1 的 <code>PrintableString</code></a> 的一部分。</p>"),
+    ("<p>Extracts a string slice containing the entire <code>PrintableString</code>.</p>",
+     "<p>提取包含整个 <code>PrintableString</code> 的字符串切片。</p>"),
+    ("<p>Converts a <code>&amp;str</code> to a <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a>.</p>",
+     "<p>将 <code>&amp;str</code> 转换为 <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a>。</p>"),
+    ("<p>Any character not in the <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> charset will be rejected.\nSee <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> documentation for more information.</p>",
+     "<p>任何不属于 <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> 字符集的字符都将被拒绝。更多信息请参见 <a href=\"struct.PrintableString.html\" title=\"struct rcgen::string::PrintableString\"><code>PrintableString</code></a> 文档。</p>"),
+]
+pairs.extend(ps_pairs)
+
+# ============ string/struct.TeletexString.html ============
+tt_pairs = [
+    ("<p>ASN.1 <code>TeletexString</code> type.</p>",
+     "<p>ASN.1 <code>TeletexString</code> 类型。</p>"),
+    ("<p>You can create a <code>TeletexString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.TeletexString.html#method.try_from\" title=\"associated function rcgen::string::TeletexString::try_from\"><code>TeletexString::try_from</code></a>:</p>",
+     "<p>你可以使用 <a href=\"struct.TeletexString.html#method.try_from\" title=\"associated function rcgen::string::TeletexString::try_from\"><code>TeletexString::try_from</code></a> 从 <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">字面量字符串</a> 创建 <code>TeletexString</code>：</p>"),
+    ("<p>The standard defines a complex character set allowed in this type. However, quoting the ASN.1\n<a href=\"https://www.mail-archive.com/asn1@asn1.org/msg00460.html\">mailing list</a>, “a sizable volume of software in the world treats TeletexString (T61String) as a\nsimple 8-bit string with mostly Windows Latin 1 (superset of iso-8859-1) encoding”.</p>",
+     "<p>标准为该类型定义了复杂的字符集。然而，引用 ASN.1 <a href=\"https://www.mail-archive.com/asn1@asn1.org/msg00460.html\">邮件列表</a>的说法：“世界上有相当数量的软件将 TeletexString（T61String）视为简单的 8 位字符串，主要采用 Windows Latin 1（iso-8859-1 的超集）编码”。</p>"),
+    ("<p><code>TeletexString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+     "<p>包含 <code>TeletexString</code> 是为了向后兼容；<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> 规定它不应被用于新证书的主体。</p>"),
+    ("<p>Extracts a string slice containing the entire <code>TeletexString</code>.</p>",
+     "<p>提取包含整个 <code>TeletexString</code> 的字符串切片。</p>"),
+    ("<p>Converts a <code>&amp;str</code> to a <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a>.</p>",
+     "<p>将 <code>&amp;str</code> 转换为 <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a>。</p>"),
+    ("<p>Any character not in the <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> charset will be rejected.\nSee <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> documentation for more information.</p>",
+     "<p>任何不属于 <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> 字符集的字符都将被拒绝。更多信息请参见 <a href=\"struct.TeletexString.html\" title=\"struct rcgen::string::TeletexString\"><code>TeletexString</code></a> 文档。</p>"),
+]
+pairs.extend(tt_pairs)
+
+# ============ string/struct.UniversalString.html ============
+us_pairs = [
+    ("<p>ASN.1 <code>UniversalString</code> type.</p>",
+     "<p>ASN.1 <code>UniversalString</code> 类型。</p>"),
+    ("<p>You can create a <code>UniversalString</code> from <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">a literal string</a> with <a href=\"struct.UniversalString.html#method.try_from\" title=\"associated function rcgen::string::UniversalString::try_from\"><code>UniversalString::try_from</code></a>:</p>",
+     "<p>你可以使用 <a href=\"struct.UniversalString.html#method.try_from\" title=\"associated function rcgen::string::UniversalString::try_from\"><code>UniversalString::try_from</code></a> 从 <a href=\"https://doc.rust-lang.org/1.95.0/std/primitive.str.html\" title=\"primitive str\">字面量字符串</a> 创建 <code>UniversalString</code>：</p>"),
+    ("<p>The characters which can appear in the <code>UniversalString</code> type are any of the characters allowed by\nISO/IEC 10646 (Unicode).</p>",
+     "<p><code>UniversalString</code> 类型可出现的字符是 ISO/IEC 10646（Unicode）所允许的任何字符。</p>"),
+    ("<p><code>UniversalString</code> is included for backward compatibility, <a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> say it\nSHOULD NOT be used for certificates for new subjects.</p>",
+     "<p>包含 <code>UniversalString</code> 是为了向后兼容；<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#page-25\">RFC 5280</a> 规定它不应被用于新证书的主体。</p>"),
+    ("<p>The inverse of this method is <a href=\"struct.UniversalString.html#method.from_utf32be\" title=\"associated function rcgen::string::UniversalString::from_utf32be\"><code>from_utf32be</code></a>.</p>",
+     "<p>该方法的逆操作是 <a href=\"struct.UniversalString.html#method.from_utf32be\" title=\"associated function rcgen::string::UniversalString::from_utf32be\"><code>from_utf32be</code></a>。</p>"),
+    ("<p>Converts a <code>&amp;str</code> to a <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a>.</p>",
+     "<p>将 <code>&amp;str</code> 转换为 <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a>。</p>"),
+    ("<p>Any character not in the <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> charset will be rejected.\nSee <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> documentation for more information.</p>",
+     "<p>任何不属于 <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> 字符集的字符都将被拒绝。更多信息请参见 <a href=\"struct.UniversalString.html\" title=\"struct rcgen::string::UniversalString\"><code>UniversalString</code></a> 文档。</p>"),
+    ("<p>Parsing a <code>UniversalString</code> allocates memory since the UTF-8 to UTF-32 conversion requires a memory allocation.</p>",
+     "<p>解析 <code>UniversalString</code> 会分配内存，因为 UTF-8 到 UTF-32 的转换需要一次内存分配。</p>"),
+]
+pairs.extend(us_pairs)
+
+# 末尾补丁 — 修复 KeyPair PrivateKeyDer 完整翻译 + 2 个 RFC 链接回链
+patches = [
+    # KeyPair PrivateKeyDer（末尾不同）
+    ("<p>If you have a <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>, you can usually rely on the <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> implementation\nto obtain a <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> – it will determine the correct <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a> for you.\nHowever, sometimes multiple signature algorithms fit for the same DER key. In those instances,\nyou can use this function to precisely specify the <code>SignatureAlgorithm</code>.</p>",
+     "<p>如果你有 <a href=\"../rustls_pki_types/enum.PrivateKeyDer.html\" title=\"enum rustls_pki_types::PrivateKeyDer\"><code>PrivateKeyDer</code></a>，通常可依赖 <a href=\"https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html\" title=\"trait core::convert::TryFrom\"><code>TryFrom</code></a> 实现来获取 <a href=\"struct.KeyPair.html\" title=\"struct rcgen::KeyPair\"><code>KeyPair</code></a> —— 它会为你确定正确的 <a href=\"struct.SignatureAlgorithm.html\" title=\"struct rcgen::SignatureAlgorithm\"><code>SignatureAlgorithm</code></a>。但有时同一 DER 密钥可能对应多个签名算法，此时你可以使用此函数精确指定 <code>SignatureAlgorithm</code>。</p>"),
+    # RFC 链接回链（保持原文，因为是 RFC 链接）
+    # 这两个是 RFC 链接的回链 ↩，无需翻译
+]
+pairs.extend(patches)
+
+# 保存到 JSON
+with open('rcgen/_translate_pairs_extra.json', 'w', encoding='utf-8') as f:
+    json.dump(pairs, f, ensure_ascii=False, indent=2)
+print(f'saved {len(pairs)} pairs to rcgen/_translate_pairs_extra.json')
