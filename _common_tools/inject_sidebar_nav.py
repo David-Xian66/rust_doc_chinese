@@ -26,7 +26,7 @@ import re
 import sys
 
 # === Markers (NEW injection) ===
-NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-sidebar-handle"'
+NEW_HANDLE_MARKER = b'<span class="rustdoc-cn-kbd-hint"'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
 SEARCH_MENU_OPEN = b'<div class="search-menu">'
@@ -77,22 +77,29 @@ CSS_BLOCK = (
     b'<style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style>'
     b'<style>'
     # --- Toggle button (matches rustdoc's hamburger style) ---
+    # On desktop, show the toggle button in BOTH states (rustdoc hides it by default).
     b'.sidebar-menu-toggle{width:41px;min-width:41px;border:none;line-height:0;background:transparent;cursor:pointer;padding:0;margin:0;border-radius:4px;flex-shrink:0;transition:background-color .15s ease}'
     b'.sidebar-menu-toggle::before{content:var(--hamburger-image);opacity:.75;filter:var(--mobile-sidebar-menu-filter);display:block;width:22px;height:22px;margin:0 auto}'
     b'.sidebar-menu-toggle:hover,.sidebar-menu-toggle:focus{background:rgba(0,0,0,.06);outline:none}'
     b'.sidebar-menu-toggle:hover::before,.sidebar-menu-toggle:focus::before{opacity:1}'
+    # Small keyboard hint chip next to the toggle button (desktop only)
+    b'.rustdoc-cn-kbd-hint{display:inline-flex;align-items:center;justify-content:center;height:22px;margin-left:2px;padding:0 6px;border:1px solid rgba(0,0,0,.18);border-radius:4px;font:11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:#666;background:rgba(0,0,0,.04);user-select:none;flex-shrink:0;cursor:help}'
+    b'.rustdoc-cn-kbd-hint:hover{background:rgba(0,0,0,.08);color:#333}'
+    b'@media (max-width:700px){.rustdoc-cn-kbd-hint{display:none}}'
     # --- Home button ---
     b'.rustdoc-cn-home{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:6px;padding:0;border-radius:4px;color:inherit;text-decoration:none;font-size:18px;line-height:1;flex-shrink:0;transition:background-color .15s ease;cursor:pointer;user-select:none}'
     b'.rustdoc-cn-home:hover,.rustdoc-cn-home:focus{background:rgba(0,0,0,.06);outline:none}'
     b'.rustdoc-cn-home svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     # --- Sidebar transitions ---
     b'.rustdoc .sidebar,.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}'
-    # --- Desktop: hidden state ---
+    # --- Desktop: ensure toggle button is visible in BOTH states (rustdoc hides it by default) ---
     b'@media (min-width:701px){'
-    b'html.hide-sidebar .sidebar-menu-toggle{display:flex !important;align-items:center;justify-content:center}'
+    b'.sidebar-menu-toggle{display:flex !important;align-items:center;justify-content:center}'
     b'html.hide-sidebar .sidebar{opacity:0;pointer-events:none;margin-left:-100%}'
     b'html.hide-sidebar .sidebar-resizer{display:none !important}'
-    b'html.hide-sidebar main{padding-left:0 !important}'
+    # When sidebar is hidden, keep a comfortable left margin so the content doesn't touch the edge
+    b'html.hide-sidebar main{padding-left:24px !important}'
+    b'html.hide-sidebar .width-limiter{margin-left:0 !important}'
     # Floating handle to bring sidebar back, on the left edge
     b'html.hide-sidebar .rustdoc-cn-sidebar-handle{opacity:.85}'
     b'.rustdoc-cn-sidebar-handle{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:99;width:18px;height:64px;background:rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.12);border-left:none;border-radius:0 6px 6px 0;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s ease,background-color .15s ease}'
@@ -113,14 +120,15 @@ CSS_BLOCK = (
 # Marker for idempotency (unique id we control)
 CSS_MARKER = b'id="rustdoc-cn-nav-style"'
 
-# === Toggle button HTML ===
-# Placed as first child of <rustdoc-topbar>
+# === Toggle button + keyboard hint ===
+# Placed as first children of <rustdoc-topbar>
 TOGGLE_BUTTON = (
     b'<button class="sidebar-menu-toggle" type="button" '
     b'aria-label="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f" '
     b'title="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
     b'data-show-title="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
     b'data-hide-title="\xe6\x8a\x98\xe5\x8f\xa0\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)"></button>'
+    b'<span class="rustdoc-cn-kbd-hint" title="\xe9\x94\xae\xe7\x9b\x98\xe5\xbf\xab\xe6\x8d\xb7\xe9\x94\xae\xe5\x88\x87\xe6\x8d\xa2\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f">\\</span>'
 )
 
 # === Floating "show sidebar" handle + hover peek zone ===
