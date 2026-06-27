@@ -3,4 +3,17 @@
     device_name: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     device_options: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVDictionary.html" title="struct ffmpeg_sys_next::AVDictionary">AVDictionary</a>,
     device_list: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVDeviceInfoList.html" title="struct ffmpeg_sys_next::AVDeviceInfoList">AVDeviceInfoList</a>,
-) -&gt; <a class="type" href="https://
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>List devices.</p>
+<p>Returns available device names and their parameters.
+These are convenient wrappers for avdevice_list_devices().
+Device context is allocated and deallocated internally.</p>
+<p>@param device           device format. May be NULL if device name is set.
+@param device_name      device name. May be NULL if device format is set.
+@param device_options   An AVDictionary filled with device-private options. May be NULL.
+The same options must be passed later to avformat_write_header() for output
+devices or avformat_open_input() for input devices, or at any other place
+that affects device-private options.
+@param[out] device_list list of autodetected devices
+@return count of autodetected devices, negative on error.
+@note device argument takes precedence over device_name when both are set.</p>
+</div></details></section></div></main></body></html>

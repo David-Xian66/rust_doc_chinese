@@ -2,4 +2,20 @@
     avctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVCodecContext.html" title="struct ffmpeg_sys_next::AVCodecContext">AVCodecContext</a>,
     frame: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFrame.html" title="struct ffmpeg_sys_next::AVFrame">AVFrame</a>,
     flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a>,
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Return decoded output data from a decoder or encoder (when the
+@ref AV_CODEC_FLAG_RECON_FRAME flag is used).</p>
+<p>@param avctx codec context
+@param frame This will be set to a reference-counted video or audio
+frame (depending on the decoder type) allocated by the
+codec. Note that the function will always call
+av_frame_unref(frame) before doing anything else.
+@param flags Combination of AV_CODEC_RECEIVE_FRAME_FLAG_* flags.</p>
+<p>@retval 0                success, a frame was returned
+@retval AVERROR(EAGAIN)  output is not available in this state - user must
+try to send new input
+@retval AVERROR_EOF      the codec has been fully flushed, and there will be
+no more output frames
+@retval AVERROR(EINVAL)  codec not opened, or it is an encoder without the
+@ref AV_CODEC_FLAG_RECON_FRAME flag enabled
+@retval “other negative error code” legitimate decoding errors</p>
+</div></details></section></div></main></body></html>

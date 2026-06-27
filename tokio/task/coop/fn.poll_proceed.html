@@ -11,3 +11,23 @@
 <span class="kw">use </span>futures::channel::mpsc::UnboundedReceiver;
 
 <span class="kw">struct </span>CoopUnboundedReceiver&lt;T&gt; {
+   receiver: UnboundedReceiver&lt;T&gt;,
+}
+
+<span class="kw">impl</span>&lt;T&gt; Stream <span class="kw">for </span>CoopUnboundedReceiver&lt;T&gt; {
+    <span class="kw">type </span>Item = T;
+    <span class="kw">fn </span>poll_next(
+        <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;
+    ) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt; {
+        <span class="kw">let </span>coop = <span class="macro">ready!</span>(coop::poll_proceed(cx));
+        <span class="kw">match </span><span class="self">self</span>.receiver.poll_next_unpin(cx) {
+            Poll::Ready(v) =&gt; {
+                <span class="comment">// 我们收到了一个值，因此消耗预算。
+                </span>coop.made_progress();
+                Poll::Ready(v)
+            }
+            Poll::Pending =&gt; Poll::Pending,
+       }
+    }
+}</code></pre></div></div></details></section></div></main></body></html>

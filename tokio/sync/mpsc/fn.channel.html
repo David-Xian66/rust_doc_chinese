@@ -4,4 +4,21 @@
 <p>可以克隆 <code>Sender</code> 以便从多个代码位置 <code>send</code> 到同一 channel。仅支持一个 <code>Receiver</code>。</p>
 <p>如果尝试 <code>send</code> 时 <code>Receiver</code> 已断开连接，则 <code>send</code> 方法将返回 <code>SendError</code>。类似地，如果尝试 <code>recv</code> 时 <code>Sender</code> 已断开连接，则 <code>recv</code> 方法将返回 <code>None</code>。</p>
 <h2 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h2>
-<p>如果缓冲区容量为 0 或过大，则会 panic。目前最大容量为 <a href="../struct.Semaphore.html#associatedconstant.MAX_PERMITS" title="associated constant tokio::sync::Semaphore::MAX_PERMITS"><code>Semaphore:
+<p>如果缓冲区容量为 0 或过大，则会 panic。目前最大容量为 <a href="../struct.Semaphore.html#associatedconstant.MAX_PERMITS" title="associated constant tokio::sync::Semaphore::MAX_PERMITS"><code>Semaphore::MAX_PERMITS</code></a>。</p>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">100</span>);
+
+tokio::spawn(<span class="kw">async move </span>{
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(<span class="kw">_</span>) = tx.send(i).<span class="kw">await </span>{
+            <span class="macro">println!</span>(<span class="string">"receiver dropped"</span>);
+            <span class="kw">return</span>;
+        }
+    }
+});
+
+<span class="kw">while let </span><span class="prelude-val">Some</span>(i) = rx.recv().<span class="kw">await </span>{
+     <span class="macro">println!</span>(<span class="string">"got = {}"</span>, i);
+}</code></pre></div></div></details></section></div></main></body></html>

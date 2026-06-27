@@ -7,4 +7,10 @@
 }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A trait for retrieving the implementation behind a COM or WinRT interface.</p>
 <p>This trait is automatically implemented when using the <code>implement</code> macro.</p>
 </div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.as_impl_ptr" class="method"><h4 class="code-header">unsafe fn <a href="#tymethod.as_impl_ptr" class="fn">as_impl_ptr</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/ptr/non_null/struct.NonNull.html" title="struct core::ptr::non_null::NonNull">NonNull</a>&lt;T&gt;</h4></section></summary><div class="docblock"><p>Returns a pointer to the implementation object.</p>
-<h5 id="safety"><a class="doc-anchor" href="#safety"
+<h5 id="safety"><a class="doc-anchor" href="#safety">§</a>Safety</h5>
+<p>The caller needs to ensure that <code>self</code> is actually implemented by the
+implementation <code>T</code>.</p>
+</div></details></div><h2 id="provided-methods" class="section-header">Provided Methods<a href="#provided-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="method.as_impl" class="method"><h4 class="code-header">unsafe fn <a href="#method.as_impl" class="fn">as_impl</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class="docblock"><h5 id="safety-1"><a class="doc-anchor" href="#safety-1">§</a>Safety</h5>
+<p>The caller needs to ensure that <code>self</code> is actually implemented by the
+implementation <code>T</code>.</p>
+</div></details></div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../trait.impl/windows_core/as_impl/trait.AsImpl.js" async></script></section></div></main></body></html>

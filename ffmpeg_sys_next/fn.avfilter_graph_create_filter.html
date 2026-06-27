@@ -5,4 +5,18 @@
     args: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     opaque: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
     graph_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVFilterGraph.html" title="struct ffmpeg_sys_next::AVFilterGraph">AVFilterGraph</a>,
-) -&gt; <a class="type" href="https://d
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>A convenience wrapper that allocates and initializes a filter in a single
+step. The filter instance is created from the filter filt and inited with the
+parameter args. opaque is currently ignored.</p>
+<p>In case of success put in *filt_ctx the pointer to the created
+filter instance, otherwise set *filt_ctx to NULL.</p>
+<p>@param name the instance name to give to the created filter instance
+@param graph_ctx the filter graph
+@return a negative AVERROR error code in case of failure, a non
+negative value otherwise</p>
+<p>@warning Since the filter is initialized after this function successfully
+returns, you MUST NOT set any further options on it. If you need to
+do that, call ::avfilter_graph_alloc_filter(), followed by setting
+the options, followed by ::avfilter_init_dict() instead of this
+function.</p>
+</div></details></section></div></main></body></html>

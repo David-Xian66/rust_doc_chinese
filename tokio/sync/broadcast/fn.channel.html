@@ -10,4 +10,17 @@
 <span class="kw">let </span><span class="kw-2">mut </span>rx2 = tx.subscribe();
 
 tokio::spawn(<span class="kw">async move </span>{
-    <span class="m
+    <span class="macro">assert_eq!</span>(rx1.recv().<span class="kw">await</span>.unwrap(), <span class="number">10</span>);
+    <span class="macro">assert_eq!</span>(rx1.recv().<span class="kw">await</span>.unwrap(), <span class="number">20</span>);
+});
+
+tokio::spawn(<span class="kw">async move </span>{
+    <span class="macro">assert_eq!</span>(rx2.recv().<span class="kw">await</span>.unwrap(), <span class="number">10</span>);
+    <span class="macro">assert_eq!</span>(rx2.recv().<span class="kw">await</span>.unwrap(), <span class="number">20</span>);
+});
+
+tx.send(<span class="number">10</span>).unwrap();
+tx.send(<span class="number">20</span>).unwrap();</code></pre></div><h2 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h2>
+<p>如果 <code>capacity</code> 等于 <code>0</code>，这将 panic。</p>
+<p>这会为 <code>capacity</code> 条消息预分配空间。分配失败可能导致 panic 或<a href="https://doc.rust-lang.org/1.95.0/alloc/alloc/fn.handle_alloc_error.html" title="fn alloc::alloc::handle_alloc_error">分配错误</a>。</p>
+</div></details></section></div></main></body></html>

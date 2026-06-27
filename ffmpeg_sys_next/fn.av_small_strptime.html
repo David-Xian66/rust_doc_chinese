@@ -11,4 +11,22 @@ by the standard strptime().</p>
 <ul>
 <li><code>%%H</code>: the hour as a decimal number, using a 24-hour clock, in the
 range ‘00’ through ‘23’</li>
-<li><code>%%J</code>: hours as a decimal number, in the range ‘0’
+<li><code>%%J</code>: hours as a decimal number, in the range ‘0’ through INT_MAX</li>
+<li><code>%%M</code>: the minute as a decimal number, using a 24-hour clock, in the
+range ‘00’ through ‘59’</li>
+<li><code>%%S</code>: the second as a decimal number, using a 24-hour clock, in the
+range ‘00’ through ‘59’</li>
+<li><code>%%Y</code>: the year as a decimal number, using the Gregorian calendar</li>
+<li><code>%%m</code>: the month as a decimal number, in the range ‘1’ through ‘12’</li>
+<li><code>%%d</code>: the day of the month as a decimal number, in the range ‘1’
+through ‘31’</li>
+<li><code>%%T</code>: alias for <code>%%H:%%M:%%S</code></li>
+<li><code>%%</code>: a literal <code>%</code></li>
+</ul>
+<p>@return a pointer to the first character not processed in this function
+call. In case the input string contains more characters than
+required by the format string the return value points right after
+the last consumed input character. In case the whole input string
+is consumed the return value points to the null byte at the end of
+the string. On failure NULL is returned.</p>
+</div></details></section></div></main></body></html>

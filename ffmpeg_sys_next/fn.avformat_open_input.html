@@ -3,4 +3,22 @@
     url: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     fmt: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="struct" href="struct.AVInputFormat.html" title="struct ffmpeg_sys_next::AVInputFormat">AVInputFormat</a>,
     options: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVDictionary.html" title="struct ffmpeg_sys_next::AVDictionary">AVDictionary</a>,
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开�
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Open an input stream and read the header. The codecs are not opened.
+The stream must be closed with avformat_close_input().</p>
+<p>@param ps       Pointer to user-supplied AVFormatContext (allocated by
+avformat_alloc_context). May be a pointer to NULL, in
+which case an AVFormatContext is allocated by this
+function and written into ps.
+Note that a user-supplied AVFormatContext will be freed
+on failure and its pointer set to NULL.
+@param url      URL of the stream to open.
+@param fmt      If non-NULL, this parameter forces a specific input format.
+Otherwise the format is autodetected.
+@param options  A dictionary filled with AVFormatContext and demuxer-private
+options.
+On return this parameter will be destroyed and replaced with
+a dict containing options that were not found. May be NULL.</p>
+<p>@return 0 on success; on failure: frees ps, sets its pointer to NULL,
+and returns a negative AVERROR.</p>
+<p>@note If you want to use custom IO, preallocate the format context and set its pb field.</p>
+</div></details></section></div></main></body></html>

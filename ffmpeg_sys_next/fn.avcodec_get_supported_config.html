@@ -4,4 +4,17 @@
     config: <a class="enum" href="enum.AVCodecConfig.html" title="enum ffmpeg_sys_next::AVCodecConfig">AVCodecConfig</a>,
     flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_uint.html" title="type core::ffi::primitives::c_uint">c_uint</a>,
     out_configs: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
-    out_num_configs: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.ru
+    out_num_configs: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Retrieve a list of all supported values for a given configuration type.</p>
+<p>@param avctx An optional context to use. Values such as
+<code>strict_std_compliance</code> may affect the result. If NULL,
+default values are used.
+@param codec The codec to query, or NULL to use avctx-&gt;codec.
+@param config The configuration to query.
+@param flags Currently unused; should be set to zero.
+@param out_configs On success, set to a list of configurations, terminated
+by a config-specific terminator, or NULL if all
+possible values are supported.
+@param out_num_configs On success, set to the number of elements in
+out_configs, excluding the terminator. Optional.</p>
+</div></details></section></div></main></body></html>

@@ -11,4 +11,23 @@ this function to fail. Disabled filters and already linked pads are skipped.</p>
 <p>Every filter output pad that has a corresponding AVFilterPadParams with a
 non-NULL label is</p>
 <ul>
-<li>linked to the input with the matching label, if on
+<li>linked to the input with the matching label, if one exists;</li>
+<li>exported in the outputs linked list otherwise, with the label preserved.
+Unlabeled outputs are</li>
+<li>linked to the first unlinked unlabeled input in the next non-disabled
+filter in the chain, if one exists</li>
+<li>exported in the outputs linked list otherwise, with NULL label</li>
+</ul>
+<p>Similarly, unlinked input pads are exported in the inputs linked list.</p>
+<p>@param seg the filtergraph segment to process
+@param flags reserved for future use, caller must set to 0 for now
+@param[out] inputs  a linked list of all free (unlinked) inputs of the
+filters in this graph segment will be returned here. It
+is to be freed by the caller using avfilter_inout_free().
+@param[out] outputs a linked list of all free (unlinked) outputs of the
+filters in this graph segment will be returned here. It
+is to be freed by the caller using avfilter_inout_free().</p>
+<p>@retval “non-negative number” success
+@retval “negative error code” failure</p>
+<p>@note Calling this function multiple times is safe, as it is idempotent.</p>
+</div></details></section></div></main></body></html>

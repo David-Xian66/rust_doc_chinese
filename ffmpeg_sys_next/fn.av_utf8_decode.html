@@ -6,4 +6,23 @@
 ) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Read and decode a single UTF-8 code point (character) from the
 buffer in *buf, and update *buf to point to the next byte to
 decode.</p>
-<p>In case of an 
+<p>In case of an invalid byte sequence, the pointer will be updated to
+the next byte after the invalid sequence and the function will
+return an error code.</p>
+<p>Depending on the specified flags, the function will also fail in
+case the decoded code point does not belong to a valid range.</p>
+<p>@note For speed-relevant code a carefully implemented use of
+GET_UTF8() may be preferred.</p>
+<p>@param codep   pointer used to return the parsed code in case of success.
+The value in <em>codep is set even in case the range check fails.
+@param bufp    pointer to the address the first byte of the sequence
+to decode, updated by the function to point to the
+byte next after the decoded sequence
+@param buf_end pointer to the end of the buffer, points to the next
+byte past the last in the buffer. This is used to
+avoid buffer overreads (in case of an unfinished
+UTF-8 sequence towards the end of the buffer).
+@param flags   a collection of AV_UTF8_FLAG_</em> flags
+@return &gt;= 0 in case a sequence was successfully read, a negative
+value in case of invalid sequence</p>
+</div></details></section></div></main></body></html>

@@ -2,4 +2,20 @@
     s: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     delim: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     saveptr: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
-) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">
+) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Split the string into several tokens which can be accessed by
+successive calls to av_strtok().</p>
+<p>A token is defined as a sequence of characters not belonging to the
+set specified in delim.</p>
+<p>On the first call to av_strtok(), s should point to the string to
+parse, and the value of saveptr is ignored. In subsequent calls, s
+should be NULL, and saveptr should be unchanged since the previous
+call.</p>
+<p>This function is similar to strtok_r() defined in POSIX.1.</p>
+<p>@param s the string to parse, may be NULL
+@param delim 0-terminated list of token delimiters, must be non-NULL
+@param saveptr user-provided pointer which points to stored
+information necessary for av_strtok() to continue scanning the same
+string. saveptr is updated to point to the next character after the
+first delimiter found, or to NULL if the string was terminated
+@return the found token, or NULL when no token is found</p>
+</div></details></section></div></main></body></html>

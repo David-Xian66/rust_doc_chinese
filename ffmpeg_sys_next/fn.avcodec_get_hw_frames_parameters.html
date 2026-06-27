@@ -73,4 +73,23 @@ hardware API.</li>
 with basic frame parameters set.</p>
 <p>The function is stateless, and does not change the AVCodecContext or the
 device_ref AVHWDeviceContext.</p>
-<p>@param avctx The c
+<p>@param avctx The context which is currently calling get_format, and which
+implicitly contains all state needed for filling the returned
+AVHWFramesContext properly.
+@param device_ref A reference to the AVHWDeviceContext describing the device
+which will be used by the hardware decoder.
+@param hw_pix_fmt The hwaccel format you are going to return from get_format.
+@param out_frames_ref On success, set to a reference to an <em>uninitialized</em>
+AVHWFramesContext, created from the given device_ref.
+Fields will be set to values required for decoding.
+Not changed if an error is returned.
+@return zero on success, a negative value on error. The following error codes
+have special semantics:
+AVERROR(ENOENT): the decoder does not support this functionality. Setup
+is always manual, or it is a decoder which does not
+support setting AVCodecContext.hw_frames_ctx at all,
+or it is a software format.
+AVERROR(EINVAL): it is known that hardware decoding is not supported for
+this configuration, or the device_ref is not supported
+for the hwaccel referenced by hw_pix_fmt.</p>
+</div></details></section></div></main></body></html>

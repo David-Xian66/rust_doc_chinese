@@ -9,4 +9,9 @@
 <li>通过精确标题查找：[<code>Window::from_name</code>]。</li>
 <li>通过子字符串查找：[<code>Window::from_contains_name</code>]。</li>
 <li>通过 [<code>Window::enumerate</code>] 枚举可捕获窗口。</li>
-<li>通过 [<code>Window::process_name
+<li>通过 [<code>Window::process_name</code>] 获取拥有进程名称。</li>
+<li>通过 [<code>Window::title_bar_height</code>] 计算标题栏高度。</li>
+</ul>
+<p>要为窗口获取 <a href="../struct.GraphicsCaptureItem.html" title="struct windows_capture::GraphicsCaptureItem"><code>crate::GraphicsCaptureItem</code></a>，请对 [<code>Window</code>] 使用
+[<code>crate::settings::TryIntoCaptureItemWithDetails</code>]。</p>
+</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Window.html" title="struct windows_capture::window::Window">Window</a></dt><dd>表示一个可以被捕获的窗口。</dd></dl><h2 id="enums" class="section-header">枚举<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Error.html" title="enum windows_capture::window::Error">Error</a></dt><dd>通过 <a href="struct.Window.html" title="struct windows_capture::window::Window"><code>Window</code></a> 查询或操作顶级窗口时可能发生的错误。</dd></dl></section></div></main></body></html>

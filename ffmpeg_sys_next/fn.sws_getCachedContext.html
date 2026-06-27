@@ -8,4 +8,14 @@
     dstFormat: <a class="enum" href="enum.AVPixelFormat.html" title="enum ffmpeg_sys_next::AVPixelFormat">AVPixelFormat</a>,
     flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     srcFilter: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.SwsFilter.html" title="struct ffmpeg_sys_next::SwsFilter">SwsFilter</a>,
-    dstFilter: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.Sws
+    dstFilter: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.SwsFilter.html" title="struct ffmpeg_sys_next::SwsFilter">SwsFilter</a>,
+    param: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f64.html">f64</a>,
+) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.SwsContext.html" title="struct ffmpeg_sys_next::SwsContext">SwsContext</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Check if context can be reused, otherwise reallocate a new one.</p>
+<p>If context is NULL, just calls sws_getContext() to get a new
+context. Otherwise, checks if the parameters are the ones already
+saved in context. If that is the case, returns the current
+context. Otherwise, frees context and gets a new context with
+the new parameters.</p>
+<p>Be warned that srcFilter and dstFilter are not checked, they
+are assumed to remain the same.</p>
+</div></details></section></div></main></body></html>

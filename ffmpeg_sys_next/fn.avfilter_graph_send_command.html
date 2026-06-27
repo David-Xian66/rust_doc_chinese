@@ -4,4 +4,17 @@
     cmd: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     arg: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
     res: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_char.html" title="type core::ffi::primitives::c_char">c_char</a>,
-    res_len: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    res_len: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+    flags: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Send a command to one or more filter instances.</p>
+<p>@param graph  the filter graph
+@param target the filter(s) to which the command should be sent
+“all” sends to all filters
+otherwise it can be a filter or filter instance name
+which will send the command to all matching filters.
+@param cmd    the command to send, for handling simplicity all commands must be alphanumeric only
+@param arg    the argument for the command
+@param res    a buffer with size res_size where the filter(s) can return a response.</p>
+<p>@returns &gt;=0 on success otherwise an error code.
+AVERROR(ENOSYS) on unsupported commands</p>
+</div></details></section></div></main></body></html>

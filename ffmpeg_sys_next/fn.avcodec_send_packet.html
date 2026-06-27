@@ -20,4 +20,24 @@ a reference to the packet data (or copy it if the packet is
 not reference-counted).
 Unlike with older APIs, the packet is always fully consumed,
 and if it contains multiple frames (e.g. some audio codecs),
-will require you to call avcodec_receive_frame() multip
+will require you to call avcodec_receive_frame() multiple
+times afterwards before you can send a new packet.
+It can be NULL (or an AVPacket with data set to NULL and
+size set to 0); in this case, it is considered a flush
+packet, which signals the end of the stream. Sending the
+first flush packet will return success. Subsequent ones are
+unnecessary and will return AVERROR_EOF. If the decoder
+still has frames buffered, it will return them after sending
+a flush packet.</p>
+<p>@retval 0                 success
+@retval AVERROR(EAGAIN)   input is not accepted in the current state - user
+must read output with avcodec_receive_frame() (once
+all output is read, the packet should be resent,
+and the call will not fail with EAGAIN).
+@retval AVERROR_EOF       the decoder has been flushed, and no new packets can be
+sent to it (also returned if more than 1 flush
+packet is sent)
+@retval AVERROR(EINVAL)   codec not opened, it is an encoder, or requires flush
+@retval AVERROR(ENOMEM)   failed to add packet to internal queue, or similar
+@retval “another negative error code” legitimate decoding errors</p>
+</div></details></section></div></main></body></html>

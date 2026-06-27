@@ -8,4 +8,22 @@
 ) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Seek to timestamp ts.
 Seeking will be done so that the point from which all active streams
 can be presented successfully will be closest to ts and within min/max_ts.
-Active streams are all streams that hav
+Active streams are all streams that have AVStream.discard &lt; AVDISCARD_ALL.</p>
+<p>If flags contain AVSEEK_FLAG_BYTE, then all timestamps are in bytes and
+are the file position (this may not be supported by all demuxers).
+If flags contain AVSEEK_FLAG_FRAME, then all timestamps are in frames
+in the stream with stream_index (this may not be supported by all demuxers).
+Otherwise all timestamps are in units of the stream selected by stream_index
+or if stream_index is -1, in AV_TIME_BASE units.
+If flags contain AVSEEK_FLAG_ANY, then non-keyframes are treated as
+keyframes (this may not be supported by all demuxers).
+If flags contain AVSEEK_FLAG_BACKWARD, it is ignored.</p>
+<p>@param s            media file handle
+@param stream_index index of the stream which is used as time base reference
+@param min_ts       smallest acceptable timestamp
+@param ts           target timestamp
+@param max_ts       largest acceptable timestamp
+@param flags        flags
+@return &gt;=0 on success, error code otherwise</p>
+<p>@note This is part of the new seek API which is still under construction.</p>
+</div></details></section></div></main></body></html>

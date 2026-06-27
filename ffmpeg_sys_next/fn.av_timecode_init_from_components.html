@@ -6,4 +6,17 @@
     mm: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     ss: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
     ff: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>,
-    log_ctx: <a
+    log_ctx: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>,
+) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Init a timecode struct from the passed timecode components.</p>
+<p>@param tc          pointer to an allocated AVTimecode
+@param rate        frame rate in rational form
+@param flags       miscellaneous flags such as drop frame, +24 hours, …
+(see AVTimecodeFlag)
+@param hh          hours
+@param mm          minutes
+@param ss          seconds
+@param ff          frames
+@param log_ctx     a pointer to an arbitrary struct of which the first field
+is a pointer to an AVClass struct (used for av_log)
+@return            0 on success, AVERROR otherwise</p>
+</div></details></section></div></main></body></html>

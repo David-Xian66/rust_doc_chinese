@@ -7,4 +7,22 @@
     write_packet: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(opaque: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, buf: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*const </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>, buf_size: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>&gt;,
     seek: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;unsafe extern &quot;C&quot; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.fn.html">fn</a>(opaque: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="enum" href="https://doc.rust-lang.org/1.95.0/core/ffi/enum.c_void.html" title="enum core::ffi::c_void">c_void</a>, offset: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>, whence: <a class="type" href="https://doc.rust-lang.org/1.95.0/core/ffi/primitives/type.c_int.html" title="type core::ffi::primitives::c_int">c_int</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>&gt;,
 ) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="struct" href="struct.AVIOContext.html" title="struct ffmpeg_sys_next::AVIOContext">AVIOContext</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Allocate and initialize an AVIOContext for buffered I/O. It must be later
-freed with avio
+freed with avio_context_free().</p>
+<p>@param buffer Memory block for input/output operations via AVIOContext.
+The buffer must be allocated with av_malloc() and friends.
+It may be freed and replaced with a new buffer by libavformat.
+AVIOContext.buffer holds the buffer currently in use,
+which must be later freed with av_free().
+@param buffer_size The buffer size is very important for performance.
+For protocols with fixed blocksize it should be set to this blocksize.
+For others a typical size is a cache page, e.g. 4kb.
+@param write_flag Set to 1 if the buffer should be writable, 0 otherwise.
+@param opaque An opaque pointer to user-specific data.
+@param read_packet  A function for refilling the buffer, may be NULL.
+For stream protocols, must never return 0 but rather
+a proper AVERROR code.
+@param write_packet A function for writing the buffer contents, may be NULL.
+The function may not change the input buffers content.
+@param seek A function for seeking to specified byte position, may be NULL.</p>
+<p>@return Allocated AVIOContext or NULL on failure.</p>
+</div></details></section></div></main></body></html>

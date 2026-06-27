@@ -18,4 +18,21 @@
         <span class="kw">let </span>this = Pin::into_inner(<span class="self">self</span>);
         <span class="kw">let </span>future = Pin::new(<span class="kw-2">&amp;mut </span>this.future);
         <span class="kw">let </span>delay = Pin::new(<span class="kw-2">&amp;mut </span>this.delay);
-
+
+        <span class="comment">// 检查 future 是否就绪
+        </span><span class="kw">let </span>had_budget_before = coop::has_budget_remaining();
+        <span class="kw">if let </span>Poll::Ready(v) = future.poll(cx) {
+            <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Ok</span>(v));
+        }
+        <span class="kw">let </span>has_budget_now = coop::has_budget_remaining();
+
+        <span class="comment">// 评估 timeout
+        </span><span class="kw">if let </span>(<span class="bool-val">true</span>, <span class="bool-val">false</span>) = (had_budget_before, has_budget_now) {
+            <span class="comment">// 是底层 future 耗尽了预算
+            </span><span class="macro">ready!</span>(<span class="macro">pin!</span>(coop::unconstrained(delay)).poll(cx));
+        } <span class="kw">else </span>{
+            <span class="macro">ready!</span>(delay.poll(cx));
+        }
+        <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(()));
+    }
+}</code></pre></div></div></details></section></div></main></body></html>
