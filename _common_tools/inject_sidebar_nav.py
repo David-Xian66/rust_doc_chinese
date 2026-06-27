@@ -89,17 +89,21 @@ def should_skip_dir(dirname: str) -> bool:
 CSS_BLOCK = (
     b'<style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style>'
     b'<style>'
-    # --- Toggle button (fixed top-left, always visible on desktop) ---
-    # We avoid the <rustdoc-topbar> because rustdoc CSS sets it to display:none on desktop.
-    # We use position:fixed so the button is independent of the (hidden) topbar.
-    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:34px;height:34px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:var(--button-border-radius);cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;transition:background-color .15s ease,border-color .15s ease}'
+    # --- One toggle button, position depends on sidebar state ---
+    # When sidebar visible: positioned at the resizer (right edge of sidebar).
+    # When sidebar hidden: positioned at the viewport's left edge.
+    # Icon also flips: ⏴ (collapse arrow) when visible, ☰ (hamburger) when hidden.
+    b'.rustdoc-cn-toggle{position:fixed;top:50%;transform:translateY(-50%);left:var(--desktop-sidebar-width);margin-left:-18px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:36px;height:64px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:6px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease,transform .18s ease}'
     b'.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
-    b'.rustdoc-cn-toggle svg{display:block;width:20px;height:20px}'
-    # --- Small keyboard hint chip next to the toggle button (desktop only) ---
-    b'.rustdoc-cn-kbd-hint{position:fixed;top:14px;left:50px;z-index:calc(var(--desktop-sidebar-z-index) + 1);display:inline-flex;align-items:center;justify-content:center;height:22px;padding:0 7px;border:1px solid var(--border-color);border-radius:4px;font:11px/1 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:var(--main-color);background-color:var(--main-background-color);user-select:none;flex-shrink:0;cursor:help;opacity:.7;transition:opacity .15s ease}'
-    b'.rustdoc-cn-kbd-hint:hover{opacity:1}'
-    b'@media (max-width:700px){.rustdoc-cn-kbd-hint{display:none}}'
-    # --- Hide on mobile (mobile has its own hamburger inside rustdoc-topbar) ---
+    b'.rustdoc-cn-toggle svg{display:block;width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+    # Only one icon shown at a time depending on sidebar state
+    b'.rustdoc-cn-toggle .icon-collapse{display:block}'
+    b'.rustdoc-cn-toggle .icon-expand{display:none}'
+    b'html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}'
+    b'html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}'
+    # When sidebar is hidden: button moves to the left edge
+    b'html.hide-sidebar .rustdoc-cn-toggle{left:0;margin-left:0;border-left:none;border-radius:0 6px 6px 0}'
+    # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
     # --- Home button (lives inside rustdoc-topbar's search-menu) ---
     b'.rustdoc-cn-home{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:6px;padding:0;border-radius:4px;color:inherit;text-decoration:none;font-size:18px;line-height:1;flex-shrink:0;transition:background-color .15s ease;cursor:pointer;user-select:none}'
@@ -114,50 +118,35 @@ CSS_BLOCK = (
     # When sidebar is hidden, keep a comfortable left margin so the content doesn't touch the edge
     b'html.hide-sidebar main{padding-left:24px !important}'
     b'html.hide-sidebar .width-limiter{margin-left:0 !important}'
-    # Floating handle to bring sidebar back, on the left edge
-    b'html.hide-sidebar .rustdoc-cn-sidebar-handle{opacity:.85}'
-    b'.rustdoc-cn-sidebar-handle{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:99;width:18px;height:64px;background:rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.12);border-left:none;border-radius:0 6px 6px 0;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s ease,background-color .15s ease}'
-    b'.rustdoc-cn-sidebar-handle:hover,.rustdoc-cn-sidebar-handle:focus{background:rgba(0,0,0,.18);opacity:1;outline:none}'
-    b'.rustdoc-cn-sidebar-handle::before{content:"\\2039";font-size:18px;color:#333;line-height:1;font-weight:600}'
-    b'html.hide-sidebar:not(.sidebar-peek) .rustdoc-cn-sidebar-handle{opacity:0;pointer-events:none}'
-    # Peek: when user hovers the very left edge (8px), show the sidebar temporarily
-    b'html.hide-sidebar .rustdoc-cn-sidebar-peek-zone{display:block}'
-    b'.rustdoc-cn-sidebar-peek-zone{position:fixed;left:0;top:0;bottom:0;width:8px;z-index:98;display:none}'
-    b'html.hide-sidebar.sidebar-peek .sidebar{opacity:1;pointer-events:auto;margin-left:0;box-shadow:4px 0 12px rgba(0,0,0,.15)}'
-    b'html.hide-sidebar.sidebar-peek .rustdoc-cn-sidebar-handle{opacity:0}'
     b'}'
-    # --- Mobile: hide the floating handle (mobile already has its own hamburger) ---
-    b'@media (max-width:700px){.rustdoc-cn-sidebar-handle,.rustdoc-cn-sidebar-peek-zone{display:none !important}}'
     b'</style>'
 )
 
 # Marker for idempotency (unique id we control)
 CSS_MARKER = b'id="rustdoc-cn-nav-style"'
 
-# === Toggle button + keyboard hint ===
-# Placed as fixed-position elements inside <body> (NOT inside <rustdoc-topbar>,
-# which is display:none on desktop). Includes an inline SVG hamburger icon.
+# === Toggle button ===
+# Single button: positioned at the resizer when sidebar is visible,
+# or at the left viewport edge when hidden. Two SVG icons inside, only one shown
+# at a time via CSS depending on .hide-sidebar state.
 TOGGLE_BUTTON = (
     b'<button class="rustdoc-cn-toggle" type="button" '
     b'aria-label="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f" '
     b'title="\xe6\x8a\x98\xe5\x8f\xa0/\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
     b'data-show-title="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)" '
     b'data-hide-title="\xe6\x8a\x98\xe5\x8f\xa0\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)">'
-    b'<svg viewBox="0 0 24 24" aria-hidden="true">'
-    b'<path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+    # Icon shown when sidebar is VISIBLE: left chevron (click to collapse)
+    b'<svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true">'
+    b'<polyline points="15 6 9 12 15 18"/>'
+    b'</svg>'
+    # Icon shown when sidebar is HIDDEN: right chevron (click to expand)
+    b'<svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true">'
+    b'<polyline points="9 6 15 12 9 18"/>'
     b'</svg>'
     b'</button>'
-    b'<span class="rustdoc-cn-kbd-hint" title="\xe9\x94\xae\xe7\x9b\x98\xe5\xbf\xab\xe6\x8d\xb7\xe9\x94\xae\\ \xe5\x88\x87\xe6\x8d\xa2\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f\xe6\x98\xbe\xe9\x9a\x90">\\</span>'
 )
 
-# === Floating "show sidebar" handle + hover peek zone ===
-# Both go inside <body> right after </rustdoc-topbar>.
-SIDEBAR_HANDLE = (
-    b'<div class="rustdoc-cn-sidebar-peek-zone" aria-hidden="true"></div>'
-    b'<button class="rustdoc-cn-sidebar-handle" type="button" '
-    b'aria-label="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f" '
-    b'title="\xe5\xb1\x95\xe5\xbc\x80\xe4\xbe\xa7\xe8\xbe\xb9\xe6\xa0\x8f (\\ \xe9\x94\xae)"></button>'
-)
+# (Removed: floating handle + peek zone — now using a single toggle button)
 
 # === Home button HTML ===
 # Placed right after <div class="search-menu"> opening tag
@@ -198,7 +187,6 @@ JS_BLOCK = (
     b'if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}'
     b'}'
     b'}'
-    b'function showSidebar(){if(isDesktop()){applyHidden(false);}}'
     b'document.addEventListener("DOMContentLoaded",function(){'
     b'var btn=document.querySelector(BTN);'
     b'if(!btn){return;}'
@@ -208,15 +196,6 @@ JS_BLOCK = (
     b'if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}'
     # Click toggle
     b'btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});'
-    # Handle button -> show sidebar
-    b'var handle=document.querySelector(".rustdoc-cn-sidebar-handle");'
-    b'if(handle){handle.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();showSidebar();});}'
-    # Peek zone: hover left edge -> temporary show
-    b'var peek=document.querySelector(".rustdoc-cn-sidebar-peek-zone");'
-    b'if(peek){'
-    b'peek.addEventListener("mouseenter",function(){document.documentElement.classList.add("sidebar-peek");});'
-    b'peek.addEventListener("mouseleave",function(){document.documentElement.classList.remove("sidebar-peek");});'
-    b'}'
     # Keyboard shortcuts
     b'document.addEventListener("keydown",function(e){'
     b'var t=e.target.tagName;'
@@ -291,15 +270,13 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     if tb_open < 0:
         return html_bytes, False, 'no-topbar'
 
-    # 3. Inject floating toggle button + kbd hint + handle + peek zone
-    #    immediately AFTER </rustdoc-topbar>. These are position:fixed so
-    #    they don't depend on the topbar being visible.
+    # 3. Inject toggle button immediately AFTER </rustdoc-topbar>.
+    #    It's position:fixed so it doesn't depend on the topbar being visible.
     tb_close = new_bytes.find(TOPBAR_CLOSE)
     if tb_close < 0:
         return html_bytes, False, 'no-topbar'
     insert_pos = tb_close + len(TOPBAR_CLOSE)
-    bundle = TOGGLE_BUTTON + SIDEBAR_HANDLE
-    new_bytes = new_bytes[:insert_pos] + bundle + new_bytes[insert_pos:]
+    new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + new_bytes[insert_pos:]
 
     # 4. Inject home button inside <div class="search-menu"> (optional — skip if missing)
     sm_open = new_bytes.find(SEARCH_MENU_OPEN)
