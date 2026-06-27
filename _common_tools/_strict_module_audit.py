@@ -31,6 +31,8 @@ CHROME_TERMS = {
     # rustdoc 自动生成的标题（不能翻译）
     'Methods from Deref<Target=[u8]>',
     'Methods from Deref<Target = [u8]>',
+    'Methods from Deref&lt;Target=[u8]&gt;',
+    'Methods from Deref&lt;Target = [u8]&gt;',
     'Implementations on Foreign Types',
     'Auto trait implementations',
     'Blanket implementations',
@@ -65,7 +67,21 @@ def has_cjk(s):
 
 
 def strip_tags(s):
-    return re.sub(r'<[^>]+>', '', s).strip()
+    s = re.sub(r'<[^>]+>', '', s).strip()
+    # Decode HTML entities (e.g. &lt; &gt; &amp;)
+    s = s.replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
+    s = s.replace('&nbsp;', ' ').replace('&quot;', '"').replace('&#39;', "'")
+    s = s.replace('\xa0', ' ')  # non-breaking space
+    return s.strip()
+
+
+def normalize_chrome_label(s):
+    """Normalize chrome label for matching: collapse whitespace, strip trailing
+    anchor characters (e.g. ZWJ U+200D from <a class="anchor">‍</a>)."""
+    s = re.sub(r'\s+', ' ', s).strip()
+    # Strip trailing ZWJ (U+200D) and other zero-width chars
+    s = re.sub(r'[​-‍﻿⁠]', '', s).strip()
+    return s
 
 
 def audit_module_index(html, path):
@@ -110,8 +126,9 @@ def audit_module_index(html, path):
     for m in h2_pattern.finditer(html):
         anchor = m.group(1)
         body = strip_tags(m.group(2)).strip()
+        body_norm = normalize_chrome_label(body)
         # 'trait' / 'Variant name' / etc. 都是 chrome 标签
-        if anchor in CHROME_TERMS or body in CHROME_TERMS:
+        if anchor in CHROME_TERMS or body in CHROME_TERMS or body_norm in CHROME_TERMS:
             continue
         if not body or has_cjk(body):
             continue
