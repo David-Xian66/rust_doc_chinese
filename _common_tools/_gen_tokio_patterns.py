@@ -563,6 +563,99 @@ PAIRS = [
         'rustls reports protocol errors using this type.',
         'rustls 使用此类型报告协议错误。',
     ),
+
+    # ====== bytes 漏译 ======
+    (
+        'Utilities for working with buffers.',
+        '用于处理缓冲区的工具。',
+    ),
+    (
+        'A cheaply cloneable and sliceable chunk of contiguous memory.',
+        '一个可廉价 clone 和切片的连续内存块。',
+    ),
+    (
+        'A unique reference to a contiguous slice of memory.',
+        '对一段连续内存切片的唯一引用。',
+    ),
+    (
+        'Error type for the try_get_ methods of Buf. Indicates that there were not enough remaining bytes in the buffer while attempting to get a value from a Buf with one of the try_get_ methods.',
+        'Buf 的 try_get_ 方法的错误类型。表示在使用 Buf 的某个 try_get_ 方法尝试取值时，缓冲区中没有足够的剩余字节。',
+    ),
+    (
+        'A Chain sequences two buffers.',
+        'Chain 将两个 buffer 串接起来。',
+    ),
+    (
+        'Iterator over the bytes contained by the buffer.',
+        '对 buffer 中包含的字节进行迭代的迭代器。',
+    ),
+    (
+        'A BufMut adapter which limits the amount of bytes that can be written to an underlying buffer.',
+        '一个 BufMut 适配器，用于限制可以写入底层 buffer 的字节数。',
+    ),
+    (
+        'A Buf adapter which implements io::Read for the inner value.',
+        '一个 Buf 适配器，为内部值实现 io::Read。',
+    ),
+    (
+        'A Buf adapter which limits the bytes read from an underlying buffer.',
+        '一个 Buf 适配器，用于限制从底层 buffer 读取的字节数。',
+    ),
+    (
+        'Uninitialized byte slice.',
+        '未初始化的字节切片。',
+    ),
+    (
+        'A BufMut adapter which implements io::Write for the inner value.',
+        '一个 BufMut 适配器，为内部值实现 io::Write。',
+    ),
+    (
+        'Read bytes from a buffer.',
+        '从一个 buffer 读取字节。',
+    ),
+    (
+        'A trait for values that provide sequential write access to bytes.',
+        '一个用于为字节提供顺序写访问的值的 trait。',
+    ),
+    # === bytes with <code> tags ===
+    (
+        'A <code>Chain</code> sequences two buffers.',
+        '一个 <code>Chain</code>，用于将两个 buffer 串接起来。',
+    ),
+    (
+        'A <code>BufMut</code> adapter which limits the amount of bytes that can be written\r\nto an underlying buffer.',
+        '一个 <code>BufMut</code> 适配器，用于限制可以写入底层 buffer 的字节数。',
+    ),
+    (
+        'A <code>BufMut</code> adapter which limits the amount of bytes that can be written\nto an underlying buffer.',
+        '一个 <code>BufMut</code> 适配器，用于限制可以写入底层 buffer 的字节数。',
+    ),
+    (
+        'A <code>Buf</code> adapter which implements <code>io::Read</code> for the inner value.',
+        '一个 <code>Buf</code> 适配器，为内部值实现 <code>io::Read</code>。',
+    ),
+    (
+        'A <code>Buf</code> adapter which limits the bytes read from an underlying buffer.',
+        '一个 <code>Buf</code> 适配器，用于限制从底层 buffer 读取的字节数。',
+    ),
+    (
+        'A <code>BufMut</code> adapter which implements <code>io::Write</code> for the inner value.',
+        '一个 <code>BufMut</code> 适配器，为内部值实现 <code>io::Write</code>。',
+    ),
+    # === bytes with line wraps (LF versions) ===
+    (
+        'Error type for the try_get_ methods of Buf. Indicates that there were not enough remaining\nbytes in the buffer while attempting to get a value from a Buf with one of the try_get_\nmethods.',
+        'Buf 的 try_get_ 方法的错误类型。表示在使用 Buf 的某个 try_get_ 方法尝试取值时，缓冲区中没有足够的剩余字节。',
+    ),
+    (
+        'Error type for the <code>try_get_</code> methods of <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a>.\r\nIndicates that there were not enough remaining\r\nbytes in the buffer while attempting\r\nto get a value from a <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> with one\r\nof the <code>try_get_</code> methods.',
+        '<a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> 的 <code>try_get_</code> 方法的错误类型。表示在使用 <a href="buf/trait.Buf.html" title="trait bytes::buf::Buf"><code>Buf</code></a> 的某个 <code>try_get_</code> 方法尝试取值时，缓冲区中没有足够的剩余字节。',
+    ),
+    # === bytes buf/index.html "Traits" h2 chrome label variant ===
+    (
+        '<h2 id="traits" class="section-header">Trait<a href="#traits" class="anchor">§</a></h2>',
+        '<h2 id="traits" class="section-header">特性<a href="#traits" class="anchor">§</a></h2>',
+    ),
 ]
 
 
