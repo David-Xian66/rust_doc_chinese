@@ -106,6 +106,14 @@ CSS_BLOCK = (
     b'html.hide-sidebar main{padding-left:24px !important}'
     b'html.hide-sidebar .width-limiter{margin-left:0 !important}'
     b'}'
+    # --- Hide rustdoc's built-in duplicate expand button ---
+    # rustdoc's main.js dynamically creates <div id="sidebar-button"> inside
+    # <div class="main-heading">. It is hidden by default, but its CSS
+    # (#sidebar-button{display:none}, .hide-sidebar #sidebar-button{display:flex})
+    # makes it appear at left:6px top:25px when html.hide-sidebar is set —
+    # which duplicates our own toggle button. Hide it permanently; our toggle
+    # is the single source of truth for showing/hiding the sidebar.
+    b'#sidebar-button{display:none !important}'
     b'</style>'
 )
 
