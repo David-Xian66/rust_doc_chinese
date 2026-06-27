@@ -89,20 +89,18 @@ def should_skip_dir(dirname: str) -> bool:
 CSS_BLOCK = (
     b'<style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style>'
     b'<style>'
-    # --- One toggle button, position depends on sidebar state ---
-    # When sidebar visible: positioned at the resizer (right edge of sidebar).
-    # When sidebar hidden: positioned at the viewport's left edge.
-    # Icon also flips: ⏴ (collapse arrow) when visible, ☰ (hamburger) when hidden.
-    b'.rustdoc-cn-toggle{position:fixed;top:50%;transform:translateY(-50%);left:var(--desktop-sidebar-width);margin-left:-18px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:36px;height:64px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:6px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease,transform .18s ease}'
+    # --- Toggle button: small, fixed top-left corner ---
+    # Pinned at top:8px left:8px — does NOT move with the resizer, so the user
+    # can drag the sidebar resizer without the button getting in the way.
+    # 28x28px is small enough to be unobtrusive.
+    b'.rustdoc-cn-toggle{position:fixed;top:8px;left:8px;z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:background-color .15s ease,border-color .15s ease}'
     b'.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}'
-    b'.rustdoc-cn-toggle svg{display:block;width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
-    # Only one icon shown at a time depending on sidebar state
+    b'.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+    # Icon swaps based on sidebar state
     b'.rustdoc-cn-toggle .icon-collapse{display:block}'
     b'.rustdoc-cn-toggle .icon-expand{display:none}'
     b'html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}'
     b'html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}'
-    # When sidebar is hidden: button moves to the left edge
-    b'html.hide-sidebar .rustdoc-cn-toggle{left:0;margin-left:0;border-left:none;border-radius:0 6px 6px 0}'
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
     # --- Home button (lives inside rustdoc-topbar's search-menu) ---
