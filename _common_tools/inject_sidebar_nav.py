@@ -9,11 +9,12 @@ Inject navigation UI + JS into every translated HTML file.
    mirrored from the sidebar's actual rendered width via ResizeObserver.
 
 2. Home button (house icon, links to /index.html — the crate list page).
-   Placed INSIDE the sidebar nav, directly below the GitHub repo link block,
-   so the two appear as a unified navigation header at the top of the sidebar.
-   The home button is part of the sidebar flow, so it scrolls with the sidebar
-   and is hidden when the sidebar is hidden (the toggle button on the top-left
-   remains visible to bring the sidebar back).
+   Placed INSIDE the sidebar nav, directly below the GitHub repo link block.
+
+3. docs.rs link (external-link icon, links to https://docs.rs/<crate>/latest/...).
+   Placed INSIDE the sidebar nav, directly below the home button.
+   Skipped on the site-root index.html (the crate list page itself isn't a
+   single-crate page; pointing it at a specific docs.rs URL doesn't make sense).
 
 Behavior (added via injected JS):
   * click to toggle sidebar
@@ -24,8 +25,8 @@ Behavior (added via injected JS):
   * during collapse, --cn-sidebar-w is frozen at its last visible value
     so the button doesn't drift toward the viewport's left edge
 
-Idempotent: skipped if BOTH new markers (`<button class="rustdoc-cn-toggle"` and
-`class="sidebar-home-link"`) are already present.
+Idempotent: skipped if BOTH new markers (toggle + home + docs.rs) are already
+present.
 
 Pattern follows _common_tools/inject_github_link.py.
 """
@@ -35,15 +36,17 @@ import sys
 
 # === Markers (NEW injection) ===
 NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
-# The home button marker checks for the opening tag (with angle brackets) so we
-# don't false-match the .sidebar-home-link CSS class definition in the injected
-# <style> block. The CSS contains bare `sidebar-home-link` substrings, while
-# the HTML element has `<div class="sidebar-home-link">`.
+# The home/docs.rs markers check for the opening tag (with angle brackets) so we
+# don't false-match the .sidebar-home-link / .sidebar-docsrs-link CSS class
+# definitions in the injected <style> block. The CSS contains bare substring
+# matches; the HTML element has the full opening tag.
 NEW_HOME_MARKER = b'<div class="sidebar-home-link">'
+NEW_DOCSRS_MARKER = b'<div class="sidebar-docsrs-link">'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
 NAV_SIDEBAR = b'<nav class="sidebar">'
 GITHUB_LINK_CLASS = b'<div class="sidebar-github-link"'
+HOME_LINK_CLASS = b'<div class="sidebar-home-link">'
 
 # === Markers (OLD injection — to detect and roll back) ===
 OLD_TOGGLE_RE = re.compile(
@@ -65,6 +68,12 @@ OLD_PEEK_ZONE_RE = re.compile(
 )
 OLD_HOME_RE = re.compile(
     rb'<a class="rustdoc-cn-home"[^>]*>.*?</a>',
+    re.DOTALL,
+)
+# Roll back a malformed docs.rs link (URL with a stray `./` from the early
+# path-join bug on Windows). Re-running the injection will rebuild it correctly.
+MALFORMED_DOCSRS_RE = re.compile(
+    rb'<div class="sidebar-docsrs-link">.*?</div>',
     re.DOTALL,
 )
 # The OLD JS block contained id="rustdoc-cn-nav-script"; the NEW block reuses that id
@@ -144,6 +153,14 @@ CSS_BLOCK = (
     b'.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}'
     b'.sidebar-home-link a:hover{text-decoration:underline}'
     b'.sidebar-home-link svg{flex-shrink:0}'
+    # --- docs.rs link: inside the sidebar, below the home button ---
+    # Same visual treatment as the home button. Opens in a new tab to the
+    # upstream English documentation on docs.rs, so the user can jump from
+    # a Chinese-translated page to the canonical source.
+    b'.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}'
+    b'.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}'
+    b'.sidebar-docsrs-link a:hover{text-decoration:underline}'
+    b'.sidebar-docsrs-link svg{flex-shrink:0}'
     # --- Sidebar transitions ---
     # When the sidebar is hidden, we collapse its flex-basis to 0 so main
     # actually takes the full viewport (instead of leaving an empty 200px
@@ -217,6 +234,67 @@ HOME_BUTTON = (
     b'</a>'
     b'</div>'
 )
+
+
+# === docs.rs link HTML (factory: depends on current crate + path) ===
+# In-sidebar navigation block (placed below the home button). Opens the
+# upstream English documentation on docs.rs in a new tab. URL pattern:
+#   https://docs.rs/<crate>/latest/<crate>/<path-within-crate>
+# For example:
+#   quinn/struct.Connecting.html        -> https://docs.rs/quinn/latest/quinn/struct.Connecting.html
+#   tokio/runtime/struct.Builder.html   -> https://docs.rs/tokio/latest/tokio/runtime/struct.Builder.html
+DOCSRS_TITLE = b'\xe5\x9c\xa8 docs.rs \xe4\xb8\x8a\xe6\x9f\xa5\xe7\x9c\x8b'  # 在 docs.rs 上查看
+DOCSRS_SVG = (
+    # External-link icon (Feather Icons style): box with arrow exiting the top-right
+    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    b'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'
+    b'<polyline points="15 3 21 3 21 9"/>'
+    b'<line x1="10" y1="14" x2="21" y2="3"/>'
+    b'</svg>'
+)
+
+
+def build_docsrs_button(crate: str, path_in_crate: str) -> bytes:
+    """Build the docs.rs link block for a given crate + intra-crate path.
+
+    The URL is `https://docs.rs/<crate>/latest/<crate>/<path_in_crate>`. We
+    use `latest` rather than pinning a specific version because the user is
+    viewing the Chinese translation of `latest`; pointing them at a pinned
+    older docs.rs version would silently diverge from the page they're on.
+    """
+    url = ('https://docs.rs/' + crate + '/latest/' + crate + '/' + path_in_crate).encode('utf-8')
+    return (
+        b'<div class="sidebar-docsrs-link">'
+        b'<a href="' + url + b'" '
+        b'target="_blank" rel="noopener noreferrer" '
+        b'title="' + DOCSRS_TITLE + b'" '
+        b'aria-label="' + DOCSRS_TITLE + b'">'
+        + DOCSRS_SVG +
+        b'<span>docs.rs</span>'
+        b'</a>'
+        b'</div>'
+    )
+
+
+def split_crate_path(rel_path: str) -> tuple[str | None, str | None]:
+    """Split a path like 'quinn/struct.Connecting.html' into (crate, path_in_crate).
+
+    Returns (None, None) for the site-root index.html (no crate context).
+    The first path segment is treated as the crate name; everything after
+    the first '/' is the path within that crate. Works for nested files
+    like 'tokio/runtime/struct.Builder.html' -> ('tokio', 'runtime/struct.Builder.html').
+
+    Strips a leading './' so Windows os.path.join('.', 'foo/bar.html')
+    results (which produce './foo/bar.html' after the slash replace) don't
+    yield a bogus crate of '.'.
+    """
+    cleaned = rel_path.replace('\\', '/')
+    if cleaned.startswith('./'):
+        cleaned = cleaned[2:]
+    parts = cleaned.split('/')
+    if len(parts) < 2:
+        return None, None
+    return parts[0], '/'.join(parts[1:])
 
 # === JS to inject before </body> ===
 # - Click handler for sidebar toggle (desktop + mobile)
@@ -300,15 +378,23 @@ def roll_back_old(html_bytes: bytes) -> bytes:
     out = OLD_PEEK_ZONE_RE.sub(b'', out)
     out = OLD_HOME_RE.sub(b'', out)
     out = OLD_JS_RE.sub(b'', out)
+    # Strip a malformed docs.rs link (wrong URL like docs.rs/./...). The
+    # inject step below will rebuild it from the correct crate + path.
+    if b'https://docs.rs/./' in out:
+        out = MALFORMED_DOCSRS_RE.sub(b'', out)
     return out
 
 
-def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
+def inject_into_file(html_bytes: bytes, rel_path: str = '') -> tuple[bytes, bool, str]:
     """
     Returns (new_bytes, modified, reason).
-    reason ∈ {'injected', 'upgraded', 'site-root-home-removed', 'already-injected',
+    reason ∈ {'injected', 'upgraded', 'site-root-cleaned', 'already-injected',
               'no-topbar', 'no-sidebar', 'no-body', 'no-head',
-              'malformed-nav', 'malformed-github-link'}.
+              'malformed-nav', 'malformed-github-link', 'malformed-home-link'}.
+
+    `rel_path` is the file's path relative to the repo root, used to determine
+    the current crate (first path segment) and the path within the crate so we
+    can build the docs.rs URL. Pass '' to skip the docs.rs injection.
     """
     # Idempotency check on the NEW injection.
     # We first roll back any partial/duplicate old injections so the count check is reliable.
@@ -329,42 +415,69 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     if has_any_old:
         html_bytes = roll_back_old(html_bytes)
 
+    # Always strip a malformed docs.rs block if present (URL like
+    # docs.rs/./...). Runs even when has_any_old is False, because the
+    # malformed block can exist on otherwise fully-NEW files. The inject
+    # step below rebuilds it with the correct URL.
+    if b'https://docs.rs/./' in html_bytes:
+        html_bytes = MALFORMED_DOCSRS_RE.sub(b'', html_bytes)
+
     # Detect site root: the repo-root index.html (crate list page). rustdoc sets
     # `data-current-crate=""` (empty string) in the rustdoc-vars meta tag for
     # this page, meaning no specific crate is being viewed. The home button
     # would just link back to itself here, so we skip its injection on this page
-    # and strip any pre-existing instance.
+    # and strip any pre-existing instance. Same logic applies to docs.rs.
     is_site_root = bool(re.search(rb'data-current-crate=""', html_bytes))
+
+    # Determine the current crate + intra-crate path from the file path.
+    # `rel_path` like 'quinn/struct.Connecting.html' -> ('quinn', 'struct.Connecting.html').
+    # For the site root (rel_path = 'index.html'), this returns (None, None).
+    crate, path_in_crate = split_crate_path(rel_path)
 
     # Check current state of each NEW piece after rollback
     has_toggle = NEW_HANDLE_MARKER in html_bytes
     has_home = NEW_HOME_MARKER in html_bytes
     has_css = CSS_MARKER in html_bytes
     has_js = b'rustdoc-cn-nav-script' in html_bytes
+    # docs.rs link: only counts as present if it has a *valid* URL. A block
+    # whose URL contains `docs.rs/./...` is malformed (from an early Windows
+    # path-join bug); it must be re-injected with the correct URL.
+    has_docsrs = (
+        NEW_DOCSRS_MARKER in html_bytes
+        and b'https://docs.rs/./' not in html_bytes
+    )
 
-    # Strip the home button from site-root files that already have it.
-    # Idempotent cleanup: removing it from files that never had it is a no-op.
-    site_root_home_removed = False
-    if is_site_root and has_home:
-        home_re = re.compile(rb'<div class="sidebar-home-link">.*?</div>', re.DOTALL)
-        html_bytes = home_re.sub(b'', html_bytes)
-        has_home = False
-        site_root_home_removed = True
+    # Strip the home button + docs.rs link from site-root files that already
+    # have them. Idempotent cleanup: removing them from files that never had
+    # them is a no-op.
+    site_root_cleaned = False
+    if is_site_root:
+        cleanup_re = re.compile(
+            rb'<div class="sidebar-(home|docsrs)-link">.*?</div>',
+            re.DOTALL,
+        )
+        new_bytes = cleanup_re.sub(b'', html_bytes)
+        if new_bytes != html_bytes:
+            site_root_cleaned = True
+            html_bytes = new_bytes
+            has_home = False
+            has_docsrs = False
 
     # Decide whether the file's current state matches what we want:
-    # - non-site-root: toggle + home + css + js all present
-    # - site-root:     toggle + (no home) + css + js all present
+    # - non-site-root: toggle + home + docs.rs + css + js all present
+    # - site-root:     toggle + (no home) + (no docs.rs) + css + js all present
     home_should_be_present = not is_site_root
     fully_injected = (
         has_toggle
         and has_css
         and has_js
         and (has_home == home_should_be_present)
+        and (has_docsrs == home_should_be_present)
     )
-    if fully_injected and not site_root_home_removed:
+    if fully_injected and not site_root_cleaned:
         return html_bytes, False, 'already-injected'
 
-    upgraded = has_any_old or has_toggle or has_home or site_root_home_removed
+    upgraded = has_any_old or has_toggle or has_home or has_docsrs or site_root_cleaned
 
     new_bytes = html_bytes
 
@@ -414,16 +527,51 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
             insert_pos = nav_end + 1
         new_bytes = new_bytes[:insert_pos] + HOME_BUTTON + new_bytes[insert_pos:]
 
-    # 4. Inject JS before </body>
+    # 4. Inject docs.rs link AFTER the home-button div, OR after the github-link
+    #    div as a fallback (when home isn't present yet — e.g. partial state),
+    #    OR after <nav class="sidebar"> as a last resort.
+    #
+    #    SKIP on site-root files — pointing the crate-list page at a specific
+    #    docs.rs URL doesn't make sense.
+    if not has_docsrs and not is_site_root and crate and path_in_crate:
+        # Prefer to insert after the home-button div (we just injected it above
+        # if it was missing; if it was already present, find it now).
+        home_idx = new_bytes.find(HOME_LINK_CLASS)
+        if home_idx >= 0:
+            div_end = new_bytes.find(b'</div>', home_idx)
+            if div_end < 0:
+                return html_bytes, False, 'malformed-home-link'
+            insert_pos = div_end + len(b'</div>')
+        else:
+            # Fallback: github-link div
+            github_idx = new_bytes.find(GITHUB_LINK_CLASS)
+            if github_idx >= 0:
+                div_end = new_bytes.find(b'</div>', github_idx)
+                if div_end < 0:
+                    return html_bytes, False, 'malformed-github-link'
+                insert_pos = div_end + len(b'</div>')
+            else:
+                # Last resort: nav sidebar
+                nav_idx = new_bytes.find(NAV_SIDEBAR)
+                if nav_idx < 0:
+                    return html_bytes, False, 'no-sidebar'
+                nav_end = new_bytes.find(b'>', nav_idx)
+                if nav_end < 0:
+                    return html_bytes, False, 'malformed-nav'
+                insert_pos = nav_end + 1
+        docsrs_button = build_docsrs_button(crate, path_in_crate)
+        new_bytes = new_bytes[:insert_pos] + docsrs_button + new_bytes[insert_pos:]
+
+    # 5. Inject JS before </body>
     if not has_js:
         body_end = new_bytes.rfind(b'</body>')
         if body_end < 0:
             return html_bytes, False, 'no-body'
         new_bytes = new_bytes[:body_end] + JS_BLOCK + new_bytes[body_end:]
 
-    if site_root_home_removed:
-        # Only the home-button cleanup ran; everything else was already in place.
-        return new_bytes, True, 'site-root-home-removed'
+    if site_root_cleaned:
+        # Only the site-root cleanup ran; everything else was already in place.
+        return new_bytes, True, 'site-root-cleaned'
     return new_bytes, True, 'upgraded' if upgraded else 'injected'
 
 
@@ -452,10 +600,11 @@ def main():
             if not fn.endswith('.html'):
                 continue
             path = os.path.join(top, fn)
+            rel_path = path.replace('\\', '/')
             total += 1
             with open(path, 'rb') as f:
                 before = f.read()
-            after, was_modified, reason = inject_into_file(before)
+            after, was_modified, reason = inject_into_file(before, rel_path)
             if not was_modified:
                 if reason == 'already-injected':
                     skipped_already += 1
@@ -476,7 +625,7 @@ def main():
             modified += 1
             if reason == 'upgraded':
                 upgraded += 1
-            elif reason == 'site-root-home-removed':
+            elif reason == 'site-root-cleaned':
                 site_root_cleaned += 1
             else:
                 injected += 1
