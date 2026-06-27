@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
 """
-Inject two navigation aids into every translated HTML file:
+Inject a sidebar toggle button + JS into every translated HTML file.
 
-1. A sidebar toggle button + keyboard hint chip (collapsible left sidebar)
-   - Position:fixed at top-left (NOT inside <rustdoc-topbar>, because rustdoc
-     CSS sets topbar to display:none on desktop, which would hide the button).
-   - Always visible on desktop; hidden on mobile (rustdoc's own mobile hamburger
-     inside <rustdoc-topbar> is kept untouched).
-   - Adds desktop behavior via injected JS:
-       * click to toggle
-       * localStorage persistence (key: rustdoc-cn-sidebar-hidden)
-       * keyboard shortcuts: `\\` or `[` to toggle, Esc to close
-       * when hidden, hovering the left edge (8px) peeks the sidebar (VS Code style)
-       * when hidden, a small floating "show sidebar" handle appears at the left edge
-       * toggle button title/aria-label updates dynamically
+The button lives in <body> as `position:fixed; top:8px; left:8px` (NOT inside
+<rustdoc-topbar>, because rustdoc CSS sets topbar to display:none on desktop,
+which would hide the button).
 
-2. A "back to home" button linking to the site root (/index.html)
-   - Placed inside <div class="search-menu"> so it sits alongside the search button
-   - Uses absolute path "/index.html" so it works regardless of file depth
+Behavior (added via injected JS):
+  * click to toggle sidebar
+  * localStorage persistence (key: rustdoc-cn-sidebar-hidden)
+  * keyboard shortcuts: `\\` or `[` to toggle, Esc to close
+  * icon swaps between left-chevron (collapse) and right-chevron (expand)
 
-Idempotent: skipped if marker `<button class="rustdoc-cn-toggle"` is already present.
+Idempotent: skipped if marker `<button class="rustdoc-cn-toggle"` is already
+present in the file.
 
 Pattern follows _common_tools/inject_github_link.py.
 """
@@ -31,7 +25,6 @@ import sys
 NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
-SEARCH_MENU_OPEN = b'<div class="search-menu">'
 
 # === Markers (OLD injection — to detect and roll back) ===
 OLD_TOGGLE_RE = re.compile(
@@ -103,10 +96,6 @@ CSS_BLOCK = (
     b'html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}'
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
-    # --- Home button (lives inside rustdoc-topbar's search-menu) ---
-    b'.rustdoc-cn-home{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;margin-left:6px;padding:0;border-radius:4px;color:inherit;text-decoration:none;font-size:18px;line-height:1;flex-shrink:0;transition:background-color .15s ease;cursor:pointer;user-select:none}'
-    b'.rustdoc-cn-home:hover,.rustdoc-cn-home:focus{background:rgba(0,0,0,.06);outline:none}'
-    b'.rustdoc-cn-home svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
     # --- Sidebar transitions ---
     b'.rustdoc .sidebar,.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}'
     # --- Desktop: hidden state ---
@@ -145,18 +134,9 @@ TOGGLE_BUTTON = (
 )
 
 # (Removed: floating handle + peek zone — now using a single toggle button)
-
-# === Home button HTML ===
-# Placed right after <div class="search-menu"> opening tag
-HOME_BUTTON = (
-    b'<a class="rustdoc-cn-home" href="/index.html" '
-    b'title="\xe8\xbf\x94\xe5\x9b\x9e\xe9\xa6\x96\xe9\xa1\xb5" '
-    b'aria-label="\xe8\xbf\x94\xe5\x9b\x9e\xe9\xa6\x96\xe9\xa1\xb5">'
-    b'<svg viewBox="0 0 24 24" aria-hidden="true">'
-    b'<path d="M3 11l9-8 9 8"/>'
-    b'<path d="M5 10v10h14V10"/>'
-    b'</svg></a>'
-)
+# (Removed: home button — rustdoc's topbar on mobile already has its own
+#  sidebar-menu-toggle button from the web component. Adding a second one
+#  in the topbar created two "expand"-looking buttons in the same area.)
 
 # === JS to inject before </body> ===
 # - Click handler for sidebar toggle (desktop + mobile)
@@ -276,13 +256,7 @@ def inject_into_file(html_bytes: bytes) -> tuple[bytes, bool, str]:
     insert_pos = tb_close + len(TOPBAR_CLOSE)
     new_bytes = new_bytes[:insert_pos] + TOGGLE_BUTTON + new_bytes[insert_pos:]
 
-    # 4. Inject home button inside <div class="search-menu"> (optional — skip if missing)
-    sm_open = new_bytes.find(SEARCH_MENU_OPEN)
-    if sm_open >= 0:
-        insert_pos = sm_open + len(SEARCH_MENU_OPEN)
-        new_bytes = new_bytes[:insert_pos] + HOME_BUTTON + new_bytes[insert_pos:]
-
-    # 5. Inject JS before </body>
+    # 4. Inject JS before </body>
     body_end = new_bytes.rfind(b'</body>')
     if body_end < 0:
         return html_bytes, False, 'no-body'
