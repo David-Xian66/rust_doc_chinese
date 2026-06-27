@@ -32,6 +32,19 @@ COMMON = [
     ('<h2 id="fields" class="fields section-header">Fields', '<h2 id="fields" class="fields section-header">字段'),
     ('<h2 id="variants" class="variants section-header">Variants', '<h2 id="variants" class="variants section-header">变体'),
     ('<h2 id="implementations" class="section-header">Implementations', '<h2 id="implementations" class="section-header">实现'),
+    # 模块索引的"Traits"章节标题 —— rustdoc 生成的 text 是 "trait"（小写单数）或 "Trait"（大写单数），
+    # 而 id 是 "traits"（复数）。chrome.py 之前漏了这个模式。
+    ('<h2 id="traits" class="section-header">trait<a href="#traits" class="anchor">§</a></h2>',
+     '<h2 id="traits" class="section-header">特性<a href="#traits" class="anchor">§</a></h2>'),
+    ('<h2 class="section-header" id="traits">Trait<a class="anchor" href="#traits">§</a></h2>',
+     '<h2 class="section-header" id="traits">特性<a class="anchor" href="#traits">§</a></h2>'),
+    # "Implementations on Foreign Types" —— rustdoc 在外部类型 impl 时生成的 h2。
+    # 之前在 _translate_traits.py 里有 '>Foreign Implementations<' → '>外部实现<'，
+    # 但漏了完整的 h2 pattern。quinn/bytes 等因此保留英文。
+    ('<h2 id="foreign-impls" class="section-header">Implementations on Foreign Types<a href="#foreign-impls" class="anchor">§</a></h2>',
+     '<h2 id="foreign-impls" class="section-header">外部类型的实现<a href="#foreign-impls" class="anchor">§</a></h2>'),
+    ('<h2 id="foreign-impls" class="section-header">Implementations on Foreign Types',
+     '<h2 id="foreign-impls" class="section-header">外部类型的实现'),
     ('<h3 id="trait-implementations" class="section-header">Trait Implementations',
      '<h3 id="trait-implementations" class="section-header">trait 实现'),
     ('<h3 id="synthetic-implementations" class="section-header">Auto Trait Implementations',

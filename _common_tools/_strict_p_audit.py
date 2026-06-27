@@ -135,6 +135,10 @@ def audit_crate(crate_dir):
                     stripped = strip_html(p)
                     if len(stripped) < 5:
                         continue
+                    # 跳过 rustdoc 自动生成的脚注回链: <p><a href="URL">URL</a>&nbsp;<a href="#fnrefN">↩</a></p>
+                    # 这种 <p> 是 RFC 引用脚注的返回链接，不属于 docblock 翻译目标
+                    if re.match(r'^\s*https?://\S+\s*↩\s*$', stripped):
+                        continue
                     if not has_cjk(stripped) and len(re.findall(r'[A-Za-z]', stripped)) > 15:
                         issues.append({
                             'path': os.path.relpath(path, crate_dir),
