@@ -109,6 +109,10 @@ CSS_BLOCK = (
     b'.rustdoc-cn-toggle .icon-expand{display:none}'
     b'html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}'
     b'html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}'
+    # When sidebar is hidden, slide the button back to the viewport's top-left
+    # corner (with the same 8px inset the page chrome uses elsewhere). The
+    # transition on `left` gives a smooth slide.
+    b'html.hide-sidebar .rustdoc-cn-toggle{left:8px}'
     # Hide on mobile (rustdoc's mobile hamburger in topbar takes over)
     b'@media (max-width:700px){.rustdoc-cn-toggle{display:none}}'
     # --- Sidebar transitions ---
