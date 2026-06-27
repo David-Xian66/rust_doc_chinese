@@ -15,7 +15,9 @@
     var currentScope = null; // 'crate' 或 SCOPE_ALL
     var crateIndex = null;   // 当前 crate 的索引数组（原始 entries）
     var allIndex = null;     // 全局索引数组
-    var miniSearch = null;
+    // MiniSearch 实例按 scope 缓存（crate / SCOPE_ALL），避免单例在切换 scope 后
+    // 返回错的索引实例。
+    var miniSearchByScope = Object.create(null);
     var lastQuery = '';
     var allJsonLoaded = false;
 
@@ -85,8 +87,14 @@
     }
 
     // MiniSearch 包装
+    //
+    // 注意：MiniSearch v7.x 的 addAll() 返回 undefined（不是 this），
+    // 因此必须先把实例保存到 `ms`，addAll 后再 return ms。
+    // 之前 `return new MiniSearch({...}).addAll(entries)` 链式调用
+    // 会返回 undefined，导致 ms.search(...) 抛
+    // "Cannot read properties of undefined (reading 'search')"。
     function buildMiniSearch(entries) {
-        return new MiniSearch({
+        var ms = new MiniSearch({
             // 用 url 作为主键（每条目天然唯一），避免 MiniSearch 报
             // "document does not have ID field 'id'"
             idField: 'url',
@@ -98,13 +106,19 @@
                 fuzzy: 0.2,
                 combineWith: 'AND',
             },
-        }).addAll(entries);
+        });
+        ms.addAll(entries);
+        return ms;
     }
 
-    function ensureSearch(entries) {
-        if (miniSearch) return miniSearch;
-        miniSearch = buildMiniSearch(entries);
-        return miniSearch;
+    // 按 scope 缓存 MiniSearch 实例。scope 是 loadIndex 用的同一个 key
+    // （'crate' / SCOPE_ALL / 具体 crate 名），确保切换 scope 后能用正确的索引搜索。
+    function ensureSearch(scope, entries) {
+        var cached = miniSearchByScope[scope];
+        if (cached) return cached;
+        var ms = buildMiniSearch(entries);
+        miniSearchByScope[scope] = ms;
+        return ms;
     }
 
     // ===== UI 创建 =====
@@ -248,7 +262,7 @@
         if (sel && sel.value !== effectiveScope) sel.value = effectiveScope;
 
         loadIndex(effectiveScope).then(function (entries) {
-            var ms = ensureSearch(entries);
+            var ms = ensureSearch(effectiveScope, entries);
             var hits = ms.search(query);
             status.textContent = '找到 ' + hits.length + ' 条结果' +
                 (effectiveScope === SCOPE_ALL ? '（所有 crates）' : '（' + currentCrate + '）');
