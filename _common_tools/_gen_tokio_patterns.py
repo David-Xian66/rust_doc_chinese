@@ -537,6 +537,32 @@ PAIRS = [
         'Errors returned by <code>Timeout</code>.',
         '由 <code>Timeout</code> 返回的错误。',
     ),
+
+    # ====== quinn 漏译 ======
+    (
+        'Authentication data for (rustls) TLS session',
+        '（rustls）TLS 会话的身份认证数据',
+    ),
+    (
+        'The initial cipher suite (AES-128-GCM-SHA256) is not available',
+        '初始密码套件（AES-128-GCM-SHA256）不可用',
+    ),
+    (
+        'A QUIC-compatible TLS client configuration',
+        '一个与 QUIC 兼容的 TLS 客户端配置',
+    ),
+    (
+        'A QUIC-compatible TLS server configuration',
+        '一个与 QUIC 兼容的 TLS 服务端配置',
+    ),
+    (
+        'A rustls TLS session',
+        '一个 rustls TLS 会话',
+    ),
+    (
+        'rustls reports protocol errors using this type.',
+        'rustls 使用此类型报告协议错误。',
+    ),
 ]
 
 
