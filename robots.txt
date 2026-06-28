@@ -1,0 +1,11 @@
+# Rust 文档中文翻译 - robots.txt
+# 站点: https://rustdoc.p-cat.fun/
+# 说明: 允许主流爬虫抓取所有公开页面；屏蔽 _old/ 备份目录（与 _redirects 双重保险）
+
+User-agent: *
+Allow: /
+Disallow: /*_old/
+Disallow: /_old/
+
+# 显式声明站点地图
+Sitemap: https://rustdoc.p-cat.fun/sitemap.xml

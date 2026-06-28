@@ -29,3 +29,12 @@
 # trait.impl JS（trait 方法实现者清单）— 较长时间缓存（与搜索索引一致）
 /trait.impl/*
   Cache-Control: public, max-age=3600, must-revalidate
+
+# SEO 文件 — 设置正确的 Content-Type（Cloudflare Pages 默认按扩展名推断）
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600, must-revalidate
