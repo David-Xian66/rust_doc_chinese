@@ -36,17 +36,19 @@ import sys
 
 # === Markers (NEW injection) ===
 NEW_HANDLE_MARKER = b'<button class="rustdoc-cn-toggle"'
-# The home/docs.rs markers check for the opening tag (with angle brackets) so we
-# don't false-match the .sidebar-home-link / .sidebar-docsrs-link CSS class
-# definitions in the injected <style> block. The CSS contains bare substring
-# matches; the HTML element has the full opening tag.
-NEW_HOME_MARKER = b'<div class="sidebar-home-link">'
-NEW_DOCSRS_MARKER = b'<div class="sidebar-docsrs-link">'
+# The home/docs.rs markers check for the inline-style variant (`...-link" style=`)
+# so that files injected with the OLD class-only format are detected as needing
+# an upgrade (their OLD block gets stripped in roll_back_old and replaced with
+# the NEW inline-style block). This guarantees identical visual rendering to
+# the GitHub link, which has always used inline styles.
+NEW_HOME_MARKER = b'<div class="sidebar-home-link" style='
+NEW_DOCSRS_MARKER = b'<div class="sidebar-docsrs-link" style='
 TOPBAR_OPEN = b'<rustdoc-topbar>'
 TOPBAR_CLOSE = b'</rustdoc-topbar>'
 NAV_SIDEBAR = b'<nav class="sidebar">'
 GITHUB_LINK_CLASS = b'<div class="sidebar-github-link"'
-HOME_LINK_CLASS = b'<div class="sidebar-home-link">'
+HOME_LINK_CLASS = b'<div class="sidebar-home-link"'
+DOCSRS_LINK_CLASS = b'<div class="sidebar-docsrs-link"'
 
 # === Markers (OLD injection — to detect and roll back) ===
 OLD_TOGGLE_RE = re.compile(
@@ -70,10 +72,23 @@ OLD_HOME_RE = re.compile(
     rb'<a class="rustdoc-cn-home"[^>]*>.*?</a>',
     re.DOTALL,
 )
+# OLD home/docs.rs format: wrapper div with class only (no inline `style=`).
+# The NEW format wraps the class with an inline `style="..."` attribute
+# matching the GitHub link's layout, so the three blocks render identically
+# regardless of CSS load state. The regex requires `<a` IMMEDIATELY after the
+# class quote (with no intervening attributes like `style=`) to identify OLD.
+OLD_HOME_BLOCK_RE = re.compile(
+    rb'<div class="sidebar-home-link"><a.*?</div>',
+    re.DOTALL,
+)
+OLD_DOCSRS_BLOCK_RE = re.compile(
+    rb'<div class="sidebar-docsrs-link"><a.*?</div>',
+    re.DOTALL,
+)
 # Roll back a malformed docs.rs link (URL with a stray `./` from the early
 # path-join bug on Windows). Re-running the injection will rebuild it correctly.
 MALFORMED_DOCSRS_RE = re.compile(
-    rb'<div class="sidebar-docsrs-link">.*?</div>',
+    rb'<div class="sidebar-docsrs-link".*?</div>',
     re.DOTALL,
 )
 # The OLD JS block contained id="rustdoc-cn-nav-script"; the NEW block reuses that id
@@ -217,16 +232,27 @@ TOGGLE_BUTTON = (
 # (Removed: floating handle + peek zone — now using a single toggle button)
 
 # === Home button HTML ===
-# In-sidebar navigation block (placed below the GitHub link). Mirrors the
-# structure of the github-link block: a wrapping <div> for layout + a single
-# inline-flex <a> with an icon + text label.
+# In-sidebar navigation block (placed below the GitHub link). Uses INLINE styles
+# that exactly mirror the GitHub link's wrapper + inner <a> + svg, so the three
+# blocks render identically regardless of CSS load state. (Earlier this used a
+# class-based CSS rule, which is more elegant in source but produced a subtle
+# visual inconsistency vs the GitHub link — easy to miss in code, jarring for
+# users. Inline styles eliminate the inconsistency at the cost of slightly
+# more verbose HTML.)
 HOME_BUTTON = (
-    b'<div class="sidebar-home-link">'
+    b'<div class="sidebar-home-link" '
+    b'style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px">'
     b'<a href="/index.html" '
     b'title="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8" '
-    b'aria-label="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8">'
-    # House icon: roof + walls (stroke, matches the link label color)
-    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    b'aria-label="\xe8\xbf\x94\xe5\x9b\x9e crate \xe5\x88\x97\xe8\xa1\xa8" '
+    b'style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1">'
+    # House icon: roof + walls (stroke, matches the link label color).
+    # fill="none" + stroke="currentColor" + flex-shrink:0 inline matches GitHub's
+    # icon attribute set so the icons line up vertically in the sidebar.
+    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" '
+    b'fill="none" stroke="currentColor" stroke-width="2" '
+    b'stroke-linecap="round" stroke-linejoin="round" '
+    b'style="flex-shrink:0">'
     b'<path d="M3 11l9-8 9 8"/>'
     b'<path d="M5 10v10h14V10"/>'
     b'</svg>'
@@ -245,8 +271,13 @@ HOME_BUTTON = (
 #   tokio/runtime/struct.Builder.html   -> https://docs.rs/tokio/latest/tokio/runtime/struct.Builder.html
 DOCSRS_TITLE = b'\xe5\x9c\xa8 docs.rs \xe4\xb8\x8a\xe6\x9f\xa5\xe7\x9c\x8b'  # 在 docs.rs 上查看
 DOCSRS_SVG = (
-    # External-link icon (Feather Icons style): box with arrow exiting the top-right
-    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    # External-link icon (Feather Icons style): box with arrow exiting the top-right.
+    # fill="none" + stroke="currentColor" + flex-shrink:0 inline matches the
+    # GitHub link's icon attribute set, so the three icons line up vertically.
+    b'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" '
+    b'fill="none" stroke="currentColor" stroke-width="2" '
+    b'stroke-linecap="round" stroke-linejoin="round" '
+    b'style="flex-shrink:0">'
     b'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'
     b'<polyline points="15 3 21 3 21 9"/>'
     b'<line x1="10" y1="14" x2="21" y2="3"/>'
@@ -261,14 +292,19 @@ def build_docsrs_button(crate: str, path_in_crate: str) -> bytes:
     use `latest` rather than pinning a specific version because the user is
     viewing the Chinese translation of `latest`; pointing them at a pinned
     older docs.rs version would silently diverge from the page they're on.
+
+    Uses inline styles matching the GitHub link + home button exactly, so the
+    three nav blocks render identically regardless of CSS load state.
     """
     url = ('https://docs.rs/' + crate + '/latest/' + crate + '/' + path_in_crate).encode('utf-8')
     return (
-        b'<div class="sidebar-docsrs-link">'
+        b'<div class="sidebar-docsrs-link" '
+        b'style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px">'
         b'<a href="' + url + b'" '
         b'target="_blank" rel="noopener noreferrer" '
         b'title="' + DOCSRS_TITLE + b'" '
-        b'aria-label="' + DOCSRS_TITLE + b'">'
+        b'aria-label="' + DOCSRS_TITLE + b'" '
+        b'style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1">'
         + DOCSRS_SVG +
         b'<span>docs.rs</span>'
         b'</a>'
@@ -377,6 +413,10 @@ def roll_back_old(html_bytes: bytes) -> bytes:
     out = OLD_HANDLE_RE.sub(b'', out)
     out = OLD_PEEK_ZONE_RE.sub(b'', out)
     out = OLD_HOME_RE.sub(b'', out)
+    # OLD home/docs.rs blocks (class-only, no inline style attr).
+    # The NEW blocks use inline styles matching the GitHub link's pattern.
+    out = OLD_HOME_BLOCK_RE.sub(b'', out)
+    out = OLD_DOCSRS_BLOCK_RE.sub(b'', out)
     out = OLD_JS_RE.sub(b'', out)
     # Strip a malformed docs.rs link (wrong URL like docs.rs/./...). The
     # inject step below will rebuild it from the correct crate + path.
@@ -411,6 +451,9 @@ def inject_into_file(html_bytes: bytes, rel_path: str = '') -> tuple[bytes, bool
         or b'rustdoc-cn-kbd-hint' in html_bytes              # old kbd-shortcut hint
         # Old-format home button (the previous fixed-position variant)
         or b'<a class="rustdoc-cn-home"' in html_bytes
+        # Old-format home/docs.rs blocks (class-only, no inline style attr)
+        or OLD_HOME_BLOCK_RE.search(html_bytes) is not None
+        or OLD_DOCSRS_BLOCK_RE.search(html_bytes) is not None
     )
     if has_any_old:
         html_bytes = roll_back_old(html_bytes)
@@ -464,15 +507,23 @@ def inject_into_file(html_bytes: bytes, rel_path: str = '') -> tuple[bytes, bool
             has_docsrs = False
 
     # Decide whether the file's current state matches what we want:
-    # - non-site-root: toggle + home + docs.rs + css + js all present
-    # - site-root:     toggle + (no home) + (no docs.rs) + css + js all present
+    # - non-site-root, has crate context: toggle + home + docs.rs + css + js
+    # - non-site-root, no crate context (e.g. help.html at repo root):
+    #                            toggle + home + (no docs.rs) + css + js
+    # - site-root (crate list):    toggle + (no home) + (no docs.rs) + css + js
+    #
+    # `crate` is None for files where the path has no crate segment — either
+    # the site-root index.html or a file at the repo root that isn't in a
+    # crate subdir (like `help.html`). Both should skip docs.rs because we
+    # can't construct a meaningful docs.rs URL without a crate name.
     home_should_be_present = not is_site_root
+    docsrs_should_be_present = home_should_be_present and bool(crate) and bool(path_in_crate)
     fully_injected = (
         has_toggle
         and has_css
         and has_js
         and (has_home == home_should_be_present)
-        and (has_docsrs == home_should_be_present)
+        and (has_docsrs == docsrs_should_be_present)
     )
     if fully_injected and not site_root_cleaned:
         return html_bytes, False, 'already-injected'
