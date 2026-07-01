@@ -33,7 +33,7 @@ def main():
                        'List of all items', 'Crate Items', 'Module Items']
     chrome_hits = []
     for path in files:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, 'r', encoding='utf-8', errors='replace') as f:
             c = f.read()
         rel = os.path.relpath(path, base)
         # Strip script and style
@@ -58,7 +58,7 @@ def main():
 
     untranslated_docblock = []
     for path in files:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, 'r', encoding='utf-8', errors='replace') as f:
             c = f.read()
         rel = os.path.relpath(path, base)
         for m in SECTION_RE.finditer(c):
@@ -95,7 +95,7 @@ def main():
     print('\n=== TOP-DOC AUDIT ===')
     top_untranslated = []
     for path in files:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, 'r', encoding='utf-8', errors='replace') as f:
             c = f.read()
         rel = os.path.relpath(path, base)
         h1_match = re.search(r'<h1[^>]*>.*?</h1>', c, flags=re.DOTALL)
@@ -115,6 +115,16 @@ def main():
     for rel, p in top_untranslated[:20]:
         print(f'  {rel}')
         print(f'    {p}')
+
+    # Dump ALL to file for translation script
+    with open('_audit_full.txt', 'w', encoding='utf-8') as f:
+        f.write('=== OWN DOCBLOCK (ALL) ===\n')
+        for rel, anchor, p in untranslated_docblock:
+            f.write(f'{rel} | {anchor}\n  {p}\n')
+        f.write('\n=== TOP-DOC (ALL) ===\n')
+        for rel, p in top_untranslated:
+            f.write(f'{rel}\n  {p}\n')
+    print(f'\nFull dump saved to _audit_full.txt')
 
 
 if __name__ == '__main__':
