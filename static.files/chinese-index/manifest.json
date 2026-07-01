@@ -1,5 +1,5 @@
 {
-  "total": 948,
+  "total": 1104,
   "crates": {
     "bytes": 12,
     "coarsetime": 5,
@@ -9,10 +9,11 @@
     "quinn": 98,
     "rcgen": 53,
     "rdev": 14,
-    "rustls": 160,
+    "rustls": 227,
     "rustls_pki_types": 49,
     "scrap": 0,
-    "tokio": 134,
+    "tokio": 217,
+    "tokio_macros": 6,
     "trait.impl": 0,
     "windows": 0,
     "windows_capture": 53,
