@@ -18,6 +18,7 @@ DST = '.'  # 仓库根
 
 # 我们翻译过的 crate（用于 crates.js）
 OUR_CRATES = [
+    "bytes",
     "coarsetime",
     "enigo",
     "ffmpeg_next",
@@ -25,6 +26,7 @@ OUR_CRATES = [
     "quinn",
     "rcgen",
     "rdev",
+    "rustls",
     "rustls_pki_types",
     "scrap",
     "tokio",
