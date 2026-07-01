@@ -7,3 +7,10 @@ REVIEW.md
 /STRUCTURE.md
 .claude
 __pycache__
+# 备份目录（每个已翻译 crate 都有一份原版，未译副本）
+# 通过 _redirects 屏蔽，不部署到 Cloudflare Pages
+*_old/
+# 翻译时生成的临时审计 dump
+_audit_full.txt
+*_audit*.txt
+audit*.txt
