@@ -1,0 +1,736 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="将字节写入汇。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/io/trait.AsyncWriteExt.html"><meta property="og:type" content="article"><meta property="og:title" content="AsyncWriteExt in tokio::io - tokio"><meta property="og:description" content="将字节写入汇。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/io/trait.AsyncWriteExt.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="AsyncWriteExt in tokio::io - tokio"><meta name="twitter:description" content="将字节写入汇。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>AsyncWriteExt in tokio::io - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc trait"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">AsyncWriteExt</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Async<wbr>Write<wbr>Ext</a></h2><h3><a href="#provided-methods">提供方法</a></h3><ul class="block"><li><a href="#method.flush" title="flush">flush</a></li><li><a href="#method.shutdown" title="shutdown">shutdown</a></li><li><a href="#method.write" title="write">write</a></li><li><a href="#method.write_all" title="write_all">write_all</a></li><li><a href="#method.write_all_buf" title="write_all_buf">write_all_buf</a></li><li><a href="#method.write_buf" title="write_buf">write_buf</a></li><li><a href="#method.write_f32" title="write_f32">write_f32</a></li><li><a href="#method.write_f64" title="write_f64">write_f64</a></li><li><a href="#method.write_f32_le" title="write_f32_le">write_f32_le</a></li><li><a href="#method.write_f64_le" title="write_f64_le">write_f64_le</a></li><li><a href="#method.write_i8" title="write_i8">write_i8</a></li><li><a href="#method.write_i16" title="write_i16">write_i16</a></li><li><a href="#method.write_i32" title="write_i32">write_i32</a></li><li><a href="#method.write_i64" title="write_i64">write_i64</a></li><li><a href="#method.write_i16_le" title="write_i16_le">write_i16_le</a></li><li><a href="#method.write_i32_le" title="write_i32_le">write_i32_le</a></li><li><a href="#method.write_i64_le" title="write_i64_le">write_i64_le</a></li><li><a href="#method.write_i128" title="write_i128">write_i128</a></li><li><a href="#method.write_i128_le" title="write_i128_le">write_i128_le</a></li><li><a href="#method.write_u8" title="write_u8">write_u8</a></li><li><a href="#method.write_u16" title="write_u16">write_u16</a></li><li><a href="#method.write_u32" title="write_u32">write_u32</a></li><li><a href="#method.write_u64" title="write_u64">write_u64</a></li><li><a href="#method.write_u16_le" title="write_u16_le">write_u16_le</a></li><li><a href="#method.write_u32_le" title="write_u32_le">write_u32_le</a></li><li><a href="#method.write_u64_le" title="write_u64_le">write_u64_le</a></li><li><a href="#method.write_u128" title="write_u128">write_u128</a></li><li><a href="#method.write_u128_le" title="write_u128_le">write_u128_le</a></li><li><a href="#method.write_vectored" title="write_vectored">write_vectored</a></li></ul><h3><a href="#dyn-compatibility">动态兼容性</a></h3><h3><a href="#implementors">实现者</a></h3></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>io</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">io</a></div><h1>特性 <span class="trait">Async<wbr>Write<wbr>Ext</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/io\util/async_write_ext.rs.html#72-1329">Source</a> </span></div><pre class="rust item-decl"><code>pub trait AsyncWriteExt: <a class="trait" href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite">AsyncWrite</a> {
+<details class="toggle type-contents-toggle"><summary class="hideme"><span>Show 29 methods</span></summary>    // Provided methods
+    fn <a href="#method.write" class="fn">write</a>&lt;'a&gt;(&amp;'a mut self, src: &amp;'a [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; Write&lt;'a, Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_vectored" class="fn">write_vectored</a>&lt;'a, 'b&gt;(
+        &amp;'a mut self,
+        bufs: &amp;'a [<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/io/struct.IoSlice.html" title="struct std::io::IoSlice">IoSlice</a>&lt;'b&gt;],
+    ) -&gt; WriteVectored&lt;'a, 'b, Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_buf" class="fn">write_buf</a>&lt;'a, B&gt;(&amp;'a mut self, src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;'a mut B</a>) -&gt; WriteBuf&lt;'a, Self, B&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,
+             B: <a class="trait" href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf">Buf</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_all_buf" class="fn">write_all_buf</a>&lt;'a, B&gt;(
+        &amp;'a mut self,
+        src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;'a mut B</a>,
+    ) -&gt; WriteAllBuf&lt;'a, Self, B&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,
+             B: <a class="trait" href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf">Buf</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_all" class="fn">write_all</a>&lt;'a&gt;(&amp;'a mut self, src: &amp;'a [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; WriteAll&lt;'a, Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u8" class="fn">write_u8</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>) -&gt; WriteU8&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i8" class="fn">write_i8</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i8.html">i8</a>) -&gt; WriteI8&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u16" class="fn">write_u16</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>) -&gt; WriteU16&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i16" class="fn">write_i16</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i16.html">i16</a>) -&gt; WriteI16&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u32" class="fn">write_u32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; WriteU32&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i32" class="fn">write_i32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i32.html">i32</a>) -&gt; WriteI32&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u64" class="fn">write_u64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>) -&gt; WriteU64&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i64" class="fn">write_i64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>) -&gt; WriteI64&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u128" class="fn">write_u128</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u128.html">u128</a>) -&gt; WriteU128&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i128" class="fn">write_i128</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i128.html">i128</a>) -&gt; WriteI128&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_f32" class="fn">write_f32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>) -&gt; WriteF32&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_f64" class="fn">write_f64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f64.html">f64</a>) -&gt; WriteF64&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u16_le" class="fn">write_u16_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>) -&gt; WriteU16Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i16_le" class="fn">write_i16_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i16.html">i16</a>) -&gt; WriteI16Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u32_le" class="fn">write_u32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; WriteU32Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i32_le" class="fn">write_i32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i32.html">i32</a>) -&gt; WriteI32Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u64_le" class="fn">write_u64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>) -&gt; WriteU64Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i64_le" class="fn">write_i64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>) -&gt; WriteI64Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_u128_le" class="fn">write_u128_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u128.html">u128</a>) -&gt; WriteU128Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_i128_le" class="fn">write_i128_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i128.html">i128</a>) -&gt; WriteI128Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_f32_le" class="fn">write_f32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>) -&gt; WriteF32Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.write_f64_le" class="fn">write_f64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f64.html">f64</a>) -&gt; WriteF64Le&lt;&amp;mut Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.flush" class="fn">flush</a>(&amp;mut self) -&gt; Flush&lt;'_, Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+<span class="item-spacer"></span>    fn <a href="#method.shutdown" class="fn">shutdown</a>(&amp;mut self) -&gt; Shutdown&lt;'_, Self&gt;
+       <span class="where">where Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a></span> { ... }
+</details>}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>将字节写入汇。</p>
+<p>作为扩展 trait 实现，向所有 <a href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> 类型添加实用方法。
+调用者通常会导入此 trait 而不是 <a href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a>。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>data = <span class="string">b"some bytes"</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">while </span>pos &lt; data.len() {
+        <span class="kw">let </span>bytes_written = buffer.write(<span class="kw-2">&amp;</span>data[pos..]).<span class="kw">await</span><span class="question-mark">?</span>;
+        pos += bytes_written;
+    }
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+<p>有关更多详细信息，请参阅 <a href="index.html" title="mod tokio::io">模块</a> 文档。</p>
+</div></details><h2 id="provided-methods" class="section-header">提供方法<a href="#provided-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="method.write" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#130-135">Source</a><h4 class="code-header">fn <a href="#method.write" class="fn">write</a>&lt;'a&gt;(&amp;'a mut self, src: &amp;'a [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; Write&lt;'a, Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>将一个缓冲写入此写入器，返回写入的字节数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;</span>[u8]) -&gt; io::Result&lt;usize&gt;;</code></pre></div>
+<p>此函数将尝试写入 <code>buf</code> 的全部内容，但整个写入可能无法完成，
+或者可能产生错误。对 <code>write</code> 的调用表示<em>至多一次</em>对
+任何包装对象的写入尝试。</p>
+<h5 id="return"><a class="doc-anchor" href="#return">§</a>Return</h5>
+<p>如果返回值为 <code>Ok(n)</code>，则必须保证 <code>n &lt;= buf.len()</code>。
+返回值为 <code>0</code> 通常表示底层对象已无法再接受字节，
+将来也不太可能接受，或者所提供的缓冲区为空。</p>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>错误</h5>
+<p>每次调用 <code>write</code> 都可能生成一个 I/O 错误，表明操作未能完成。若返回错误，则缓冲中的所有字节均未写入此写入器。</p>
+<p>如果无法将整个缓冲区写入此 writer，<strong>不</strong>视为错误。</p>
+<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>Cancel safety</h5>
+<p>此方法是可取消安全的：如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a>
+语句中作为事件使用且另一个分支先完成，则可以保证没有
+数据被写入此 <code>AsyncWrite</code>。</p>
+<h5 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Writes some prefix of the byte string, not necessarily all of it.
+    </span>file.write(<span class="string">b"some bytes"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    file.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_vectored" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#182-187">Source</a><h4 class="code-header">fn <a href="#method.write_vectored" class="fn">write_vectored</a>&lt;'a, 'b&gt;(
+    &amp;'a mut self,
+    bufs: &amp;'a [<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/io/struct.IoSlice.html" title="struct std::io::IoSlice">IoSlice</a>&lt;'b&gt;],
+) -&gt; WriteVectored&lt;'a, 'b, Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>与 <a href="trait.AsyncWriteExt.html#method.write" title="method tokio::io::AsyncWriteExt::write"><code>write</code></a> 类似，但从缓冲区切片中写入数据。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_vectored(<span class="kw-2">&amp;mut </span><span class="self">self</span>, bufs: <span class="kw-2">&amp;</span>[IoSlice&lt;<span class="lifetime">'_</span>&gt;]) -&gt; io::Result&lt;usize&gt;;</code></pre></div>
+<p>有关更多详细信息，请参阅 <a href="trait.AsyncWrite.html#method.poll_write_vectored" title="method tokio::io::AsyncWrite::poll_write_vectored"><code>AsyncWrite::poll_write_vectored</code></a>。</p>
+<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>Cancel safety</h5>
+<p>此方法是可取消安全的：如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a>
+语句中作为事件使用且另一个分支先完成，则可以保证没有
+数据被写入此 <code>AsyncWrite</code>。</p>
+<h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+<span class="kw">use </span>std::io::IoSlice;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">let </span>bufs: <span class="kw-2">&amp;</span>[<span class="kw">_</span>] = <span class="kw-2">&amp;</span>[
+        IoSlice::new(<span class="string">b"hello"</span>),
+        IoSlice::new(<span class="string">b" "</span>),
+        IoSlice::new(<span class="string">b"world"</span>),
+    ];
+
+    file.write_vectored(<span class="kw-2">&amp;</span>bufs).<span class="kw">await</span><span class="question-mark">?</span>;
+    file.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_buf" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#266-272">Source</a><h4 class="code-header">fn <a href="#method.write_buf" class="fn">write_buf</a>&lt;'a, B&gt;(&amp;'a mut self, src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;'a mut B</a>) -&gt; WriteBuf&lt;'a, Self, B&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,
+    B: <a class="trait" href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf">Buf</a>,</div></h4></section></summary><div class="docblock"><p>将一个缓冲写入此写入器，前进缓冲的内部游标。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_buf&lt;B: Buf&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>B) -&gt; io::Result&lt;usize&gt;;</code></pre></div>
+<p>此函数将尝试写入 <code>buf</code> 的全部内容，但整个写入可能无法完成，
+或者可能产生错误。操作完成后，缓冲区的
+内部游标将前进已写入的字节数。后续使用<strong>相同</strong> <code>buf</code> 值调用 <code>write_buf</code> 时，
+将从第一次调用 <code>write_buf</code> 完成的位置继续。
+对 <code>write_buf</code> 的调用表示<em>至多一次</em>对任何包装对象的写入尝试。</p>
+<h5 id="return-1"><a class="doc-anchor" href="#return-1">§</a>Return</h5>
+<p>如果返回值为 <code>Ok(n)</code>，则必须保证 <code>n &lt;= buf.len()</code>。
+返回值为 <code>0</code> 通常表示底层对象已无法再接受字节，
+将来也不太可能接受，或者所提供的缓冲区为空。</p>
+<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>错误</h5>
+<p>每次调用 <code>write</code> 都可能生成一个 I/O 错误，表明操作未能完成。若返回错误，则缓冲中的所有字节均未写入此写入器。</p>
+<p>如果无法将整个缓冲区写入此 writer，<strong>不</strong>视为错误。</p>
+<h5 id="cancel-safety-2"><a class="doc-anchor" href="#cancel-safety-2">§</a>Cancel safety</h5>
+<p>此方法是可取消安全的：如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a>
+语句中作为事件使用且另一个分支先完成，则可以保证没有
+数据被写入此 <code>AsyncWrite</code>。</p>
+<h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5>
+<p><a href="../fs/struct.File.html" title="struct tokio::fs::File"><code>File</code></a> 实现了 <a href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a>，<a href="https://doc.rust-lang.org/1.95.0/std/io/cursor/struct.Cursor.html" title="struct std::io::cursor::Cursor"><code>Cursor</code></a><code>&lt;&amp;[u8]&gt;</code> 实现了 <a href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf"><code>Buf</code></a>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="kw">use </span>bytes::Buf;
+<span class="kw">use </span>std::io::Cursor;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = Cursor::new(<span class="string">b"data to write"</span>);
+
+    <span class="comment">// Loop until the entire contents of the buffer are written to
+    // the file.
+    </span><span class="kw">while </span>buffer.has_remaining() {
+        <span class="comment">// Writes some prefix of the byte string, not necessarily
+        // all of it.
+        </span>file.write_buf(<span class="kw-2">&amp;mut </span>buffer).<span class="kw">await</span><span class="question-mark">?</span>;
+    }
+    file.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_all_buf" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#334-340">Source</a><h4 class="code-header">fn <a href="#method.write_all_buf" class="fn">write_all_buf</a>&lt;'a, B&gt;(
+    &amp;'a mut self,
+    src: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;'a mut B</a>,
+) -&gt; WriteAllBuf&lt;'a, Self, B&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,
+    B: <a class="trait" href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf">Buf</a>,</div></h4></section></summary><div class="docblock"><p>尝试将整个缓冲写入此写入器。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_all_buf(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw">impl </span>Buf) -&gt; <span class="prelude-ty">Result</span>&lt;(), io::Error&gt; {
+    <span class="kw">while </span>buf.has_remaining() {
+        <span class="self">self</span>.write_buf(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+    }
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+<p>此方法会持续调用 <a href="trait.AsyncWriteExt.html#method.write" title="method tokio::io::AsyncWriteExt::write"><code>write</code></a>，
+直到 <a href="../../bytes/buf/buf_impl/trait.Buf.html#method.has_remaining" title="method bytes::buf::buf_impl::Buf::has_remaining"><code>buf.has_remaining()</code></a> 返回 false。
+此方法在成功写入整个缓冲区或发生错误之前不会返回。
+将返回生成的第一个错误。</p>
+<p>每个块成功写入后，游标会前进。失败后，<code>src.chunk()</code> 将返回未能写入的块。</p>
+<h5 id="cancel-safety-3"><a class="doc-anchor" href="#cancel-safety-3">§</a>Cancel safety</h5>
+<p>如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a> 语句中将 <code>write_all_buf</code>
+作为事件使用，且另一个分支先完成，则提供的缓冲区中的数据可能已被
+部分写入。但是，可以保证提供的缓冲区已按
+已部分写入的字节数<a href="../../bytes/buf/buf_impl/trait.Buf.html#tymethod.advance" title="method bytes::buf::buf_impl::Buf::advance">前进</a>。</p>
+<h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
+<p><a href="../fs/struct.File.html" title="struct tokio::fs::File"><code>File</code></a> 实现了 <a href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a>，<a href="https://doc.rust-lang.org/1.95.0/std/io/cursor/struct.Cursor.html" title="struct std::io::cursor::Cursor"><code>Cursor</code></a><code>&lt;&amp;[u8]&gt;</code> 实现了 <a href="../../bytes/buf/buf_impl/trait.Buf.html" title="trait bytes::buf::buf_impl::Buf"><code>Buf</code></a>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="kw">use </span>std::io::Cursor;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = Cursor::new(<span class="string">b"data to write"</span>);
+
+    file.write_all_buf(<span class="kw-2">&amp;mut </span>buffer).<span class="kw">await</span><span class="question-mark">?</span>;
+    file.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_all" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#387-392">Source</a><h4 class="code-header">fn <a href="#method.write_all" class="fn">write_all</a>&lt;'a&gt;(&amp;'a mut self, src: &amp;'a [<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>]) -&gt; WriteAll&lt;'a, Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>尝试将整个缓冲写入此写入器。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_all(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;</span>[u8]) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>此方法会持续调用 <a href="trait.AsyncWriteExt.html#method.write" title="method tokio::io::AsyncWriteExt::write"><code>write</code></a>，
+直到没有更多数据可写。此方法在成功写入整个缓冲区或发生此类错误之前不会返回。
+将返回由此方法生成的第一个错误。</p>
+<h5 id="cancel-safety-4"><a class="doc-anchor" href="#cancel-safety-4">§</a>Cancel safety</h5>
+<p>此方法不是可取消安全的。如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a>
+语句中将其作为事件使用，且另一个分支先完成，
+则提供的缓冲区可能已被部分写入，但后续对 <code>write_all</code> 的调用
+将从头开始重新写入缓冲区。</p>
+<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>错误</h5>
+<p>此函数将返回 <a href="trait.AsyncWriteExt.html#method.write" title="method tokio::io::AsyncWriteExt::write"><code>write</code></a> 返回的第一个错误。</p>
+<h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    file.write_all(<span class="string">b"some bytes"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    file.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u8" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u8" class="fn">write_u8</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>) -&gt; WriteU8&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器写入一个无符号 8 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u8) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-3"><a class="doc-anchor" href="#errors-3">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
+<p>将无符号 8 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u8(<span class="number">2</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u8(<span class="number">5</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x02\x05"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i8" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i8" class="fn">write_i8</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i8.html">i8</a>) -&gt; WriteI8&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器写入一个有符号 8 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i8) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-4"><a class="doc-anchor" href="#errors-4">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
+<p>将有符号 8 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i8(-<span class="number">2</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i8(<span class="number">126</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\xFE\x7E"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u16" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u16" class="fn">write_u16</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>) -&gt; WriteU16&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个无符号 16 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u16(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u16) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-5"><a class="doc-anchor" href="#errors-5">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
+<p>将无符号 16 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u16(<span class="number">517</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u16(<span class="number">768</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x02\x05\x03\x00"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i16" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i16" class="fn">write_i16</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i16.html">i16</a>) -&gt; WriteI16&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个有符号 16 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i16(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i16) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-6"><a class="doc-anchor" href="#errors-6">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
+<p>将有符号 16 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i16(<span class="number">193</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i16(-<span class="number">132</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x00\xc1\xff\x7c"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u32" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u32" class="fn">write_u32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; WriteU32&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个无符号 32 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u32(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-7"><a class="doc-anchor" href="#errors-7">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5>
+<p>将无符号 32 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u32(<span class="number">267</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u32(<span class="number">1205419366</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x00\x00\x01\x0b\x47\xd9\x3d\x66"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i32" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i32" class="fn">write_i32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i32.html">i32</a>) -&gt; WriteI32&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个有符号 32 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i32(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-8"><a class="doc-anchor" href="#errors-8">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
+<p>将有符号 32 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i32(<span class="number">267</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i32(<span class="number">1205419366</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x00\x00\x01\x0b\x47\xd9\x3d\x66"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u64" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u64" class="fn">write_u64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>) -&gt; WriteU64&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个无符号 64 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u64(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-9"><a class="doc-anchor" href="#errors-9">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
+<p>将无符号 64 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u64(<span class="number">918733457491587</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u64(<span class="number">143</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x00\x03\x43\x95\x4d\x60\x86\x83\x00\x00\x00\x00\x00\x00\x00\x8f"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i64" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i64" class="fn">write_i64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>) -&gt; WriteI64&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>以大端字节序将有符号 64 位整数写入底层 writer。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i64(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-10"><a class="doc-anchor" href="#errors-10">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
+<p>将有符号 64 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i64(i64::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i64(i64::MAX).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x80\x00\x00\x00\x00\x00\x00\x00\x7f\xff\xff\xff\xff\xff\xff\xff"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u128" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u128" class="fn">write_u128</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u128.html">u128</a>) -&gt; WriteU128&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个无符号 128 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u128(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u128) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-11"><a class="doc-anchor" href="#errors-11">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-13"><a class="doc-anchor" href="#examples-13">§</a>示例</h5>
+<p>将无符号 128 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u128(<span class="number">16947640962301618749969007319746179</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0x00</span>, <span class="number">0x03</span>, <span class="number">0x43</span>, <span class="number">0x95</span>, <span class="number">0x4d</span>, <span class="number">0x60</span>, <span class="number">0x86</span>, <span class="number">0x83</span>,
+    <span class="number">0x00</span>, <span class="number">0x03</span>, <span class="number">0x43</span>, <span class="number">0x95</span>, <span class="number">0x4d</span>, <span class="number">0x60</span>, <span class="number">0x86</span>, <span class="number">0x83
+</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i128" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i128" class="fn">write_i128</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i128.html">i128</a>) -&gt; WriteI128&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个有符号 128 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i128(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i128) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-12"><a class="doc-anchor" href="#errors-12">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-14"><a class="doc-anchor" href="#examples-14">§</a>示例</h5>
+<p>将有符号 128 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i128(i128::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0x80</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0
+</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_f32" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_f32" class="fn">write_f32</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>) -&gt; WriteF32&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个 32 位浮点类型。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_f32(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: f32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-13"><a class="doc-anchor" href="#errors-13">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-15"><a class="doc-anchor" href="#examples-15">§</a>示例</h5>
+<p>将 32 位浮点类型写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_f32(f32::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[<span class="number">0xff</span>, <span class="number">0x7f</span>, <span class="number">0xff</span>, <span class="number">0xff</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_f64" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_f64" class="fn">write_f64</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f64.html">f64</a>) -&gt; WriteF64&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以大端顺序写入一个 64 位浮点类型。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_f64(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: f64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-14"><a class="doc-anchor" href="#errors-14">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-16"><a class="doc-anchor" href="#examples-16">§</a>示例</h5>
+<p>将 64 位浮点类型写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_f64(f64::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0xff</span>, <span class="number">0xef</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff
+</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u16_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u16_le" class="fn">write_u16_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u16.html">u16</a>) -&gt; WriteU16Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个无符号 16 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u16_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u16) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-15"><a class="doc-anchor" href="#errors-15">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-17"><a class="doc-anchor" href="#examples-17">§</a>示例</h5>
+<p>将无符号 16 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u16_le(<span class="number">517</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u16_le(<span class="number">768</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x05\x02\x00\x03"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i16_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i16_le" class="fn">write_i16_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i16.html">i16</a>) -&gt; WriteI16Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个有符号 16 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i16_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i16) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-16"><a class="doc-anchor" href="#errors-16">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-18"><a class="doc-anchor" href="#examples-18">§</a>示例</h5>
+<p>将有符号 16 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i16_le(<span class="number">193</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i16_le(-<span class="number">132</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\xc1\x00\x7c\xff"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u32_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u32_le" class="fn">write_u32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; WriteU32Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个无符号 32 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u32_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-17"><a class="doc-anchor" href="#errors-17">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-19"><a class="doc-anchor" href="#examples-19">§</a>示例</h5>
+<p>将无符号 32 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u32_le(<span class="number">267</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u32_le(<span class="number">1205419366</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x0b\x01\x00\x00\x66\x3d\xd9\x47"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i32_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i32_le" class="fn">write_i32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i32.html">i32</a>) -&gt; WriteI32Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个有符号 32 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i32_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-18"><a class="doc-anchor" href="#errors-18">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-20"><a class="doc-anchor" href="#examples-20">§</a>示例</h5>
+<p>将有符号 32 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i32_le(<span class="number">267</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i32_le(<span class="number">1205419366</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x0b\x01\x00\x00\x66\x3d\xd9\x47"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u64_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u64_le" class="fn">write_u64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u64.html">u64</a>) -&gt; WriteU64Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个无符号 64 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u64_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-19"><a class="doc-anchor" href="#errors-19">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-21"><a class="doc-anchor" href="#examples-21">§</a>示例</h5>
+<p>将无符号 64 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u64_le(<span class="number">918733457491587</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_u64_le(<span class="number">143</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x83\x86\x60\x4d\x95\x43\x03\x00\x8f\x00\x00\x00\x00\x00\x00\x00"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i64_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i64_le" class="fn">write_i64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i64.html">i64</a>) -&gt; WriteI64Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个有符号 64 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i64_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-20"><a class="doc-anchor" href="#errors-20">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-22"><a class="doc-anchor" href="#examples-22">§</a>示例</h5>
+<p>将有符号 64 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i64_le(i64::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+writer.write_i64_le(i64::MAX).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="string">b"\x00\x00\x00\x00\x00\x00\x00\x80\xff\xff\xff\xff\xff\xff\xff\x7f"</span>);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_u128_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_u128_le" class="fn">write_u128_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u128.html">u128</a>) -&gt; WriteU128Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个无符号 128 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_u128_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u128) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-21"><a class="doc-anchor" href="#errors-21">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-23"><a class="doc-anchor" href="#examples-23">§</a>示例</h5>
+<p>将无符号 128 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_u128_le(<span class="number">16947640962301618749969007319746179</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0x83</span>, <span class="number">0x86</span>, <span class="number">0x60</span>, <span class="number">0x4d</span>, <span class="number">0x95</span>, <span class="number">0x43</span>, <span class="number">0x03</span>, <span class="number">0x00</span>,
+    <span class="number">0x83</span>, <span class="number">0x86</span>, <span class="number">0x60</span>, <span class="number">0x4d</span>, <span class="number">0x95</span>, <span class="number">0x43</span>, <span class="number">0x03</span>, <span class="number">0x00</span>,
+]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_i128_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_i128_le" class="fn">write_i128_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.i128.html">i128</a>) -&gt; WriteI128Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个有符号 128 位整数。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_i128_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: i128) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-22"><a class="doc-anchor" href="#errors-22">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-24"><a class="doc-anchor" href="#examples-24">§</a>示例</h5>
+<p>将有符号 128 位整数写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_i128_le(i128::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x80
+</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_f32_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_f32_le" class="fn">write_f32_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f32.html">f32</a>) -&gt; WriteF32Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个 32 位浮点类型。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_f32_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: f32) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-23"><a class="doc-anchor" href="#errors-23">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-25"><a class="doc-anchor" href="#examples-25">§</a>示例</h5>
+<p>将 32 位浮点类型写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_f32_le(f32::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[<span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0x7f</span>, <span class="number">0xff</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.write_f64_le" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#394-1236">Source</a><h4 class="code-header">fn <a href="#method.write_f64_le" class="fn">write_f64_le</a>(&amp;mut self, n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.f64.html">f64</a>) -&gt; WriteF64Le&lt;&amp;mut Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>向底层写入器以小端顺序写入一个 64 位浮点类型。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>write_f64_le(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: f64) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>建议使用缓冲写入器以避免过多的系统调用。</p>
+<h5 id="errors-24"><a class="doc-anchor" href="#errors-24">§</a>错误</h5>
+<p>此方法返回与 <a href="trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>AsyncWriteExt::write_all</code></a> 相同的错误。</p>
+<h5 id="examples-26"><a class="doc-anchor" href="#examples-26">§</a>示例</h5>
+<p>将 64 位浮点类型写入 <code>AsyncWrite</code>：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, AsyncWriteExt};
+
+<span class="kw">let </span><span class="kw-2">mut </span>writer = Vec::new();
+
+writer.write_f64_le(f64::MIN).<span class="kw">await</span><span class="question-mark">?</span>;
+
+<span class="macro">assert_eq!</span>(writer, <span class="macro">vec!</span>[
+    <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xff</span>, <span class="number">0xef</span>, <span class="number">0xff
+</span>]);
+<span class="prelude-val">Ok</span>(())</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.flush" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#1281-1286">Source</a><h4 class="code-header">fn <a href="#method.flush" class="fn">flush</a>(&amp;mut self) -&gt; Flush&lt;'_, Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>刷新此输出流，确保所有中间缓冲的内容到达目的地。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>flush(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;()&gt;;</code></pre></div><h5 id="errors-25"><a class="doc-anchor" href="#errors-25">§</a>错误</h5>
+<p>如果由于 I/O 错误或到达 EOF 而无法写入所有字节，则视为错误。</p>
+<h5 id="cancel-safety-5"><a class="doc-anchor" href="#cancel-safety-5">§</a>Cancel safety</h5>
+<p>此方法是可取消安全的。</p>
+<p>如果在 <a href="../macro.select.html" title="macro tokio::select"><code>tokio::select!</code></a> 语句中将 <code>flush</code>
+作为事件使用，且另一个分支先完成，则此 <code>AsyncWrite</code> 中缓冲的数据可能
+已被部分刷新。但是，可以保证缓冲区按已部分刷新的
+字节数前进。</p>
+<h5 id="examples-27"><a class="doc-anchor" href="#examples-27">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, BufWriter, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>f = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = BufWriter::new(f);
+
+    buffer.write_all(<span class="string">b"some bytes"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    buffer.flush().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.shutdown" class="method"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#1323-1328">Source</a><h4 class="code-header">fn <a href="#method.shutdown" class="fn">shutdown</a>(&amp;mut self) -&gt; Shutdown&lt;'_, Self&gt;<div class="where">where
+    Self: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,</div></h4></section></summary><div class="docblock"><p>关闭输出流，确保此值能被干净地丢弃。</p>
+<p>Equivalent to:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>shutdown(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;()&gt;;</code></pre></div>
+<p>与 <a href="trait.AsyncWriteExt.html#method.flush" title="method tokio::io::AsyncWriteExt::flush"><code>flush</code></a> 类似，所有中间缓冲的内容都会写入到底层流。
+操作完成后，调用方不应再尝试写入该流。例如，<code>TcpStream</code> 的实现会发出
+<code>shutdown(Write)</code> 系统调用。</p>
+<h5 id="examples-28"><a class="doc-anchor" href="#examples-28">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::io::{<span class="self">self</span>, BufWriter, AsyncWriteExt};
+<span class="kw">use </span>tokio::fs::File;
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; io::Result&lt;()&gt; {
+    <span class="kw">let </span>f = File::create(<span class="string">"foo.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = BufWriter::new(f);
+
+    buffer.write_all(<span class="string">b"some bytes"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    buffer.shutdown().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div></div></details></div><h2 id="dyn-compatibility" class="section-header">动态兼容性<a href="#dyn-compatibility" class="anchor">§</a></h2><div class="dyn-compatibility-info"><p>此 trait <b>不</b>是<a href="https://doc.rust-lang.org/1.95.0/reference/items/traits.html#dyn-compatibility">dyn 兼容</a>的。</p><p><i>在较早版本的 Rust 中，dyn 兼容性被称为"对象安全"，因此此 trait 不是对象安全的。</i></p></div><h2 id="implementors" class="section-header">实现者<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"><div class="negative-marker"></div><section id="impl-AsyncWriteExt-for-W" class="impl"><a class="src rightside" href="../../src/tokio/io\util/async_write_ext.rs.html#1332">Source</a><a href="#impl-AsyncWriteExt-for-W" class="anchor">§</a><h3 class="code-header">impl&lt;W: <a class="trait" href="trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite">AsyncWrite</a> + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; <a class="trait" href="trait.AsyncWriteExt.html" title="trait tokio::io::AsyncWriteExt">AsyncWriteExt</a> for W</h3></section></div><script src="../../trait.impl/tokio/io/util/async_write_ext/trait.AsyncWriteExt.js" async></script></section></div></main></body></html>

@@ -4,6 +4,7 @@
 # 由于下划线开头目录被部署工具默认包含，使用显式规则屏蔽
 /quinn_old/*          /404 404
 /tokio_old/*          /404 404
+/tokio_macros_old/*   /404 404
 /rustls_pki_types_old/* /404 404
 /ffmpeg_next_old/*    /404 404
 /ffmpeg_sys_next_old/* /404 404
