@@ -1,260 +1,260 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="一个用于写作可靠的网络应用程序的运行时，不以性能为价。"><title>tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate tokio</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#a-tour-of-tokio" title="A Tour of Tokio">A Tour of Tokio</a><ul><li><a href="#authoring-applications" title="Authoring applications">Authoring applications</a></li><li><a href="#authoring-libraries" title="Authoring libraries">Authoring libraries</a></li><li><a href="#working-with-tasks" title="Working With Tasks">Working With Tasks</a></li><li><a href="#cpu-bound-tasks-and-blocking-code" title="CPU-bound tasks and blocking code">CPU-bound tasks and blocking code</a></li><li><a href="#asynchronous-io" title="Asynchronous IO">Asynchronous IO</a></li></ul></li><li><a href="#examples" title="Examples">示例</a></li><li><a href="#feature-flags" title="Feature flags">Feature flags</a><ul><li><a href="#unstable-features" title="Unstable features">Unstable features</a></li></ul></li><li><a href="#supported-platforms" title="Supported platforms">Supported platforms</a><ul><li><a href="#wasm-support" title="`WASM` support"><code>WASM</code> support</a></li><li><a href="#unstable-wasm-support" title="Unstable `WASM` support">Unstable <code>WASM</code> support</a></li></ul></li></ul><h3><a href="#reexports">Crate 条目</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">重新导出</a></li><li><a href="#modules" title="Modules">模块</a></li><li><a href="#macros" title="Macros">宏</a></li><li><a href="#attributes" title="Attribute Macros">Attribute Macros</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>Crate <span>tokio</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/lib.rs.html#1-694">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一个用于写作可靠的网络应用程序的运行时，不以性能为价。</p>
-<p>Tokio 是一个事件驱动的非阻塞 I/O 平台，用于使用 Rust 编程语言编写异步应用程序。
-在高层次上，它提供几个主要组件：</p>
-<ul>
-<li>Tools for <a href="#working-with-tasks">working with asynchronous tasks</a>, including
-<a href="sync/index.html" title="mod tokio::sync">synchronization primitives and channels</a> and <a href="time/index.html" title="mod tokio::time">timeouts, sleeps, and
-intervals</a>.</li>
-<li>APIs for <a href="#asynchronous-io">performing asynchronous I/O</a>, including <a href="net/index.html" title="mod tokio::net">TCP and UDP</a> sockets,
-<a href="fs/index.html" title="mod tokio::fs">filesystem</a> operations, and <a href="process/index.html" title="mod tokio::process">process</a> and <a href="signal/index.html" title="mod tokio::signal">signal</a> management.</li>
-<li>A <a href="runtime/index.html" title="mod tokio::runtime">runtime</a> for executing asynchronous code, including a task scheduler,
-an I/O driver backed by the operating system’s event queue (<code>epoll</code>, <code>kqueue</code>,
-<code>IOCP</code>, etc…), and a high performance timer.</li>
-</ul>
-<p>入门级文档请参阅 <a href="https://tokio.rs/tokio/tutorial">官网</a>。</p>
-<h2 id="a-tour-of-tokio"><a class="doc-anchor" href="#a-tour-of-tokio">§</a>A Tour of Tokio</h2>
-<p>Tokio 由许多模块组成，这些模块提供在 Rust 中实现异步应用程序所必需的一系列功能。
-本节将简要介绍 Tokio，概述其主要的 API 及其用法。</p>
-<p>最简单的开始方式是启用所有特性。
-只需在 Cargo.toml 中启用 <code>full</code> 特性标志：</p>
-<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-applications"><a class="doc-anchor" href="#authoring-applications">§</a>开发应用程序</h4>
-<p>Tokio 非常适合编写应用程序，这种情况下大多数用户
-不必太担心应该选择哪些特性。如果你不确定，我们建议
-使用 <code>full</code>，以确保在开发过程中
-不会遇到任何障碍。</p>
-<h5 id="example"><a class="doc-anchor" href="#example">§</a>Example</h5>
-<p>此示例展示了最快速使用 Tokio 的方法。</p>
-<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-libraries"><a class="doc-anchor" href="#authoring-libraries">§</a>开发库</h4>
-<p>作为一个库的作者，你的目标应该是提供一个基于 Tokio 的最轻量的 crate。
-为了实现这一点，你应该保证只启用你需要的特性。这样用户可以在引入你的 crate 时不必启用
-不必要的特性。</p>
-<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>Example</h5>
-<p>此示例展示如何为一个只需要 <code>tokio::spawn</code> 和使用 <code>TcpStream</code> 的库导入特性。</p>
-<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;rt&quot;, &quot;net&quot;] }</code></pre></div><h3 id="working-with-tasks"><a class="doc-anchor" href="#working-with-tasks">§</a>任务的使用</h3>
-<p>Rust 中的异步程序基于轻量级、非阻塞的
-执行单元，称为 <a href="#working-with-tasks"><em>tasks</em></a>。<a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块提供了
-使用任务的重要工具：</p>
-<ul>
-<li>The <a href="task/fn.spawn.html" title="fn tokio::task::spawn"><code>spawn</code></a> function and <a href="task/struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> type, for scheduling a new task
-on the Tokio runtime and awaiting the output of a spawned task, respectively,</li>
-<li>Functions for <a href="task/index.html#blocking-and-yielding">running blocking operations</a> in an asynchronous
-task context.</li>
-</ul>
-<p><a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块只在启用了“rt” 特性标志时才存在。</p>
-<p><a href="sync/index.html" title="mod tokio::sync"><code>tokio::sync</code></a> 模块包含需要通信或共享数据时使用的同步原语，包括：</p>
-<ul>
-<li>channels (<a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a>, <a href="sync/mpsc/index.html" title="mod tokio::sync::mpsc"><code>mpsc</code></a>, <a href="sync/watch/index.html" title="mod tokio::sync::watch"><code>watch</code></a>, and <a href="sync/broadcast/index.html" title="mod tokio::sync::broadcast"><code>broadcast</code></a>), for sending values
-between tasks,</li>
-<li>a non-blocking <a href="sync/struct.Mutex.html" title="struct tokio::sync::Mutex"><code>Mutex</code></a>, for controlling access to a shared, mutable
-value,</li>
-<li>an asynchronous <a href="sync/struct.Barrier.html" title="struct tokio::sync::Barrier"><code>Barrier</code></a> type, for multiple tasks to synchronize before
-beginning a computation.</li>
-</ul>
-<p><code>tokio::sync</code> 模块只在启用了“sync” 特性标志时才存在。</p>
-<p><a href="time/index.html" title="mod tokio::time"><code>tokio::time</code></a> 模块提供用于跟踪时间和
-调度任务的工具。包括为任务设置<a href="time/fn.timeout.html" title="fn tokio::time::timeout">超时</a>，
-将任务<a href="time/fn.sleep.html" title="fn tokio::time::sleep">休眠</a>以在未来运行，或者<a href="time/fn.interval.html" title="fn tokio::time::interval">按固定间隔重复运行</a>。</p>
-<p>为使用 <code>tokio::time</code>，必须启用“time” 特性标志。</p>
-<p>此外，Tokio 提供了用于执行异步任务的 <em>运行时</em>。大多数
-应用程序可以使用 <a href="attr.main.html"><code>#[tokio::main]</code></a> 宏在 Tokio 运行时上运行代码。
-不过，该宏只提供基本的配置选项。作为
-替代方案，<a href="runtime/index.html" title="mod tokio::runtime"><code>tokio::runtime</code></a> 模块提供了更强大的 API 来配置和管理运行时。
-如果 <code>#[tokio::main]</code> 宏无法满足你的需求，应该使用该模块。</p>
-<p>使用运行时需要“rt”或“rt-multi-thread”特性标志，分别用于
-启用 <a href="runtime/index.html#current-thread-scheduler">单线程调度器</a> 和 <a href="runtime/index.html#multi-thread-scheduler">多线程
-调度器</a>。详见 <a href="runtime/index.html#runtime-scheduler"><code>runtime</code> 模块文档</a>。
-此外，“macros”特性标志会启用 <code>#[tokio::main]</code> 和 <code>#[tokio::test]</code> 属性。</p>
-<h3 id="cpu-bound-tasks-and-blocking-code"><a class="doc-anchor" href="#cpu-bound-tasks-and-blocking-code">Â§</a>CPU 密集型任务与阻塞代码</h3>
-<p>Tokio 可以通过在各个线程上重复交换当前运行的任务，
-在几个线程上并发运行许多任务。但这种交换只能在 <code>.await</code> 点发生，
-因此长时间不到达 <code>.await</code> 的代码会阻塞其他任务的运行。为了
-应对这一点，Tokio 提供了两类线程。</p>
-<p>Core 线程是所有异步代码的运行地点，Tokio 默认会为每个 CPU 核心独产一个。
-可以通过环境变量 <code>TOKIO_WORKER_THREADS</code> 覆盖默认值。</p>
-<p>阻塞线程是按需求派生的，可用于运行阻塞代码，否则其他任务会受到阻塞。
-它们在一段时间内未被使用时会保持活跃，该时间可通过 <a href="runtime/struct.Builder.html#method.thread_keep_alive" title="method tokio::runtime::Builder::thread_keep_alive"><code>thread_keep_alive</code></a> 配置。
-由于 Tokio 无法像对异步代码那样换出阻塞任务，
-阻塞线程数量的上限非常大。这些限制可在 <a href="runtime/struct.Builder.html" title="struct tokio::runtime::Builder"><code>Builder</code></a> 上配置。</p>
-<p>要派生一个阻塞任务，应该使用 <a href="task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 函数。</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main]
-</span><span class="kw">async fn </span>main() {
-    <span class="comment">// This is running on a core thread.
-
-    </span><span class="kw">let </span>blocking_task = tokio::task::spawn_blocking(|| {
-        <span class="comment">// This is running on a blocking thread.
-        // Blocking here is ok.
-    </span>});
-
-    <span class="comment">// We can wait for the blocking task like this:
-    // If the blocking task panics, the unwrap below will propagate the
-    // panic.
-    </span>blocking_task.<span class="kw">await</span>.unwrap();
-}</code></pre></div>
-<p>如果你的代码是 CPU 密集型的，并且希望限制用于运行它的线程数，
-那么应该使用一个专用于 CPU 密集型任务的独立线程池。
-例如，可以考虑使用 <a href="https://docs.rs/rayon">rayon</a> 库来处理 CPU 密集型任务。
-也可以创建一个专用于 CPU 密集型任务的额外 Tokio 运行时，
-但这样做时要小心，该额外运行时应<em>只</em>运行 CPU 密集型任务，
-否则该运行时上的 I/O 密集型任务表现会很差。</p>
-<p>提示：如果使用 rayon，可以使用 <a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a> 通道在 rayon 任务完成时将结果发回 Tokio。</p>
-<h3 id="asynchronous-io"><a class="doc-anchor" href="#asynchronous-io">Â§</a>异步 I/O</h3>
-<p>除了调度和运行任务，Tokio 还提供了异步执行输入输出（I/O）操作所需的一切。</p>
-<p><a href="io/index.html" title="mod tokio::io"><code>tokio::io</code></a> 模块提供 Tokio 的异步核心 I/O 原语，
-包括 <a href="io/trait.AsyncRead.html" title="trait tokio::io::AsyncRead"><code>AsyncRead</code></a>、 <a href="io/trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> 和 <a href="io/trait.AsyncBufRead.html" title="trait tokio::io::AsyncBufRead"><code>AsyncBufRead</code></a> trait。此外，
-当启用“io-util”特性标志时，它还提供与这些 trait 配合使用的组合子和函数，
-作为 <a href="https://doc.rust-lang.org/1.95.0/std/io/index.html" title="mod std::io"><code>std::io</code></a> 的异步对应物。</p>
-<p>Tokio 还包括用于异步执行各种 I/O 并与操作系统交互的 API，包括：</p>
-<ul>
-<li><a href="net/index.html" title="mod tokio::net"><code>tokio::net</code></a>, which contains non-blocking versions of <a href="net/tcp/index.html" title="mod tokio::net::tcp">TCP</a>, <a href="net/struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UDP</a>, and
-<a href="crate::net::unix">Unix Domain Sockets</a> (enabled by the “net” feature flag),</li>
-<li><a href="fs/index.html" title="mod tokio::fs"><code>tokio::fs</code></a>, similar to <a href="https://doc.rust-lang.org/1.95.0/std/fs/index.html" title="mod std::fs"><code>std::fs</code></a> but for performing filesystem I/O
-asynchronously (enabled by the “fs” feature flag),</li>
-<li><a href="signal/index.html" title="mod tokio::signal"><code>tokio::signal</code></a>, for asynchronously handling Unix and Windows OS signals
-(enabled by the “signal” feature flag),</li>
-<li><a href="process/index.html" title="mod tokio::process"><code>tokio::process</code></a>, for spawning and managing child processes (enabled by
-the “process” feature flag).</li>
-</ul>
-<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
-<p>一个简单的 TCP echo 服务器：</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::TcpListener;
-<span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
-
-<span class="attr">#[tokio::main]
-</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
-    <span class="kw">let </span>listener = TcpListener::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
-
-    <span class="kw">loop </span>{
-        <span class="kw">let </span>(<span class="kw-2">mut </span>socket, <span class="kw">_</span>) = listener.accept().<span class="kw">await</span><span class="question-mark">?</span>;
-
-        tokio::spawn(<span class="kw">async move </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
-
-            <span class="comment">// In a loop, read data from the socket and write the data back.
-            </span><span class="kw">loop </span>{
-                <span class="kw">let </span>n = <span class="kw">match </span>socket.read(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await </span>{
-                    <span class="comment">// socket closed
-                    </span><span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return</span>,
-                    <span class="prelude-val">Ok</span>(n) =&gt; n,
-                    <span class="prelude-val">Err</span>(e) =&gt; {
-                        <span class="macro">eprintln!</span>(<span class="string">"failed to read from socket; err = {:?}"</span>, e);
-                        <span class="kw">return</span>;
-                    }
-                };
-
-                <span class="comment">// Write the data back
-                </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = socket.write_all(<span class="kw-2">&amp;</span>buf[<span class="number">0</span>..n]).<span class="kw">await </span>{
-                    <span class="macro">eprintln!</span>(<span class="string">"failed to write to socket; err = {:?}"</span>, e);
-                    <span class="kw">return</span>;
-                }
-            }
-        });
-    }
-}</code></pre></div><h2 id="feature-flags"><a class="doc-anchor" href="#feature-flags">§</a>Feature flags</h2>
-<p>Tokio 使用一组 <a href="https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section">特性标志</a> 来减少编译后的代码量。
-可以选择性地启用某些特性。默认情况下，Tokio
-不启用任何特性，但允许用户根据用例启用一个子集。
-以下是可用特性标志的列表。你可能还会注意到，
-在每个函数、结构和 trait 上方都列出了使用该项所需的
-一个或多个特性标志。如果你是 Tokio 的新手，
-建议使用 <code>full</code> 特性标志来启用所有公开的 API。
-不过请注意，这会引入许多你可能不需要的额外依赖。</p>
-<ul>
-<li><code>full</code>: Enables all features listed below except <code>test-util</code> and unstable features.</li>
-<li><code>rt</code>: Enables <code>tokio::spawn</code>, the current-thread scheduler,
-and non-scheduler utilities.</li>
-<li><code>rt-multi-thread</code>: Enables the heavier, multi-threaded, work-stealing scheduler.</li>
-<li><code>io-util</code>: Enables the IO based <code>Ext</code> traits.</li>
-<li><code>io-std</code>: Enable <code>Stdout</code>, <code>Stdin</code> and <code>Stderr</code> types.</li>
-<li><code>net</code>: Enables <code>tokio::net</code> types such as <code>TcpStream</code>, <code>UnixStream</code> and
-<code>UdpSocket</code>, as well as (on Unix-like systems) <code>AsyncFd</code> and (on
-FreeBSD) <code>PollAio</code>.</li>
-<li><code>time</code>: Enables <code>tokio::time</code> types and allows the schedulers to enable
-the built-in timer.</li>
-<li><code>process</code>: Enables <code>tokio::process</code> types.</li>
-<li><code>macros</code>: Enables <code>#[tokio::main]</code> and <code>#[tokio::test]</code> macros.</li>
-<li><code>sync</code>: Enables all <code>tokio::sync</code> types.</li>
-<li><code>signal</code>: Enables all <code>tokio::signal</code> types.</li>
-<li><code>fs</code>: Enables <code>tokio::fs</code> types.</li>
-<li><code>test-util</code>: Enables testing based infrastructure for the Tokio 运行时。</li>
-<li><code>parking_lot</code>: As a potential optimization, use the <a href="../parking_lot/index.html" title="mod parking_lot"><code>parking_lot</code></a> crate’s
-synchronization primitives internally. Also, this
-dependency is necessary to construct some of our primitives
-in a <code>const</code> context. <code>MSRV</code> may increase according to the
-<a href="../parking_lot/index.html" title="mod parking_lot"><code>parking_lot</code></a> release in use.</li>
-</ul>
-<p><em>注意：<code>AsyncRead</code> 和 <code>AsyncWrite</code> trait 不需要任何特性，就可以使用。</em></p>
-<h3 id="unstable-features"><a class="doc-anchor" href="#unstable-features">Â§</a>不稳定特性</h3>
-<p>有些特性标志只在指定 <code>tokio_unstable</code> 标志时才可用：</p>
-<ul>
-<li><code>tracing</code>: Enables tracing events.</li>
-<li><code>io-uring</code>: Enables <code>io-uring</code> (Linux only).</li>
-<li><code>taskdump</code>: Enables <code>taskdump</code> (Linux only).</li>
-</ul>
-<p>同样，这个标志开启了不稳定 API 的访问权限。</p>
-<p>这个标志启用 <strong>不稳定</strong> 特性。这些特性的公开 API
-可能会在 1.x 发布中舍弃。为了启用这些特性，编译时必须将 <code>--cfg tokio_unstable</code> 参数传递给 <code>rustc</code>。
-这种显式的抑入使得这些特性是明确的选择性开启，
-因为 Cargo <a href="https://internals.rust-lang.org/t/feature-request-unstable-opt-in-non-transitive-crate-features/16193#why-not-a-crate-feature-2">尚未直接支持此类选择性开启</a>。</p>
-<p>可以在项目的 <code>.cargo/config.toml</code> 文件中指定：</p>
-<div class="example-wrap"><pre class="language-toml"><code>[build]
-rustflags = [&quot;--cfg&quot;, &quot;tokio_unstable&quot;]</code></pre></div><div class="warning">
-The <code>[build]</code> section does <strong>not</strong> go in a
-<code>Cargo.toml</code> file. Instead it must be placed in the Cargo config
-file <code>.cargo/config.toml</code>.
-</div>
-<p>或者，你也可以通过环境变量来指定：</p>
-<div class="example-wrap"><pre class="language-sh"><code>## Many *nix shells:
-export RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
-cargo build</code></pre></div><div class="example-wrap"><pre class="language-powershell"><code>## Windows PowerShell:
-$Env:RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
-cargo build</code></pre></div><h2 id="supported-platforms"><a class="doc-anchor" href="#supported-platforms">§</a>Supported platforms</h2>
-<p>Tokio 目前保证支持以下平台：</p>
-<ul>
-<li>Linux</li>
-<li>Windows</li>
-<li>Android (API level 21)</li>
-<li>macOS</li>
-<li>iOS</li>
-<li>FreeBSD</li>
-</ul>
-<p>Tokio 将未来继续支持这些平台。但是，未来的发布版本可能会改变以下要求：
-Linux 上最低所需的 libc 版本、Android 上的 API 等级，或者支持的 FreeBSD 发布版本。</p>
-<p>限于以上平台，Tokio 计划支持 mio crate 所支持的所有平台。
-可以在 <a href="https://crates.io/crates/mio#platforms">mio 的文档</a> 中查看更长的列表。
-但这些额外的平台在未来可能会不再受支持。</p>
-<p>注意，Wine 被视为与 Windows 不同的平台。关于 Wine 支持的更多信息，请参阅 mio 的文档。</p>
-<h3 id="wasm-support"><a class="doc-anchor" href="#wasm-support">Â§</a><code>WASM</code> 支持</h3>
-<p>Tokio 对 <code>WASM</code> 平台有限支持。在不启用
-<code>tokio_unstable</code> 标志的情况下，支持以下特性：</p>
-<ul>
-<li><code>sync</code></li>
-<li><code>macros</code></li>
-<li><code>io-util</code></li>
-<li><code>rt</code></li>
-<li><code>time</code></li>
-</ul>
-<p>启用任何其他特性（包括 <code>full</code>）都会导致编译失败。</p>
-<p><code>time</code> 模块只会在支持定时器的 <code>WASM</code> 平台上有效
-（例如 wasm32-wasi）。在不支持定时器的 <code>WASM</code> 平台上使用定时函数会触发 panic。</p>
-<p>还要注意，如果运行时被無限别闲置，它会立刻 panic 而非永远阻塞。
-在不支持时间的平台上，这意味着运行时永远不会停滚。</p>
-<h3 id="unstable-wasm-support"><a class="doc-anchor" href="#unstable-wasm-support">Â§</a>不稳定的 <code>WASM</code> 支持</h3>
-<p>Tokio 还对一些额外的 <code>WASM</code> 特性提供不稳定的支持。
-这需要使用 <code>tokio_unstable</code> 标志。</p>
-<p>启用这个标志可以在 wasm32-wasi 目标上使用 <code>tokio::net</code>。
-但是，在网络类型上并不是所有方法都可用，因为 <code>WASI</code>
-目前不支持在 <code>WASM</code> 内部创建新套接字。
-因此，目前套接字必须通过 <code>FromRawFd</code>
-trait 创建。</p>
-</div></details><h2 id="reexports" class="section-header">重新导出<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.spawn"><code>pub use task::<a class="fn" href="task/fn.spawn.html" title="fn tokio::task::spawn">spawn</a>;</code></dt></dl><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="fs/index.html" title="mod tokio::fs">fs</a></dt><dd>异步文件工具。</dd><dt><a class="mod" href="io/index.html" title="mod tokio::io">io</a></dt><dd>用于异步 I/O 功能的 trait（特征标志）、辅助函数和类型定义。</dd><dt><a class="mod" href="net/index.html" title="mod tokio::net">net</a></dt><dd>tokio 的 TCP/UDP/Unix 绑定。</dd><dt><a class="mod" href="process/index.html" title="mod tokio::process">process</a></dt><dd>Tokio 的异步进程管理实现。</dd><dt><a class="mod" href="runtime/index.html" title="mod tokio::runtime">runtime</a></dt><dd>Tokio 运行时。</dd><dt><a class="mod" href="signal/index.html" title="mod tokio::signal">signal</a></dt><dd>Tokio 的异步信号处理。</dd><dt><a class="mod" href="stream/index.html" title="mod tokio::stream">stream</a></dt><dd>由于 <code>Stream</code> trait 进入 <code>std</code> 的时间晚于 Tokio 1.0 发布，
-Tokio 大部分流相关工具已移至 <a href="https://docs.rs/tokio-stream"><code>tokio-stream</code></a> crate。</dd><dt><a class="mod" href="sync/index.html" title="mod tokio::sync">sync</a></dt><dd>用于异步上下文的同步原语。</dd><dt><a class="mod" href="task/index.html" title="mod tokio::task">task</a></dt><dd>异步绿线程。</dd><dt><a class="mod" href="time/index.html" title="mod tokio::time">time</a></dt><dd>跟踪时间的工具。</dd></dl><h2 id="macros" class="section-header">宏<a href="#macros" class="anchor">§</a></h2><dl class="item-table"><dt><a class="macro" href="macro.join.html" title="macro tokio::join">join</a></dt><dd>等待多个并发分支，<strong>所有</strong>分支完成后返回。</dd><dt><a class="macro" href="macro.pin.html" title="macro tokio::pin">pin</a></dt><dd>在栈上钉住一个值。</dd><dt><a class="macro" href="macro.select.html" title="macro tokio::select">select</a></dt><dd>等待多个并发分支，<strong>首个</strong>分支完成后返回，
-并取消其余分支。</dd><dt><a class="macro" href="macro.task_local.html" title="macro tokio::task_local">task_<wbr>local</a></dt><dd>声明一个 <a href="task/struct.LocalKey.html" title="struct tokio::task::LocalKey"><code>tokio::task::LocalKey</code></a> 类型的新任务局部键。</dd><dt><a class="macro" href="macro.try_join.html" title="macro tokio::try_join">try_<wbr>join</a></dt><dd>等待多个并发分支，<strong>所有</strong>分支以 <code>Ok(_)</code> 完成
-或首个 <code>Err(_)</code> 出现时返回。</dd></dl><h2 id="attributes" class="section-header">属性宏<a href="#attributes" class="anchor">Â§</a></h2><dl class="item-table"><dt><a class="attr" href="attr.main.html" title="attr tokio::main">main</a></dt><dd>将 async 函数标记为由所选运行时执行。该宏
-帮助设置 <code>Runtime</code>，无需用户直接使用
-<a href="../tokio/runtime/struct.Runtime.html">Runtime</a> 或
-<a href="../tokio/runtime/struct.Builder.html">Builder</a>。</dd><dt><a class="attr" href="attr.test.html" title="attr tokio::test">test</a></dt><dd>将 async 函数标记为由运行时执行，适合测试环境使用。
-该宏帮助设置 <code>Runtime</code>，无需用户直接使用
-<a href="../tokio/runtime/struct.Runtime.html">Runtime</a> 或
-<a href="../tokio/runtime/struct.Builder.html">Builder</a>。</dd></dl></section></div></main></body></html>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="一个用于写作可靠的网络应用程序的运行时，不以性能为价。"><title>tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc mod crate"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate tokio</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/index.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#a-tour-of-tokio" title="A Tour of Tokio">A Tour of Tokio</a><ul><li><a href="#authoring-applications" title="Authoring applications">Authoring applications</a></li><li><a href="#authoring-libraries" title="Authoring libraries">Authoring libraries</a></li><li><a href="#working-with-tasks" title="Working With Tasks">Working With Tasks</a></li><li><a href="#cpu-bound-tasks-and-blocking-code" title="CPU-bound tasks and blocking code">CPU-bound tasks and blocking code</a></li><li><a href="#asynchronous-io" title="Asynchronous IO">Asynchronous IO</a></li></ul></li><li><a href="#examples" title="Examples">示例</a></li><li><a href="#feature-flags" title="Feature flags">Feature flags</a><ul><li><a href="#unstable-features" title="Unstable features">Unstable features</a></li></ul></li><li><a href="#supported-platforms" title="Supported platforms">Supported platforms</a><ul><li><a href="#wasm-support" title="`WASM` support"><code>WASM</code> support</a></li><li><a href="#unstable-wasm-support" title="Unstable `WASM` support">Unstable <code>WASM</code> support</a></li></ul></li></ul><h3><a href="#reexports">Crate 条目</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">重新导出</a></li><li><a href="#modules" title="Modules">模块</a></li><li><a href="#macros" title="Macros">宏</a></li><li><a href="#attributes" title="Attribute Macros">Attribute Macros</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>Crate <span>tokio</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/lib.rs.html#1-694">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一个用于写作可靠的网络应用程序的运行时，不以性能为价。</p>
+<p>Tokio 是一个事件驱动的非阻塞 I/O 平台，用于使用 Rust 编程语言编写异步应用程序。
+在高层次上，它提供几个主要组件：</p>
+<ul>
+<li>Tools for <a href="#working-with-tasks">working with asynchronous tasks</a>, including
+<a href="sync/index.html" title="mod tokio::sync">synchronization primitives and channels</a> and <a href="time/index.html" title="mod tokio::time">timeouts, sleeps, and
+intervals</a>.</li>
+<li>APIs for <a href="#asynchronous-io">performing asynchronous I/O</a>, including <a href="net/index.html" title="mod tokio::net">TCP and UDP</a> sockets,
+<a href="fs/index.html" title="mod tokio::fs">filesystem</a> operations, and <a href="process/index.html" title="mod tokio::process">process</a> and <a href="signal/index.html" title="mod tokio::signal">signal</a> management.</li>
+<li>A <a href="runtime/index.html" title="mod tokio::runtime">runtime</a> for executing asynchronous code, including a task scheduler,
+an I/O driver backed by the operating system’s event queue (<code>epoll</code>, <code>kqueue</code>,
+<code>IOCP</code>, etc…), and a high performance timer.</li>
+</ul>
+<p>入门级文档请参阅 <a href="https://tokio.rs/tokio/tutorial">官网</a>。</p>
+<h2 id="a-tour-of-tokio"><a class="doc-anchor" href="#a-tour-of-tokio">§</a>A Tour of Tokio</h2>
+<p>Tokio 由许多模块组成，这些模块提供在 Rust 中实现异步应用程序所必需的一系列功能。
+本节将简要介绍 Tokio，概述其主要的 API 及其用法。</p>
+<p>最简单的开始方式是启用所有特性。
+只需在 Cargo.toml 中启用 <code>full</code> 特性标志：</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-applications"><a class="doc-anchor" href="#authoring-applications">§</a>开发应用程序</h4>
+<p>Tokio 非常适合编写应用程序，这种情况下大多数用户
+不必太担心应该选择哪些特性。如果你不确定，我们建议
+使用 <code>full</code>，以确保在开发过程中
+不会遇到任何障碍。</p>
+<h5 id="example"><a class="doc-anchor" href="#example">§</a>Example</h5>
+<p>此示例展示了最快速使用 Tokio 的方法。</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }</code></pre></div><h4 id="authoring-libraries"><a class="doc-anchor" href="#authoring-libraries">§</a>开发库</h4>
+<p>作为一个库的作者，你的目标应该是提供一个基于 Tokio 的最轻量的 crate。
+为了实现这一点，你应该保证只启用你需要的特性。这样用户可以在引入你的 crate 时不必启用
+不必要的特性。</p>
+<h5 id="example-1"><a class="doc-anchor" href="#example-1">§</a>Example</h5>
+<p>此示例展示如何为一个只需要 <code>tokio::spawn</code> 和使用 <code>TcpStream</code> 的库导入特性。</p>
+<div class="example-wrap"><pre class="language-toml"><code>tokio = { version = &quot;1&quot;, features = [&quot;rt&quot;, &quot;net&quot;] }</code></pre></div><h3 id="working-with-tasks"><a class="doc-anchor" href="#working-with-tasks">§</a>任务的使用</h3>
+<p>Rust 中的异步程序基于轻量级、非阻塞的
+执行单元，称为 <a href="#working-with-tasks"><em>tasks</em></a>。<a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块提供了
+使用任务的重要工具：</p>
+<ul>
+<li>The <a href="task/fn.spawn.html" title="fn tokio::task::spawn"><code>spawn</code></a> function and <a href="task/struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a> type, for scheduling a new task
+on the Tokio runtime and awaiting the output of a spawned task, respectively,</li>
+<li>Functions for <a href="task/index.html#blocking-and-yielding">running blocking operations</a> in an asynchronous
+task context.</li>
+</ul>
+<p><a href="task/index.html" title="mod tokio::task"><code>tokio::task</code></a> 模块只在启用了“rt” 特性标志时才存在。</p>
+<p><a href="sync/index.html" title="mod tokio::sync"><code>tokio::sync</code></a> 模块包含需要通信或共享数据时使用的同步原语，包括：</p>
+<ul>
+<li>channels (<a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a>, <a href="sync/mpsc/index.html" title="mod tokio::sync::mpsc"><code>mpsc</code></a>, <a href="sync/watch/index.html" title="mod tokio::sync::watch"><code>watch</code></a>, and <a href="sync/broadcast/index.html" title="mod tokio::sync::broadcast"><code>broadcast</code></a>), for sending values
+between tasks,</li>
+<li>a non-blocking <a href="sync/struct.Mutex.html" title="struct tokio::sync::Mutex"><code>Mutex</code></a>, for controlling access to a shared, mutable
+value,</li>
+<li>an asynchronous <a href="sync/struct.Barrier.html" title="struct tokio::sync::Barrier"><code>Barrier</code></a> type, for multiple tasks to synchronize before
+beginning a computation.</li>
+</ul>
+<p><code>tokio::sync</code> 模块只在启用了“sync” 特性标志时才存在。</p>
+<p><a href="time/index.html" title="mod tokio::time"><code>tokio::time</code></a> 模块提供用于跟踪时间和
+调度任务的工具。包括为任务设置<a href="time/fn.timeout.html" title="fn tokio::time::timeout">超时</a>，
+将任务<a href="time/fn.sleep.html" title="fn tokio::time::sleep">休眠</a>以在未来运行，或者<a href="time/fn.interval.html" title="fn tokio::time::interval">按固定间隔重复运行</a>。</p>
+<p>为使用 <code>tokio::time</code>，必须启用“time” 特性标志。</p>
+<p>此外，Tokio 提供了用于执行异步任务的 <em>运行时</em>。大多数
+应用程序可以使用 <a href="attr.main.html"><code>#[tokio::main]</code></a> 宏在 Tokio 运行时上运行代码。
+不过，该宏只提供基本的配置选项。作为
+替代方案，<a href="runtime/index.html" title="mod tokio::runtime"><code>tokio::runtime</code></a> 模块提供了更强大的 API 来配置和管理运行时。
+如果 <code>#[tokio::main]</code> 宏无法满足你的需求，应该使用该模块。</p>
+<p>使用运行时需要“rt”或“rt-multi-thread”特性标志，分别用于
+启用 <a href="runtime/index.html#current-thread-scheduler">单线程调度器</a> 和 <a href="runtime/index.html#multi-thread-scheduler">多线程
+调度器</a>。详见 <a href="runtime/index.html#runtime-scheduler"><code>runtime</code> 模块文档</a>。
+此外，“macros”特性标志会启用 <code>#[tokio::main]</code> 和 <code>#[tokio::test]</code> 属性。</p>
+<h3 id="cpu-bound-tasks-and-blocking-code"><a class="doc-anchor" href="#cpu-bound-tasks-and-blocking-code">Â§</a>CPU 密集型任务与阻塞代码</h3>
+<p>Tokio 可以通过在各个线程上重复交换当前运行的任务，
+在几个线程上并发运行许多任务。但这种交换只能在 <code>.await</code> 点发生，
+因此长时间不到达 <code>.await</code> 的代码会阻塞其他任务的运行。为了
+应对这一点，Tokio 提供了两类线程。</p>
+<p>Core 线程是所有异步代码的运行地点，Tokio 默认会为每个 CPU 核心独产一个。
+可以通过环境变量 <code>TOKIO_WORKER_THREADS</code> 覆盖默认值。</p>
+<p>阻塞线程是按需求派生的，可用于运行阻塞代码，否则其他任务会受到阻塞。
+它们在一段时间内未被使用时会保持活跃，该时间可通过 <a href="runtime/struct.Builder.html#method.thread_keep_alive" title="method tokio::runtime::Builder::thread_keep_alive"><code>thread_keep_alive</code></a> 配置。
+由于 Tokio 无法像对异步代码那样换出阻塞任务，
+阻塞线程数量的上限非常大。这些限制可在 <a href="runtime/struct.Builder.html" title="struct tokio::runtime::Builder"><code>Builder</code></a> 上配置。</p>
+<p>要派生一个阻塞任务，应该使用 <a href="task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 函数。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() {
+    <span class="comment">// This is running on a core thread.
+
+    </span><span class="kw">let </span>blocking_task = tokio::task::spawn_blocking(|| {
+        <span class="comment">// This is running on a blocking thread.
+        // Blocking here is ok.
+    </span>});
+
+    <span class="comment">// We can wait for the blocking task like this:
+    // If the blocking task panics, the unwrap below will propagate the
+    // panic.
+    </span>blocking_task.<span class="kw">await</span>.unwrap();
+}</code></pre></div>
+<p>如果你的代码是 CPU 密集型的，并且希望限制用于运行它的线程数，
+那么应该使用一个专用于 CPU 密集型任务的独立线程池。
+例如，可以考虑使用 <a href="https://docs.rs/rayon">rayon</a> 库来处理 CPU 密集型任务。
+也可以创建一个专用于 CPU 密集型任务的额外 Tokio 运行时，
+但这样做时要小心，该额外运行时应<em>只</em>运行 CPU 密集型任务，
+否则该运行时上的 I/O 密集型任务表现会很差。</p>
+<p>提示：如果使用 rayon，可以使用 <a href="sync/oneshot/index.html" title="mod tokio::sync::oneshot"><code>oneshot</code></a> 通道在 rayon 任务完成时将结果发回 Tokio。</p>
+<h3 id="asynchronous-io"><a class="doc-anchor" href="#asynchronous-io">Â§</a>异步 I/O</h3>
+<p>除了调度和运行任务，Tokio 还提供了异步执行输入输出（I/O）操作所需的一切。</p>
+<p><a href="io/index.html" title="mod tokio::io"><code>tokio::io</code></a> 模块提供 Tokio 的异步核心 I/O 原语，
+包括 <a href="io/trait.AsyncRead.html" title="trait tokio::io::AsyncRead"><code>AsyncRead</code></a>、 <a href="io/trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> 和 <a href="io/trait.AsyncBufRead.html" title="trait tokio::io::AsyncBufRead"><code>AsyncBufRead</code></a> trait。此外，
+当启用“io-util”特性标志时，它还提供与这些 trait 配合使用的组合子和函数，
+作为 <a href="https://doc.rust-lang.org/1.95.0/std/io/index.html" title="mod std::io"><code>std::io</code></a> 的异步对应物。</p>
+<p>Tokio 还包括用于异步执行各种 I/O 并与操作系统交互的 API，包括：</p>
+<ul>
+<li><a href="net/index.html" title="mod tokio::net"><code>tokio::net</code></a>, which contains non-blocking versions of <a href="net/tcp/index.html" title="mod tokio::net::tcp">TCP</a>, <a href="net/struct.UdpSocket.html" title="struct tokio::net::UdpSocket">UDP</a>, and
+<a href="crate::net::unix">Unix Domain Sockets</a> (enabled by the “net” feature flag),</li>
+<li><a href="fs/index.html" title="mod tokio::fs"><code>tokio::fs</code></a>, similar to <a href="https://doc.rust-lang.org/1.95.0/std/fs/index.html" title="mod std::fs"><code>std::fs</code></a> but for performing filesystem I/O
+asynchronously (enabled by the “fs” feature flag),</li>
+<li><a href="signal/index.html" title="mod tokio::signal"><code>tokio::signal</code></a>, for asynchronously handling Unix and Windows OS signals
+(enabled by the “signal” feature flag),</li>
+<li><a href="process/index.html" title="mod tokio::process"><code>tokio::process</code></a>, for spawning and managing child processes (enabled by
+the “process” feature flag).</li>
+</ul>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
+<p>一个简单的 TCP echo 服务器：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::TcpListener;
+<span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+<span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
+    <span class="kw">let </span>listener = TcpListener::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>(<span class="kw-2">mut </span>socket, <span class="kw">_</span>) = listener.accept().<span class="kw">await</span><span class="question-mark">?</span>;
+
+        tokio::spawn(<span class="kw">async move </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
+
+            <span class="comment">// In a loop, read data from the socket and write the data back.
+            </span><span class="kw">loop </span>{
+                <span class="kw">let </span>n = <span class="kw">match </span>socket.read(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await </span>{
+                    <span class="comment">// socket closed
+                    </span><span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return</span>,
+                    <span class="prelude-val">Ok</span>(n) =&gt; n,
+                    <span class="prelude-val">Err</span>(e) =&gt; {
+                        <span class="macro">eprintln!</span>(<span class="string">"failed to read from socket; err = {:?}"</span>, e);
+                        <span class="kw">return</span>;
+                    }
+                };
+
+                <span class="comment">// Write the data back
+                </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = socket.write_all(<span class="kw-2">&amp;</span>buf[<span class="number">0</span>..n]).<span class="kw">await </span>{
+                    <span class="macro">eprintln!</span>(<span class="string">"failed to write to socket; err = {:?}"</span>, e);
+                    <span class="kw">return</span>;
+                }
+            }
+        });
+    }
+}</code></pre></div><h2 id="feature-flags"><a class="doc-anchor" href="#feature-flags">§</a>Feature flags</h2>
+<p>Tokio 使用一组 <a href="https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section">特性标志</a> 来减少编译后的代码量。
+可以选择性地启用某些特性。默认情况下，Tokio
+不启用任何特性，但允许用户根据用例启用一个子集。
+以下是可用特性标志的列表。你可能还会注意到，
+在每个函数、结构和 trait 上方都列出了使用该项所需的
+一个或多个特性标志。如果你是 Tokio 的新手，
+建议使用 <code>full</code> 特性标志来启用所有公开的 API。
+不过请注意，这会引入许多你可能不需要的额外依赖。</p>
+<ul>
+<li><code>full</code>: Enables all features listed below except <code>test-util</code> and unstable features.</li>
+<li><code>rt</code>: Enables <code>tokio::spawn</code>, the current-thread scheduler,
+and non-scheduler utilities.</li>
+<li><code>rt-multi-thread</code>: Enables the heavier, multi-threaded, work-stealing scheduler.</li>
+<li><code>io-util</code>: Enables the IO based <code>Ext</code> traits.</li>
+<li><code>io-std</code>: Enable <code>Stdout</code>, <code>Stdin</code> and <code>Stderr</code> types.</li>
+<li><code>net</code>: Enables <code>tokio::net</code> types such as <code>TcpStream</code>, <code>UnixStream</code> and
+<code>UdpSocket</code>, as well as (on Unix-like systems) <code>AsyncFd</code> and (on
+FreeBSD) <code>PollAio</code>.</li>
+<li><code>time</code>: Enables <code>tokio::time</code> types and allows the schedulers to enable
+the built-in timer.</li>
+<li><code>process</code>: Enables <code>tokio::process</code> types.</li>
+<li><code>macros</code>: Enables <code>#[tokio::main]</code> and <code>#[tokio::test]</code> macros.</li>
+<li><code>sync</code>: Enables all <code>tokio::sync</code> types.</li>
+<li><code>signal</code>: Enables all <code>tokio::signal</code> types.</li>
+<li><code>fs</code>: Enables <code>tokio::fs</code> types.</li>
+<li><code>test-util</code>: Enables testing based infrastructure for the Tokio 运行时。</li>
+<li><code>parking_lot</code>: As a potential optimization, use the <a href="../parking_lot/index.html" title="mod parking_lot"><code>parking_lot</code></a> crate’s
+synchronization primitives internally. Also, this
+dependency is necessary to construct some of our primitives
+in a <code>const</code> context. <code>MSRV</code> may increase according to the
+<a href="../parking_lot/index.html" title="mod parking_lot"><code>parking_lot</code></a> release in use.</li>
+</ul>
+<p><em>注意：<code>AsyncRead</code> 和 <code>AsyncWrite</code> trait 不需要任何特性，就可以使用。</em></p>
+<h3 id="unstable-features"><a class="doc-anchor" href="#unstable-features">Â§</a>不稳定特性</h3>
+<p>有些特性标志只在指定 <code>tokio_unstable</code> 标志时才可用：</p>
+<ul>
+<li><code>tracing</code>: Enables tracing events.</li>
+<li><code>io-uring</code>: Enables <code>io-uring</code> (Linux only).</li>
+<li><code>taskdump</code>: Enables <code>taskdump</code> (Linux only).</li>
+</ul>
+<p>同样，这个标志开启了不稳定 API 的访问权限。</p>
+<p>这个标志启用 <strong>不稳定</strong> 特性。这些特性的公开 API
+可能会在 1.x 发布中舍弃。为了启用这些特性，编译时必须将 <code>--cfg tokio_unstable</code> 参数传递给 <code>rustc</code>。
+这种显式的抑入使得这些特性是明确的选择性开启，
+因为 Cargo <a href="https://internals.rust-lang.org/t/feature-request-unstable-opt-in-non-transitive-crate-features/16193#why-not-a-crate-feature-2">尚未直接支持此类选择性开启</a>。</p>
+<p>可以在项目的 <code>.cargo/config.toml</code> 文件中指定：</p>
+<div class="example-wrap"><pre class="language-toml"><code>[build]
+rustflags = [&quot;--cfg&quot;, &quot;tokio_unstable&quot;]</code></pre></div><div class="warning">
+The <code>[build]</code> section does <strong>not</strong> go in a
+<code>Cargo.toml</code> file. Instead it must be placed in the Cargo config
+file <code>.cargo/config.toml</code>.
+</div>
+<p>或者，你也可以通过环境变量来指定：</p>
+<div class="example-wrap"><pre class="language-sh"><code>## Many *nix shells:
+export RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
+cargo build</code></pre></div><div class="example-wrap"><pre class="language-powershell"><code>## Windows PowerShell:
+$Env:RUSTFLAGS=&quot;--cfg tokio_unstable&quot;
+cargo build</code></pre></div><h2 id="supported-platforms"><a class="doc-anchor" href="#supported-platforms">§</a>Supported platforms</h2>
+<p>Tokio 目前保证支持以下平台：</p>
+<ul>
+<li>Linux</li>
+<li>Windows</li>
+<li>Android (API level 21)</li>
+<li>macOS</li>
+<li>iOS</li>
+<li>FreeBSD</li>
+</ul>
+<p>Tokio 将未来继续支持这些平台。但是，未来的发布版本可能会改变以下要求：
+Linux 上最低所需的 libc 版本、Android 上的 API 等级，或者支持的 FreeBSD 发布版本。</p>
+<p>限于以上平台，Tokio 计划支持 mio crate 所支持的所有平台。
+可以在 <a href="https://crates.io/crates/mio#platforms">mio 的文档</a> 中查看更长的列表。
+但这些额外的平台在未来可能会不再受支持。</p>
+<p>注意，Wine 被视为与 Windows 不同的平台。关于 Wine 支持的更多信息，请参阅 mio 的文档。</p>
+<h3 id="wasm-support"><a class="doc-anchor" href="#wasm-support">Â§</a><code>WASM</code> 支持</h3>
+<p>Tokio 对 <code>WASM</code> 平台有限支持。在不启用
+<code>tokio_unstable</code> 标志的情况下，支持以下特性：</p>
+<ul>
+<li><code>sync</code></li>
+<li><code>macros</code></li>
+<li><code>io-util</code></li>
+<li><code>rt</code></li>
+<li><code>time</code></li>
+</ul>
+<p>启用任何其他特性（包括 <code>full</code>）都会导致编译失败。</p>
+<p><code>time</code> 模块只会在支持定时器的 <code>WASM</code> 平台上有效
+（例如 wasm32-wasi）。在不支持定时器的 <code>WASM</code> 平台上使用定时函数会触发 panic。</p>
+<p>还要注意，如果运行时被無限别闲置，它会立刻 panic 而非永远阻塞。
+在不支持时间的平台上，这意味着运行时永远不会停滚。</p>
+<h3 id="unstable-wasm-support"><a class="doc-anchor" href="#unstable-wasm-support">Â§</a>不稳定的 <code>WASM</code> 支持</h3>
+<p>Tokio 还对一些额外的 <code>WASM</code> 特性提供不稳定的支持。
+这需要使用 <code>tokio_unstable</code> 标志。</p>
+<p>启用这个标志可以在 wasm32-wasi 目标上使用 <code>tokio::net</code>。
+但是，在网络类型上并不是所有方法都可用，因为 <code>WASI</code>
+目前不支持在 <code>WASM</code> 内部创建新套接字。
+因此，目前套接字必须通过 <code>FromRawFd</code>
+trait 创建。</p>
+</div></details><h2 id="reexports" class="section-header">重新导出<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.spawn"><code>pub use task::<a class="fn" href="task/fn.spawn.html" title="fn tokio::task::spawn">spawn</a>;</code></dt></dl><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="fs/index.html" title="mod tokio::fs">fs</a></dt><dd>异步文件工具。</dd><dt><a class="mod" href="io/index.html" title="mod tokio::io">io</a></dt><dd>用于异步 I/O 功能的 trait（特征标志）、辅助函数和类型定义。</dd><dt><a class="mod" href="net/index.html" title="mod tokio::net">net</a></dt><dd>tokio 的 TCP/UDP/Unix 绑定。</dd><dt><a class="mod" href="process/index.html" title="mod tokio::process">process</a></dt><dd>Tokio 的异步进程管理实现。</dd><dt><a class="mod" href="runtime/index.html" title="mod tokio::runtime">runtime</a></dt><dd>Tokio 运行时。</dd><dt><a class="mod" href="signal/index.html" title="mod tokio::signal">signal</a></dt><dd>Tokio 的异步信号处理。</dd><dt><a class="mod" href="stream/index.html" title="mod tokio::stream">stream</a></dt><dd>由于 <code>Stream</code> trait 进入 <code>std</code> 的时间晚于 Tokio 1.0 发布，
+Tokio 大部分流相关工具已移至 <a href="https://docs.rs/tokio-stream"><code>tokio-stream</code></a> crate。</dd><dt><a class="mod" href="sync/index.html" title="mod tokio::sync">sync</a></dt><dd>用于异步上下文的同步原语。</dd><dt><a class="mod" href="task/index.html" title="mod tokio::task">task</a></dt><dd>异步绿线程。</dd><dt><a class="mod" href="time/index.html" title="mod tokio::time">time</a></dt><dd>跟踪时间的工具。</dd></dl><h2 id="macros" class="section-header">宏<a href="#macros" class="anchor">§</a></h2><dl class="item-table"><dt><a class="macro" href="macro.join.html" title="macro tokio::join">join</a></dt><dd>等待多个并发分支，<strong>所有</strong>分支完成后返回。</dd><dt><a class="macro" href="macro.pin.html" title="macro tokio::pin">pin</a></dt><dd>在栈上钉住一个值。</dd><dt><a class="macro" href="macro.select.html" title="macro tokio::select">select</a></dt><dd>等待多个并发分支，<strong>首个</strong>分支完成后返回，
+并取消其余分支。</dd><dt><a class="macro" href="macro.task_local.html" title="macro tokio::task_local">task_<wbr>local</a></dt><dd>声明一个 <a href="task/struct.LocalKey.html" title="struct tokio::task::LocalKey"><code>tokio::task::LocalKey</code></a> 类型的新任务局部键。</dd><dt><a class="macro" href="macro.try_join.html" title="macro tokio::try_join">try_<wbr>join</a></dt><dd>等待多个并发分支，<strong>所有</strong>分支以 <code>Ok(_)</code> 完成
+或首个 <code>Err(_)</code> 出现时返回。</dd></dl><h2 id="attributes" class="section-header">Attribute Macros<a href="#attributes" class="anchor">Â§</a></h2><dl class="item-table"><dt><a class="attr" href="attr.main.html" title="attr tokio::main">main</a></dt><dd>将 async 函数标记为由所选运行时执行。该宏
+帮助设置 <code>Runtime</code>，无需用户直接使用
+<a href="../tokio/runtime/struct.Runtime.html">Runtime</a> 或
+<a href="../tokio/runtime/struct.Builder.html">Builder</a>。</dd><dt><a class="attr" href="attr.test.html" title="attr tokio::test">test</a></dt><dd>将 async 函数标记为由运行时执行，适合测试环境使用。
+该宏帮助设置 <code>Runtime</code>，无需用户直接使用
+<a href="../tokio/runtime/struct.Runtime.html">Runtime</a> 或
+<a href="../tokio/runtime/struct.Builder.html">Builder</a>。</dd></dl></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
