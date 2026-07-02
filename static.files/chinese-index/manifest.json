@@ -1,6 +1,8 @@
 {
   "total": 1104,
   "crates": {
+    "__pycache__": 0,
+    "audits_tmp": 0,
     "bytes": 12,
     "coarsetime": 5,
     "enigo": 15,
