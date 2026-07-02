@@ -1,15 +1,19 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="在栈上 pin 一个值。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/macro.pin.html"><meta property="og:type" content="article"><meta property="og:title" content="pin in tokio - tokio"><meta property="og:description" content="在栈上 pin 一个值。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/macro.pin.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="pin in tokio - tokio"><meta name="twitter:description" content="在栈上 pin 一个值。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>pin in tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc macro"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">pin</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/macro.pin.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">pin</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="用法">用法</a></li><li><a href="#examples" title="示例">示例</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">在 crate tokio 中</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">tokio</a></div><h1>宏 <span class="macro">pin</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/macros/pin.rs.html#125-144">源代码</a> </span></div><pre class="rust item-decl"><code>macro_rules! pin {
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Pins a value on the stack."><title>pin in tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">pin</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">pin</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#examples" title="Examples">示例</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">tokio</a></div><h1>宏 <span class="macro">pin</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/macros/pin.rs.html#125-144">Source</a> </span></div><pre class="rust item-decl"><code>macro_rules! pin {
     ($($x:ident),*) =&gt; { ... };
     ($(
             let $x:ident = $init:expr;
     )*) =&gt; { ... };
-}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>在栈上 pin 一个值。</p>
-<p>对 <code>async fn</code> 的调用返回的是匿名的 <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future"><code>Future</code></a> 值，这些值是 <code>!Unpin</code> 的。必须先将这些值 pin 才能 poll。调用 <code>.await</code> 会处理这一点，但会消费 future。如果需要在 <code>&amp;mut _</code> 引用上调用 <code>.await</code>，则调用者负责 pin 该 future。</p>
-<p>可以通过使用 <a href="https://doc.rust-lang.org/1.95.0/alloc/boxed/struct.Box.html#method.pin" title="associated function alloc::boxed::Box::pin"><code>Box::pin</code></a> 分配来 pin，也可以使用 <code>pin!</code> 宏在栈上 pin。</p>
-<p>下面的代码将<strong>无法编译</strong>：</p>
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>在栈上钉住一个值。</p>
+<p>调用 <code>async fn</code> 会返回匿名的 <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future"><code>Future</code></a> 值，这些值是 <code>!Unpin</code> 的。
+这些值在被 poll 之前必须先固定。调用 <code>.await</code> 会
+处理这一点，但会消费掉 future。如果需要在
+<code>&amp;mut _</code> 引用上调用 <code>.await</code>，则由调用者负责固定该 future。</p>
+<p>可以通过使用 <a href="https://doc.rust-lang.org/1.95.0/alloc/boxed/struct.Box.html#method.pin" title="associated function alloc::boxed::Box::pin"><code>Box::pin</code></a> 进行分配，或者通过 <code>pin!</code>
+宏使用栈来固定。</p>
+<p>下面的代码<strong>无法编译</strong>：</p>
 
 <div class="example-wrap compile_fail"><a href="#" class="tooltip" title="This example deliberately fails to compile">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>my_async_fn() {
-    <span class="comment">// 这里是异步逻辑
+    <span class="comment">// async logic here
 </span>}
 
 <span class="attr">#[tokio::main]
@@ -17,25 +21,26 @@
     <span class="kw">let </span><span class="kw-2">mut </span>future = my_async_fn();
     (<span class="kw-2">&amp;mut </span>future).<span class="kw">await</span>;
 }</code></pre></div>
-<p>要使其工作，需要 pin：</p>
+<p>要让这段代码能够工作，需要进行固定：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::pin;
 
 <span class="kw">async fn </span>my_async_fn() {
-    <span class="comment">// 这里是异步逻辑
+    <span class="comment">// async logic here
 </span>}
 
 <span class="kw">let </span>future = my_async_fn();
 <span class="macro">pin!</span>(future);
 
 (<span class="kw-2">&amp;mut </span>future).<span class="kw">await</span>;</code></pre></div>
-<p>在使用需要 <code>T: Stream + Unpin</code> 的 <code>select!</code> 和流操作符时，pin 很有用。</p>
-<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>用法</h2>
-<p><code>pin!</code> 宏以<strong>标识符</strong>作为参数。它<strong>不能</strong>与表达式一起使用。</p>
-<p>下面的代码无法编译，因为将表达式传递给了 <code>pin!</code>。</p>
+<p>当使用 <code>select!</code> 以及需要 <code>T: Stream + Unpin</code> 的流操作符时，固定非常有用。</p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p><code>pin!</code> 宏接受<strong>标识符</strong>作为参数。它<strong>不能</strong>用于
+表达式。</p>
+<p>下面的代码无法编译，因为传给 <code>pin!</code> 的是一个表达式。</p>
 
 <div class="example-wrap compile_fail"><a href="#" class="tooltip" title="This example deliberately fails to compile">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>my_async_fn() {
-    <span class="comment">// 这里是异步逻辑
+    <span class="comment">// async logic here
 </span>}
 
 <span class="attr">#[tokio::main]
@@ -49,7 +54,7 @@
 <span class="kw">use </span>tokio_stream::{<span class="self">self </span><span class="kw">as </span>stream, StreamExt};
 
 <span class="kw">async fn </span>my_async_fn() {
-    <span class="comment">// 这里是异步逻辑
+    <span class="comment">// async logic here
 </span>}
 
 <span class="kw">let </span><span class="kw-2">mut </span>stream = stream::iter(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);
@@ -60,7 +65,7 @@
 <span class="kw">loop </span>{
     <span class="macro">select!</span> {
         <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future =&gt; {
-            <span class="comment">// 停止循环 `future` 在完成后仍会被轮询
+            <span class="comment">// Stop looping `future` will be polled after completion
             </span><span class="kw">break</span>;
         }
         <span class="prelude-val">Some</span>(val) = stream.next() =&gt; {
@@ -68,12 +73,13 @@
         }
     }
 }</code></pre></div>
-<p>由于先赋值给变量然后 pin 很常见，所以该宏还有一个变体，支持一次性完成这两个操作。</p>
+<p>由于先赋值给变量再进行固定是常见操作，因此宏
+也提供了一个变体，可以一步完成这两件事。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::{pin, select};
 
 <span class="kw">async fn </span>my_async_fn() {
-    <span class="comment">// 这里是异步逻辑
+    <span class="comment">// async logic here
 </span>}
 
 <span class="macro">pin!</span> {
@@ -84,4 +90,4 @@
 <span class="macro">select!</span> {
     <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future1 =&gt; {}
     <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>future2 =&gt; {}
-}</code></pre></div></div></details></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
+}</code></pre></div></div></details></section></div></main></body></html>

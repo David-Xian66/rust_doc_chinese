@@ -1,21 +1,36 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="一个多生产者、多消费者的 channel，仅保留最近一次发送的值。"><title>tokio::sync::watch - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module watch</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module watch</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a><ul><li><a href="#change-notifications" title="变更通知">变更通知</a></li><li><a href="#changed-versus-has_changed" title="`changed` versus `has_changed`"><code>changed</code> versus <code>has_changed</code></a></li><li><a href="#borrow_and_update-versus-borrow" title="`borrow_and_update` versus `borrow`"><code>borrow_and_update</code> versus <code>borrow</code></a></li></ul></li><li><a href="#examples" title="Examples">示例</a></li><li><a href="#closing" title="关闭（closing）">关闭（closing）</a></li><li><a href="#thread-safety" title="Thread safety">Thread safety</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a></div><h1>Module <span>watch</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync/watch.rs.html#1-1556">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一个多生产者、多消费者的 channel，仅保留最近一次发送的值。</p>
-<p>This channel is useful for watching for changes to a value from multiple
-points in the code base, for example, changes to configuration values.</p>
+<p>此通道用于从代码库中的多个位置监视值的更改，
+例如，配置值的更改。</p>
 <h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
-<p><a href="fn.channel.html" title="fn tokio::sync::watch::channel"><code>channel</code></a> returns a <a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> / <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> pair. These are the producer
-and consumer halves of the channel. The channel is created with an initial
-value.</p>
-<p>Each <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> independently tracks the last value <em>seen</em> by its caller.</p>
-<p>To access the <strong>current</strong> value stored in the channel and mark it as <em>seen</em>
-by a given <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a>, use <a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a>.</p>
-<p>To access the current value <strong>without</strong> marking it as <em>seen</em>, use
-<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>. (If the value has already been marked <em>seen</em>,
-<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a> is equivalent to <a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a>.)</p>
-<p>For more information on when to use these methods, see
-<a href="#borrow_and_update-versus-borrow">here</a>.</p>
+<p><a href="fn.channel.html" title="fn tokio::sync::watch::channel"><code>channel</code></a> 返回一个
+<a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> /
+<a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a>
+对。它们是通道的
+生产者和消费者两半。
+通道创建时
+具有一个初始值。</p>
+<p>每个 <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 独立跟踪
+其调用者最后<em>看到</em>的值。</p>
+<p>要访问通道中存储的<strong>当前</strong>值
+并将其标记为已被给定
+<a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> <em>视为已读</em>，
+请使用 <a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a>。</p>
+<p>要在<strong>不</strong>将其标记为<em>已读</em>的情况下访问当前值，
+请使用
+<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>。
+（如果该值已标记为<em>已读</em>，
+<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a> 等同于
+<a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a>。）</p>
+<p>有关何时使用这些方法的更多信息，
+请参阅
+<a href="#borrow_and_update-versus-borrow">此处</a>。</p>
 <h3 id="change-notifications"><a class="doc-anchor" href="#change-notifications">§</a>变更通知</h3>
-<p>The <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> half provides an asynchronous <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> method. This
-method is ready when a new, <em>unseen</em> value is sent via the <a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> half.</p>
+<p><a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 半提供了
+一个异步的
+<a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> 方法。
+当通过 <a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> 半
+发送新的<em>未见过的</em>值时，
+此方法就绪。</p>
 <ul>
 <li><a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>Receiver::changed()</code></a> returns:
 <ul>
@@ -36,39 +51,57 @@ The current value at the time the <a href="struct.Receiver.html" title="struct t
 <em>seen</em>.</li>
 </ul>
 <h3 id="changed-versus-has_changed"><a class="doc-anchor" href="#changed-versus-has_changed">§</a><a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> versus <a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a></h3>
-<p>The <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> half provides two methods for checking for changes
-in the channel, <a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> and <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a>.</p>
+<p><a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 半提供了
+两种用于检查通道变化的方法，
+<a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> 和
+<a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a>。</p>
 <ul>
 <li>
-<p><a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> is a <em>synchronous</em> method that checks whether the current
-value is seen or not and returns a boolean. This method does <strong>not</strong> mark the
-value as seen.</p>
+<p><a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> 是一个<em>同步</em>方法，
+用于检查当前值是否已读，
+并返回一个布尔值。
+此方法<strong>不会</strong>将该值
+标记为已读。</p>
 </li>
 <li>
-<p><a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> is an <em>asynchronous</em> method that will return once an unseen
-value is in the channel. This method does mark the value as seen.</p>
+<p><a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> 是一个<em>异步</em>方法，
+一旦通道中存在未读过的值，
+它就会返回。
+此方法确实会将该值标记为已读。</p>
 </li>
 </ul>
-<p>Note there are two behavioral differences on when these two methods return
-an error.</p>
+<p>请注意，这两种方法在返回错误时存在两个行为差异。</p>
 <ul>
 <li><a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> errors if and only if the channel is closed.</li>
 <li><a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> errors if the channel has been closed <strong>AND</strong>
 the current value is seen.</li>
 </ul>
-<p>See the example below that shows how these methods have different fallibility.</p>
+<p>请参见下面的示例，该示例展示了这些方法具有不同的可失败性。</p>
 <h3 id="borrow_and_update-versus-borrow"><a class="doc-anchor" href="#borrow_and_update-versus-borrow">§</a><a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>borrow_and_update</code></a> versus <a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>borrow</code></a></h3>
-<p>If the receiver intends to await notifications from <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> in a loop,
-<a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a> should be preferred over
-<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>.  This avoids a potential race where a new value is
-sent between <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> being ready and the value being read. (If
-<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a> is used, the loop may run twice with the same value.)</p>
-<p>If the receiver is only interested in the current value, and does not intend
-to wait for changes, then <a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a> can be used. It may be more
-convenient to use <a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>borrow</code></a> since it’s an <code>&amp;self</code>
-method—<a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>borrow_and_update</code></a> requires <code>&amp;mut self</code>.</p>
+<p>如果 receiver 打算在循环中
+等待来自
+<a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> 的通知，
+则应优先使用
+<a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>Receiver::borrow_and_update()</code></a>
+而不是
+<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>。
+这避免了 <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> 就绪
+与读取值之间
+可能发生的竞态。
+（如果使用
+<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>，
+循环可能会使用相同的值运行两次。）</p>
+<p>如果 receiver 仅对当前值感兴趣，
+而不打算等待更改，
+则可以使用
+<a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>Receiver::borrow()</code></a>。
+使用 <a href="struct.Receiver.html#method.borrow" title="method tokio::sync::watch::Receiver::borrow"><code>borrow</code></a>
+可能更方便，
+因为它是 <code>&amp;self</code>
+方法——<a href="struct.Receiver.html#method.borrow_and_update" title="method tokio::sync::watch::Receiver::borrow_and_update"><code>borrow_and_update</code></a>
+需要 <code>&amp;mut self</code>。</p>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
-<p>The following example prints <code>hello! world! </code>.</p>
+<p>以下示例打印 <code>hello! world! </code>。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::watch;
 <span class="kw">use </span>tokio::time::{Duration, sleep};
@@ -88,7 +121,8 @@ tokio::spawn(<span class="kw">async move </span>{
 
 sleep(Duration::from_millis(<span class="number">100</span>)).<span class="kw">await</span>;
 tx.send(<span class="string">"world"</span>)<span class="question-mark">?</span>;</code></pre></div>
-<p>Difference on fallibility of <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> versus <a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a>.</p>
+<p>关于 <a href="struct.Receiver.html#method.changed" title="method tokio::sync::watch::Receiver::changed"><code>changed</code></a> 与
+<a href="struct.Receiver.html#method.has_changed" title="method tokio::sync::watch::Receiver::has_changed"><code>has_changed</code></a> 在失败性方面的差异。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::watch;
 
@@ -108,13 +142,20 @@ drop(tx);
 // The next `changed` call now returns an error as the channel is closed
 // AND the current value is seen.
 </span><span class="macro">assert!</span>(rx.changed().<span class="kw">await</span>.is_err());</code></pre></div><h2 id="closing"><a class="doc-anchor" href="#closing">§</a>关闭（closing）</h2>
-<p><a href="struct.Sender.html#method.is_closed" title="method tokio::sync::watch::Sender::is_closed"><code>Sender::is_closed</code></a> and <a href="struct.Sender.html#method.closed" title="method tokio::sync::watch::Sender::closed"><code>Sender::closed</code></a> allow the producer to detect
-when all <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> handles have been dropped. This indicates that there
-is no further interest in the values being produced and work can be stopped.</p>
-<p>The value in the channel will not be dropped until all senders and all
-receivers have been dropped.</p>
+<p><a href="struct.Sender.html#method.is_closed" title="method tokio::sync::watch::Sender::is_closed"><code>Sender::is_closed</code></a> 和
+<a href="struct.Sender.html#method.closed" title="method tokio::sync::watch::Sender::closed"><code>Sender::closed</code></a>
+允许生产者检测
+何时所有 <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a>
+句柄都已被丢弃。
+这表明对正在生成的值不再有兴趣，
+可以停止工作。</p>
+<p>在所有 sender 和 receiver 都被丢弃之前，channel 中的值不会被释放。</p>
 <h2 id="thread-safety"><a class="doc-anchor" href="#thread-safety">§</a>Thread safety</h2>
-<p>Both <a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> and <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> are thread safe. They can be moved to other
-threads and can be used in a concurrent environment. Clones of <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a>
-handles may be moved to separate threads and also used concurrently.</p>
+<p><a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> 和
+<a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 都是线程安全的。
+它们可以移动到其他线程，
+并可在并发环境中使用。
+<a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 句柄的克隆
+可以移动到单独的线程，
+也可以并发使用。</p>
 </div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="error/index.html" title="mod tokio::sync::watch::error">error</a></dt><dd>Watch 错误类型。</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver">Receiver</a></dt><dd>从关联的 <a href="struct.Sender.html" title="struct tokio::sync::watch::Sender"><code>Sender</code></a> 接收值。</dd><dt><a class="struct" href="struct.Ref.html" title="struct tokio::sync::watch::Ref">Ref</a></dt><dd>返回内部值的引用。</dd><dt><a class="struct" href="struct.Sender.html" title="struct tokio::sync::watch::Sender">Sender</a></dt><dd>向关联的 <a href="struct.Receiver.html" title="struct tokio::sync::watch::Receiver"><code>Receiver</code></a> 发送值。</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.channel.html" title="fn tokio::sync::watch::channel">channel</a></dt><dd>创建一个新的 watch channel，返回"发送"和"接收"句柄。</dd></dl></section></div></main></body></html>

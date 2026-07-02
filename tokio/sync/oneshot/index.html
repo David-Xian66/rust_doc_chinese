@@ -1,14 +1,17 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A one-shot channel is used for sending a single message between asynchronous tasks. The `channel` function is used to create a `Sender` and `Receiver` handle pair that form the channel."><title>tokio::sync::oneshot - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module oneshot</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module oneshot</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">示例</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a></div><h1>Module <span>oneshot</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync/oneshot.rs.html#1-1607">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>A one-shot channel is used for sending a single message between
-asynchronous tasks. The <a href="fn.channel.html" title="fn tokio::sync::oneshot::channel"><code>channel</code></a> function is used to create a
-<a href="struct.Sender.html" title="struct tokio::sync::oneshot::Sender"><code>Sender</code></a> and <a href="struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> handle pair that form the channel.</p>
-<p>The <code>Sender</code> handle is used by the producer to send the value.
-The <code>Receiver</code> handle is used by the consumer to receive the value.</p>
-<p>Each handle can be used on separate tasks.</p>
-<p>Since the <code>send</code> method is not async, it can be used anywhere. This includes
-sending between two runtimes, and using it from non-async code.</p>
-<p>If the <a href="struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> is closed before receiving a message which has already
-been sent, the message will remain in the channel until the receiver is
-dropped, at which point the message will be dropped immediately.</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A one-shot channel is used for sending a single message between asynchronous tasks. The `channel` function is used to create a `Sender` and `Receiver` handle pair that form the channel."><title>tokio::sync::oneshot - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module oneshot</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module oneshot</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">示例</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a></div><h1>Module <span>oneshot</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync/oneshot.rs.html#1-1607">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一次性通道用于在异步任务之间发送单个消息。
+<a href="fn.channel.html" title="fn tokio::sync::oneshot::channel"><code>channel</code></a> 函数用于创建
+构成通道的 <a href="struct.Sender.html" title="struct tokio::sync::oneshot::Sender"><code>Sender</code></a> 和 <a href="struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> 句柄对。</p>
+<p><code>Sender</code> 句柄由生产者用于发送值。
+<code>Receiver</code> 句柄由消费者用于接收值。</p>
+<p>每个 handle 可以在不同的任务上使用。</p>
+<p>由于 <code>send</code> 方法不是 async 的，
+因此它可以在任何地方使用。
+这包括在两个运行时之间发送，
+以及从非异步代码使用它。</p>
+<p>如果 <a href="struct.Receiver.html" title="struct tokio::sync::oneshot::Receiver"><code>Receiver</code></a> 在接收一条已发送的消息之前已关闭，
+则该消息将保留在通道中，
+直到 receiver 被丢弃，
+此时该消息将立即被丢弃。</p>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::oneshot;
 
@@ -24,8 +27,10 @@ tokio::spawn(<span class="kw">async move </span>{
     <span class="prelude-val">Ok</span>(v) =&gt; <span class="macro">println!</span>(<span class="string">"got = {:?}"</span>, v),
     <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">println!</span>(<span class="string">"the sender dropped"</span>),
 }</code></pre></div>
-<p>If the sender is dropped without sending, the receiver will fail with
-<a href="error/struct.RecvError.html" title="struct tokio::sync::oneshot::error::RecvError"><code>error::RecvError</code></a>:</p>
+<p>如果 sender 在未发送的情况下被丢弃，
+receiver 将失败，
+并出现
+<a href="error/struct.RecvError.html" title="struct tokio::sync::oneshot::error::RecvError"><code>error::RecvError</code></a>：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::oneshot;
 
@@ -39,8 +44,9 @@ tokio::spawn(<span class="kw">async move </span>{
     <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">"This doesn't happen"</span>),
     <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">println!</span>(<span class="string">"the sender dropped"</span>),
 }</code></pre></div>
-<p>To use a <code>oneshot</code> channel in a <code>tokio::select!</code> loop, add <code>&amp;mut</code> in front of
-the channel.</p>
+<p>要在 <code>tokio::select!</code> 循环中
+使用 <code>oneshot</code> 通道，
+请在通道前添加 <code>&amp;mut</code>。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::oneshot;
 <span class="kw">use </span>tokio::time::{interval, sleep, Duration};
@@ -62,8 +68,11 @@ tokio::spawn(<span class="kw">async move </span>{
         }
     }
 }</code></pre></div>
-<p>To use a <code>Sender</code> from a destructor, put it in an <a href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a> and call
-<a href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html#method.take" title="method core::option::Option::take"><code>Option::take</code></a>.</p>
+<p>要在析构函数中使用 <code>Sender</code>，
+请将其放入一个
+<a href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a>
+并调用
+<a href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html#method.take" title="method core::option::Option::take"><code>Option::take</code></a>。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::oneshot;
 

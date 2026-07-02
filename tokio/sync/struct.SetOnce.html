@@ -2,11 +2,36 @@
 
 
 
-<p>A <code><code>SetOnce</code></code> is inspired from python’s <a href="https://docs.python.org/3/library/asyncio-sync.html#asyncio.Event"><code><code>asyncio.Event</code></code></a> type. It can be
-
-
-
-used to wait until the value of the <code><code>SetOnce</code></code> is set like a “Event” mechanism.</p>
+<p><code><code>SetOnce</code></code>
+
+
+
+
+的灵感
+来自 python 的
+<a href="https://docs.python.org/3/library/asyncio-sync.html#asyncio.Event"><code><code>asyncio.Event</code></code></a>
+类型。
+
+
+
+
+它
+可用于
+
+
+
+
+等待
+直到
+<code><code>SetOnce</code></code>
+的值
+被设置，
+
+
+
+
+类似于
+“Event” 机制。</p>
 
 
 
@@ -74,15 +99,58 @@ used to wait until the value of the <code><code>SetOnce</code></code> is set lik
 
 
 
-<p>A <code><code>SetOnce</code></code> is typically used for global variables that need to be
-
-
-
-initialized once on first use, but need no further changes. The <code><code>SetOnce</code></code>
-
-
-
-in Tokio allows the initialization procedure to be asynchronous.</p>
+<p><code><code>SetOnce</code></code>
+通常
+
+
+
+
+用于
+
+
+
+
+在首次使用时
+需要
+初始化一次，
+
+
+
+
+但
+不需要
+
+
+
+
+进一步
+
+
+
+
+更改的
+全局变量。
+
+
+
+
+Tokio 中的
+<code><code>SetOnce</code></code>
+
+
+
+
+允许
+
+
+
+
+初始化过程
+
+
+
+
+是异步的。</p>
 
 
 

@@ -1,13 +1,40 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="生成一个新的异步任务，并为其返回一个 JoinHandle。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/task/fn.spawn.html"><meta property="og:type" content="article"><meta property="og:title" content="spawn in tokio::task - tokio"><meta property="og:description" content="生成一个新的异步任务，并为其返回一个 JoinHandle。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/task/fn.spawn.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="spawn in tokio::task - tokio"><meta name="twitter:description" content="生成一个新的异步任务，并为其返回一个 JoinHandle。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>spawn in tokio::task - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc fn"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">spawn</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/task/fn.spawn.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">spawn</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="示例">示例</a></li><li><a href="#panics" title="Panics">恐慌</a></li><li><a href="#using-send-values-from-a-task" title="Using `!Send` values from a task">Using <code>!Send</code> values from a task</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>task</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">task</a></div><h1>函数 <span class="fn">spawn</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/task/spawn.rs.html#174-185">源代码</a> </span></div><pre class="rust item-decl"><code>pub fn spawn&lt;F&gt;(future: F) -&gt; <a class="struct" href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle">JoinHandle</a>&lt;F::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output" title="type core::future::future::Future::Output">Output</a>&gt; <a href="#" class="tooltip" data-notable-ty="JoinHandle&lt;F::Output&gt;">ⓘ</a><div class="where">where
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Spawns a new asynchronous task, returning a `JoinHandle` for it."><title>spawn in tokio::task - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc fn"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">spawn</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">spawn</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">示例</a></li><li><a href="#panics" title="Panics">Panics</a></li><li><a href="#using-send-values-from-a-task" title="Using `!Send` values from a task">Using <code>!Send</code> values from a task</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>task</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">task</a></div><h1>函数 <span class="fn">spawn</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/task/spawn.rs.html#174-185">Source</a> </span></div><pre class="rust item-decl"><code>pub fn spawn&lt;F&gt;(future: F) -&gt; <a class="struct" href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle">JoinHandle</a>&lt;F::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output" title="type core::future::future::Future::Output">Output</a>&gt; <a href="#" class="tooltip" data-notable-ty="JoinHandle&lt;F::Output&gt;">ⓘ</a><div class="where">where
     F: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a> + <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,
-    F::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output" title="type core::future::future::Future::Output">Output</a>: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>生成一个新的异步任务，并为其返回一个 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>。</p>
-<p>调用 <code>spawn</code> 时，所提供的 future 将立即开始在后台运行，即使你没有 await 返回的 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>。</p>
-<p>生成任务使该任务能够与其他任务并发执行。生成的任务可能在当前线程上执行，也可能被发送到另一个线程执行。具体细节取决于当前的 <a href="../runtime/struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a> 配置。在<a href="../runtime/index.html#driving-the-runtime">正在运行的运行时</a>中，任务将立即在后台启动。在阻塞的运行时上，用户必须推动运行时向前（例如，通过调用 <a href="../runtime/struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>）。</p>
-<p>保证 spawn 不会同步轮询正在生成的任务。这意味着在持有锁时调用 spawn 不会与生成的任务产生死锁风险。</p>
-<p>不能保证生成的任务一定会执行到完成。关闭运行时时，所有未完成的任务都将被 drop，无论该任务的生命周期如何。</p>
-<p>此函数必须从 Tokio 运行时的上下文中调用。在 Tokio 运行时上运行的任务始终在其上下文中，但你也可以使用 <a href="../runtime/struct.Runtime.html#method.enter" title="method tokio::runtime::Runtime::enter"><code>Runtime::enter</code></a> 方法进入该上下文。</p>
+    F::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output" title="type core::future::future::Future::Output">Output</a>: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,</div></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>生成一个新的异步 task，返回一个 <a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>。</p>
+<p>当调用 <code>spawn</code> 时，
+所提供的 future
+将立即开始在后台运行，
+即使你没有等待返回的
+<a href="struct.JoinHandle.html" title="struct tokio::task::JoinHandle"><code>JoinHandle</code></a>。</p>
+<p>派生一个任务
+使该任务能够与其他任务并发执行。
+派生的任务可以在当前线程上执行，
+也可以被发送到其他线程执行。
+具体细节取决于当前的
+<a href="../runtime/struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>
+配置。
+在
+<a href="../runtime/index.html#driving-the-runtime">正在运行的运行时</a>中，
+任务将立即在后台开始。
+在阻塞的运行时中，
+用户必须向前驱动运行时
+（例如，通过调用
+<a href="../runtime/struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>）。</p>
+<p>可以保证 spawn 不会同步轮询正在派生的任务。
+这意味着在持有锁的同时调用 spawn 不会带来与
+派生任务死锁的风险。</p>
+<p>无法保证派生的任务将执行到完成。
+当运行时关闭时，所有未完成的任务都
+将被丢弃，无论该任务的生命周期如何。</p>
+<p>This function must be called from the context of a Tokio 运行时。 Tasks running on
+the Tokio runtime are always inside its context, but you can also enter the context
+using the <a href="../runtime/struct.Runtime.html#method.enter" title="method tokio::runtime::Runtime::enter"><code>Runtime::enter</code></a> method.</p>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
-<p>在此示例中，启动了服务器，并使用 <code>spawn</code> 启动一个新任务来处理每个接收到的连接。</p>
+<p>在此示例中，
+启动了一个服务器，
+并使用 <code>spawn</code>
+启动一个新任务
+来处理每个接收到的连接。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::{TcpListener, TcpStream};
 
@@ -25,12 +52,13 @@
         <span class="kw">let </span>(socket, <span class="kw">_</span>) = listener.accept().<span class="kw">await</span><span class="question-mark">?</span>;
 
         tokio::spawn(<span class="kw">async move </span>{
-            <span class="comment">// 并发处理每个 socket。
+            <span class="comment">// Process each socket concurrently.
             </span>process(socket).<span class="kw">await
         </span>});
     }
 }</code></pre></div>
-<p>要并行运行多个任务并接收它们的结果，可以将 join handle 存储在向量中。</p>
+<p>要并行运行多个任务并接收它们的结果，
+可以将 join 句柄存储在一个 vector 中。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>my_background_op(id: i32) -&gt; String {
     <span class="kw">let </span>s = <span class="macro">format!</span>(<span class="string">"Starting background task {}."</span>, id);
@@ -41,8 +69,8 @@
 <span class="kw">let </span>ops = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 <span class="kw">let </span><span class="kw-2">mut </span>tasks = Vec::with_capacity(ops.len());
 <span class="kw">for </span>op <span class="kw">in </span>ops {
-    <span class="comment">// 此调用会让它们在后台开始运行
-    // 立即开始。
+    <span class="comment">// This call will make them start running in the background
+    // immediately.
     </span>tasks.push(tokio::spawn(my_background_op(op)));
 }
 
@@ -51,23 +79,34 @@
     outputs.push(task.<span class="kw">await</span>.unwrap());
 }
 <span class="macro">println!</span>(<span class="string">"{:?}"</span>, outputs);</code></pre></div>
-<p>此示例按任务启动顺序将任务推送到 <code>outputs</code>。如果你不关心输出的顺序，则也可以使用 <a href="struct.JoinSet.html" title="struct tokio::task::JoinSet"><code>JoinSet</code></a>。</p>
-<h2 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h2>
-<p>如果从 Tokio 运行时的<strong>外部</strong>调用，则会发生 panic。</p>
-<h2 id="using-send-values-from-a-task"><a class="doc-anchor" href="#using-send-values-from-a-task">§</a>在 task 中使用 <code>!Send</code> 值</h2>
-<p>提供给 <code>spawn</code> 的任务必须实现 <code>Send</code>。但是，只要 <code>!Send</code> 值仅存在于对 <code>.await</code> 的调用之间，就可以从任务中<strong>使用</strong>它们。</p>
-<p>例如，这是可行的：</p>
+<p>本示例按任务启动的顺序
+将任务推送到 <code>outputs</code> 中。
+如果你不关心输出的顺序，
+那么
+也可以使用
+<a href="struct.JoinSet.html" title="struct tokio::task::JoinSet"><code>JoinSet</code></a>。</p>
+<h2 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h2>
+<p>Panics if called from <strong>outside</strong> of the Tokio 运行时。</p>
+<h2 id="using-send-values-from-a-task"><a class="doc-anchor" href="#using-send-values-from-a-task">§</a>Using <code>!Send</code> values from a task</h2>
+<p>提供给 <code>spawn</code> 的任务
+必须实现 <code>Send</code>。
+但是，
+只要它们仅存在于
+对 <code>.await</code> 的调用之间，
+就可以<strong>使用</strong>
+<code>!Send</code> 值。</p>
+<p>例如，下面的代码可以工作：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
 
 <span class="kw">use </span>std::rc::Rc;
 
 <span class="kw">fn </span>use_rc(rc: Rc&lt;()&gt;) {
-    <span class="comment">// 用 rc 做些操作
+    <span class="comment">// Do stuff w/ rc
 </span>}
 
 tokio::spawn(<span class="kw">async </span>{
-    <span class="comment">// 强制让 `Rc` 留在没有 `.await` 的作用域中
+    <span class="comment">// Force the `Rc` to stay in a scope with no `.await`
     </span>{
         <span class="kw">let </span>rc = Rc::new(());
         use_rc(rc.clone());
@@ -75,14 +114,14 @@ tokio::spawn(<span class="kw">async </span>{
 
     task::yield_now().<span class="kw">await</span>;
 }).<span class="kw">await</span>.unwrap();</code></pre></div>
-<p>这是<strong>不可行</strong>的：</p>
+<p>这是<strong>行不通的</strong>：</p>
 
 <div class="example-wrap compile_fail"><a href="#" class="tooltip" title="This example deliberately fails to compile">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::task;
 
 <span class="kw">use </span>std::rc::Rc;
 
 <span class="kw">fn </span>use_rc(rc: Rc&lt;()&gt;) {
-    <span class="comment">// 用 rc 做些操作
+    <span class="comment">// Do stuff w/ rc
 </span>}
 
 <span class="attr">#[tokio::main]
@@ -95,7 +134,10 @@ tokio::spawn(<span class="kw">async </span>{
         use_rc(rc.clone());
     }).<span class="kw">await</span>.unwrap();
 }</code></pre></div>
-<p>在跨 <code>.await</code> 调用之间持有 <code>!Send</code> 值将导致类似于以下的、不友好的编译错误消息：</p>
+<p>在 <code>.await</code> 调用之间
+保留一个 <code>!Send</code> 值
+将导致一个不友好的编译错误消息，
+类似于：</p>
 <div class="example-wrap"><pre class="language-text"><code>`[... some type ...]` cannot be sent between threads safely</code></pre></div>
-<p>或：</p>
-<div class="example-wrap"><pre class="language-text"><code>error[E0391]: cycle detected when processing `main`</code></pre></div></div></details><script type="text/json" id="notable-traits-data">{"JoinHandle<F::Output>":"<h3>Notable traits for <code><a class=\"struct\" href=\"struct.JoinHandle.html\" title=\"struct tokio::task::JoinHandle\">JoinHandle</a>&lt;T&gt;</code></h3><pre><code><div class=\"where\">impl&lt;T&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"struct.JoinHandle.html\" title=\"struct tokio::task::JoinHandle\">JoinHandle</a>&lt;T&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"enum\" href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html\" title=\"enum core::result::Result\">Result</a>&lt;T, <a class=\"struct\" href=\"struct.JoinError.html\" title=\"struct tokio::task::JoinError\">JoinError</a>&gt;;</div>"}</script></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
+<p>or:</p>
+<div class="example-wrap"><pre class="language-text"><code>error[E0391]: cycle detected when processing `main`</code></pre></div></div></details><script type="text/json" id="notable-traits-data">{"JoinHandle<F::Output>":"<h3>Notable traits for <code><a class=\"struct\" href=\"struct.JoinHandle.html\" title=\"struct tokio::task::JoinHandle\">JoinHandle</a>&lt;T&gt;</code></h3><pre><code><div class=\"where\">impl&lt;T&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"struct.JoinHandle.html\" title=\"struct tokio::task::JoinHandle\">JoinHandle</a>&lt;T&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"enum\" href=\"https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html\" title=\"enum core::result::Result\">Result</a>&lt;T, <a class=\"struct\" href=\"struct.JoinError.html\" title=\"struct tokio::task::JoinError\">JoinError</a>&gt;;</div>"}</script></section></div></main></body></html>

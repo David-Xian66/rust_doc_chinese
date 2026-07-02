@@ -8,33 +8,33 @@
 <p>注意：该宏可用于任何函数，不仅仅是 <code>main</code> 函数。在非 main 函数上使用它
 会让该函数表现得像同步函数一样（每次调用时启动一个新运行时）。如果该函数被频繁调用，
 建议使用 runtime builder 创建运行时，以便跨调用复用。</p>
-<h2 id="non-worker-async-function"><a class="doc-anchor" href="#non-worker-async-function">§</a>Non-worker async function</h2>
+<h2 id="non-worker-async-function"><a class="doc-anchor" href="#non-worker-async-function">§</a>非 worker 异步函数</h2>
 <p>注意：由该宏标记的 async 函数不会作为 worker 运行。预期行为是此函数内部派生其他任务。
 在此处提供的函数中 await 其他 future 的性能不会像 worker 派生的任务那样快。</p>
-<h2 id="runtime-flavors"><a class="doc-anchor" href="#runtime-flavors">§</a>Runtime flavors</h2>
+<h2 id="runtime-flavors"><a class="doc-anchor" href="#runtime-flavors">§</a>运行时类型</h2>
 <p>该宏可通过 <code>flavor</code> 参数配置不同的运行时配置。</p>
-<h3 id="multi-threaded"><a class="doc-anchor" href="#multi-threaded">§</a>Multi-threaded</h3>
+<h3 id="multi-threaded"><a class="doc-anchor" href="#multi-threaded">§</a>多线程</h3>
 <p>要使用多线程运行时，可通过以下方式配置该宏：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"multi_thread"</span>, worker_threads = <span class="number">10</span>)]</span></code></pre></div>
-<p>The <code>worker_threads</code> option configures the number of worker threads, and
-defaults to the number of cpus on the system. This is the default flavor.</p>
+<p><code>worker_threads</code> 选项用于配置 worker 线程数量，
+默认为系统上的 CPU 数量。这是默认类型。</p>
 <p>注意：多线程运行时需要 <code>rt-multi-thread</code> 特性标志。</p>
-<h3 id="current-thread"><a class="doc-anchor" href="#current-thread">§</a>Current-thread</h3>
+<h3 id="current-thread"><a class="doc-anchor" href="#current-thread">§</a>当前线程</h3>
 <p>要使用称为 <code>current_thread</code> 运行时的单线程运行时，
 可通过以下方式配置该宏：</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"current_thread"</span>)]</span></code></pre></div><h3 id="local"><a class="doc-anchor" href="#local">§</a>Local</h3>
-<p>To use the <a href="../tokio/runtime/struct.LocalRuntime.html">local runtime</a>, the macro can be configured using</p>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"current_thread"</span>)]</span></code></pre></div><h3 id="local"><a class="doc-anchor" href="#local">§</a>本地</h3>
+<p>要使用<a href="../tokio/runtime/struct.LocalRuntime.html">本地运行时</a>，可通过以下方式配置宏：</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"local"</span>)]</span></code></pre></div><h2 id="function-arguments"><a class="doc-anchor" href="#function-arguments">§</a>Function arguments</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"local"</span>)]</span></code></pre></div><h2 id="function-arguments"><a class="doc-anchor" href="#function-arguments">§</a>函数参数</h2>
 <p>除 <code>main</code>（特殊）外，任何函数都允许使用参数。</p>
-<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2><h3 id="set-the-name-of-the-runtime"><a class="doc-anchor" href="#set-the-name-of-the-runtime">§</a>Set the name of the runtime</h3>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>用法</h2><h3 id="set-the-name-of-the-runtime"><a class="doc-anchor" href="#set-the-name-of-the-runtime">§</a>设置运行时名称</h3>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(name = <span class="string">"my-runtime"</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_multi_thread()
@@ -45,12 +45,12 @@ defaults to the number of cpus on the system. This is the default flavor.</p>
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="using-the-multi-threaded-runtime"><a class="doc-anchor" href="#using-the-multi-threaded-runtime">§</a>Using the multi-threaded runtime</h3>
+}</code></pre></div><h3 id="using-the-multi-threaded-runtime"><a class="doc-anchor" href="#using-the-multi-threaded-runtime">§</a>使用多线程运行时</h3>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_multi_thread()
@@ -60,14 +60,14 @@ defaults to the number of cpus on the system. This is the default flavor.</p>
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="using-the-current-thread-runtime"><a class="doc-anchor" href="#using-the-current-thread-runtime">§</a>Using the current-thread runtime</h3>
-<p>The basic scheduler is single-threaded.</p>
+}</code></pre></div><h3 id="using-the-current-thread-runtime"><a class="doc-anchor" href="#using-the-current-thread-runtime">§</a>使用当前线程运行时</h3>
+<p>基础调度器是单线程的。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"current_thread"</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_current_thread()
@@ -77,15 +77,15 @@ defaults to the number of cpus on the system. This is the default flavor.</p>
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="using-the-local-runtime"><a class="doc-anchor" href="#using-the-local-runtime">§</a>Using the local runtime</h3>
-<p>The <a href="../tokio/runtime/struct.LocalRuntime.html">local runtime</a> is similar to the current-thread runtime but
-supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</code></a>.</p>
+}</code></pre></div><h3 id="using-the-local-runtime"><a class="doc-anchor" href="#using-the-local-runtime">§</a>使用本地运行时</h3>
+<p><a href="../tokio/runtime/struct.LocalRuntime.html">本地运行时</a>与当前线程运行时相似，但
+支持 <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</code></a>。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"local"</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_current_thread()
@@ -95,12 +95,12 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="set-number-of-worker-threads"><a class="doc-anchor" href="#set-number-of-worker-threads">§</a>Set number of worker threads</h3>
+}</code></pre></div><h3 id="set-number-of-worker-threads"><a class="doc-anchor" href="#set-number-of-worker-threads">§</a>设置 worker 线程数</h3>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(worker_threads = <span class="number">2</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_multi_thread()
@@ -111,12 +111,12 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="configure-the-runtime-to-start-with-time-paused"><a class="doc-anchor" href="#configure-the-runtime-to-start-with-time-paused">§</a>Configure the runtime to start with time paused</h3>
+}</code></pre></div><h3 id="configure-the-runtime-to-start-with-time-paused"><a class="doc-anchor" href="#configure-the-runtime-to-start-with-time-paused">§</a>配置以暂停时间启动的运行时</h3>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::main(flavor = <span class="string">"current_thread"</span>, start_paused = <span class="bool-val">true</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>main() {
     tokio::runtime::Builder::new_current_thread()
@@ -128,15 +128,15 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
 }</code></pre></div>
-<p>Note that <code>start_paused</code> requires the <code>test-util</code> feature to be enabled.</p>
-<h3 id="rename-package"><a class="doc-anchor" href="#rename-package">§</a>Rename package</h3>
+<p>注意：<code>start_paused</code> 需要启用 <code>test-util</code> 特性。</p>
+<h3 id="rename-package"><a class="doc-anchor" href="#rename-package">§</a>重命名包</h3>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio <span class="kw">as </span>tokio1;
 
 <span class="attr">#[tokio1::main(<span class="kw">crate </span>= <span class="string">"tokio1"</span>)]
 </span><span class="kw">async fn </span>main() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio <span class="kw">as </span>tokio1;
 
@@ -148,9 +148,9 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
         .block_on(<span class="kw">async </span>{
             <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
         })
-}</code></pre></div><h3 id="configure-unhandled-panic-behavior"><a class="doc-anchor" href="#configure-unhandled-panic-behavior">§</a>Configure unhandled panic behavior</h3>
-<p>Available options are <code>shutdown_runtime</code> and <code>ignore</code>. For more details, see
-<a href="../tokio/runtime/struct.Builder.html#method.unhandled_panic"><code>Builder::unhandled_panic</code></a>.</p>
+}</code></pre></div><h3 id="configure-unhandled-panic-behavior"><a class="doc-anchor" href="#configure-unhandled-panic-behavior">§</a>配置未处理 panic 的行为</h3>
+<p>可用选项包括 <code>shutdown_runtime</code> 和 <code>ignore</code>。更多详情请参阅
+<a href="../tokio/runtime/struct.Builder.html#method.unhandled_panic"><code>Builder::unhandled_panic</code></a>。</p>
 <p>此选项仅与 <code>current_thread</code> 运行时兼容。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(tokio_unstable)]
@@ -160,7 +160,7 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
         <span class="macro">panic!</span>(<span class="string">"This panic will shutdown the runtime."</span>);
     }).<span class="kw">await</span>;
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::main]</code></p>
+<p>不使用 <code>#[tokio::main]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(tokio_unstable)]
 </span><span class="kw">fn </span>main() {
@@ -175,7 +175,6 @@ supports <a href="../tokio/task/fn.spawn_local.html"><code>task::spawn_local</co
             }).<span class="kw">await</span>;
         })
 }</code></pre></div>
-<p><strong>Note</strong>: This option depends on Tokio’s <a href="../tokio/index.html#unstable-features">unstable API</a>. See <a href="../tokio/index.html#unstable-features">the
-documentation on unstable features</a> for details on how to enable
-Tokio’s unstable features.</p>
+<p><strong>注意</strong>：此选项依赖于 Tokio 的<a href="../tokio/index.html#unstable-features">不稳定 API</a>。关于如何启用
+Tokio 不稳定特性的详情，请参阕<a href="../tokio/index.html#unstable-features">不稳定特性相关文档</a>。</p>
 </div></details></section></div></main></body></html>

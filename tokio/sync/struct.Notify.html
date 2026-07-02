@@ -1,64 +1,137 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="通知单个 task 唤醒。"><title>Notify in tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Notify</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Notify</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">示例</a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.const_new" title="const_new">const_new</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.notified" title="notified">notified</a></li><li><a href="#method.notified_owned" title="notified_owned">notified_owned</a></li><li><a href="#method.notify_last" title="notify_last">notify_last</a></li><li><a href="#method.notify_one" title="notify_one">notify_one</a></li><li><a href="#method.notify_waiters" title="notify_waiters">notify_waiters</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Notify" title="Debug">Debug</a></li><li><a href="#impl-Default-for-Notify" title="Default">Default</a></li><li><a href="#impl-RefUnwindSafe-for-Notify" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Notify" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Notify" title="!Freeze">!Freeze</a></li><li><a href="#impl-Send-for-Notify" title="Send">Send</a></li><li><a href="#impl-Sync-for-Notify" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Notify" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Notify" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">sync</a></div><h1>结构体 <span class="struct">Notify</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/notify.rs.html#202-215">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Notify { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>通知单个 task 唤醒。</p>
 
 
-<p><code><code>Notify</code></code> provides a basic mechanism to notify a single task of an event.
+<p><code><code>Notify</code></code>
+提供了
+将事件
+通知给
+单个任务的
+基本机制。
+
+
+<code><code>Notify</code></code>
+本身
+不携带任何数据。
+相反，
+它用于
+通知
+另一个任务
+执行
+某个操作。</p>
 
 
-<code><code>Notify</code></code> itself does not carry any data. Instead, it is to be used to signal
+<p>可以将
+<code><code>Notify</code></code>
+视为
+从 0 个 permit
+开始的
+<a href="struct.Semaphore.html" title="struct tokio::sync::Semaphore"><code><code>Semaphore</code></code></a>。
+
+<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a>
+方法
+等待
+permit 变为可用，
+
+而
+<a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a>
+会
+<strong>如果当前没有可用的
+
+permit</strong>
+设置
+一个 permit。</p>
 
 
-another task to perform an operation.</p>
+<p><code><code>Notify</code></code>
+的
+同步细节
+类似于
+std 中的
+
+<a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.park.html" title="fn std::thread::functions::park"><code><code>thread::park</code></code></a>
+和
+<a href="https://doc.rust-lang.org/1.95.0/std/thread/thread/struct.Thread.html#method.unpark" title="method std::thread::thread::Thread::unpark"><code><code>Thread::unpark</code></code></a>。
+
+<a href="struct.Notify.html" title="struct tokio::sync::Notify"><code><code>Notify</code></code></a>
+值
+包含
+单个 permit。
+<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a>
+等待
+permit
+变为可用，
+
+消费
+该 permit，
+然后恢复。
+<a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a>
+
+设置
+该 permit，
+如果存在
+挂起的任务，
+则唤醒它。</p>
 
 
-<p>A <code><code>Notify</code></code> can be thought of as a <a href="struct.Semaphore.html" title="struct tokio::sync::Semaphore"><code><code>Semaphore</code></code></a> starting with 0 permits. The
+<p>如果
+<code><code>notify_one()</code></code>
+被调用
+<strong>在</strong>
+<code><code>notified().await</code></code>
+<strong>之前</strong>，
+那么
+
+
+下一次
+对
+<code><code>notified().await</code></code>
+的调用
+将立即完成，
+消耗
+该 permit。
+
+
+之后
+任何对
+<code><code>notified().await</code></code>
+的调用
+将
+等待
+新的 permit。</p>
 
 
-<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a> method waits for a permit to become available, and
-
-
-<a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a> sets a permit <strong>if there currently are no available
-
-
-permits</strong>.</p>
-
-
-<p>The synchronization details of <code><code>Notify</code></code> are similar to
-
-
-<a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.park.html" title="fn std::thread::functions::park"><code><code>thread::park</code></code></a> and <a href="https://doc.rust-lang.org/1.95.0/std/thread/thread/struct.Thread.html#method.unpark" title="method std::thread::thread::Thread::unpark"><code><code>Thread::unpark</code></code></a> from std. A <a href="struct.Notify.html" title="struct tokio::sync::Notify"><code><code>Notify</code></code></a>
-
-
-value contains a single permit. <a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a> waits for the permit to
-
-
-be made available, consumes the permit, and resumes.  <a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a> sets
-
-
-the permit, waking a pending task if there is one.</p>
-
-
-<p>If <code><code>notify_one()</code></code> is called <strong>before</strong> <code><code>notified().await</code></code>, then the next
-
-
-call to <code><code>notified().await</code></code> will complete immediately, consuming the permit.
-
-
-Any subsequent calls to <code><code>notified().await</code></code> will wait for a new permit.</p>
-
-
-<p>If <code><code>notify_one()</code></code> is called <strong>multiple</strong> times before <code><code>notified().await</code></code>,
-
-
-only a <strong>single</strong> permit is stored. The next call to <code><code>notified().await</code></code> will
-
-
-complete immediately, but the one after will wait for a new permit.</p>
+<p>如果
+<code><code>notify_one()</code></code>
+在
+<code><code>notified().await</code></code>
+<strong>之前</strong>
+被调用
+<strong>多次</strong>，
+
+
+则
+仅存储
+<strong>一个</strong>
+permit。
+
+
+下一次
+对
+<code><code>notified().await</code></code>
+的调用
+将
+立即完成，
+但
+之后
+将
+等待
+新的 permit。</p>
 
 
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
 
 
-<p>Basic usage.</p>
+<p>基本用法。</p>
 
 
 
@@ -112,16 +185,32 @@ notify.notify_one();
 </span>handle.<span class="kw">await</span>.unwrap();</code></pre></div>
 
 
-<p>Unbound multi-producer single-consumer (mpsc) channel.</p>
+<p>无界
+多生产者单消费者 (mpsc)
+通道。</p>
 
 
-<p>No wakeups can be lost when using this channel because the call to
-
-
-<code><code>notify_one()</code></code> will store a permit in the <code><code>Notify</code></code>, which the following call
-
-
-to <code><code>notified()</code></code> will consume.</p>
+<p>使用
+此通道时，
+不会丢失
+任何唤醒，
+因为
+
+
+对
+<code><code>notify_one()</code></code>
+的调用
+会在
+<code><code>Notify</code></code>
+中存储一个 permit，
+
+
+随后的
+对
+<code><code>notified()</code></code>
+的调用
+会
+消费该 permit。</p>
 
 
 
@@ -226,16 +315,33 @@ to <code><code>notified()</code></code> will consume.</p>
 }</code></pre></div>
 
 
-<p>Unbound multi-producer multi-consumer (mpmc) channel.</p>
+<p>无界
+多生产者多消费者 (mpmc)
+通道。</p>
 
 
-<p>The call to <a href="futures/struct.Notified.html#method.enable" title="method tokio::sync::futures::Notified::enable"><code><code>enable</code></code></a> is important because otherwise if you have two
-
-
-calls to <code><code>recv</code></code> and two calls to <code><code>send</code></code> in parallel, the following could
-
-
-happen:</p>
+<p>调用
+<a href="futures/struct.Notified.html#method.enable" title="method tokio::sync::futures::Notified::enable"><code><code>enable</code></code></a>
+很重要，
+因为
+否则
+如果你
+并行地
+有两个
+对
+<code><code>recv</code></code>
+的调用
+和
+两个
+对
+<code><code>send</code></code>
+的调用，
+
+
+可能会发生
+
+
+以下情况：</p>
 
 
 <ol>
@@ -262,25 +368,55 @@ consumes the permit, and the other sleeps forever.</li>
 </ol>
 
 
-<p>By adding the <code><code>Notified</code></code> futures to the list by calling <code><code>enable</code></code> before
+<p>通过在
+<code><code>try_recv</code></code>
+之前调用
+<code><code>enable</code></code>
+将
+<code><code>Notified</code></code>
+future
+添加到列表中，
+
+
+步骤三中的
+<code><code>notify_one</code></code>
+调用
+会
+从列表中移除
+这些 future，
+
+
+并将它们
+标记为已通知，
+
+
+而不是
+向
+<code><code>Notify</code></code>
+添加 permit。
+
+
+这
+确保
+两个 future
+都会被唤醒。</p>
 
 
-<code><code>try_recv</code></code>, the <code><code>notify_one</code></code> calls in step three would remove the
-
-
-futures from the list and mark them notified instead of adding a permit
-
-
-to the <code><code>Notify</code></code>. This ensures that both futures are woken.</p>
-
-
-<p>Notice that this failure can only happen if there are two concurrent calls
-
-
-to <code><code>recv</code></code>. This is why the mpsc example above does not require a call to
-
-
-<code><code>enable</code></code>.</p>
+<p>请注意，
+此失败
+仅在
+有两个
+对
+<code><code>recv</code></code>
+的并发调用时
+才会发生。
+
+
+这就是
+上面的 mpsc 示例
+不需要调用
+<code><code>enable</code></code>
+的原因。</p>
 
 
 

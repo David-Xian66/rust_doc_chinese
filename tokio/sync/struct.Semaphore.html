@@ -4,97 +4,103 @@
 
 
 
-<p>A semaphore maintains a set of permits. Permits are used to synchronize
+<p>semaphore 维护一组 permit。
+permit
+用于同步
+对共享资源的访问。
+semaphore 与 mutex 的不同之处
+在于它
+可以允许
+一个以上的并发调用者
+同时访问
+共享资源。</p>
 
 
 
 
 
-access to a shared resource. A semaphore differs from a mutex in that it
+<p>当
+<code><code>acquire</code></code>
+被调用，
+且 semaphore
+还有剩余 permit 时，
 
+该函数
+会立即
+返回一个 permit。
 
+但是，
+如果没有剩余 permit，
 
+<code><code>acquire</code></code>
+会（异步地）等待，
 
+直到
+一个未完成的 permit
+被丢弃。
 
-can allow more than one concurrent caller to access the shared resource at a
+此时，
+释放出的 permit
+会被分配给调用者。</p>
 
 
 
 
 
-time.</p>
+<p>此
+<code><code>Semaphore</code></code>
+是公平的，
 
+这意味着 permit
+按
+请求它们的顺序
 
+分发。
 
+当
+<code><code>acquire_many</code></code>
+涉及时，
 
+这种公平性
+也适用，
 
-<p>When <code><code>acquire</code></code> is called and the semaphore has remaining permits, the
+因此如果
+队列前端对
+<code><code>acquire_many</code></code>
+的调用请求
 
+比当前可用的
+更多的 permit，
 
+这
+可能会
 
+阻止
+对
+<code><code>acquire</code></code>
+的调用
 
+完成，
 
-function immediately returns a permit. However, if no remaining permits are
+即使
+semaphore
+有足够的 permit
 
+来完成该
+对
+<code><code>acquire</code></code>
+的调用。</p>
 
 
 
 
-available, <code><code>acquire</code></code> (asynchronously) waits until an outstanding permit is
 
-
-
-
-
-dropped. At this point, the freed permit is assigned to the caller.</p>
-
-
-
-
-
-<p>This <code><code>Semaphore</code></code> is fair, which means that permits are given out in the order
-
-
-
-
-
-they were requested. This fairness is also applied when <code><code>acquire_many</code></code> gets
-
-
-
-
-
-involved, so if a call to <code><code>acquire_many</code></code> at the front of the queue requests
-
-
-
-
-
-more permits than currently available, this can prevent a call to <code><code>acquire</code></code>
-
-
-
-
-
-from completing, even if the semaphore has enough permits complete the call
-
-
-
-
-
-to <code><code>acquire</code></code>.</p>
-
-
-
-
-
-<p>To use the <code><code>Semaphore</code></code> in a poll function, you can use the <a href="https://docs.rs/tokio-util/latest/tokio_util/sync/struct.PollSemaphore.html"><code><code>PollSemaphore</code></code></a>
-
-
-
-
-
-utility.</p>
+<p>要在 poll 函数
+中使用
+<code><code>Semaphore</code></code>，
+可以使用
+<a href="https://docs.rs/tokio-util/latest/tokio_util/sync/struct.PollSemaphore.html"><code><code>PollSemaphore</code></code></a>
+实用工具。</p>
 
 
 
@@ -106,7 +112,7 @@ utility.</p>
 
 
 
-<p>Basic usage:</p>
+<p>基本用法：</p>
 
 
 
@@ -184,61 +190,54 @@ utility.</p>
 
 
 
-<p>Most operating systems have limits on the number of open file
+<p>大多数操作系统
+对打开的文件句柄
+数量有限制。
+即使在
+没有明确限制的系统中，
+资源约束
+也会
+隐式设置
+打开文件数量的上限。
+如果你的程序
+尝试打开
+大量文件
+并超过此限制，
+将导致错误。</p>
 
 
 
 
 
-handles. Even in systems without explicit limits, resource constraints
+<p>此示例
+使用
+具有 100 个 permit 的
+<code>Semaphore</code>。
 
+在访问文件
+之前
+从
+<code>Semaphore</code>
 
+获取一个 permit，
 
+你可以
+确保你的程序
 
+一次打开
+不超过 100 个文件。
 
-implicitly set an upper bound on the number of open files. If your
+当尝试打开
+第 101 个文件时，
 
+程序
+将等待
+直到
+permit 可用，
 
-
-
-
-program attempts to open a large number of files and exceeds this
-
-
-
-
-
-limit, it will result in an error.</p>
-
-
-
-
-
-<p>This example uses a <code>Semaphore</code> with 100 permits. By acquiring a permit from
-
-
-
-
-
-the <code>Semaphore</code> before accessing a file, you ensure that your program opens
-
-
-
-
-
-no more than 100 files at a time. When trying to open the 101st
-
-
-
-
-
-file, the program will wait until a permit becomes available before
-
-
-
-
-
-proceeding to open another file.</p>
+然后才
+继续打开
+另一个文件。</p>
 
 
 
@@ -328,55 +327,62 @@ proceeding to open another file.</p>
 
 
 
-<p>In some scenarios, it might be required to limit the number of outgoing
+<p>在某些场景下，
+可能需要
+限制
+并行发送的
+传出请求数量。
+这可能是由于
+所使用 API 的限制，
+或应用程序运行的
+系统
+网络资源的限制。</p>
 
 
 
 
 
-requests being sent in parallel. This could be due to limits of a consumed
+<p>此示例
+使用
+具有 10 个 permit 的
+<code><code>Arc&lt;Semaphore&gt;</code></code>。
 
+每个
+派生的任务
 
+通过克隆
+<code><code>Arc&lt;Semaphore&gt;</code></code>
 
+获取对 semaphore 的引用。
 
+任务
+发送请求之前，
 
-API or the network resources of the system the application is running on.</p>
+必须
+通过调用
+<a href="struct.Semaphore.html#method.acquire" title="method tokio::sync::Semaphore::acquire"><code><code>Semaphore::acquire</code></code></a>
 
+从 semaphore
 
+获取一个 permit。
 
+这
+确保
 
+最多 10 个请求
 
-<p>This example uses an <code><code>Arc&lt;Semaphore&gt;</code></code> with 10 permits. Each task spawned is
+在任何给定时间
+并行发送。
+任务
+发送请求之后，
 
+它
 
+会
 
-
-
-given a reference to the semaphore by cloning the <code><code>Arc&lt;Semaphore&gt;</code></code>. Before
-
-
-
-
-
-a task sends a request, it must <code>acquire</code> a permit from the semaphore by
-
-
-
-
-
-calling <a href="struct.Semaphore.html#method.acquire" title="method tokio::sync::Semaphore::acquire"><code><code>Semaphore::acquire</code></code></a>. This ensures that at most 10 requests are
-
-
-
-
-
-sent in parallel at any given time. After a task has sent a request, it
-
-
-
-
-
-drops the permit to allow other tasks to send requests.</p>
+丢弃该 permit，
+以允许其他任务
+发送请求。</p>
 
 
 
@@ -574,37 +580,31 @@ drops the permit to allow other tasks to send requests.</p>
 
 
 
-<p>Similar to limiting the number of simultaneously opened files, network handles
+<p>类似于
+限制同时打开的文件数，
+网络句柄
+是一种有限的资源。
+允许
+无限制数量的请求
+被处理
+可能会
+导致拒绝服务，
+以及许多其他问题。</p>
 
 
 
 
 
-are a limited resource. Allowing an unbounded amount of requests to be processed
+<p>此示例
+使用
+<code><code>Arc&lt;Semaphore&gt;</code></code>
+而不是
+全局变量。
 
-
-
-
-
-could result in a denial-of-service, among many other issues.</p>
-
-
-
-
-
-<p>This example uses an <code><code>Arc&lt;Semaphore&gt;</code></code> instead of a global variable.
-
-
-
-
-
-To limit the number of requests that can be processed at the time,
-
-
-
-
-
-we <code>acquire</code> a permit for each task before spawning it. Once acquired,
+为了
+限制
+可同时
+处理的请求数，
 
 
 
@@ -802,25 +802,24 @@ of the task to allow others to spawn. Permits must be acquired via
 
 
 
-<p>By default, Rust runs tests in the same file in parallel. However, in some
+<p>默认情况下，
+Rust 并行运行
+同一文件中的测试。
+但是，
+在某些情况下，
+并行运行两个测试
+可能会导致问题。
+例如，
+当测试
+使用
+同一个数据库时，
+就可能发生这种情况。</p>
 
 
 
 
 
-cases, running two tests in parallel may lead to problems. For example, this
-
-
-
-
-
-can happen when tests use the same database.</p>
-
-
-
-
-
-<p>Consider the following scenario:</p>
+<p>考虑以下场景：</p>
 
 
 
@@ -874,19 +873,19 @@ can run in parallel with the other tests.</li>
 
 
 
-<p>In this example, <code><code>test_insert</code></code> and <code><code>test_update</code></code> need to run in sequence to
-
-
-
-
-
-work, but it doesn’t matter which test runs first. We can leverage a
-
-
-
-
-
-semaphore with a single permit to address this challenge.</p>
+<p>在此示例中，
+<code><code>test_insert</code></code>
+和
+<code><code>test_update</code></code>
+需要按顺序运行
+才能正常工作，
+但哪个测试
+先运行
+并不重要。
+我们可以利用
+具有单个 permit 的
+semaphore
+来解决此问题。</p>
 
 
 
@@ -1258,91 +1257,95 @@ semaphore with a single permit to address this challenge.</p>
 
 
 
-<p>This example showcases the <a href="struct.Semaphore.html#method.add_permits" title="method tokio::sync::Semaphore::add_permits"><code><code>add_permits</code></code></a> and <a href="struct.SemaphorePermit.html#method.forget" title="method tokio::sync::SemaphorePermit::forget"><code><code>SemaphorePermit::forget</code></code></a> methods.</p>
+<p>此示例
+展示了
+<a href="struct.Semaphore.html#method.add_permits" title="method tokio::sync::Semaphore::add_permits"><code><code>add_permits</code></code></a>
+和
+<a href="struct.SemaphorePermit.html#method.forget" title="method tokio::sync::SemaphorePermit::forget"><code><code>SemaphorePermit::forget</code></code></a>
+方法。</p>
 
 
 
 
 
-<p>Many applications and systems have constraints on the rate at which certain
+<p>许多应用程序
+和系统
+对
+某些操作
+应发生的
+速率
+有限制。
+超过此速率
+可能会导致
+次优的性能
+甚至错误。</p>
 
 
 
 
 
-operations should occur. Exceeding this rate can result in suboptimal
+<p>此示例
+使用
+<a href="https://en.wikipedia.org/wiki/Token_bucket">token bucket</a>
+实现速率限制。
+token bucket 是一种
+速率限制形式，
+不会立即生效，
+以便
+允许
+同时到达的传入请求
+出现
+短暂的突发。</p>
 
 
 
 
 
-performance or even errors.</p>
+<p>对于 token bucket，
+每个传入请求
+消耗一个 token，
+且 token
+以
+定义速率限制的
+特定速率
+被补充。
+当一批请求
+到达时，
+token
+会立即分发，
+直到 bucket 为空。
+一旦 bucket 为空，
+请求必须
+等待
+新 token 被添加。</p>
 
 
 
 
 
-<p>This example implements rate limiting using a <a href="https://en.wikipedia.org/wiki/Token_bucket">token bucket</a>. A token bucket is a form of rate
+<p>与
+限制同时可处理
+请求数的示例不同，
+我们
+不会在
+完成处理请求后
+将 token 加回。
+相反，
+token 仅由
+定时器任务
+添加。</p>
 
 
 
 
 
-limiting that doesn’t kick in immediately, to allow for short bursts of incoming requests that
-
-
-
-
-
-arrive at the same time.</p>
-
-
-
-
-
-<p>With a token bucket, each incoming request consumes a token, and the tokens are refilled at a
-
-
-
-
-
-certain rate that defines the rate limit. When a burst of requests arrives, tokens are
-
-
-
-
-
-immediately given out until the bucket is empty. Once the bucket is empty, requests will have to
-
-
-
-
-
-wait for new tokens to be added.</p>
-
-
-
-
-
-<p>Unlike the example that limits how many requests can be handled at the same time, we do not add
-
-
-
-
-
-tokens back when we finish handling a request. Instead, tokens are added only by a timer task.</p>
-
-
-
-
-
-<p>Note that this implementation is suboptimal when the duration is small, because it consumes a
-
-
-
-
-
-lot of cpu constantly looping and sleeping.</p>
+<p>请注意，
+当持续时间较小时，
+此实现
+是次优的，
+因为它
+会消耗大量 cpu
+来持续循环和睡眠。</p>
 
 
 

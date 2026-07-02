@@ -1,14 +1,51 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="返回内部值的引用。"><title>Ref in tokio::sync::watch - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Ref</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Ref</a></h2><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.has_changed" title="has_changed">has_changed</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Ref%3C'a,+T%3E" title="Debug">Debug</a></li><li><a href="#impl-Deref-for-Ref%3C'_,+T%3E" title="Deref">Deref</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Ref%3C'a,+T%3E" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-Send-for-Ref%3C'a,+T%3E" title="!Send">!Send</a></li><li><a href="#impl-UnwindSafe-for-Ref%3C'a,+T%3E" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Freeze-for-Ref%3C'a,+T%3E" title="Freeze">Freeze</a></li><li><a href="#impl-Sync-for-Ref%3C'a,+T%3E" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Ref%3C'a,+T%3E" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Ref%3C'a,+T%3E" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-Receiver-for-P" title="Receiver">Receiver</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync::<wbr>watch</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a>::<wbr><a href="index.html">watch</a></div><h1>结构体 <span class="struct">Ref</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync/watch.rs.html#243-246">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Ref&lt;'a, T&gt; { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>返回内部值的引用。</p>
-<p>Outstanding borrows hold a read lock on the inner value. This means that
-long-lived borrows could cause the producer half to block. It is recommended
-to keep the borrow as short-lived as possible. Additionally, if you are
-running in an environment that allows <code>!Send</code> futures, you must ensure that
-the returned <code>Ref</code> type is never held alive across an <code>.await</code> point,
-otherwise, it can lead to a deadlock.</p>
-<p>The priority policy of the lock is dependent on the underlying lock
-implementation, and this type does not guarantee that any particular policy
-will be used. In particular, a producer which is waiting to acquire the lock
-in <code>send</code> might or might not block concurrent calls to <code>borrow</code>, e.g.:</p>
+<p>未完成的借用
+会对内部值
+持有读锁。
+这意味着
+长时间存活的借用
+可能会
+导致生产者一半阻塞。
+建议
+尽可能
+保持借用
+短暂存在。
+此外，
+如果你在
+允许
+<code>!Send</code>
+future 的环境中运行，
+则必须确保
+返回的
+<code>Ref</code>
+类型
+永远
+不会在
+<code>.await</code>
+点之间
+保持存活，
+否则
+可能会
+导致死锁。</p>
+<p>锁的优先级策略
+取决于
+底层锁实现，
+此类型
+不保证
+将使用
+任何特定的策略。
+特别的，
+在
+<code>send</code>
+中
+等待获取锁的生产者
+可能会
+也可能不会
+阻塞
+对
+<code>borrow</code>
+的并发调用，
+例如：</p>
 <details><summary>Potential deadlock example</summary>
 <div class="example-wrap"><pre class="language-text"><code>// Task 1 (on thread A)    |  // Task 2 (on thread B)
 let _ref1 = rx.borrow();   |

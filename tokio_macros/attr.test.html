@@ -5,29 +5,29 @@
 <p>注意：该宏被设计为简单易用，面向不需要复杂配置的应用。如果所提供的功能不够用，
 您可以考虑使用
 <a href="../tokio/runtime/struct.Builder.html">Builder</a>，它提供更强大的接口。</p>
-<h2 id="multi-threaded-runtime"><a class="doc-anchor" href="#multi-threaded-runtime">§</a>Multi-threaded runtime</h2>
+<h2 id="multi-threaded-runtime"><a class="doc-anchor" href="#multi-threaded-runtime">§</a>多线程运行时</h2>
 <p>要使用多线程运行时，可通过以下方式配置该宏：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::test(flavor = <span class="string">"multi_thread"</span>, worker_threads = <span class="number">1</span>)]
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>The <code>worker_threads</code> option configures the number of worker threads, and
-defaults to the number of cpus on the system.</p>
+<p><code>worker_threads</code> 选项用于配置 worker 线程数量，
+默认为系统上的 CPU 数量。</p>
 <p>注意：多线程运行时需要 <code>rt-multi-thread</code> 特性标志。</p>
-<h2 id="current-thread-runtime"><a class="doc-anchor" href="#current-thread-runtime">§</a>Current thread runtime</h2>
-<p>The default test runtime is single-threaded. Each test gets a
-separate current-thread runtime.</p>
+<h2 id="current-thread-runtime"><a class="doc-anchor" href="#current-thread-runtime">§</a>当前线程运行时</h2>
+<p>默认的测试运行时是单线程的。每个测试
+使用独立的当前线程运行时。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::test]
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
-}</code></pre></div><h3 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h3><h4 id="set-the-name-of-the-runtime"><a class="doc-anchor" href="#set-the-name-of-the-runtime">§</a>Set the name of the runtime</h4>
+}</code></pre></div><h3 id="usage"><a class="doc-anchor" href="#usage">§</a>用法</h3><h4 id="set-the-name-of-the-runtime"><a class="doc-anchor" href="#set-the-name-of-the-runtime">§</a>Set the name of the runtime</h4>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[tokio::test(name = <span class="string">"my-test-runtime"</span>)]
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
 </span><span class="kw">fn </span>my_test() {
@@ -44,7 +44,7 @@ separate current-thread runtime.</p>
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
 </span><span class="kw">fn </span>my_test() {
@@ -60,7 +60,7 @@ separate current-thread runtime.</p>
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
 </span><span class="kw">fn </span>my_test() {
@@ -76,7 +76,7 @@ separate current-thread runtime.</p>
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
 </span><span class="kw">fn </span>my_test() {
@@ -93,7 +93,7 @@ separate current-thread runtime.</p>
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">assert!</span>(<span class="bool-val">true</span>);
 }</code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
 </span><span class="kw">fn </span>my_test() {
@@ -106,7 +106,7 @@ separate current-thread runtime.</p>
             <span class="macro">assert!</span>(<span class="bool-val">true</span>);
         })
 }</code></pre></div>
-<p>Note that <code>start_paused</code> requires the <code>test-util</code> feature to be enabled.</p>
+<p>注意：<code>start_paused</code> 需要启用 <code>test-util</code> 特性。</p>
 <h4 id="rename-package"><a class="doc-anchor" href="#rename-package">§</a>Rename package</h4>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio <span class="kw">as </span>tokio1;
 
@@ -114,8 +114,8 @@ separate current-thread runtime.</p>
 </span><span class="kw">async fn </span>my_test() {
     <span class="macro">println!</span>(<span class="string">"Hello world"</span>);
 }</code></pre></div><h4 id="configure-unhandled-panic-behavior"><a class="doc-anchor" href="#configure-unhandled-panic-behavior">§</a>Configure unhandled panic behavior</h4>
-<p>Available options are <code>shutdown_runtime</code> and <code>ignore</code>. For more details, see
-<a href="../tokio/runtime/struct.Builder.html#method.unhandled_panic"><code>Builder::unhandled_panic</code></a>.</p>
+<p>可用选项包括 <code>shutdown_runtime</code> 和 <code>ignore</code>。更多详情请参阅
+<a href="../tokio/runtime/struct.Builder.html#method.unhandled_panic"><code>Builder::unhandled_panic</code></a>。</p>
 <p>此选项仅与 <code>current_thread</code> 运行时兼容。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(tokio_unstable)]
@@ -126,7 +126,7 @@ separate current-thread runtime.</p>
     }).<span class="kw">await</span>;
 }
 </code></pre></div>
-<p>Equivalent code not using <code>#[tokio::test]</code></p>
+<p>不使用 <code>#[tokio::test]</code> 的等价代码</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[cfg(tokio_unstable)]
 #[test]
@@ -143,7 +143,6 @@ separate current-thread runtime.</p>
         })
 }
 </code></pre></div>
-<p><strong>Note</strong>: This option depends on Tokio’s <a href="../tokio/index.html#unstable-features">unstable API</a>. See <a href="../tokio/index.html#unstable-features">the
-documentation on unstable features</a> for details on how to enable
-Tokio’s unstable features.</p>
+<p><strong>注意</strong>：此选项依赖于 Tokio 的<a href="../tokio/index.html#unstable-features">不稳定 API</a>。关于如何启用
+Tokio 不稳定特性的详情，请参阕<a href="../tokio/index.html#unstable-features">不稳定特性相关文档</a>。</p>
 </div></details></section></div></main></body></html>

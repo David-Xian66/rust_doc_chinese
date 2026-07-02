@@ -1,88 +1,122 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="An asynchronous `Mutex`-like type."><title>Mutex in tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Mutex</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Mutex</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#which-kind-of-mutex-should-you-use" title="Which kind of mutex should you use?">Which kind of mutex should you use?</a></li><li><a href="#examples" title="Examples:">Examples:</a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.blocking_lock" title="blocking_lock">blocking_lock</a></li><li><a href="#method.blocking_lock_owned" title="blocking_lock_owned">blocking_lock_owned</a></li><li><a href="#method.const_new" title="const_new">const_new</a></li><li><a href="#method.get_mut" title="get_mut">get_mut</a></li><li><a href="#method.into_inner" title="into_inner">into_inner</a></li><li><a href="#method.lock" title="lock">lock</a></li><li><a href="#method.lock_owned" title="lock_owned">lock_owned</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.try_lock" title="try_lock">try_lock</a></li><li><a href="#method.try_lock_owned" title="try_lock_owned">try_lock_owned</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Mutex%3CT%3E" title="Debug">Debug</a></li><li><a href="#impl-Default-for-Mutex%3CT%3E" title="Default">Default</a></li><li><a href="#impl-From%3CT%3E-for-Mutex%3CT%3E" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Send-for-Mutex%3CT%3E" title="Send">Send</a></li><li><a href="#impl-Sync-for-Mutex%3CT%3E" title="Sync">Sync</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Mutex%3CT%3E" title="!Freeze">!Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Mutex%3CT%3E" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Mutex%3CT%3E" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Unpin-for-Mutex%3CT%3E" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Mutex%3CT%3E" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3C!%3E-for-T" title="From&#60;!&#62;">From&#60;!&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">sync</a></div><h1>结构体 <span class="struct">Mutex</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/mutex.rs.html#133-138">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Mutex&lt;T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>一个异步的、类似 <code><code>Mutex</code></code> 的类型。</p>
 
 
-<p>This type acts similarly to <a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>std::sync::Mutex</code></code></a>, with two major
+<p>此类型
+行为类似于
+<a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>std::sync::Mutex</code></code></a>，
+但有两个主要区别：
+<a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a>
+是一个异步方法，
+因此不会阻塞，
+并且 <code>lock</code>
+guard
+被设计为
+可以跨
+<code><code>.await</code></code>
+点
+持有。</p>
 
 
-differences: <a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a> is an async method so does not block, and the <code>lock</code>
-
-
-guard is designed to be held across <code><code>.await</code></code> points.</p>
-
-
-<p>Tokio’s <code>Mutex</code> operates on a guaranteed FIFO basis.
-
-
-This means that the order in which tasks call the <a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a> method is
-
-
-the exact order in which they will acquire the <code>lock</code>.</p>
+<p>Tokio 的
+<code>Mutex</code>
+以保证 FIFO 的方式运行。
+这意味着任务
+调用
+<a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a>
+方法的顺序
+就是它们
+获取 <code>lock</code>
+的确切顺序。</p>
 
 
 <h2 id="which-kind-of-mutex-should-you-use"><a class="doc-anchor" href="#which-kind-of-mutex-should-you-use">§</a>Which kind of mutex should you use?</h2>
 
 
-<p>Contrary to popular belief, it is ok and often preferred to use the ordinary
+<p>与流行的观点相反，
+在异步代码中
+使用标准库的
+普通
+<a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>Mutex</code></code></a>
+是可行的，
+而且通常是首选。</p>
 
 
-<a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>Mutex</code></code></a> from the standard library in asynchronous code.</p>
+<p>异步 mutex
+相对于阻塞 mutex
+所提供的特性是
+能够在
+<code><code>.await</code></code>
+点之间
+保持其锁定状态。
+这使得
+异步 mutex
+比阻塞 mutex
+更昂贵，
+因此在可以使用
+阻塞 mutex 的情况下，
+应优先使用
+阻塞 mutex。
+异步 mutex 的主要用例
+是
+提供对 IO 资源
+（如数据库连接）
+的
+共享可变访问。
+如果 mutex
+背后的值
+只是数据，
+通常适合使用
+阻塞 mutex，
+例如
+标准库中的
+那个
+或
+<a href="https://docs.rs/parking_lot"><code><code>parking_lot</code></code></a>
+中的
+那个。</p>
 
 
-<p>The feature that the async mutex offers over the blocking mutex is the
+<p>请注意，
+尽管在任务
+不在线程间
+移动的情况下，
+编译器
+不会阻止 std 的
+<code><code>Mutex</code></code>
+在
+<code><code>.await</code></code>
+点之间
+持有其 guard，
+但实际上
+这几乎从不会
+产生正确的并发代码，
+因为它很容易
+导致死锁。</p>
 
 
-ability to keep it locked across an <code><code>.await</code></code> point. This makes the async
+<p>一种常见模式是
+将
+<code><code>Arc&lt;Mutex&lt;...&gt;&gt;</code></code>
+包装在一个
+提供非异步方法
+来
+对其内部数据
+执行操作的
+结构体中，
+并且仅在这些方法内部
+对 mutex 调用 <code>lock</code>。
+<a href="https://github.com/tokio-rs/mini-redis/blob/master/src/db.rs">mini-redis</a> 示例
+演示了这种模式。</p>
 
 
-mutex more expensive than the blocking mutex, so the blocking mutex should
-
-
-be preferred in the cases where it can be used. The primary use case for the
-
-
-async mutex is to provide shared mutable access to IO resources such as a
-
-
-database connection. If the value behind the mutex is just data, it’s
-
-
-usually appropriate to use a blocking mutex such as the one in the standard
-
-
-library or <a href="https://docs.rs/parking_lot"><code><code>parking_lot</code></code></a>.</p>
-
-
-<p>Note that, although the compiler will not prevent the std <code><code>Mutex</code></code> from holding
-
-
-its guard across <code><code>.await</code></code> points in situations where the task is not movable
-
-
-between threads, this virtually never leads to correct concurrent code in
-
-
-practice as it can easily lead to deadlocks.</p>
-
-
-<p>A common pattern is to wrap the <code><code>Arc&lt;Mutex&lt;...&gt;&gt;</code></code> in a struct that provides
-
-
-non-async methods for performing operations on the data within, and only
-
-
-<code>lock</code> the mutex inside these methods. The <a href="https://github.com/tokio-rs/mini-redis/blob/master/src/db.rs">mini-redis</a> example provides an
-
-
-illustration of this pattern.</p>
-
-
-<p>Additionally, when you <em>do</em> want shared access to an IO resource, it is
-
-
-often better to spawn a task to manage the IO resource, and to use message
-
-
-passing to communicate with that task.</p>
+<p>此外，
+当你确实
+想要共享访问 IO 资源时，
+通常更好的做法是
+派生一个任务
+来管理该 IO 资源，
+并使用消息传递
+与该任务通信。</p>
 
 
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples:</h2>
@@ -193,7 +227,9 @@ tokio::spawn(<span class="kw">async move </span>{
 <span class="macro">println!</span>(<span class="string">"Count hit 50."</span>);</code></pre></div>
 
 
-<p>There are a few things of note here to pay attention to in this example.</p>
+<p>在此示例中
+有几点
+需要注意。</p>
 
 
 <ol>
@@ -217,43 +253,71 @@ the obtained lock as seen on lines 13 and 20.</li>
 </ol>
 
 
-<p>Tokio’s <code>Mutex</code> works in a simple FIFO (first in, first out) style where all
+<p>Tokio 的 <code>Mutex</code>
+以简单的 FIFO (先进先出)
+方式工作，
+其中
+对
+<a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a>
+的所有调用
+按
+它们执行的顺序
+完成。
+这样
+<code>Mutex</code>
+在如何将锁分配给
+内部数据方面
+是“公平的”且可预测的。
+每次迭代后，
+锁会被释放并重新获取，
+所以基本上，
+每个线程
+在将值递增一次后
+会回到队伍的末尾。
+请注意，
+线程启动时
+的
+时序
+存在一定的不可预测性，
+但
+一旦它们开始运行，
+它们就会
+可预测地
+交替进行。
+最后，
+由于
+在任何给定时间
+只有
+单个
+有效的
+<code>lock</code>，
+因此
+在修改内部值时
+不存在
+竞争条件的可能。</p>
 
 
-calls to <a href="struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code><code>lock</code></code></a> complete in the order they were performed. In that way the
-
-
-<code>Mutex</code> is “fair” and predictable in how it distributes the locks to inner
-
-
-data. Locks are released and reacquired after every iteration, so basically,
-
-
-each thread goes to the back of the line after it increments the value once.
-
-
-Note that there’s some unpredictability to the timing between when the
-
-
-threads are started, but once they are going they alternate predictably.
-
-
-Finally, since there is only a single valid <code>lock</code> at any given time, there is
-
-
-no possibility of a race condition when mutating the inner value.</p>
-
-
-<p>Note that in contrast to <a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>std::sync::Mutex</code></code></a>, this implementation does not
-
-
-poison the mutex when a thread holding the <a href="struct.MutexGuard.html" title="struct tokio::sync::MutexGuard"><code><code>MutexGuard</code></code></a> panics. In such a
-
-
-case, the mutex will be unlocked. If the panic is caught, this might leave
-
-
-the data protected by the mutex in an inconsistent state.</p>
+<p>请注意，
+与
+<a href="https://doc.rust-lang.org/1.95.0/std/sync/poison/mutex/struct.Mutex.html" title="struct std::sync::poison::mutex::Mutex"><code><code>std::sync::Mutex</code></code></a>
+相反，
+当持有
+<a href="struct.MutexGuard.html" title="struct tokio::sync::MutexGuard"><code><code>MutexGuard</code></code></a>
+的线程
+发生 panic 时，
+此实现
+不会
+将 mutex
+标记为已中毒。
+在这种情况下，
+mutex
+会被解锁。
+如果 panic 被捕获，
+这可能会
+使 mutex
+保护的数据
+处于
+不一致的状态。</p>
 
 
 </div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Mutex%3CT%3E" class="impl"><a class="src rightside" href="../../src/tokio/sync/mutex.rs.html#327-793">Source</a><a href="#impl-Mutex%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; <a class="struct" href="struct.Mutex.html" title="struct tokio::sync::Mutex">Mutex</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../../src/tokio/sync/mutex.rs.html#338-375">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>(t: T) -&gt; Self<div class="where">where

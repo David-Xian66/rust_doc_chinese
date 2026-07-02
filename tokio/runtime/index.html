@@ -1,46 +1,50 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Tokio 运行时。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/runtime/index.html"><meta property="og:type" content="article"><meta property="og:title" content="tokio::runtime - tokio"><meta property="og:description" content="Tokio 运行时。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/runtime/index.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="tokio::runtime - tokio"><meta name="twitter:description" content="Tokio 运行时。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>tokio::runtime - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Module runtime</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/runtime/index.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module runtime</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#choose-your-runtime" title="Choose your runtime">Choose your runtime</a><ul><li><a href="#bridging-with-sync-code" title="与同步代码桥接">与同步代码桥接</a></li><li><a href="#numa-awareness" title="NUMA 感知">NUMA 感知</a></li></ul></li><li><a href="#usage" title="用法">用法</a><ul><li><a href="#runtime-configurations" title="Runtime 配置">Runtime 配置</a></li><li><a href="#driving-the-runtime" title="驱动 runtime">驱动 runtime</a></li><li><a href="#lifetime-of-spawned-threads" title="生成线程的生命周期">生成线程的生命周期</a></li></ul></li><li><a href="#detailed-runtime-behavior" title="详细的 runtime 行为">详细的 runtime 行为</a><ul><li><a href="#io-and-timers" title="IO 与定时器">IO 与定时器</a></li><li><a href="#current-thread-runtime-behavior-at-the-time-of-writing" title="当前线程 runtime（撰写本文时的行为）">当前线程 runtime（撰写本文时的行为）</a></li><li><a href="#multi-threaded-runtime-behavior-at-the-time-of-writing" title="多线程 runtime（撰写本文时的行为）">多线程 runtime（撰写本文时的行为）</a></li></ul></li><li><a href="#performance-tuning" title="性能调优">性能调优</a><ul><li><a href="#file-descriptor-table-pre-warming" title="文件描述符表的预热">文件描述符表的预热</a></li></ul></li></ul><h3><a href="#structs">模块条目</a></h3><ul class="block"><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#enums" title="Enums">枚举</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">在 crate tokio 中</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>模块 <span>runtime</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/runtime/mod.rs.html#1-668">源代码</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Tokio 运行时。</p>
-<p>与其他 Rust 程序不同，异步应用程序需要运行时支持。特别是，需要以下运行时服务：</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Tokio 运行时。"><title>tokio::runtime - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module runtime</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module runtime</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#choose-your-runtime" title="Choose your runtime">Choose your runtime</a><ul><li><a href="#bridging-with-sync-code" title="与同步代码桥接">与同步代码桥接</a></li><li><a href="#numa-awareness" title="NUMA 感知">NUMA 感知</a></li></ul></li><li><a href="#usage" title="Usage">Usage</a><ul><li><a href="#runtime-configurations" title="Runtime 配置">运行时配置</a></li><li><a href="#driving-the-runtime" title="驱动 runtime">驱动运行时</a></li><li><a href="#lifetime-of-spawned-threads" title="生成线程的生命周期">派生线程的生命周期</a></li></ul></li><li><a href="#detailed-runtime-behavior" title="Detailed runtime behavior">Detailed runtime behavior</a><ul><li><a href="#io-and-timers" title="IO 与定时器">IO 和定时器</a></li><li><a href="#current-thread-runtime-behavior-at-the-time-of-writing" title="当前线程 runtime（撰写本文时的行为）">当前线程运行时（撰写时的行为）</a></li><li><a href="#multi-threaded-runtime-behavior-at-the-time-of-writing" title="多线程 runtime（撰写本文时的行为）">多线程运行时（撰写时的行为）</a></li></ul></li><li><a href="#performance-tuning" title="Performance tuning">Performance tuning</a><ul><li><a href="#file-descriptor-table-pre-warming" title="文件描述符表的预热">文件描述符表预热</a></li></ul></li></ul><h3><a href="#structs">模块条目</a></h3><ul class="block"><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#enums" title="Enums">枚举</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>Module <span>runtime</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/runtime/mod.rs.html#1-668">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>Tokio 运行时。</p>
+<p>与其他 Rust 程序不同，异步应用需要运行时
+support. In particular, the following runtime services are necessary:</p>
 <ul>
-<li>一个 <strong>I/O 事件循环</strong>（亦称 driver 驱动程序），它驱动 I/O 资源，并将 I/O 事件分发给依赖它们的 task。</li>
-<li>一个 <strong>调度器</strong>，用于执行使用这些 I/O 资源的 <a href="../task/index.html" title="mod tokio::task">tasks</a>。</li>
-<li>一个 <strong>定时器</strong>，用于在一段时间后调度工作运行。</li>
+<li>一个 <strong>I/O 事件循环</strong>（称为 driver），它驱动 I/O 资源，并把 I/O 事件分发给依赖这些资源的任务。</li>
+<li>一个 <strong>调度器</strong>，用于执行使用这些 I/O 资源的<a href="../task/index.html" title="mod tokio::task">任务</a>。</li>
+<li>一个 <strong>定时器</strong>，用于在一段时间后调度工作的运行。</li>
 </ul>
-<p>Tokio 的 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a> 将所有这些服务捆绑为单一类型，允许它们一起启动、关闭和配置。然而，通常不需要手动配置 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>，用户可以直接使用 <a href="../attr.main.html"><code>tokio::main</code></a> 属性宏，它会在底层创建一个 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>。</p>
-<h2 id="choose-your-runtime"><a class="doc-anchor" href="#choose-your-runtime">§</a>选择运行时</h2>
-<p>以下是为你的应用程序选择合适运行时的经验法则。</p>
+<p>Tokio 的<a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>将这些服务捆绑为单一类型，允许它们一起启动、关闭和配置。但通常不需要手动配置<a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>，用户可以直接使用<a href="../attr.main.html"><code>tokio::main</code></a>属性宏，它会在底层创建一个<a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>。</p>
+<h2 id="choose-your-runtime"><a class="doc-anchor" href="#choose-your-runtime">§</a>Choose your runtime</h2>
+<p>以下是为应用选择合适运行时的经验法则。</p>
 <div class="example-wrap"><pre class="language-plaintext"><code>   +------------------------------------------------------+
-   | 你需要工作窃取或多线程调度器吗？                    |
+   | Do you want work-stealing or multi-thread scheduler? |
    +------------------------------------------------------+
-                   | 是                | 否
+                   | Yes              | No
                    |                  |
                    |                  |
                    v                  |
      +------------------------+       |
-     |   多线程 Runtime        |       |
+     | Multi-threaded Runtime |       |
      +------------------------+       |
                                       |
                                       V
                      +--------------------------------+
-                     | 你执行的是 `!Send` Future 吗？    |
+                     | Do you execute `!Send` Future? |
                      +--------------------------------+
-                           | 是                  | 否
+                           | Yes                 | No
                            |                     |
                            V                     |
                    +---------------+             |
-                   |  本地 Runtime  |             |
+                   | Local Runtime |             |
                    +---------------+             |
                                                  |
                                                  v
                                      +------------------------+
-                                     |   当前线程 Runtime      |
+                                     | Current-thread Runtime |
                                      +------------------------+</code></pre></div>
-<p>上述决策树并不详尽。还有其他因素可能会影响你的决策。</p>
+<p>上面的决策树并不详尽。还有其他可能影响你决定的因素。</p>
 <h3 id="bridging-with-sync-code"><a class="doc-anchor" href="#bridging-with-sync-code">§</a>与同步代码桥接</h3>
 <p>有关详细信息，请参阅 <a href="https://tokio.rs/tokio/topics/bridging">https://tokio.rs/tokio/topics/bridging</a>。</p>
 <h3 id="numa-awareness"><a class="doc-anchor" href="#numa-awareness">§</a>NUMA 感知</h3>
-<p>tokio 运行时不支持 NUMA（非一致性内存访问）。在 NUMA 系统上，为了获得更好的性能，你可能希望启动多个运行时而不是单个运行时。</p>
-<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>用法</h2>
-<p>当不需要微调时，可以使用 <a href="../attr.main.html"><code>tokio::main</code></a> 属性宏。</p>
+<p>tokio 运行时不是 NUMA（非一致性内存访问）感知的。
+You may want to start multiple runtimes instead of a single runtime
+for better performance on NUMA systems.</p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p>当不需要细粒度调整时，
+可以使用 <a href="../attr.main.html"><code>tokio::main</code></a> 属性宏。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::TcpListener;
 <span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -55,10 +59,10 @@
         tokio::spawn(<span class="kw">async move </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
 
-            <span class="comment">// 在循环中，从 socket 读取数据并将其写回。
+            <span class="comment">// In a loop, read data from the socket and write the data back.
             </span><span class="kw">loop </span>{
                 <span class="kw">let </span>n = <span class="kw">match </span>socket.read(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await </span>{
-                    <span class="comment">// socket 已关闭
+                    <span class="comment">// socket closed
                     </span><span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return</span>,
                     <span class="prelude-val">Ok</span>(n) =&gt; n,
                     <span class="prelude-val">Err</span>(e) =&gt; {
@@ -67,7 +71,7 @@
                     }
                 };
 
-                <span class="comment">// 将数据写回
+                <span class="comment">// Write the data back
                 </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = socket.write_all(<span class="kw-2">&amp;</span>buf[<span class="number">0</span>..n]).<span class="kw">await </span>{
                     <span class="macro">println!</span>(<span class="string">"failed to write to socket; err = {:?}"</span>, e);
                     <span class="kw">return</span>;
@@ -76,18 +80,24 @@
         });
     }
 }</code></pre></div>
-<p>在运行时上下文中，可以使用 <a href="../task/fn.spawn.html" title="fn tokio::task::spawn"><code>tokio::spawn</code></a> 函数生成其他任务。使用此函数生成的 future 将在 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a> 使用的同一线程池上执行。</p>
-<p>也可以直接使用 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a> 实例。</p>
+<p>在运行时上下文中，
+额外的任务
+使用 <a href="../task/fn.spawn.html" title="fn tokio::task::spawn"><code>tokio::spawn</code></a>
+函数派生。
+使用此函数派生的 future
+将在 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a>
+使用的同一线程池上执行。</p>
+<p>也可以直接使用一个 <a href="struct.Runtime.html" title="struct tokio::runtime::Runtime"><code>Runtime</code></a> 实例。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::net::TcpListener;
 <span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
 <span class="kw">use </span>tokio::runtime::Runtime;
 
 <span class="kw">fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
-    <span class="comment">// 创建 runtime
+    <span class="comment">// Create the runtime
     </span><span class="kw">let </span>rt  = Runtime::new()<span class="question-mark">?</span>;
 
-    <span class="comment">// 派生根任务
+    <span class="comment">// Spawn the root task
     </span>rt.block_on(<span class="kw">async </span>{
         <span class="kw">let </span>listener = TcpListener::bind(<span class="string">"127.0.0.1:8080"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -97,10 +107,10 @@
             tokio::spawn(<span class="kw">async move </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">1024</span>];
 
-                <span class="comment">// 在循环中，从 socket 读取数据并将其写回。
+                <span class="comment">// In a loop, read data from the socket and write the data back.
                 </span><span class="kw">loop </span>{
                     <span class="kw">let </span>n = <span class="kw">match </span>socket.read(<span class="kw-2">&amp;mut </span>buf).<span class="kw">await </span>{
-                        <span class="comment">// socket 已关闭
+                        <span class="comment">// socket closed
                         </span><span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return</span>,
                         <span class="prelude-val">Ok</span>(n) =&gt; n,
                         <span class="prelude-val">Err</span>(e) =&gt; {
@@ -109,7 +119,7 @@
                         }
                     };
 
-                    <span class="comment">// 将数据写回
+                    <span class="comment">// Write the data back
                     </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = socket.write_all(<span class="kw-2">&amp;</span>buf[<span class="number">0</span>..n]).<span class="kw">await </span>{
                         <span class="macro">println!</span>(<span class="string">"failed to write to socket; err = {:?}"</span>, e);
                         <span class="kw">return</span>;
@@ -118,25 +128,64 @@
             });
         }
     })
-}</code></pre></div><h3 id="runtime-configurations"><a class="doc-anchor" href="#runtime-configurations">§</a>Runtime 配置</h3>
-<p>Tokio 提供多种任务调度策略，适用于不同的应用程序。<a href="struct.Builder.html" title="struct tokio::runtime::Builder">运行时构建器</a>或 <code>#[tokio::main]</code> 属性可用于选择要使用的调度器。</p>
+}</code></pre></div><h3 id="runtime-configurations"><a class="doc-anchor" href="#runtime-configurations">§</a>运行时配置</h3>
+<p>Tokio 提供了多种任务调度策略，
+适用于不同的应用程序。
+<a href="struct.Builder.html" title="struct tokio::runtime::Builder">运行时构建器</a> 或
+<code>#[tokio::main]</code> 属性
+可用于选择要使用的调度器。</p>
 <h5 id="multi-thread-scheduler"><a class="doc-anchor" href="#multi-thread-scheduler">§</a>Multi-Thread Scheduler</h5>
-<p>多线程调度器在<em>线程池</em>上使用工作窃取策略执行 future。默认情况下，它会为系统上每个可用的 CPU 核心启动一个工作线程。这往往是大多数应用程序的理想配置。多线程调度器需要 <code>rt-multi-thread</code> 特性标志，并且默认选中：</p>
+<p>多线程调度器在<em>线程池</em>上
+使用工作窃取策略执行 future。
+默认情况下，
+它将为系统上每个可用的 CPU 核心
+启动一个工作线程。
+这通常是大多数应用程序的理想配置。
+多线程调度器需要
+<code>rt-multi-thread</code>
+feature flag，
+并且默认选中：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
 
 <span class="kw">let </span>threaded_rt = runtime::Runtime::new()<span class="question-mark">?</span>;</code></pre></div>
-<p>除了一些小众用例（例如只需要运行单个线程时），大多数应用程序应使用多线程调度器。</p>
+<p>大多数应用程序应使用多线程调度器，
+除非在某些小众用例中，例如仅需要运行单个线程时。</p>
 <h5 id="current-thread-scheduler"><a class="doc-anchor" href="#current-thread-scheduler">§</a>Current-Thread Scheduler</h5>
-<p>当前线程调度器提供一个<em>单线程</em>的 future 执行器。所有任务都将创建并在当前线程上执行。这需要 <code>rt</code> 特性标志。</p>
+<p>当前线程调度器提供了一个<em>单线程</em>的
+future 执行器。
+所有任务都将在当前线程上
+创建和执行。
+这需要 <code>rt</code> feature flag。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::runtime;
 
 <span class="kw">let </span>rt = runtime::Builder::new_current_thread()
     .build()<span class="question-mark">?</span>;</code></pre></div><h5 id="resource-drivers"><a class="doc-anchor" href="#resource-drivers">§</a>Resource drivers</h5>
-<p>手动配置运行时时，默认不启用任何资源驱动程序。在这种情况下，尝试使用网络类型或时间类型将失败。为了启用这些类型，必须启用资源驱动程序。这是通过 <a href="struct.Builder.html#method.enable_io" title="method tokio::runtime::Builder::enable_io"><code>Builder::enable_io</code></a> 和 <a href="struct.Builder.html#method.enable_time" title="method tokio::runtime::Builder::enable_time"><code>Builder::enable_time</code></a> 完成的。作为简写，<a href="struct.Builder.html#method.enable_all" title="method tokio::runtime::Builder::enable_all"><code>Builder::enable_all</code></a> 启用这两个资源驱动程序。</p>
-<h3 id="driving-the-runtime"><a class="doc-anchor" href="#driving-the-runtime">§</a>驱动 runtime</h3>
-<p>Tokio 运行时仅在运行时正在运行时才能执行任务。通常这不是问题，因为运行时的默认配置始终在运行，但是像当前线程运行时之类的替代配置要求必须调用 <a href="struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>。</p>
+<p>手动配置运行时时，
+默认不会启用
+任何资源 driver。
+在这种情况下，
+尝试使用网络类型或时间类型
+将失败。
+为了启用这些类型，
+必须启用资源 driver。
+这是通过
+<a href="struct.Builder.html#method.enable_io" title="method tokio::runtime::Builder::enable_io"><code>Builder::enable_io</code></a>
+和
+<a href="struct.Builder.html#method.enable_time" title="method tokio::runtime::Builder::enable_time"><code>Builder::enable_time</code></a>
+来完成的。
+作为简写，
+<a href="struct.Builder.html#method.enable_all" title="method tokio::runtime::Builder::enable_all"><code>Builder::enable_all</code></a>
+启用两个资源 driver。</p>
+<h3 id="driving-the-runtime"><a class="doc-anchor" href="#driving-the-runtime">§</a>驱动运行时</h3>
+<p>Tokio 运行时仅在运行时正在运行时
+才能执行任务。
+通常这不是问题，
+因为运行时的默认配置始终在运行，
+但诸如 current-thread 之类的替代配置
+要求
+调用 <a href="struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>。</p>
 <ul>
 <li>A multi-threaded runtime is always running because it spawns its own worker
 threads.</li>
@@ -146,18 +195,54 @@ execute tasks when you provide a thread by calling <a href="struct.Runtime.html#
 it when the <code>LocalSet</code> is <code>.awaited</code> or otherwise driven using one of its
 methods for this purpose.</li>
 </ul>
-<p>请注意，<a href="struct.Handle.html#method.block_on" title="method tokio::runtime::Handle::block_on"><code>Handle::block_on</code></a> 不会驱动运行时。在使用当前线程运行时时，必须至少调用一次 <a href="struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>。仅调用 <a href="struct.Handle.html#method.block_on" title="method tokio::runtime::Handle::block_on"><code>Handle::block_on</code></a> 是不够的。</p>
-<h3 id="lifetime-of-spawned-threads"><a class="doc-anchor" href="#lifetime-of-spawned-threads">§</a>生成线程的生命周期</h3>
-<p>运行时可能会根据其配置和使用情况生成线程。多线程调度器生成线程以调度任务和用于 <code>spawn_blocking</code> 调用。</p>
-<p>当 <code>Runtime</code> 处于活动状态时，线程可能会在空闲一段时间后关闭。一旦 <code>Runtime</code> 被 drop，所有运行时线程通常已被终止，但是在存在无法停止的已生成工作的情况下，不能保证它们已被终止。有关更多详细信息，请参阅<a href="struct.Runtime.html#shutdown" title="struct tokio::runtime::Runtime">结构体级别文档</a>。</p>
-<h2 id="detailed-runtime-behavior"><a class="doc-anchor" href="#detailed-runtime-behavior">§</a>详细的 runtime 行为</h2>
-<p>本节详细介绍了 Tokio 运行时将如何调度任务以供执行。</p>
-<p>在最基本层面上，运行时具有一组需要调度的任务。它会重复地从该集合中移除一个任务并调度它（通过调用 <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#tymethod.poll" title="method core::future::future::Future::poll"><code>poll</code></a>）。当集合为空时，线程将进入睡眠状态，直到有新任务添加到集合中。</p>
-<p>然而，仅有以上这些不足以保证运行时的良好行为。例如，运行时可能有一个始终准备好被调度的任务，并且每次都调度该任务。这是一个问题，因为它不调度其他任务会导致它们挨饿。为了解决这个问题，Tokio 提供了以下公平性保证：</p>
+<p>请注意，
+<a href="struct.Handle.html#method.block_on" title="method tokio::runtime::Handle::block_on"><code>Handle::block_on</code></a>
+不会驱动运行时。
+在使用 current
+thread 运行时时，
+必须至少调用一次
+<a href="struct.Runtime.html#method.block_on" title="method tokio::runtime::Runtime::block_on"><code>Runtime::block_on</code></a>。
+仅 <a href="struct.Handle.html#method.block_on" title="method tokio::runtime::Handle::block_on"><code>Handle::block_on</code></a>
+是不够的。</p>
+<h3 id="lifetime-of-spawned-threads"><a class="doc-anchor" href="#lifetime-of-spawned-threads">§</a>派生线程的生命周期</h3>
+<p>运行时可能会根据其配置和使用情况
+派生线程。
+多线程调度器派生线程
+以调度任务
+和用于 <code>spawn_blocking</code> 调用。</p>
+<p>当 <code>Runtime</code> 处于活动状态时，
+线程可能会在空闲一段时间后
+关闭。
+一旦 <code>Runtime</code> 被丢弃，
+所有运行时线程通常已被终止，
+但在存在无法停止的已派生工作的情况下，
+不保证已被终止。
+有关更多详细信息，
+请参阅
+<a href="struct.Runtime.html#shutdown" title="struct tokio::runtime::Runtime">struct 级别的文档</a>。</p>
+<h2 id="detailed-runtime-behavior"><a class="doc-anchor" href="#detailed-runtime-behavior">§</a>Detailed runtime behavior</h2>
+<p>本节详细介绍了 Tokio 运行时将如何调度
+tasks for execution.</p>
+<p>在最基础的层面，
+运行时有一个
+需要调度的任务集合。
+它将反复地从该集合中移除一个任务
+并调度它（通过调用
+<a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#tymethod.poll" title="method core::future::future::Future::poll"><code>poll</code></a>）。
+当集合为空时，
+线程将进入休眠，
+直到有任务被添加到集合中。</p>
+<p>然而，上述并不足以保证运行时表现良好。
+For example, the runtime might have a single task that is always ready to be
+scheduled, and schedule that task every time. This is a problem because it
+starves other tasks by not scheduling them. To solve this, Tokio provides
+the following fairness guarantee:</p>
 <blockquote>
-<p>如果任务总数不会无限制地增长，并且没有任务<a href="https://ryhl.io/blog/async-what-is-blocking/">阻塞线程</a>，那么可以保证任务被公平地调度。</p>
+<p>如果任务总数不会无限制增长，且没有任务
+<a href="https://ryhl.io/blog/async-what-is-blocking/">blocking the thread</a>, then it is guaranteed that tasks are scheduled
+fairly.</p>
 </blockquote>
-<p>或者，更正式地讲：</p>
+<p>或者，更正式地说：</p>
 <blockquote>
 <p>在以下两个假设下：</p>
 <ul>
@@ -166,27 +251,146 @@ the runtime at any specific point in time never exceeds <code>MAX_TASKS</code>.<
 <li>There is some number <code>MAX_SCHEDULE</code> such that calling <a href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#tymethod.poll" title="method core::future::future::Future::poll"><code>poll</code></a> on any
 task spawned on the runtime returns within <code>MAX_SCHEDULE</code> time units.</li>
 </ul>
-<p>那么，存在某个数字 <code>MAX_DELAY</code>，使得当一个任务被唤醒时，它将在 <code>MAX_DELAY</code> 个时间单位内被运行时调度。</p>
+<p>那么，
+存在某个数 <code>MAX_DELAY</code>，
+使得当一个任务被唤醒时，
+它将在 <code>MAX_DELAY</code>
+个时间单位内被运行时调度。</p>
 </blockquote>
-<p>（这里，<code>MAX_TASKS</code> 和 <code>MAX_SCHEDULE</code> 可以是任何数字，运行时的用户可以选择它们。<code>MAX_DELAY</code> 数字由运行时控制，取决于 <code>MAX_TASKS</code> 和 <code>MAX_SCHEDULE</code> 的值。）</p>
-<p>除了上述公平性保证外，不保证任务调度的顺序。也不保证运行时对所有任务同样公平。例如，如果运行时有两个任务 A 和 B 都已就绪，那么运行时可能会先调度 A 五次，然后再调度 B。即使 A 使用 <a href="../task/fn.yield_now.html" title="fn tokio::task::yield_now"><code>yield_now</code></a> 屈服，也是如此。所保证的只是它最终会调度 B。</p>
-<p>通常，仅当任务已通过对 waker 调用 <a href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Waker.html#method.wake" title="method core::task::wake::Waker::wake"><code>wake</code></a> 被唤醒时才会被调度。但是，这并不是保证的，在某些情况下，Tokio 可能会调度尚未被唤醒的任务。这称为伪唤醒。</p>
-<h3 id="io-and-timers"><a class="doc-anchor" href="#io-and-timers">§</a>IO 与定时器</h3>
-<p>除了调度任务之外，运行时还必须管理 IO 资源和计时器。它通过定期检查是否有任何就绪的 IO 资源或计时器，并唤醒相关任务以使其被调度，来实现这一点。</p>
-<p>这些检查在调度任务之间定期执行。在与之前公平性保证相同的假设下，Tokio 保证它将在某个最大时间单位数内唤醒具有 IO 或计时器事件的任务。</p>
-<h3 id="current-thread-runtime-behavior-at-the-time-of-writing"><a class="doc-anchor" href="#current-thread-runtime-behavior-at-the-time-of-writing">§</a>当前线程 runtime（撰写本文时的行为）</h3>
-<p>本节描述了 <a href="struct.Builder.html#method.new_current_thread" title="associated function tokio::runtime::Builder::new_current_thread">当前线程运行时</a> 当前的行为方式。此行为可能会在未来的 Tokio 版本中发生变化。</p>
-<p>当前线程运行时维护两个准备调度的任务的 FIFO 队列：全局队列和本地队列。运行时将优先从本地队列中选择要调度的下一个任务，并且仅在本地队列为空时或已连续从本地队列中选择任务 31 次时，才从全局队列中选择任务。数字 31 可以使用 <a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a> 设置进行更改。</p>
-<p>每当没有任务可以被调度时，或者已经连续调度了 61 个任务时，运行时将检查新的 I/O 或定时器事件。数字 61 可以使用 <a href="struct.Builder.html#method.event_interval" title="method tokio::runtime::Builder::event_interval"><code>event_interval</code></a> 设置进行更改。</p>
-<p>当任务是从运行时上运行的任务内部被唤醒时，则唤醒的任务被直接添加到本地队列。否则，该任务被添加到全局队列。当前线程运行时不使用<a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot">lifo 槽优化</a>。</p>
-<h3 id="multi-threaded-runtime-behavior-at-the-time-of-writing"><a class="doc-anchor" href="#multi-threaded-runtime-behavior-at-the-time-of-writing">§</a>多线程 runtime（撰写本文时的行为）</h3>
-<p>本节描述了 <a href="crate::runtime::Builder::new_multi_thread">多线程运行时</a> 当前的行为方式。此行为可能会在未来的 Tokio 版本中发生变化。</p>
-<p>多线程运行时具有固定数量的工作线程，所有这些线程都是在启动时创建的。多线程运行时维护一个全局队列，以及每个工作线程的一个本地队列。一个工作线程的本地队列最多可以容纳 256 个任务。如果添加到本地队列的任务超过 256 个，则其中的一半将被移动到全局队列以腾出空间。</p>
-<p>运行时将优先从本地队列中选择下一个要调度的任务，并且仅当本地队列为空，或已连续从本地队列中选择了 <a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a> 次任务时，才会从全局队列中选择任务。如果未使用运行时 builder 显式设置 <a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a> 的值，则运行时将使用启发式方法动态计算它，该方法以每次检查全局队列之间间隔 10 毫秒为目标（基于 <a href="crate::runtime::RuntimeMetrics::worker_mean_poll_time"><code>worker_mean_poll_time</code></a> 指标）。</p>
-<p>如果本地队列和全局队列都为空，那么工作线程将尝试从其他工作线程的本地队列窃取任务。窃取是通过将一个本地队列中的一半任务移动到另一个本地队列来完成的。</p>
-<p>每当没有任务可以被调度时，或者已经连续调度了 61 个任务时，运行时将检查新的 I/O 或定时器事件。数字 61 可以使用 <a href="struct.Builder.html#method.event_interval" title="method tokio::runtime::Builder::event_interval"><code>event_interval</code></a> 设置进行更改。</p>
-<p>多线程运行时使用 <a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot">lifo slot 优化</a>：每当一个任务唤醒另一个任务时，另一个任务将添加到工作线程的 lifo slot 中，而不是添加到队列中。如果在发生这种情况时 lifo slot 中已存在任务，则替换 lifo slot，并且原来在 lifo slot 中的任务将放入线程的本地队列中。当运行时完成一个任务的调度时，如果有 lifo slot，它将立即调度 lifo slot 中的任务。使用 lifo slot 时，<a href="../task/coop/index.html#cooperative-scheduling" title="mod tokio::task::coop">coop budget</a> 不会重置。此外，如果工作线程连续三次使用 lifo slot，则会暂时禁用它，直到工作线程调度了一个不是来自 lifo slot 的任务。可以使用 <a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot"><code>disable_lifo_slot</code></a> 设置禁用 lifo slot。lifo slot 与本地队列分开，因此其他工作线程无法窃取 lifo slot 中的任务。</p>
-<p>当任务是从非工作线程唤醒时，则该任务被放入全局队列中。</p>
-<h2 id="performance-tuning"><a class="doc-anchor" href="#performance-tuning">§</a>性能调优</h2><h3 id="file-descriptor-table-pre-warming"><a class="doc-anchor" href="#file-descriptor-table-pre-warming">§</a>文件描述符表的预热</h3>
-<p>在 Linux 上，文件描述符表的增长可能会阻塞工作线程。请参阅 <a href="https://github.com/tokio-rs/tokio/blob/master/examples/prewarm-fd-table.rs"><code>prewarm-fd-table</code></a> 示例。</p>
-</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Builder.html" title="struct tokio::runtime::Builder">Builder</a></dt><dd>使用自定义配置值构建 Tokio Runtime。</dd><dt><a class="struct" href="struct.EnterGuard.html" title="struct tokio::runtime::EnterGuard">Enter<wbr>Guard</a></dt><dd>Runtime 上下文守护。</dd><dt><a class="struct" href="struct.Handle.html" title="struct tokio::runtime::Handle">Handle</a></dt><dd>runtime 的句柄。</dd><dt><a class="struct" href="struct.Id.html" title="struct tokio::runtime::Id">Id</a></dt><dd>一个不透明的 ID，相对于所有其他当前正在运行的 runtimes 唯一标识一个 runtime。</dd><dt><a class="struct" href="struct.LocalOptions.html" title="struct tokio::runtime::LocalOptions">Local<wbr>Options</a></dt><dd><a href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a> 专用配置选项</dd><dt><a class="struct" href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime">Local<wbr>Runtime</a></dt><dd>一个本地 Tokio 运行时。</dd><dt><a class="struct" href="struct.Runtime.html" title="struct tokio::runtime::Runtime">Runtime</a></dt><dd>Tokio 运行时。</dd><dt><a class="struct" href="struct.RuntimeMetrics.html" title="struct tokio::runtime::RuntimeMetrics">Runtime<wbr>Metrics</a></dt><dd>runtime 的指标句柄。</dd><dt><a class="struct" href="struct.TryCurrentError.html" title="struct tokio::runtime::TryCurrentError">TryCurrent<wbr>Error</a></dt><dd>当没有 Runtime 启动时，由 <code>try_current</code> 返回的错误</dd></dl><h2 id="enums" class="section-header">枚举<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.RuntimeFlavor.html" title="enum tokio::runtime::RuntimeFlavor">Runtime<wbr>Flavor</a></dt><dd><code>Runtime</code> 的运行模式（flavor）。</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.is_rt_shutdown_err.html" title="fn tokio::runtime::is_rt_shutdown_err">is_<wbr>rt_<wbr>shutdown_<wbr>err</a></dt><dd>检查给定的错误是否由 Tokio 在关闭其 runtime 时发出。</dd></dl></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
+<p>（这里，<code>MAX_TASKS</code> 和
+<code>MAX_SCHEDULE</code> 可以是任意数字，
+运行时的用户可以选择它们。
+<code>MAX_DELAY</code> 数字由
+运行时控制，
+取决于 <code>MAX_TASKS</code> 和
+<code>MAX_SCHEDULE</code> 的值。）</p>
+<p>除了上述的公平性保证之外，
+任务调度的顺序没有任何保证。
+也不能保证运行时
+对所有任务
+都同样公平。
+例如，
+如果运行时有两个任务 A 和 B
+都已就绪，
+那么运行时可能会在调度 B 之前
+调度 A 五次。
+即使 A 使用
+<a href="../task/fn.yield_now.html" title="fn tokio::task::yield_now"><code>yield_now</code></a>
+让出，
+也是如此。
+唯一保证的是
+它最终会调度 B。</p>
+<p>通常，
+任务仅在通过在其 waker 上
+调用 <a href="https://doc.rust-lang.org/1.95.0/core/task/wake/struct.Waker.html#method.wake" title="method core::task::wake::Waker::wake"><code>wake</code></a>
+被唤醒时才会被调度。
+但这无法保证，
+Tokio 在某些情况下
+可能会调度尚未被唤醒的任务。
+这称为虚假唤醒。</p>
+<h3 id="io-and-timers"><a class="doc-anchor" href="#io-and-timers">§</a>IO 和定时器</h3>
+<p>除了调度任务之外，运行时还必须管理 IO 资源和
+timers. It does this by periodically checking whether there are any IO
+resources or timers that are ready, and waking the relevant task so that
+it will be scheduled.</p>
+<p>这些检查在调度任务之间定期执行。在以下条件下
+same assumptions as the previous fairness guarantee, Tokio guarantees that
+it will wake tasks with an IO or timer event within some maximum number of
+time units.</p>
+<h3 id="current-thread-runtime-behavior-at-the-time-of-writing"><a class="doc-anchor" href="#current-thread-runtime-behavior-at-the-time-of-writing">§</a>当前线程运行时（撰写时的行为）</h3>
+<p>本节描述 <a href="struct.Builder.html#method.new_current_thread" title="associated function tokio::runtime::Builder::new_current_thread">current thread runtime</a>
+当前的行为。
+该行为可能会在 Tokio 的未来版本中发生变化。</p>
+<p>current thread runtime 维护两个 FIFO 任务队列，
+分别用于准备调度的任务：
+全局队列和本地队列。
+运行时将优先从本地队列中
+选择下一个要调度的任务，
+仅当本地队列为空时，
+或当其已从本地队列
+连续挑出 31 次任务时，
+才会从全局队列中选取一个任务。
+数字 31 可以使用
+<a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a>
+设置进行更改。</p>
+<p>当没有任务准备好被调度时，
+或者当运行时已连续调度 61 个任务时，
+它会检查新的 IO 或 timer 事件。
+数字 61 可以通过
+<a href="struct.Builder.html#method.event_interval" title="method tokio::runtime::Builder::event_interval"><code>event_interval</code></a>
+设置进行更改。</p>
+<p>当从运行时上运行的任务内部唤醒一个任务时，则
+woken task is added directly to the local queue. Otherwise, the task is
+added to the global queue. The current thread runtime does not use <a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot">the lifo
+slot optimization</a>.</p>
+<h3 id="multi-threaded-runtime-behavior-at-the-time-of-writing"><a class="doc-anchor" href="#multi-threaded-runtime-behavior-at-the-time-of-writing">§</a>多线程运行时（撰写时的行为）</h3>
+<p>本节描述 <a href="struct.Builder.html#method.new_multi_thread" title="associated function tokio::runtime::Builder::new_multi_thread">multi thread runtime</a>
+当前的行为。
+该行为可能会在 Tokio 的未来版本中发生变化。</p>
+<p>多线程运行时具有固定数量的工作线程，所有这些工作线程
+created on startup. The multi thread runtime maintains one global queue, and
+a local queue for each worker thread. The local queue of a worker thread can
+fit at most 256 tasks. If more than 256 tasks are added to the local queue,
+then half of them are moved to the global queue to make space.</p>
+<p>运行时将优先从本地队列中
+选择下一个要调度的任务，
+仅当本地队列为空时，
+或当其已从本地队列连续挑出
+<a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a>
+次任务时，
+才会从全局队列中选取一个任务。
+如果未显式设置
+<a href="struct.Builder.html#method.global_queue_interval" title="method tokio::runtime::Builder::global_queue_interval"><code>global_queue_interval</code></a>
+的值，
+则运行时会动态计算它，
+使用一个启发式，
+目标是在每次检查全局队列之间
+保持 10ms 的间隔（基于
+<a href="crate::runtime::RuntimeMetrics::worker_mean_poll_time"><code>worker_mean_poll_time</code></a>
+指标）。</p>
+<p>如果本地队列和全局队列都为空，则工作线程
+will attempt to steal tasks from the local queue of another worker thread.
+Stealing is done by moving half of the tasks in one local queue to another
+local queue.</p>
+<p>当没有任务准备好被调度时，
+或者当运行时已连续调度 61 个任务时，
+它会检查新的 IO 或 timer 事件。
+数字 61 可以通过
+<a href="struct.Builder.html#method.event_interval" title="method tokio::runtime::Builder::event_interval"><code>event_interval</code></a>
+设置进行更改。</p>
+<p>multi thread runtime 使用 <a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot">lifo slot optimization</a>：
+每当一个任务唤醒另一个任务时，
+另一个任务会被添加到工作线程的 lifo slot，
+而不是被添加到队列中。
+如果 lifo slot 中已经有一个任务，
+则该 lifo slot 将被替换，
+原本在该 lifo slot 中的任务
+将被放入线程的本地队列中。
+当运行时完成调度一个任务时，
+它将立即调度 lifo slot 中的任务（如果有）。
+当 lifo slot 被使用时，
+<a href="../task/coop/index.html#cooperative-scheduling" title="mod tokio::task::coop">coop
+budget</a>
+不会被重置。
+此外，
+如果一个工作线程
+连续使用 lifo slot 三次，
+则会被临时禁用，
+直到该工作线程调度了一个
+不是来自 lifo slot 的任务。
+lifo slot 可以使用
+<a href="struct.Builder.html#structfield.disable_lifo_slot" title="field tokio::runtime::Builder::disable_lifo_slot"><code>disable_lifo_slot</code></a>
+设置被禁用。
+lifo slot 与本地队列是分开的，
+因此其他工作线程
+无法窃取 lifo slot 中的任务。</p>
+<p>当从不是工作线程的线程唤醒任务时，则
+task is placed in the global queue.</p>
+<h2 id="performance-tuning"><a class="doc-anchor" href="#performance-tuning">§</a>Performance tuning</h2><h3 id="file-descriptor-table-pre-warming"><a class="doc-anchor" href="#file-descriptor-table-pre-warming">§</a>文件描述符表预热</h3>
+<p>在 Linux 上，
+文件描述符表的增长可能会阻塞工作线程。
+请参阅
+<a href="https://github.com/tokio-rs/tokio/blob/master/examples/prewarm-fd-table.rs"><code>prewarm-fd-table</code></a>
+示例。</p>
+</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Builder.html" title="struct tokio::runtime::Builder">Builder</a></dt><dd>使用自定义配置值构建 Tokio Runtime。</dd><dt><a class="struct" href="struct.EnterGuard.html" title="struct tokio::runtime::EnterGuard">Enter<wbr>Guard</a></dt><dd>运行时上下文守卫。</dd><dt><a class="struct" href="struct.Handle.html" title="struct tokio::runtime::Handle">Handle</a></dt><dd>运行时的句柄。</dd><dt><a class="struct" href="struct.Id.html" title="struct tokio::runtime::Id">Id</a></dt><dd>一个不透明的 ID，相对于所有其他当前
+running runtimes.</dd><dt><a class="struct" href="struct.LocalOptions.html" title="struct tokio::runtime::LocalOptions">Local<wbr>Options</a></dt><dd><a href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime"><code>LocalRuntime</code></a> 专用配置选项</dd><dt><a class="struct" href="struct.LocalRuntime.html" title="struct tokio::runtime::LocalRuntime">Local<wbr>Runtime</a></dt><dd>一个本地 Tokio 运行时。</dd><dt><a class="struct" href="struct.Runtime.html" title="struct tokio::runtime::Runtime">Runtime</a></dt><dd>Tokio 运行时。</dd><dt><a class="struct" href="struct.RuntimeMetrics.html" title="struct tokio::runtime::RuntimeMetrics">Runtime<wbr>Metrics</a></dt><dd>运行时 metrics 的句柄。</dd><dt><a class="struct" href="struct.TryCurrentError.html" title="struct tokio::runtime::TryCurrentError">TryCurrent<wbr>Error</a></dt><dd>当没有 Runtime 启动时，由 <code>try_current</code> 返回的错误</dd></dl><h2 id="enums" class="section-header">枚举<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.RuntimeFlavor.html" title="enum tokio::runtime::RuntimeFlavor">Runtime<wbr>Flavor</a></dt><dd><code>Runtime</code> 的运行模式（flavor）。</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.is_rt_shutdown_err.html" title="fn tokio::runtime::is_rt_shutdown_err">is_<wbr>rt_<wbr>shutdown_<wbr>err</a></dt><dd>检查给定的错误是否由 Tokio 在关闭其运行时时发出。</dd></dl></section></div></main></body></html>

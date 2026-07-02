@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Waits on multiple concurrent branches, returning when the first branch completes, cancelling the remaining branches."><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/macro.select.html"><meta property="og:type" content="article"><meta property="og:title" content="select in tokio - tokio"><meta property="og:description" content="Waits on multiple concurrent branches, returning when the first branch completes, cancelling the remaining branches."><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/macro.select.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="select in tokio - tokio"><meta name="twitter:description" content="Waits on multiple concurrent branches, returning when the first branch completes, cancelling the remaining branches."><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>select in tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">select</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">select</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#runtime-characteristics" title="Runtime characteristics">Runtime characteristics</a></li><li><a href="#fairness" title="Fairness">Fairness</a></li><li><a href="#panics" title="Panics">Panics</a></li><li><a href="#cancellation-safety" title="Cancellation safety">Cancellation safety</a></li><li><a href="#examples" title="示例">示例</a><ul><li><a href="#avoid-racy-if-preconditions" title="Avoid racy `if` preconditions">Avoid racy <code>if</code> preconditions</a></li></ul></li><li><a href="#alternatives-from-the-ecosystem" title="Alternatives from the Ecosystem">Alternatives from the Ecosystem</a><ul><li><a href="#merging-streams" title="Merging Streams">Merging Streams</a></li><li><a href="#racing-futures" title="Racing Futures">Racing Futures</a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">在 crate tokio 中</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">tokio</a></div><h1>宏 <span class="macro">select</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/macros/select.rs.html#554-568">Source</a> </span></div><pre class="rust item-decl"><code>macro_rules! select {
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Waits on multiple concurrent branches, returning when the first branch completes, cancelling the remaining branches."><title>select in tokio - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">select</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">select</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#runtime-characteristics" title="Runtime characteristics">Runtime characteristics</a></li><li><a href="#fairness" title="Fairness">Fairness</a></li><li><a href="#panics" title="Panics">Panics</a></li><li><a href="#cancellation-safety" title="Cancellation safety">Cancellation safety</a></li><li><a href="#examples" title="Examples">示例</a><ul><li><a href="#avoid-racy-if-preconditions" title="Avoid racy `if` preconditions">Avoid racy <code>if</code> preconditions</a></li></ul></li><li><a href="#alternatives-from-the-ecosystem" title="Alternatives from the Ecosystem">Alternatives from the Ecosystem</a><ul><li><a href="#merging-streams" title="Merging Streams">Merging Streams</a></li><li><a href="#racing-futures" title="Racing Futures">Racing Futures</a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">tokio</a></div><h1>宏 <span class="macro">select</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/tokio/macros/select.rs.html#554-568">Source</a> </span></div><pre class="rust item-decl"><code>macro_rules! select {
     {
         $(
             biased;
@@ -10,22 +10,21 @@
             else =&gt; $els:expr $(,)?
         )?
     } =&gt; { ... };
-}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>等待多个并发分支，当<strong>第一个</strong>分支完成时返回，
-并取消其余分支。</p>
-<p><code>select!</code> 宏必须在 async 函数、闭包和块内使用。</p>
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>等待多个并发分支，当 <strong>第一个</strong> 分支完成时返回，取消剩余的分支。</p>
+<p><code>select!</code> 宏必须在 async 函数、闭包和代码块内部使用。</p>
 <p><code>select!</code> 宏接受一个或多个具有以下模式的分支：</p>
 <div class="example-wrap"><pre class="language-text"><code>&lt;pattern&gt; = &lt;async expression&gt; (, if &lt;precondition&gt;)? =&gt; &lt;handler&gt;,</code></pre></div>
-<p>此外，<code>select!</code> 宏可以包含一个可选的 <code>else</code> 分支，
-在没有其他分支匹配其模式时进行求值：</p>
+<p>此外，<code>select!</code> 宏可以包含一个可选的 <code>else</code>
+分支，当没有其他分支匹配其模式时该分支会被求值：</p>
 <div class="example-wrap"><pre class="language-text"><code>else =&gt; &lt;expression&gt;</code></pre></div>
-<p>宏会聚合所有 <code>&lt;async expression&gt;</code> 表达式，
-并在<strong>当前</strong>任务上并发运行它们。一旦<strong>第一个</strong>表达式
+<p>该宏会汇总所有 <code>&lt;async expression&gt;</code> 表达式，并在<strong>当前</strong>
+任务上并发地运行它们。一旦<strong>首个</strong>表达式
 以匹配其 <code>&lt;pattern&gt;</code> 的值完成，<code>select!</code> 宏
-就会返回已完成分支的 <code>&lt;handler&gt;</code> 表达式的求值结果。</p>
+就会返回对已完成分支的 <code>&lt;handler&gt;</code> 表达式求值的结果。</p>
 <p>此外，每个分支可以包含一个可选的 <code>if</code> 前置条件。如果
-前置条件返回 <code>false</code>，则该分支被禁用。提供的
+前置条件返回 <code>false</code>，则该分支会被禁用。提供的
 <code>&lt;async expression&gt;</code> 仍会被求值，但生成的 future 永远不会被
-轮询。此功能在循环中使用 <code>select!</code> 时非常有用。</p>
+poll。在循环中使用 <code>select!</code> 时，这一能力非常有用。</p>
 <p><code>select!</code> 表达式的完整生命周期如下：</p>
 <ol>
 <li>Evaluate all provided <code>&lt;precondition&gt;</code> expressions. If the precondition
@@ -44,38 +43,39 @@ the current call to <code>select!</code>. Continue from step 3.</li>
 <li>Evaluate the <code>else</code> expression. If no else expression is provided, panic.</li>
 </ol>
 <h2 id="runtime-characteristics"><a class="doc-anchor" href="#runtime-characteristics">§</a>Runtime characteristics</h2>
-<p>由于所有异步表达式都在当前任务上运行，这些表达式
+<p>通过在当前任务上运行所有 async 表达式，这些表达式
 能够<strong>并发</strong>运行，但不能<strong>并行</strong>运行。这意味着所有
-表达式都在同一线程上运行，如果某个分支阻塞了线程，
-所有其他表达式都将无法继续。如果需要并行执行，
-请使用 <a href="task/fn.spawn.html" title="fn tokio::task::spawn"><code>tokio::spawn</code></a> 生成每个异步表达式，
-然后将其 join handle 传递给 <code>select!</code>。</p>
+表达式都在同一线程上运行，如果某个分支阻塞了该线程，
+所有其他表达式将无法继续。如果需要并行执行，
+可以使用 <a href="task/fn.spawn.html" title="fn tokio::task::spawn"><code>tokio::spawn</code></a> 生成每个 async 表达式，并将
+join handle 传给 <code>select!</code>。</p>
 <h2 id="fairness"><a class="doc-anchor" href="#fairness">§</a>Fairness</h2>
-<p>默认情况下，<code>select!</code> 会随机选择一个分支优先检查。
-当在循环中调用 <code>select!</code> 且分支始终就绪时，
-这提供了一定程度的公平性。</p>
+<p>默认情况下，<code>select!</code> 会随机选择一个分支优先检查。这
+在循环中调用 <code>select!</code> 且分支总是 ready 的情况下提供了一定程度的公平性。</p>
 <p>可以通过在宏使用的开头添加 <code>biased;</code> 来覆盖此行为。
-有关详细信息，请参阅示例。这将使 <code>select</code> 按 future
-出现的顺序（从上到下）进行轮询。出于以下几种原因，你可能希望这样做：</p>
+详情请参阅示例。这会使 <code>select</code> 按照 future
+从上到下出现的顺序对其进行 poll。出于以下几个原因，你可能
+希望这样做：</p>
 <ul>
 <li>The random number generation of <code>tokio::select!</code> has a non-zero CPU cost</li>
 <li>Your futures may interact in a way where known polling order is significant</li>
 </ul>
-<p>但此模式有一个重要的注意事项。确保你的 future 的轮询顺序是公平的
-成为了你的责任。例如，如果你在流和关闭 future 之间进行选择，
-而流有大量消息且消息之间的时间间隔为零或几乎为零，
-则应将关闭 future 放在 <code>select!</code> 列表的更靠前位置，
-以确保它始终被轮询，并且不会因为流始终就绪而被忽略。</p>
+<p>但在这种模式下有一个重要的注意事项。确保 future 的 poll 顺序是公平的就成了你的
+责任。例如，如果你要在流和关闭 future 之间进行 select，且该流
+有大量消息且消息之间几乎没有时间间隔，
+那么应该把关闭 future 放在 <code>select!</code> 列表的更前面，
+以确保它始终被 poll，而不会因流一直
+ready 而被忽略。</p>
 <h2 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h2>
-<p>如果所有分支都被禁用<strong>且</strong>没有提供 <code>else</code> 分支，
-则 <code>select!</code> 宏会 panic。当提供的 <code>if</code>
-前置条件返回 <code>false</code> <strong>或</strong>模式与
-<code>&lt;async expression&gt;</code> 的结果不匹配时，分支被禁用。</p>
+<p>如果所有分支都被禁用<strong>且</strong>没有提供
+<code>else</code> 分支，<code>select!</code> 宏会 panic。分支在所提供的 <code>if</code>
+前置条件返回 <code>false</code> 时被禁用，
+<strong>或者</strong>当模式不匹配 <code>&lt;async expression&gt;</code> 的结果时也会被禁用。</p>
 <h2 id="cancellation-safety"><a class="doc-anchor" href="#cancellation-safety">§</a>Cancellation safety</h2>
 <p>在循环中使用 <code>select!</code> 从多个来源接收消息时，
-应确保接收调用是可取消安全的，以避免
-丢失消息。本节介绍各种常见方法并
-说明它们是否是可取消安全的。本节中的列表并不
+应确保接收调用是 cancellation safe 的，以避免
+丢失消息。本节介绍各种常见方法，
+并说明它们是否可安全取消。本节中的列表并不
 详尽。</p>
 <p>以下方法是可取消安全的：</p>
 <ul>
@@ -100,8 +100,8 @@ the current call to <code>select!</code>. Continue from step 3.</li>
 <li><a href="io/trait.AsyncReadExt.html#method.read_to_string" title="method tokio::io::AsyncReadExt::read_to_string"><code>tokio::io::AsyncReadExt::read_to_string</code></a></li>
 <li><a href="io/trait.AsyncWriteExt.html#method.write_all" title="method tokio::io::AsyncWriteExt::write_all"><code>tokio::io::AsyncWriteExt::write_all</code></a></li>
 </ul>
-<p>以下方法不是可取消安全的，因为它们使用队列以保证公平性，
-而取消会使你在队列中失去位置：</p>
+<p>以下方法不可安全取消，因为它们使用队列来实现
+公平性，取消会丢失在队列中的位置：</p>
 <ul>
 <li><a href="sync/struct.Mutex.html#method.lock" title="method tokio::sync::Mutex::lock"><code>tokio::sync::Mutex::lock</code></a></li>
 <li><a href="sync/struct.RwLock.html#method.read" title="method tokio::sync::RwLock::read"><code>tokio::sync::RwLock::read</code></a></li>
@@ -109,23 +109,27 @@ the current call to <code>select!</code>. Continue from step 3.</li>
 <li><a href="sync/struct.Semaphore.html#method.acquire" title="method tokio::sync::Semaphore::acquire"><code>tokio::sync::Semaphore::acquire</code></a></li>
 <li><a href="sync/struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>tokio::sync::Notify::notified</code></a></li>
 </ul>
-<p>要判断你自己的方法是否可取消安全，请查找
-<code>.await</code> 的使用位置。这是因为当异步方法被
-取消时，这总是发生在 <code>.await</code> 处。如果你的函数
-即使在 <code>.await</code> 处等待时被重启也能正确运行，
-那么它就是可取消安全的。</p>
-<p>可以按以下方式定义可取消安全：如果你有一个
-尚未完成的 future，那么丢弃该 future
-并重新创建它必须是无操作（no-op）。此定义源自于
-在循环中使用 <code>select!</code> 的场景。如果没有此保证，
-当另一个分支完成时，你将失去进度，
-并通过循环重新启动 <code>select!</code>。</p>
-<p>请注意，取消不可取消安全的操作
-并不一定是错误的。例如，如果你因为
-应用程序关闭而取消任务，那么你可能不
-关心部分读取的数据丢失。</p>
+<p>要判断你自己的方法是否可安全取消，请查找
+<code>.await</code> 的使用位置。这是因为当异步方法
+被取消时，总是发生在某个 <code>.await</code> 处。如果你的函数
+即便在 <code>.await</code> 处等待时重启也能正确
+执行，那么它就是可安全取消的。</p>
+<p>可以用以下方式定义取消安全性：
+如果你有一个
+尚未完成的 future，
+那么丢弃该 future 并重新创建它
+必须是一个空操作。
+这个定义源于
+在循环中使用 <code>select!</code> 的场景。
+如果没有这个保证，
+当另一个分支完成时你将通过循环重新启动 <code>select!</code>，
+此时你将丢失进度。</p>
+<p>请注意，取消一个不可安全取消的操作并不
+一定是错误的。例如，如果因为
+应用程序正在关闭而取消某个任务，那么
+可能并不在意部分读取的数据丢失。</p>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
-<p>具有两个分支的基础 select。</p>
+<p>两分支的基本 select。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>do_stuff_async() {
     <span class="comment">// async work
@@ -143,7 +147,7 @@ the current call to <code>select!</code>. Continue from step 3.</li>
         <span class="macro">println!</span>(<span class="string">"more_async_work() completed first"</span>)
     }
 };</code></pre></div>
-<p>基础流选择。</p>
+<p>基本的流选择。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio_stream::{<span class="self">self </span><span class="kw">as </span>stream, StreamExt};
 
@@ -156,9 +160,9 @@ the current call to <code>select!</code>. Continue from step 3.</li>
 };
 
 <span class="macro">assert!</span>(next == <span class="number">1 </span>|| next == <span class="number">4</span>);</code></pre></div>
-<p>收集两个流的内容。在本例中，我们依赖模式
-匹配以及 <code>stream::iter</code> 是â融合（fused）â的这一事实，
-即一旦流完成，对 <code>next()</code> 的所有调用都返回 <code>None</code>。</p>
+<p>收集两个流的内容。在本例中，我们依赖于模式
+匹配以及 <code>stream::iter</code> 是“fused”的事实，即流
+完成后，对 <code>next()</code> 的所有调用都会返回 <code>None</code>。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio_stream::{<span class="self">self </span><span class="kw">as </span>stream, StreamExt};
 
@@ -177,11 +181,10 @@ the current call to <code>select!</code>. Continue from step 3.</li>
 
 values.sort();
 <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], <span class="kw-2">&amp;</span>values[..]);</code></pre></div>
-<p>在多个 <code>select!</code> 表达式中使用同一个 future 可以通过传递
-该 future 的引用来实现。这要求该 future 必须是 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin"><code>Unpin</code></a> 的。
-可以通过使用 <a href="https://doc.rust-lang.org/1.95.0/alloc/boxed/struct.Box.html#method.pin" title="associated function alloc::boxed::Box::pin"><code>Box::pin</code></a> 或栈固定（stack pinning）
-将 future 变为 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin"><code>Unpin</code></a>。</p>
-<p>在此示例中，一个流最多被消耗 1 秒。</p>
+<p>在多个 <code>select!</code> 表达式中使用同一个 future，可以通过
+传递该 future 的引用来实现。这要求 future 是 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin"><code>Unpin</code></a> 的。
+通过 <a href="https://doc.rust-lang.org/1.95.0/alloc/boxed/struct.Box.html#method.pin" title="associated function alloc::boxed::Box::pin"><code>Box::pin</code></a> 或栈固定，可以使 future 成为 <a href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin"><code>Unpin</code></a>。</p>
+<p>此处一个 stream 最多被消耗 1 秒。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio_stream::{<span class="self">self </span><span class="kw">as </span>stream, StreamExt};
 <span class="kw">use </span>tokio::time::{<span class="self">self</span>, Duration};
@@ -205,7 +208,7 @@ values.sort();
         }
     }
 }</code></pre></div>
-<p>使用 <code>select!</code> 连接两个值。</p>
+<p>使用 <code>select!</code> 合并两个值。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::oneshot;
 
@@ -234,7 +237,7 @@ tokio::spawn(<span class="kw">async move </span>{
 
 <span class="macro">assert_eq!</span>(res.<span class="number">0</span>, <span class="string">"first"</span>);
 <span class="macro">assert_eq!</span>(res.<span class="number">1</span>, <span class="string">"second"</span>);</code></pre></div>
-<p>使用 <code>biased;</code> 模式控制轮询顺序。</p>
+<p>使用 <code>biased;</code> 模式来控制 poll 顺序。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>count = <span class="number">0u8</span>;
 
@@ -266,12 +269,12 @@ tokio::spawn(<span class="kw">async move </span>{
             <span class="kw">break</span>;
         }
     };
-}</code></pre></div><h3 id="avoid-racy-if-preconditions"><a class="doc-anchor" href="#avoid-racy-if-preconditions">§</a>Avoid racy <code>if</code> preconditions</h3>
-<p>由于 <code>if</code> 前置条件用于禁用 <code>select!</code> 分支，
-因此必须谨慎使用以避免遗漏值。</p>
-<p>例如，下面是 <code>sleep</code> 与 <code>if</code> 的<strong>错误</strong>用法。目标是
-重复运行异步任务最多 50 毫秒。
-但是，<code>sleep</code> 的完成有被遗漏的可能。</p>
+}</code></pre></div><h3 id="avoid-racy-if-preconditions"><a class="doc-anchor" href="#avoid-racy-if-preconditions">Â§</a>避免存在竞争条件的 <code>if</code> 前置条件</h3>
+<p>由于使用 <code>if</code> 前置条件来禁用 <code>select!</code> 分支，
+因此必须谨慎以避免遗漏值。</p>
+<p>例如，下面是对 <code>sleep</code> 与 <code>if</code> 的<strong>不正确</strong>用法。目标是
+重复运行一个异步任务，持续时间不超过 50 毫秒。
+但有可能错过 <code>sleep</code> 完成的事件。</p>
 
 <div class="example-wrap should_panic"><a href="#" class="tooltip" title="This example panics">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::time::{<span class="self">self</span>, Duration};
 
@@ -294,12 +297,11 @@ tokio::spawn(<span class="kw">async move </span>{
 }
 
 <span class="macro">panic!</span>(<span class="string">"This example shows how not to do it!"</span>);</code></pre></div>
-<p>在上面的示例中，即使 <code>sleep.poll()</code> 始终未返回 <code>Ready</code>，
-<code>sleep.is_elapsed()</code> 也可能返回 <code>true</code>。这会造成潜在的竞态条件——
-<code>sleep</code> 在 <code>while !sleep.is_elapsed()</code> 检查与
-对 <code>select!</code> 的调用之间到期，导致 <code>some_async_work()</code> 调用
-在 sleep 已到期的情况下仍不间断地运行。</p>
-<p>在不存在竞态条件的情况下编写上述示例的一种方法是：</p>
+<p>在上面的示例中，即便 <code>sleep.poll()</code> 始终没有返回 <code>Ready</code>，<code>sleep.is_elapsed()</code> 仍可能返回 <code>true</code>。
+这会引发潜在的竞态条件：当 <code>sleep</code> 在 <code>while !sleep.is_elapsed()</code>
+检查和 <code>select!</code> 调用之间到期时，<code>some_async_work()</code>
+会被不间断地运行，即便 sleep 已经过去。</p>
+<p>一种在不发生竞争的情况下写此例的方式是：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::time::{<span class="self">self</span>, Duration};
 
@@ -321,20 +323,20 @@ tokio::spawn(<span class="kw">async move </span>{
         }
     }
 }</code></pre></div><h2 id="alternatives-from-the-ecosystem"><a class="doc-anchor" href="#alternatives-from-the-ecosystem">§</a>Alternatives from the Ecosystem</h2>
-<p><code>select!</code> 宏是管理多个异步分支的强大工具，
-使得任务能够在同一线程内并发运行。然而，
-其使用也可能带来挑战，特别是关于可取消安全，
-这可能导致微妙且难以调试的错误。对于许多用例，
-生态系统的替代方案可能更可取，因为它们通过提供
-更清晰的语法、更可预测的控制流来缓解这些问题，
-并减少手动处理熔断语义或可取消安全等问题的需要。</p>
-<h3 id="merging-streams"><a class="doc-anchor" href="#merging-streams">§</a>Merging Streams</h3>
-<p>对于使用 <code>loop { select! { ... } }</code> 来轮询多个任务的情况，
-流合并提供了一种简洁的替代方案，天生支持可取消安全的
-处理，消除了数据丢失的风险。诸如 <a href="https://docs.rs/tokio-stream/latest/tokio_stream/"><code>tokio_stream</code></a>、
-<a href="https://docs.rs/futures/latest/futures/stream/"><code>futures::stream</code></a> 和 <a href="https://docs.rs/futures-concurrency/latest/futures_concurrency/"><code>futures_concurrency</code></a> 等库提供了用于合并
+<p><code>select!</code> 宏是管理多个异步
+分支的强大工具，使任务能够在同一线程内并发运行。然而，
+它的使用会引入一些挑战，尤其是在取消安全方面，
+这可能导致难以察觉且难以调试的错误。在许多用例中，
+生态中的替代方案可能更可取，因为它们通过提供
+更清晰的语法、更可预测的控制流，以及减少对手动
+处理 fuse 语义或取消安全等问题的需要，缓解了这些问题。</p>
+<h3 id="merging-streams"><a class="doc-anchor" href="#merging-streams">Â§</a>合并流</h3>
+<p>对于使用 <code>loop { select! { ... } }</code> 来 poll 多个任务的
+情况，流合并提供了一种简洁的替代方案，天然支持安全的
+取消处理，消除了数据丢失的风险。<a href="https://docs.rs/tokio-stream/latest/tokio_stream/"><code>tokio_stream</code></a>、
+<a href="https://docs.rs/futures/latest/futures/stream/"><code>futures::stream</code></a> 和 <a href="https://docs.rs/futures-concurrency/latest/futures_concurrency/"><code>futures_concurrency</code></a> 等库提供了合并
 流并按顺序处理其输出的工具。</p>
-<h4 id="example-with-select"><a class="doc-anchor" href="#example-with-select">§</a>Example with <code>select!</code></h4>
+<h4 id="example-with-select"><a class="doc-anchor" href="#example-with-select">Â§</a>使用 <code>select!</code> 的示例</h4>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">struct </span>File;
 <span class="kw">struct </span>Channel;
 <span class="kw">struct </span>Socket;
@@ -360,9 +362,10 @@ tokio::spawn(<span class="kw">async move </span>{
         _data = socket.read_packet() =&gt; { <span class="comment">/* ... */ </span>}
         <span class="kw">_ </span>= futures::future::ready(()) =&gt; <span class="kw">break
     </span>}
-}</code></pre></div><h4 id="moving-to-merge"><a class="doc-anchor" href="#moving-to-merge">§</a>Moving to <code>merge</code></h4>
-<p>通过使用 merge，可以将多个异步任务统一到单个流中，
-无需手动管理任务，并降低意外行为（如数据丢失）的风险。</p>
+}</code></pre></div><h4 id="moving-to-merge"><a class="doc-anchor" href="#moving-to-merge">Â§</a>改用 <code>merge</code></h4>
+<p>通过使用 merge，可以将多个异步任务统一为一个流，
+无需手动管理任务，并降低数据丢失等
+意外行为的风险。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::pin::pin;
 
@@ -411,13 +414,14 @@ tokio::spawn(<span class="kw">async move </span>{
         Message::Sent =&gt; <span class="kw">continue</span>,
         Message::Stop =&gt; <span class="kw">break</span>,
     }
-}</code></pre></div><h3 id="racing-futures"><a class="doc-anchor" href="#racing-futures">§</a>Racing Futures</h3>
-<p>如果你需要等待几个异步任务中的第一个完成，
-可以使用以下生态系统实用工具：
+}</code></pre></div><h3 id="racing-futures"><a class="doc-anchor" href="#racing-futures">Â§</a>Future 竞速</h3>
+<p>如果需要在多个异步任务中等待
+最先完成的一个，
 <a href="https://docs.rs/futures/latest/futures/"><code>futures</code></a>、
 <a href="https://docs.rs/futures-lite/latest/futures_lite/"><code>futures-lite</code></a> 或
-<a href="https://docs.rs/futures-concurrency/latest/futures_concurrency/"><code>futures-concurrency</code></a>，
-它们提供了用于 race future 的简洁语法：</p>
+<a href="https://docs.rs/futures-concurrency/latest/futures_concurrency/"><code>futures-concurrency</code></a>
+等生态工具提供了
+用于 Future 竞速的简洁语法：</p>
 <ul>
 <li><a href="https://docs.rs/futures-concurrency/latest/futures_concurrency/future/trait.Race.html"><code>futures_concurrency::future::Race</code></a></li>
 <li><a href="https://docs.rs/futures/latest/futures/macro.select.html"><code>futures::select</code></a></li>

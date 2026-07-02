@@ -1,77 +1,136 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="用于在异步任务之间发送值的多生产者、单消费者队列。"><title>tokio::sync::mpsc - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module mpsc</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module mpsc</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#disconnection" title="Disconnection">Disconnection</a></li><li><a href="#clean-shutdown" title="Clean Shutdown">Clean Shutdown</a></li><li><a href="#communicating-between-sync-and-async-code" title="Communicating between sync and async code">Communicating between sync and async code</a></li><li><a href="#multiple-runtimes" title="Multiple runtimes">Multiple runtimes</a></li><li><a href="#allocation-behavior" title="Allocation behavior">Allocation behavior</a></li></ul><h3><a href="#modules">模块条目</a></h3><ul class="block"><li><a href="#modules" title="Modules">模块</a></li><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a></div><h1>Module <span>mpsc</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync\mpsc/mod.rs.html#1-146">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>用于在异步任务之间发送值的多生产者、单消费者队列。</p>
-<p>This module provides two variants of the channel: bounded and unbounded. The
-bounded variant has a limit on the number of messages that the channel can
-store, and if this limit is reached, trying to send another message will
-wait until a message is received from the channel. An unbounded channel has
-an infinite capacity, so the <code>send</code> method will always complete immediately.
-This makes the <a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a> usable from both synchronous and
-asynchronous code.</p>
-<p>Similar to the <code>mpsc</code> channels provided by <code>std</code>, the channel constructor
-functions provide separate send and receive handles, <a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> and
-<a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> for the bounded channel, <a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a> and
-<a href="struct.UnboundedReceiver.html" title="struct tokio::sync::mpsc::UnboundedReceiver"><code>UnboundedReceiver</code></a> for the unbounded channel. If there is no message to read,
-the current task will be notified when a new value is sent. <a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> and
-<a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a> allow sending values into the channel. If the bounded
-channel is at capacity, the send is rejected and the task will be notified
-when additional capacity is available. In other words, the channel provides
-backpressure.</p>
-<p>This channel is also suitable for the single-producer single-consumer
-use-case. (Unless you only need to send one message, in which case you
-should use the <a href="../oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a> channel.)</p>
+<p>本模块提供两种通道变体：有界和无界。
+有界变体对通道可存储的消息数量有限制，
+如果达到此限制，
+尝试发送另一条消息将等待，
+直到从通道接收到一条消息。
+无界通道具有无限容量，
+因此 <code>send</code> 方法将始终立即完成。
+这使得 <a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a>
+可以在同步和异步代码中使用。</p>
+<p>类似于 <code>std</code> 提供的 <code>mpsc</code> 通道，
+通道构造函数
+为有界通道提供单独的发送和接收句柄
+<a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> 和
+<a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a>，
+为无界通道提供
+<a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a> 和
+<a href="struct.UnboundedReceiver.html" title="struct tokio::sync::mpsc::UnboundedReceiver"><code>UnboundedReceiver</code></a>。
+如果没有消息可读，
+当发送新值时，
+当前任务将收到通知。
+<a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> 和
+<a href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender"><code>UnboundedSender</code></a>
+允许将值发送到通道中。
+如果有界通道已达容量，
+则 send 会被拒绝，
+当有额外容量可用时，
+任务将收到通知。
+也就是说，
+通道提供背压。</p>
+<p>此通道也适用于单生产者单消费者用例。
+（除非你只需要发送一条消息，
+在这种情况下
+应使用 <a href="../oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a> 通道。）</p>
 <h2 id="disconnection"><a class="doc-anchor" href="#disconnection">§</a>Disconnection</h2>
-<p>When all <a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> handles have been dropped, it is no longer
-possible to send values into the channel. This is considered the termination
-event of the stream. Once all senders have been dropped and any remaining
-buffered values have been received, <code>Receiver::recv</code> returns <code>None</code>
-(and <code>Receiver::poll_recv</code> returns <code>Poll::Ready(None)</code>).</p>
-<p>If the <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> handle is dropped, then messages can no longer
-be read out of the channel. In this case, all further attempts to send will
-result in an error. Additionally, all unread messages will be drained from the
-channel and dropped.</p>
+<p>当所有 <a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> 句柄
+都已被丢弃时，
+将无法再向通道发送值。
+这被视为流的终止事件。
+一旦所有 senders 都已被丢弃
+且所有剩余的缓冲值
+都已被接收，
+<code>Receiver::recv</code> 返回 <code>None</code>
+（<code>Receiver::poll_recv</code> 返回
+<code>Poll::Ready(None)</code>）。</p>
+<p>如果 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 句柄
+被丢弃，
+则消息将无法再从通道中读取。
+在这种情况下，
+所有进一步的发送尝试
+都将导致错误。
+此外，
+所有未读消息都将从通道中排出
+并丢弃。</p>
 <h2 id="clean-shutdown"><a class="doc-anchor" href="#clean-shutdown">§</a>Clean Shutdown</h2>
-<p>When the <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> is dropped, it is possible for unprocessed messages to
-remain in the channel. Instead, it is usually desirable to perform a “clean”
-shutdown. To do this, the receiver first calls <code>close</code>, which will prevent
-any further messages to be sent into the channel. Then, the receiver
-consumes the channel to completion, at which point the receiver can be
-dropped.</p>
+<p>当 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 被丢弃时，
+未处理的消息
+可能会保留在通道中。
+通常，
+更可取的做法是
+执行“干净”的关闭。
+为此，
+receiver 首先调用 <code>close</code>，
+这将阻止任何进一步的消息
+被发送到通道。
+然后，
+receiver 消费完通道中的所有消息，
+此时 receiver 可以被丢弃。</p>
 <h2 id="communicating-between-sync-and-async-code"><a class="doc-anchor" href="#communicating-between-sync-and-async-code">§</a>Communicating between sync and async code</h2>
-<p>When you want to communicate between synchronous and asynchronous code, there
-are two situations to consider:</p>
-<p><strong>Bounded channel</strong>: If you need a bounded channel, you should use a bounded
-Tokio <code>mpsc</code> channel for both directions of communication. Instead of calling
-the async <a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> or <a href="struct.Receiver.html#method.recv" title="method tokio::sync::mpsc::Receiver::recv"><code>recv</code></a> methods, in
-synchronous code you will need to use the <a href="struct.Sender.html#method.blocking_send" title="method tokio::sync::mpsc::Sender::blocking_send"><code>blocking_send</code></a> or
-<a href="struct.Receiver.html#method.blocking_recv" title="method tokio::sync::mpsc::Receiver::blocking_recv"><code>blocking_recv</code></a> methods.</p>
-<p><strong>Unbounded channel</strong>: You should use the kind of channel that matches where
-the receiver is. So for sending a message <em>from async to sync</em>, you should
-use <a href="https://doc.rust-lang.org/1.95.0/std/sync/mpsc/fn.channel.html" title="fn std::sync::mpsc::channel">the standard library unbounded channel</a> or
-<a href="https://docs.rs/crossbeam/*/crossbeam/channel/fn.unbounded.html">crossbeam</a>.  Similarly, for sending a message <em>from sync
-to async</em>, you should use an unbounded Tokio <code>mpsc</code> channel.</p>
-<p>Please be aware that the above remarks were written with the <code>mpsc</code> channel
-in mind, but they can also be generalized to other kinds of channels. In
-general, any channel method that isn’t marked async can be called anywhere,
-including outside of the runtime. For example, sending a message on a
-<a href="../oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a> channel from outside the runtime is perfectly fine.</p>
+<p>当你想在同步代码和异步代码之间通信时，需要考虑两种情况：</p>
+<p><strong>有界通道</strong>：如果你需要有界通道，
+则应在两个通信方向上都使用
+有界 Tokio <code>mpsc</code> 通道。
+在同步代码中，
+不是调用异步
+<a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> 或 <a href="struct.Receiver.html#method.recv" title="method tokio::sync::mpsc::Receiver::recv"><code>recv</code></a> 方法，
+而是需要使用
+<a href="struct.Sender.html#method.blocking_send" title="method tokio::sync::mpsc::Sender::blocking_send"><code>blocking_send</code></a> 或
+<a href="struct.Receiver.html#method.blocking_recv" title="method tokio::sync::mpsc::Receiver::blocking_recv"><code>blocking_recv</code></a> 方法。</p>
+<p><strong>无界通道</strong>：应使用与
+receiver 所在位置
+相匹配的通道类型。
+因此，
+若要<em>从 async 向 sync</em> 发送消息，
+应使用
+<a href="https://doc.rust-lang.org/1.95.0/std/sync/mpsc/fn.channel.html" title="fn std::sync::mpsc::channel">标准库的无界通道</a>
+或
+<a href="https://docs.rs/crossbeam/*/crossbeam/channel/fn.unbounded.html">crossbeam</a>。
+类似地，
+<em>从 sync 向 async</em> 发送消息，
+应使用无界 Tokio <code>mpsc</code> 通道。</p>
+<p>请注意，
+上述说明是针对 <code>mpsc</code> 通道编写的，
+但它们也可以推广到
+其他类型的通道。
+通常，
+任何未标记为 async 的通道方法
+都可以
+在任何地方调用，
+包括在运行时之外。
+例如，
+在运行时之外通过
+<a href="../oneshot/index.html" title="mod tokio::sync::oneshot">oneshot</a>
+通道发送消息
+是完全可行的。</p>
 <h2 id="multiple-runtimes"><a class="doc-anchor" href="#multiple-runtimes">§</a>Multiple runtimes</h2>
-<p>The <code>mpsc</code> channel is runtime agnostic. You can freely move it between
-different instances of the Tokio runtime or even use it from non-Tokio
-runtimes.</p>
-<p>When used in a Tokio runtime, it participates in
-<a href="../../task/coop/index.html#cooperative-scheduling" title="mod tokio::task::coop">cooperative scheduling</a> to avoid
-starvation. This feature does not apply when used from non-Tokio runtimes.</p>
-<p>As an exception, methods ending in <code>_timeout</code> are not runtime agnostic
-because they require access to the Tokio timer. See the documentation of
-each <code>*_timeout</code> method for more information on its use.</p>
+<p><code>mpsc</code> 通道是与运行时无关的。
+你可以自由地将它
+在 Tokio 运行时的不同实例之间移动，
+甚至可以从非 Tokio 运行时使用它。</p>
+<p>在 Tokio 运行时中使用时，
+它参与
+<a href="../../task/coop/index.html#cooperative-scheduling" title="mod tokio::task::coop">协作式调度</a> 
+以避免饥饿。
+当从非 Tokio 运行时使用时，此功能不适用。</p>
+<p>作为例外，
+以 <code>_timeout</code> 结尾的方法不是与运行时无关的，
+因为它们需要访问 Tokio 计时器。
+有关其用法的更多信息，
+请参阅每个 <code>*_timeout</code> 方法的文档。</p>
 <h2 id="allocation-behavior"><a class="doc-anchor" href="#allocation-behavior">§</a>Allocation behavior</h2><div class="warning">The implementation details described in this section may change in future
 Tokio releases.</div>
-<p>The mpsc channel stores elements in blocks. Blocks are organized in a linked list. Sending
-pushes new elements onto the block at the front of the list, and receiving pops them off the
-one at the back. A block can hold 32 messages on a 64-bit target and 16 messages on a 32-bit
-target. This number is independent of channel and message size. Each block also stores 4
-pointer-sized values for bookkeeping (so on a 64-bit machine, each message has 1 byte of
-overhead).</p>
-<p>When all values in a block have been received, it becomes empty. It will then be freed, unless
-the channel’s first block (where newly-sent elements are being stored) has no next block. In
-that case, the empty block is reused as the next block.</p>
+<p>mpsc 通道将元素存储在块中。块以链表形式组织。
+发送将新元素推送到链表前端的块上，
+接收则从后端的块上弹出它们。
+在 64 位目标上一个块可以容纳 32 条消息，
+在 32 位目标上一个块可以容纳 16 条消息。
+这个数字与通道和消息大小无关。
+每个块还存储 4 个指针大小的值用于簿记
+（因此在 64 位机器上，每条消息有 1 字节的
+开销）。</p>
+<p>当块中的所有值都已被接收时，它变为空。
+然后它将被释放，除非通道的第一个块
+（正在存储新发送的元素的块）没有下一个块。
+在这种情况下，空块将被重用为下一个块。</p>
 </div></details><h2 id="modules" class="section-header">模块<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="error/index.html" title="mod tokio::sync::mpsc::error">error</a></dt><dd>Channel 错误类型。</dd></dl><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit">Owned<wbr>Permit</a></dt><dd>owned 类型的 permit，用于向 channel 发送一个值。</dd><dt><a class="struct" href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit">Permit</a></dt><dd>用于向 channel 发送一个值的 permit。</dd><dt><a class="struct" href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator">Permit<wbr>Iterator</a></dt><dd><a href="https://doc.rust-lang.org/1.95.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator"><code>Iterator</code></a>，对 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 进行迭代，可用于在 channel 中持有 <code>n</code> 个槽位。</dd><dt><a class="struct" href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver">Receiver</a></dt><dd>从关联的 <code>Sender</code> 接收值。</dd><dt><a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a></dt><dd>向关联的 <code>Receiver</code> 发送值。</dd><dt><a class="struct" href="struct.UnboundedReceiver.html" title="struct tokio::sync::mpsc::UnboundedReceiver">Unbounded<wbr>Receiver</a></dt><dd>从关联的 <code>UnboundedSender</code> 接收值。</dd><dt><a class="struct" href="struct.UnboundedSender.html" title="struct tokio::sync::mpsc::UnboundedSender">Unbounded<wbr>Sender</a></dt><dd>向关联的 <code>UnboundedReceiver</code> 发送值。</dd><dt><a class="struct" href="struct.WeakSender.html" title="struct tokio::sync::mpsc::WeakSender">Weak<wbr>Sender</a></dt><dd>一个 sender，不会阻止 channel 被关闭。</dd><dt><a class="struct" href="struct.WeakUnboundedSender.html" title="struct tokio::sync::mpsc::WeakUnboundedSender">Weak<wbr>Unbounded<wbr>Sender</a></dt><dd>一个无界 sender，不会阻止 channel 被关闭。</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.channel.html" title="fn tokio::sync::mpsc::channel">channel</a></dt><dd>创建一个有界 mpsc channel，用于在异步任务之间通过背压（backpressure）进行通信。</dd><dt><a class="fn" href="fn.unbounded_channel.html" title="fn tokio::sync::mpsc::unbounded_channel">unbounded_<wbr>channel</a></dt><dd>创建一个无界 mpsc channel，用于在异步任务之间通信（不提供背压）。</dd></dl></section></div></main></body></html>

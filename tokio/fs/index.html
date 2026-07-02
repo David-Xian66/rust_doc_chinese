@@ -1,17 +1,15 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Asynchronous file utilities."><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/fs/index.html"><meta property="og:type" content="article"><meta property="og:title" content="tokio::fs - tokio"><meta property="og:description" content="Asynchronous file utilities."><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/fs/index.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="tokio::fs - tokio"><meta name="twitter:description" content="Asynchronous file utilities."><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>tokio::fs - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module fs</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module fs</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a><ul><li><a href="#using-file" title="Using `File`">Using <code>File</code></a></li><li><a href="#tuning-your-file-io" title="Tuning your file IO">Tuning your file IO</a></li></ul></li></ul><h3><a href="#structs">模块条目</a></h3><ul class="block"><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">在 crate tokio 中</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>模块 <span>fs</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/fs/mod.rs.html#1-324">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>异步文件实用工具。</p>
-<p>此模块包含用于异步
-处理文件系统的实用方法。这包括对文件的读/写以及
-对目录的操作。</p>
-<p>请注意，大多数操作系统不提供异步文件系统
-API。因此，Tokio 在后台将使用普通的阻塞文件操作。
-这是通过使用 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 线程池在
-后台运行它们来实现的。</p>
-<p><code>tokio::fs</code> 模块只应用于普通文件。尝试将其用于
-Linux 上的命名管道等特殊文件可能会导致意外行为，
-例如在运行时关闭期间挂起。对于特殊文件，
-应使用专门的类型，例如 <a href="crate::net::unix::pipe"><code>tokio::net::unix::pipe</code></a> 或 <a href="crate::io::unix::AsyncFd"><code>AsyncFd</code></a>。</p>
-<p>目前，Tokio 始终在所有平台上使用 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a>，
-但未来可能会更改以使用异步文件系统 API（如 io_uring）。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Asynchronous file utilities."><title>tokio::fs - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Module fs</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module fs</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a><ul><li><a href="#using-file" title="Using `File`">Using <code>File</code></a></li><li><a href="#tuning-your-file-io" title="调优你的文件 IO">调优你的文件 IO</a></li></ul></li></ul><h3><a href="#structs">模块条目</a></h3><ul class="block"><li><a href="#structs" title="Structs">结构体</a></li><li><a href="#functions" title="Functions">函数</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate tokio</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a></div><h1>Module <span>fs</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/fs/mod.rs.html#1-324">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>异步文件实用工具。</p>
+<p>本模块包含用于以异步方式处理文件系统的实用方法。
+包括对文件的读/写，以及对目录的操作。</p>
+<p>请注意，大多数操作系统并不提供异步文件系统 API。
+因此，Tokio 在内部会使用普通的阻塞文件操作。
+这是通过 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 线程池在后台运行它们来完成的。</p>
+<p><code>tokio::fs</code> 模块仅应用于普通文件。
+在 Linux 上试图将其用于命名管道等特殊文件
+可能会导致意外行为，例如在运行时关闭期间挂起。
+对于特殊文件，应改用 <a href="crate::net::unix::pipe"><code>tokio::net::unix::pipe</code></a> 或 <a href="crate::io::unix::AsyncFd"><code>AsyncFd</code></a> 等专用类型。</p>
+<p>当前，Tokio 在所有平台上都会使用 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a>，
+但将来可能会改为使用异步文件系统 API（如 io_uring）。</p>
 <h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
 <p>使用此模块的最简单方法是使用对整个文件进行操作的实用函数：</p>
 <ul>
@@ -19,32 +17,33 @@ Linux 上的命名管道等特殊文件可能会导致意外行为，
 <li><a href="fn.read_to_string.html" title="fn tokio::fs::read_to_string"><code>tokio::fs::read_to_string</code></a></li>
 <li><a href="fn.write.html" title="fn tokio::fs::write"><code>tokio::fs::write</code></a></li>
 </ul>
-<p>两个 <code>read</code> 函数读取整个文件并返回其内容。
-<code>write</code> 函数接受文件内容并将这些
-内容写入文件。如果存在现有文件，则会覆盖它。</p>
+<p>这两个 <code>read</code> 函数读取整个文件并返回其内容。
+<code>write</code> 函数获取文件的内容并将这些内容
+写入文件。如果文件已存在，则覆盖它。</p>
 <p>例如，要读取文件：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>contents = tokio::fs::read_to_string(<span class="string">"my_file.txt"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
 <span class="macro">println!</span>(<span class="string">"File has {} lines."</span>, contents.lines().count());</code></pre></div>
-<p>要覆盖文件：</p>
+<p>若要覆盖该文件：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>contents = <span class="string">"First line.\nSecond line.\nThird line.\n"</span>;
 
 tokio::fs::write(<span class="string">"my_file.txt"</span>, contents.as_bytes()).<span class="kw">await</span><span class="question-mark">?</span>;</code></pre></div><h3 id="using-file"><a class="doc-anchor" href="#using-file">§</a>Using <code>File</code></h3>
-<p>与文件交互的主要类型是 <a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a>。它可用于对
-给定的文件进行读取和写入。这是通过 <a href="../io/trait.AsyncRead.html" title="trait tokio::io::AsyncRead"><code>AsyncRead</code></a>
-和 <a href="../io/trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> trait 完成的。
-当你希望执行比一次性读取或写入整个内容更复杂的操作时，
-通常会使用此类型。</p>
-<p><strong>注意：</strong>在写入 Tokio
-<a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a> 时使用 <a href="../io/trait.AsyncWriteExt.html#method.flush" title="method tokio::io::AsyncWriteExt::flush"><code>flush</code></a> 很重要。
-这是因为对 <code>write</code> 的调用将在写入完成之前返回，
-而 <a href="../io/trait.AsyncWriteExt.html#method.flush" title="method tokio::io::AsyncWriteExt::flush"><code>flush</code></a> 将等待写入完成。
-（即使你不调用 flush，写入也会发生；只是稍后发生。）
-这与 <a href="https://doc.rust-lang.org/1.95.0/std/fs/struct.File.html" title="struct std::fs::File"><code>std::fs::File</code></a> 不同，原因是 <code>File</code> 在
-后台使用了 <code>spawn_blocking</code>。</p>
-<p>例如，要计算文件中的行数而不将整个文件加载到内存中：</p>
+<p>与文件交互的主要类型是 <a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a>。它可用于
+读取和写入给定文件。
+这是通过 <a href="../io/trait.AsyncRead.html" title="trait tokio::io::AsyncRead"><code>AsyncRead</code></a> 和
+<a href="../io/trait.AsyncWrite.html" title="trait tokio::io::AsyncWrite"><code>AsyncWrite</code></a> trait 完成的。当你想做
+一些比一次性读取或写入整个内容
+更复杂的操作时，通常会使用此类型。</p>
+<p><strong>注意：</strong>在使用 Tokio 的 <a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a>
+写入时，使用 <a href="../io/trait.AsyncWriteExt.html#method.flush" title="method tokio::io::AsyncWriteExt::flush"><code>flush</code></a> 非常重要。
+这是因为对 <code>write</code> 的调用会在写入完成之前返回，
+而 <a href="../io/trait.AsyncWriteExt.html#method.flush" title="method tokio::io::AsyncWriteExt::flush"><code>flush</code></a> 会等待写入完成。
+（即使你不调用 flush，写入也会发生；
+只是会稍后发生。）这与 <a href="https://doc.rust-lang.org/1.95.0/std/fs/struct.File.html" title="struct std::fs::File"><code>std::fs::File</code></a> 不同，
+原因是 <code>File</code> 在内部使用了 <code>spawn_blocking</code>。</p>
+<p>例如，若要统计文件中的行数，而又不将整个文件加载到内存中：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::fs::File;
 <span class="kw">use </span>tokio::io::AsyncReadExt;
@@ -79,21 +78,22 @@ file.write_all(<span class="string">b"Second line.\n"</span>).<span class="kw">a
 file.write_all(<span class="string">b"Third line.\n"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
 <span class="comment">// Remember to call `flush` after writing!
-</span>file.flush().<span class="kw">await</span><span class="question-mark">?</span>;</code></pre></div><h3 id="tuning-your-file-io"><a class="doc-anchor" href="#tuning-your-file-io">§</a>Tuning your file IO</h3>
-<p>Tokio 的文件操作在后台使用 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a>，
-这会带来严重的性能影响。为了在 Tokio 上获得良好的文件 IO 性能，
-建议将你的操作批处理为尽可能少的 <code>spawn_blocking</code> 调用。</p>
-<p>通过比较上面的两个读取示例，可以看到这种差异的一个例子。
+</span>file.flush().<span class="kw">await</span><span class="question-mark">?</span>;</code></pre></div><h3 id="tuning-your-file-io"><a class="doc-anchor" href="#tuning-your-file-io">§</a>调优你的文件 IO</h3>
+<p>Tokio 的文件在内部使用 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a>，
+这会产生严重的性能影响。
+为了在 Tokio 上获得良好的文件 IO 性能，
+建议将操作批量到尽可能少的 <code>spawn_blocking</code> 调用中。</p>
+<p>这种差异的一个例子可以通过比较上面的两个读取示例看出。
 第一个示例使用 <a href="fn.read.html" title="fn tokio::fs::read"><code>tokio::fs::read</code></a>，
-它在单个 <code>spawn_blocking</code> 调用中读取
-整个文件，然后返回它。第二个示例将使用许多 <code>spawn_blocking</code>
-调用以块的形式读取文件。这意味着对于大文件，
-第二个示例很可能更昂贵。
-（当然，对于无法放入内存的超大文件，使用分块读取可能是必要的。）</p>
-<p>以下示例将展示一些相关策略：</p>
+它在一次 <code>spawn_blocking</code> 调用中读取整个文件，
+然后返回。
+第二个示例将使用许多 <code>spawn_blocking</code> 调用以块的方式读取文件。
+这意味着对于大文件，第二个示例很可能更昂贵。
+（当然，对于不适合放在内存中的超大文件，使用块读取可能是必要的。）</p>
+<p>下面的示例将展示一些针对此的策略：</p>
 <p>创建文件时，将数据写入 <code>String</code> 或 <code>Vec&lt;u8&gt;</code>，
-然后使用 <code>tokio::fs::write</code> 在
-单个 <code>spawn_blocking</code> 调用中写入整个文件。</p>
+然后通过 <code>tokio::fs::write</code>
+在一次 <code>spawn_blocking</code> 调用中写入整个文件。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>contents = String::new();
 
@@ -102,9 +102,9 @@ contents.push_str(<span class="string">"Second line.\n"</span>);
 contents.push_str(<span class="string">"Third line.\n"</span>);
 
 tokio::fs::write(<span class="string">"my_file.txt"</span>, contents.as_bytes()).<span class="kw">await</span><span class="question-mark">?</span>;</code></pre></div>
-<p>使用 <a href="../io/struct.BufReader.html" title="struct tokio::io::BufReader"><code>BufReader</code></a> 和 <a href="../io/struct.BufWriter.html" title="struct tokio::io::BufWriter"><code>BufWriter</code></a> 将许多小的读/写操作
-缓冲为少数大的读/写操作。
-此示例很可能只会执行一次 <code>spawn_blocking</code> 调用。</p>
+<p>使用 <a href="../io/struct.BufReader.html" title="struct tokio::io::BufReader"><code>BufReader</code></a> 和 <a href="../io/struct.BufWriter.html" title="struct tokio::io::BufWriter"><code>BufWriter</code></a>
+将许多小的读或写缓冲为几个大的。此示例
+很可能只会执行一次 <code>spawn_blocking</code> 调用。</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::fs::File;
 <span class="kw">use </span>tokio::io::{AsyncWriteExt, BufWriter};
@@ -136,15 +136,35 @@ spawn_blocking(<span class="kw">move </span>|| {
 
     </span>io::Result::Ok(())
 }).<span class="kw">await</span>.unwrap()<span class="question-mark">?</span>;</code></pre></div>
-<p>还应注意 <a href="struct.File.html#method.set_max_buf_size" title="method tokio::fs::File::set_max_buf_size"><code>File::set_max_buf_size</code></a>，
-它控制 Tokio 的 <a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a> 在单个
-<a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 调用中
-将读取或写入的最大字节数。默认为 2 MB，但可能会更改。</p>
-</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.DirBuilder.html" title="struct tokio::fs::DirBuilder">DirBuilder</a></dt><dd>A builder for creating directories in various manners.</dd><dt><a class="struct" href="struct.DirEntry.html" title="struct tokio::fs::DirEntry">DirEntry</a></dt><dd>Entries returned by the <a href="struct.ReadDir.html" title="struct tokio::fs::ReadDir"><code>ReadDir</code></a> stream.</dd><dt><a class="struct" href="struct.File.html" title="struct tokio::fs::File">File</a></dt><dd>A reference to an open file on the filesystem.</dd><dt><a class="struct" href="struct.OpenOptions.html" title="struct tokio::fs::OpenOptions">Open<wbr>Options</a></dt><dd>用于配置文件打开方式的可选项与标志。</dd><dt><a class="struct" href="struct.ReadDir.html" title="struct tokio::fs::ReadDir">ReadDir</a></dt><dd>Reads the entries in a directory.</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.canonicalize.html" title="fn tokio::fs::canonicalize">canonicalize</a></dt><dd>返回路径的规范化绝对形式，所有中间组件均被规范化，且符号链接被解析。</dd><dt><a class="fn" href="fn.copy.html" title="fn tokio::fs::copy">copy</a></dt><dd>Copies the contents of one file to another. This function will also copy the permission bits
-of the original file to the destination file.
-This function will overwrite the contents of to.</dd><dt><a class="fn" href="fn.create_dir.html" title="fn tokio::fs::create_dir">create_<wbr>dir</a></dt><dd>在指定路径创建一个新的空目录。</dd><dt><a class="fn" href="fn.create_dir_all.html" title="fn tokio::fs::create_dir_all">create_<wbr>dir_<wbr>all</a></dt><dd>Recursively creates a directory and all of its parent components if they
-are missing.</dd><dt><a class="fn" href="fn.hard_link.html" title="fn tokio::fs::hard_link">hard_<wbr>link</a></dt><dd>在文件系统上创建一个新的硬链接。</dd><dt><a class="fn" href="fn.metadata.html" title="fn tokio::fs::metadata">metadata</a></dt><dd>Given a path, queries the file system to get information about a file,
-directory, etc.</dd><dt><a class="fn" href="fn.read.html" title="fn tokio::fs::read">read</a></dt><dd>Reads the entire contents of a file into a bytes vector.</dd><dt><a class="fn" href="fn.read_dir.html" title="fn tokio::fs::read_dir">read_<wbr>dir</a></dt><dd>Returns a stream over the entries within a directory.</dd><dt><a class="fn" href="fn.read_link.html" title="fn tokio::fs::read_link">read_<wbr>link</a></dt><dd>读取符号链接，返回链接指向的文件。</dd><dt><a class="fn" href="fn.read_to_string.html" title="fn tokio::fs::read_to_string">read_<wbr>to_<wbr>string</a></dt><dd>Creates a future which will open a file for reading and read the entire
-contents into a string and return said string.</dd><dt><a class="fn" href="fn.remove_dir.html" title="fn tokio::fs::remove_dir">remove_<wbr>dir</a></dt><dd>Removes an existing, empty directory.</dd><dt><a class="fn" href="fn.remove_dir_all.html" title="fn tokio::fs::remove_dir_all">remove_<wbr>dir_<wbr>all</a></dt><dd>删除该路径的目录，包括其全部内容。 Use carefully!</dd><dt><a class="fn" href="fn.remove_file.html" title="fn tokio::fs::remove_file">remove_<wbr>file</a></dt><dd>从文件系统删除一个文件。</dd><dt><a class="fn" href="fn.rename.html" title="fn tokio::fs::rename">rename</a></dt><dd>Renames a file or directory to a new name, replacing the original file if
-<code>to</code> already exists.</dd><dt><a class="fn" href="fn.set_permissions.html" title="fn tokio::fs::set_permissions">set_<wbr>permissions</a></dt><dd>Changes the permissions found on a file or a directory.</dd><dt><a class="fn" href="fn.symlink_dir.html" title="fn tokio::fs::symlink_dir">symlink_<wbr>dir</a></dt><dd>Creates a new directory symlink on the filesystem.</dd><dt><a class="fn" href="fn.symlink_file.html" title="fn tokio::fs::symlink_file">symlink_<wbr>file</a></dt><dd>Creates a new file symbolic link on the filesystem.</dd><dt><a class="fn" href="fn.symlink_metadata.html" title="fn tokio::fs::symlink_metadata">symlink_<wbr>metadata</a></dt><dd>Queries the file system metadata for a path.</dd><dt><a class="fn" href="fn.try_exists.html" title="fn tokio::fs::try_exists">try_<wbr>exists</a></dt><dd>Returns <code>Ok(true)</code> if the path points at an existing entity.</dd><dt><a class="fn" href="fn.write.html" title="fn tokio::fs::write">write</a></dt><dd>Creates a future that will open a file for writing and write the entire
-contents of <code>contents</code> to it.</dd></dl></section></div></main></body></html>
+<p>最好也注意 <a href="struct.File.html#method.set_max_buf_size" title="method tokio::fs::File::set_max_buf_size"><code>File::set_max_buf_size</code></a>，
+它控制 Tokio 的 <a href="struct.File.html" title="struct tokio::fs::File"><code>File</code></a>
+在单次 <a href="../task/fn.spawn_blocking.html" title="fn tokio::task::spawn_blocking"><code>spawn_blocking</code></a> 调用中
+读取或写入的最大字节数。默认为 2 MB，
+但这可能会更改。</p>
+</div></details><h2 id="structs" class="section-header">结构体<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.DirBuilder.html" title="struct tokio::fs::DirBuilder">DirBuilder</a></dt><dd>用于以各种方式创建目录的构建器。</dd><dt><a class="struct" href="struct.DirEntry.html" title="struct tokio::fs::DirEntry">DirEntry</a></dt><dd><a href="struct.ReadDir.html" title="struct tokio::fs::ReadDir"><code>ReadDir</code></a> 流所返回的条目。</dd><dt><a class="struct" href="struct.File.html" title="struct tokio::fs::File">File</a></dt><dd>对文件系统上已打开文件的引用。</dd><dt><a class="struct" href="struct.OpenOptions.html" title="struct tokio::fs::OpenOptions">Open<wbr>Options</a></dt><dd>可用于配置文件打开方式的选项和标志。</dd><dt><a class="struct" href="struct.ReadDir.html" title="struct tokio::fs::ReadDir">ReadDir</a></dt><dd>读取目录中的条目。</dd></dl><h2 id="functions" class="section-header">函数<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.canonicalize.html" title="fn tokio::fs::canonicalize">canonicalize</a></dt><dd>返回路径的规范化绝对形式，
+其中所有中间组件都被归一化，
+符号链接也被解析。</dd><dt><a class="fn" href="fn.copy.html" title="fn tokio::fs::copy">copy</a></dt><dd>将一个文件的内容复制到另一个文件。
+此函数还会将
+原始文件的权限位
+复制到目标文件。
+此函数将覆盖目标的内容。</dd><dt><a class="fn" href="fn.create_dir.html" title="fn tokio::fs::create_dir">create_<wbr>dir</a></dt><dd>在所提供的路径处
+创建一个新的空目录。</dd><dt><a class="fn" href="fn.create_dir_all.html" title="fn tokio::fs::create_dir_all">create_<wbr>dir_<wbr>all</a></dt><dd>递归地创建目录
+及其所有缺失的父组件。</dd><dt><a class="fn" href="fn.hard_link.html" title="fn tokio::fs::hard_link">hard_<wbr>link</a></dt><dd>在文件系统上
+创建一个新的硬链接。</dd><dt><a class="fn" href="fn.metadata.html" title="fn tokio::fs::metadata">metadata</a></dt><dd>给定一个路径，
+查询文件系统以获取有关文件、
+目录等的信息。</dd><dt><a class="fn" href="fn.read.html" title="fn tokio::fs::read">read</a></dt><dd>将文件的全部内容
+读取到字节向量中。</dd><dt><a class="fn" href="fn.read_dir.html" title="fn tokio::fs::read_dir">read_<wbr>dir</a></dt><dd>返回目录内条目的流。</dd><dt><a class="fn" href="fn.read_link.html" title="fn tokio::fs::read_link">read_<wbr>link</a></dt><dd>读取符号链接，
+返回该链接所指向的文件。</dd><dt><a class="fn" href="fn.read_to_string.html" title="fn tokio::fs::read_to_string">read_<wbr>to_<wbr>string</a></dt><dd>创建一个 future，
+该 future 将打开一个文件以供读取，
+将其全部内容读取到一个字符串中，
+并返回该字符串。</dd><dt><a class="fn" href="fn.remove_dir.html" title="fn tokio::fs::remove_dir">remove_<wbr>dir</a></dt><dd>移除一个现有的空目录。</dd><dt><a class="fn" href="fn.remove_dir_all.html" title="fn tokio::fs::remove_dir_all">remove_<wbr>dir_<wbr>all</a></dt><dd>在移除所有内容后
+移除该路径处的目录。
+请谨慎使用！</dd><dt><a class="fn" href="fn.remove_file.html" title="fn tokio::fs::remove_file">remove_<wbr>file</a></dt><dd>从文件系统中
+移除一个文件。</dd><dt><a class="fn" href="fn.rename.html" title="fn tokio::fs::rename">rename</a></dt><dd>将文件或目录重命名为新名称，
+如果 <code>to</code> 已存在，
+则替换原始文件。</dd><dt><a class="fn" href="fn.set_permissions.html" title="fn tokio::fs::set_permissions">set_<wbr>permissions</a></dt><dd>更改文件或目录上的权限。</dd><dt><a class="fn" href="fn.symlink_dir.html" title="fn tokio::fs::symlink_dir">symlink_<wbr>dir</a></dt><dd>在文件系统上
+创建一个新的目录符号链接。</dd><dt><a class="fn" href="fn.symlink_file.html" title="fn tokio::fs::symlink_file">symlink_<wbr>file</a></dt><dd>在文件系统上
+创建一个新的文件符号链接。</dd><dt><a class="fn" href="fn.symlink_metadata.html" title="fn tokio::fs::symlink_metadata">symlink_<wbr>metadata</a></dt><dd>查询某路径的文件系统元数据。</dd><dt><a class="fn" href="fn.try_exists.html" title="fn tokio::fs::try_exists">try_<wbr>exists</a></dt><dd>如果该路径指向一个已存在的实体，
+则返回 <code>Ok(true)</code>。</dd><dt><a class="fn" href="fn.write.html" title="fn tokio::fs::write">write</a></dt><dd>创建一个 future，
+该 future 将打开一个文件以供写入，
+并将 <code>contents</code> 的全部内容写入其中。</dd></dl></section></div></main></body></html>
