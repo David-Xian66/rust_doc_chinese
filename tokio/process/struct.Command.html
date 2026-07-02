@@ -1,47 +1,42 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This structure mimics the API of `std::process::Command` found in the standard library, but replaces functions that create a process with an asynchronous variant. The main provided asynchronous functions are spawn, status, and output."><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/process/struct.Command.html"><meta property="og:type" content="article"><meta property="og:title" content="Command in tokio::process - tokio"><meta property="og:description" content="This structure mimics the API of `std::process::Command` found in the standard library, but replaces functions that create a process with an asynchronous variant. The main provided asynchronous functions are spawn, status, and output."><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/process/struct.Command.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Command in tokio::process - tokio"><meta name="twitter:description" content="This structure mimics the API of `std::process::Command` found in the standard library, but replaces functions that create a process with an asynchronous variant. The main provided asynchronous functions are spawn, status, and output."><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>Command in tokio::process - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Command</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Command</a></h2><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.arg" title="arg">arg</a></li><li><a href="#method.args" title="args">args</a></li><li><a href="#method.as_std" title="as_std">as_std</a></li><li><a href="#method.as_std_mut" title="as_std_mut">as_std_mut</a></li><li><a href="#method.creation_flags" title="creation_flags">creation_flags</a></li><li><a href="#method.current_dir" title="current_dir">current_dir</a></li><li><a href="#method.env" title="env">env</a></li><li><a href="#method.env_clear" title="env_clear">env_clear</a></li><li><a href="#method.env_remove" title="env_remove">env_remove</a></li><li><a href="#method.envs" title="envs">envs</a></li><li><a href="#method.get_kill_on_drop" title="get_kill_on_drop">get_kill_on_drop</a></li><li><a href="#method.into_std" title="into_std">into_std</a></li><li><a href="#method.kill_on_drop" title="kill_on_drop">kill_on_drop</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.output" title="output">output</a></li><li><a href="#method.raw_arg" title="raw_arg">raw_arg</a></li><li><a href="#method.spawn" title="spawn">spawn</a></li><li><a href="#method.status" title="status">status</a></li><li><a href="#method.stderr" title="stderr">stderr</a></li><li><a href="#method.stdin" title="stdin">stdin</a></li><li><a href="#method.stdout" title="stdout">stdout</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Command" title="Debug">Debug</a></li><li><a href="#impl-From%3CCommand%3E-for-Command" title="From&#60;Command&#62;">From&#60;Command&#62;</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Command" title="Freeze">Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Command" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Command" title="Send">Send</a></li><li><a href="#impl-Sync-for-Command" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Command" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Command" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-Command" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>process</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">process</a></div><h1>结构体 <span class="struct">Command</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/process/mod.rs.html#274-277">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Command { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>此结构体模仿标准库中的
-<a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command"><code>std::process::Command</code></a> API，但将用于创建进程的函数替换为
-异步变体。主要提供的
-异步函数为 <a href="struct.Command.html#method.spawn" title="method tokio::process::Command::spawn">spawn</a>、<a href="struct.Command.html#method.status" title="method tokio::process::Command::status">status</a> 和
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This structure mimics the API of `std::process::Command` found in the standard library, but replaces functions that create a process with an asynchronous variant. The main provided asynchronous functions are spawn, status, and output."><title>Command in tokio::process - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Command</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Command</a></h2><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.arg" title="arg">arg</a></li><li><a href="#method.args" title="args">args</a></li><li><a href="#method.as_std" title="as_std">as_std</a></li><li><a href="#method.as_std_mut" title="as_std_mut">as_std_mut</a></li><li><a href="#method.creation_flags" title="creation_flags">creation_flags</a></li><li><a href="#method.current_dir" title="current_dir">current_dir</a></li><li><a href="#method.env" title="env">env</a></li><li><a href="#method.env_clear" title="env_clear">env_clear</a></li><li><a href="#method.env_remove" title="env_remove">env_remove</a></li><li><a href="#method.envs" title="envs">envs</a></li><li><a href="#method.get_kill_on_drop" title="get_kill_on_drop">get_kill_on_drop</a></li><li><a href="#method.into_std" title="into_std">into_std</a></li><li><a href="#method.kill_on_drop" title="kill_on_drop">kill_on_drop</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.output" title="output">output</a></li><li><a href="#method.raw_arg" title="raw_arg">raw_arg</a></li><li><a href="#method.spawn" title="spawn">spawn</a></li><li><a href="#method.status" title="status">status</a></li><li><a href="#method.stderr" title="stderr">stderr</a></li><li><a href="#method.stdin" title="stdin">stdin</a></li><li><a href="#method.stdout" title="stdout">stdout</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Command" title="Debug">Debug</a></li><li><a href="#impl-From%3CCommand%3E-for-Command" title="From&#60;Command&#62;">From&#60;Command&#62;</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Command" title="Freeze">Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Command" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Command" title="Send">Send</a></li><li><a href="#impl-Sync-for-Command" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Command" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Command" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-Command" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>process</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">process</a></div><h1>结构体 <span class="struct">Command</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/process/mod.rs.html#274-277">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Command { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>该结构体模仿 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command"><code>std::process::Command</code></a> 标准库中的 API，
+但将创建进程的相关函数替换为异步版本。提供的主要异步函数有
+<a href="struct.Command.html#method.spawn" title="method tokio::process::Command::spawn">spawn</a>、<a href="struct.Command.html#method.status" title="method tokio::process::Command::status">status</a> 和
 <a href="struct.Command.html#method.output" title="method tokio::process::Command::output">output</a>。</p>
-<p><code>Command</code> 使用某些 <code>std</code> 类型的异步版本（例如 <a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a>）。</p>
-</div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Command" class="impl"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#286-1093">Source</a><a href="#impl-Command" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#317-319">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(program: S) -&gt; <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>构造一个新的 <code>Command</code>，用于在
-路径 <code>program</code> 启动程序，使用以下默认配置：</p>
+<p><code>Command</code> 使用了一些 <code>std</code> 类型的异步版本（例如 <a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a>）。</p>
+</div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Command" class="impl"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#286-1093">Source</a><a href="#impl-Command" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#317-319">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(program: S) -&gt; <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>构造一个用于启动位于路径 <code>program</code> 处程序的新 <code>Command</code>，
+采用如下默认配置：</p>
 <ul>
 <li>No arguments to the program</li>
 <li>Inherit the current process’s environment</li>
 <li>Inherit the current process’s working directory</li>
 <li>Inherit stdin/stdout/stderr for <code>spawn</code> or <code>status</code>, but create pipes for <code>output</code></li>
 </ul>
-<p>提供了 Builder 方法来修改这些默认值并
-otherwise configure the process.</p>
-<p>如果 <code>program</code> 不是绝对路径，将以
-操作系统定义的方式搜索 <code>PATH</code>。</p>
-<p>要使用的搜索路径可以通过
-在 Command 上设置 <code>PATH</code>
-环境变量来控制，但这在 Windows 上有一些
-实现限制
+<p>提供了一些 builder 方法以修改这些默认设置并对进程进行其它配置。</p>
+<p>如果 <code>program</code> 不是绝对路径，将以操作系统定义的方式搜索 <code>PATH</code>。</p>
+<p>要使用的搜索路径可以通过在 Command 上设置 <code>PATH</code> 环境变量来控制，
+但在 Windows 上存在一些实现限制
 （参见 issue <a href="https://github.com/rust-lang/rust/issues/37519">rust-lang/rust#37519</a>）。</p>
 <h5 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h5>
 <p>基本用法：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::process::Command;
-<span class="kw">let </span><span class="kw-2">mut </span>command = Command::new(<span class="string">"sh"</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.as_std" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#323-325">Source</a><h4 class="code-header">pub fn <a href="#method.as_std" class="fn">as_std</a>(&amp;self) -&gt; &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为 <code>&amp;std::process::Command</code>，用于期望使用标准库类型的位置。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.as_std_mut" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#329-331">Source</a><h4 class="code-header">pub fn <a href="#method.as_std_mut" class="fn">as_std_mut</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为 <code>&amp;mut std::process::Command</code>，用于期望使用标准库类型的位置。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.into_std" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#338-340">Source</a><h4 class="code-header">pub fn <a href="#method.into_std" class="fn">into_std</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为 <code>std::process::Command</code>。</p>
-<p>请注意，Tokio 特定选项将丢失。目前，这仅适用于 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a>。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.arg" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#382-385">Source</a><h4 class="code-header">pub fn <a href="#method.arg" class="fn">arg</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(&amp;mut self, arg: S) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>添加传递给程序的参数。</p>
-<p>每次调用只能传递一个参数。因此，请勿这样：</p>
+<span class="kw">let </span><span class="kw-2">mut </span>command = Command::new(<span class="string">"sh"</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.as_std" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#323-325">Source</a><h4 class="code-header">pub fn <a href="#method.as_std" class="fn">as_std</a>(&amp;self) -&gt; &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为一个 <code>&amp;std::process::Command</code>，用于需要标准库类型的地方。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.as_std_mut" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#329-331">Source</a><h4 class="code-header">pub fn <a href="#method.as_std_mut" class="fn">as_std_mut</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为一个 <code>&amp;mut std::process::Command</code>，用于需要标准库类型的地方。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.into_std" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#338-340">Source</a><h4 class="code-header">pub fn <a href="#method.into_std" class="fn">into_std</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Command.html" title="struct std::process::Command">StdCommand</a></h4></section></summary><div class="docblock"><p>廉价地转换为一个 <code>std::process::Command</code>。</p>
+<p>注意，Tokio 特有的选项将会丢失。目前这仅适用于 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a>。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.arg" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#382-385">Source</a><h4 class="code-header">pub fn <a href="#method.arg" class="fn">arg</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(&amp;mut self, arg: S) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>添加一个传递给程序的参数。</p>
+<p>每次只能传递一个参数。因此，若要一次传递多个参数，可以这样做：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>command = tokio::process::Command::new(<span class="string">"sh"</span>);
 command.arg(<span class="string">"-C /path/to/repo"</span>);
 </code></pre></div>
-<p>用法如下：</p>
+<p>用法示例：</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>command = tokio::process::Command::new(<span class="string">"sh"</span>);
 command.arg(<span class="string">"-C"</span>);
 command.arg(<span class="string">"/path/to/repo"</span>);
 </code></pre></div>
-<p>若要传递多个参数，请参阅 <a href="struct.Command.html#method.args" title="method tokio::process::Command::args"><code>args</code></a>。</p>
+<p>要传递多个参数，请参阅 <a href="struct.Command.html#method.args" title="method tokio::process::Command::args"><code>args</code></a>。</p>
 <h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -65,13 +60,14 @@ command.arg(<span class="string">"/path/to/repo"</span>);
         .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.raw_arg" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#420-423">Source</a><h4 class="code-header">pub fn <a href="#method.raw_arg" class="fn">raw_arg</a>&lt;S: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(
     &amp;mut self,
     text_to_append_as_is: S,
-) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>向命令行追加字面文本，不进行任何引号或转义。</p>
-<p>这对于将参数传递给 <code>cmd.exe /c</code> 很有用，因为它不遵循 <code>CommandLineToArgvW</code> 的转义规则。</p>
+) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>在命令行末尾追加未经任何引号包裹或转义的字面文本。</p>
+<p>这在向 <code>cmd.exe /c</code> 传递参数时很有用，
+因为它不遵循 <code>CommandLineToArgvW</code> 的转义规则。</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.env" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#444-451">Source</a><h4 class="code-header">pub fn <a href="#method.env" class="fn">env</a>&lt;K, V&gt;(&amp;mut self, key: K, val: V) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a><div class="where">where
     K: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;,
     V: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;,</div></h4></section></summary><div class="docblock"><p>插入或更新一个环境变量映射。</p>
-<p>请注意，在 Windows 上环境变量名称不区分大小写（但保留大小写），
-而在所有其他平台上区分大小写。</p>
+<p>注意，环境变量名在 Windows 上大小写不敏感（但保留原始大小写），
+而在所有其它平台上大小写敏感。</p>
 <h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -101,7 +97,7 @@ command.arg(<span class="string">"/path/to/repo"</span>);
         .stdout(Stdio::inherit())
         .env_clear()
         .envs(<span class="kw-2">&amp;</span>filtered_env)
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.env_remove" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#504-507">Source</a><h4 class="code-header">pub fn <a href="#method.env_remove" class="fn">env_remove</a>&lt;K: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(&amp;mut self, key: K) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>删除一个环境变量映射。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.env_remove" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#504-507">Source</a><h4 class="code-header">pub fn <a href="#method.env_remove" class="fn">env_remove</a>&lt;K: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/ffi/os_str/struct.OsStr.html" title="struct std::ffi::os_str::OsStr">OsStr</a>&gt;&gt;(&amp;mut self, key: K) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>移除一个环境变量映射。</p>
 <h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -109,7 +105,7 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .env_remove(<span class="string">"PATH"</span>)
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.env_clear" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#524-527">Source</a><h4 class="code-header">pub fn <a href="#method.env_clear" class="fn">env_clear</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>清除子进程的整个环境映射。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.env_clear" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#524-527">Source</a><h4 class="code-header">pub fn <a href="#method.env_clear" class="fn">env_clear</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>清除子进程的全部环境变量映射。</p>
 <h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -117,15 +113,12 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .env_clear()
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.current_dir" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#554-557">Source</a><h4 class="code-header">pub fn <a href="#method.current_dir" class="fn">current_dir</a>&lt;P: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;&gt;(&amp;mut self, dir: P) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程设置工作目录。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.current_dir" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#554-557">Source</a><h4 class="code-header">pub fn <a href="#method.current_dir" class="fn">current_dir</a>&lt;P: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;&gt;(&amp;mut self, dir: P) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>设置子进程的工作目录。</p>
 <h5 id="platform-specific-behavior"><a class="doc-anchor" href="#platform-specific-behavior">§</a>Platform-specific behavior</h5>
 <p>如果程序路径是相对的（例如 <code>"./script.sh"</code>），
-那么是应该相对于
-父进程的工作目录解释，还是相对于 <code>current_dir</code> 解释，
-这一点不明确。这种情况下的行为
-是平台特定的且不稳定的，
-建议使用
-<a href="../fs/fn.canonicalize.html" title="fn tokio::fs::canonicalize"><code>canonicalize</code></a> 来获取绝对的程序路径。</p>
+那么它究竟是相对于父进程的工作目录还是相对于 <code>current_dir</code> 来解释并不明确。
+这种情况下的行为因平台而异且不稳定，
+建议改用 <a href="../fs/fn.canonicalize.html" title="fn tokio::fs::canonicalize"><code>canonicalize</code></a> 来获取程序的绝对路径。</p>
 <h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -133,7 +126,7 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .current_dir(<span class="string">"/bin"</span>)
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stdin" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#579-582">Source</a><h4 class="code-header">pub fn <a href="#method.stdin" class="fn">stdin</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准输入（stdin）handle 设置配置。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stdin" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#579-582">Source</a><h4 class="code-header">pub fn <a href="#method.stdin" class="fn">stdin</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准输入（stdin）句柄设置配置。</p>
 <p>默认为 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.inherit" title="associated function std::process::Stdio::inherit"><code>inherit</code></a>。</p>
 <h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
 <p>基本用法：</p>
@@ -143,12 +136,9 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .stdin(Stdio::null())
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stdout" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#606-609">Source</a><h4 class="code-header">pub fn <a href="#method.stdout" class="fn">stdout</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准输出 (stdout) 句柄
-设置配置。</p>
-<p>与 <code>spawn</code> 或 <code>status</code> 一起使用时默认为
-<a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.inherit" title="associated function std::process::Stdio::inherit"><code>inherit</code></a>，
-与 <code>output</code> 一起使用时默认为
-<a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.piped" title="associated function std::process::Stdio::piped"><code>piped</code></a>。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stdout" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#606-609">Source</a><h4 class="code-header">pub fn <a href="#method.stdout" class="fn">stdout</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准输出（stdout）句柄设置配置。</p>
+<p>与 <code>spawn</code> 或 <code>status</code> 配合使用时默认为 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.inherit" title="associated function std::process::Stdio::inherit"><code>inherit</code></a>，
+与 <code>output</code> 配合使用时默认为 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.piped" title="associated function std::process::Stdio::piped"><code>piped</code></a>。</p>
 <h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -157,12 +147,9 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .stdout(Stdio::null())
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stderr" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#633-636">Source</a><h4 class="code-header">pub fn <a href="#method.stderr" class="fn">stderr</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准错误 (stderr) 句柄
-设置配置。</p>
-<p>与 <code>spawn</code> 或 <code>status</code> 一起使用时默认为
-<a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.inherit" title="associated function std::process::Stdio::inherit"><code>inherit</code></a>，
-与 <code>output</code> 一起使用时默认为
-<a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.piped" title="associated function std::process::Stdio::piped"><code>piped</code></a>。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.stderr" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#633-636">Source</a><h4 class="code-header">pub fn <a href="#method.stderr" class="fn">stderr</a>&lt;T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html" title="struct std::process::Stdio">Stdio</a>&gt;&gt;(&amp;mut self, cfg: T) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>为子进程的标准错误（stderr）句柄设置配置。</p>
+<p>与 <code>spawn</code> 或 <code>status</code> 配合使用时默认为 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.inherit" title="associated function std::process::Stdio::inherit"><code>inherit</code></a>，
+与 <code>output</code> 配合使用时默认为 <a href="https://doc.rust-lang.org/1.95.0/std/process/struct.Stdio.html#method.piped" title="associated function std::process::Stdio::piped"><code>piped</code></a>。</p>
 <h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -171,35 +158,28 @@ command.arg(<span class="string">"/path/to/repo"</span>);
 
 <span class="kw">let </span>output = Command::new(<span class="string">"ls"</span>)
         .stderr(Stdio::null())
-        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.kill_on_drop" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#664-667">Source</a><h4 class="code-header">pub fn <a href="#method.kill_on_drop" class="fn">kill_on_drop</a>(&amp;mut self, kill_on_drop: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>控制在丢弃对应的 <code>Child</code> 句柄时，是否应对已生成的子进程调用 <code>kill</code> 操作。</p>
-<p>默认情况下，此值假定为 <code>false</code>，即下一个生成的进程在丢弃时不会被杀死，
-与标准库的行为类似。</p>
+        .output().<span class="kw">await</span>.unwrap();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.kill_on_drop" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#664-667">Source</a><h4 class="code-header">pub fn <a href="#method.kill_on_drop" class="fn">kill_on_drop</a>(&amp;mut self, kill_on_drop: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a>) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>控制在对应的 <code>Child</code> 句柄被 drop 时，是否应对已派生的子进程调用 <code>kill</code> 操作。</p>
+<p>默认情况下，该值被视为 <code>false</code>，
+即下一个派生出的进程在被 drop 时不会被终止 —— 这与标准库的行为一致。</p>
 <h5 id="caveats"><a class="doc-anchor" href="#caveats">§</a>Caveats</h5>
-<p>在 Unix 平台上，进程退出后必须由其父进程â回收â，
-以释放所有操作系统资源。已退出但尚未被父进程回收的子进程被视为â僵尸â进程。
-此类进程仍会计入系统施加的限制，
-并且存在过多僵尸进程可能会阻止新进程的生成。</p>
-<p>虽然向子进程发出 <code>kill</code> 信号是同步操作，
-但生成的僵尸进程无法在析构函数中 <code>.await</code>，
-以避免阻塞其他任务。Tokio 运行时将尽最大努力
-在后台尝试回收和清理此类进程，
-但对于此过程的发生频率和速度不提供额外保证。</p>
-<p>如果需要更强的保证，建议尽可能避免丢弃
-<a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a> 句柄，
-而应尽可能使用 <code>child.wait().await</code>
-或 <code>child.kill().await</code>。</p>
+<p>在 Unix 平台上，进程退出后必须由其父进程“回收”，以释放所有操作系统资源。
+已退出但尚未被父进程回收的子进程被视为“僵尸”进程。
+此类进程会持续占用系统限制，僵尸进程过多会导致无法再派生新的进程。</p>
+<p>尽管向子进程发送 <code>kill</code> 信号是一个同步操作，
+但产生的僵尸进程不能在析构函数中通过 <code>.await</code> 等待回收，
+以免阻塞其它任务。tokio 运行时将尽力在后台尝试回收并清理这些进程，
+但不就此过程的执行频率或速度提供任何额外保证。</p>
+<p>如果需要更强的保证，建议尽可能避免 drop <a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a> 句柄，
+而是尽量使用 <code>child.wait().await</code> 或 <code>child.kill().await</code>。</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.creation_flags" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#675-678">Source</a><h4 class="code-header">pub fn <a href="#method.creation_flags" class="fn">creation_flags</a>(&amp;mut self, flags: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u32.html">u32</a>) -&gt; &amp;mut <a class="struct" href="struct.Command.html" title="struct tokio::process::Command">Command</a></h4></section></summary><div class="docblock"><p>设置传递给 <code>CreateProcess</code> 的<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx">进程创建标志</a>。</p>
-<p>这些标志始终会与 <code>CREATE_UNICODE_ENVIRONMENT</code> 进行 OR 运算。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.spawn" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#863-867">Source</a><h4 class="code-header">pub fn <a href="#method.spawn" class="fn">spawn</a>(&amp;mut self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.Child.html" title="struct tokio::process::Child">Child</a>&gt;</h4></section></summary><div class="docblock"><p>将命令作为子进程执行，并返回
-到该进程的句柄。</p>
+<p>它们始终会与 <code>CREATE_UNICODE_ENVIRONMENT</code> 进行 OR 运算。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.spawn" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#863-867">Source</a><h4 class="code-header">pub fn <a href="#method.spawn" class="fn">spawn</a>(&amp;mut self) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="struct.Child.html" title="struct tokio::process::Child">Child</a>&gt;</h4></section></summary><div class="docblock"><p>将命令作为子进程执行，并返回它的句柄。</p>
 <p>默认情况下，stdin、stdout 和 stderr 继承自父进程。</p>
-<p>此方法会同步生成子进程并返回
-到 future 感知子进程的句柄。返回的 <code>Child</code>
-自身实现 <code>Future</code> 以获取子进程的 <code>ExitStatus</code>，
-此外 <code>Child</code> 还有
-获取 stdin、stdout 和 stderr 流句柄的方法。</p>
-<p>此子进程执行的所有 I/O 都将与
-当前默认事件循环关联。</p>
+<p>此方法会同步派生子进程，并返回一个 future-aware 子进程的句柄。
+返回的 <code>Child</code> 本身实现了 <code>Future</code>，
+用于获取子进程的 <code>ExitStatus</code>；
+此外 <code>Child</code> 还提供了获取 stdin、stdout 和 stderr 流句柄的方法。</p>
+<p>该子进程的所有 I/O 都将关联到当前默认的事件循环。</p>
 <h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -213,35 +193,32 @@ command.arg(<span class="string">"/path/to/repo"</span>);
         .<span class="kw">await
         </span>.expect(<span class="string">"ls command failed to run"</span>)
 }</code></pre></div><h5 id="caveats-1"><a class="doc-anchor" href="#caveats-1">§</a>Caveats</h5><h6 id="droppingcancellation"><a class="doc-anchor" href="#droppingcancellation">§</a>Dropping/Cancellation</h6>
-<p>与标准库的行为类似，且不像 future 中"丢弃即取消"的范式，默认情况下，派生的进程即使在 <code>Child</code> handle 被丢弃后仍会继续执行。</p>
-<p>可使用 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a> 方法修改此行为，使得在 <code>Child</code> 包装器被丢弃前子进程尚未退出的情况下杀死子进程。</p>
+<p>与标准库的行为类似，与 future 范式的“drop 即取消”不同，默认情况下，
+派生出的进程即使在 <code>Child</code> 句柄被 drop 后仍会继续执行。</p>
+<p><a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a> 方法可用于修改此行为，
+当 <code>Child</code> 包装器在子进程退出前被 drop 时终止子进程。</p>
 <h6 id="unix-processes"><a class="doc-anchor" href="#unix-processes">§</a>Unix Processes</h6>
-<p>在 Unix 平台上，进程退出后必须由其父进程â回收â，
-以释放所有操作系统资源。已退出但尚未被父进程回收的子进程被视为â僵尸â进程。
-此类进程仍会计入系统施加的限制，
-并且存在过多僵尸进程可能会阻止新进程的生成。</p>
-<p>Tokio 运行时将尽最大努力
-尝试回收和清理其已生成的任何进程。
-对于此过程的发生频率和速度不提供额外保证。</p>
-<p>如果需要更严格的清理保证，建议在 <a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a> 进程 handle 被完全 <code>await</code> 之前避免丢弃它。</p>
-<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>错误</h5>
-<p>在 Unix 平台上，如果达到系统进程限制（包括系统上运行的其他应用程序），
-此方法将失败并返回 <code>std::io::ErrorKind::WouldBlock</code>。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.status" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1002-1017">Source</a><h4 class="code-header">pub fn <a href="#method.status" class="fn">status</a>(&amp;mut self) -&gt; impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a>&lt;Output = <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.ExitStatus.html" title="struct std::process::ExitStatus">ExitStatus</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>将命令作为子进程执行，等待其完成
-并收集其退出状态。</p>
-<p>默认情况下，stdin、stdout 与 stderr 继承自父进程。
-如果任何输入/输出 handle 被设置为 pipe，则它们会在子进程派生后立即关闭。</p>
-<p>此子进程执行的所有 I/O 都将与
-当前默认事件循环关联。</p>
-<p>如果 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a> 设置为 true，
-此函数返回的 future 的析构函数
-将杀死子进程。</p>
-<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>错误</h5>
-<p>如果无法生成子进程，或者
-在等待其状态时发生错误，则此 future
-将返回错误。</p>
-<p>在 Unix 平台上，如果达到系统进程限制（包括系统上运行的其他应用程序），
-此方法将失败并返回 <code>std::io::ErrorKind::WouldBlock</code>。</p>
+<p>在 Unix 平台上，进程退出后必须由其父进程“回收”，以释放所有操作系统资源。
+已退出但尚未被父进程回收的子进程被视为“僵尸”进程。
+此类进程会持续占用系统限制，僵尸进程过多会导致无法再派生新的进程。</p>
+<p>tokio 运行时将尽力尝试回收并清理它派生的任何进程。
+但不就此过程的执行频率或速度提供任何额外保证。</p>
+<p>如果需要更严格的清理保证，建议在完全 <code>await</code> 完毕之前，避免 drop
+<a href="struct.Child.html" title="struct tokio::process::Child"><code>Child</code></a> 进程句柄。</p>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>Errors</h5>
+<p>在 Unix 平台上，如果达到系统进程上限（包括系统上正在运行的其它应用程序），
+此方法将以 <code>std::io::ErrorKind::WouldBlock</code> 失败。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.status" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1002-1017">Source</a><h4 class="code-header">pub fn <a href="#method.status" class="fn">status</a>(&amp;mut self) -&gt; impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a>&lt;Output = <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.ExitStatus.html" title="struct std::process::ExitStatus">ExitStatus</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>将命令作为子进程执行，等待其完成并收集其退出状态。</p>
+<p>默认情况下，stdin、stdout 和 stderr 继承自父进程。
+如果任意输入/输出句柄被设置为管道，则它们会在子进程派生后立即关闭。</p>
+<p>该子进程的所有 I/O 都将关联到当前默认的事件循环。</p>
+<p>如果 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a> 被设置为 true，
+则此函数返回的 future 的析构函数将终止子进程。</p>
+<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>Errors</h5>
+<p>如果无法派生子进程，或在等待其状态时发生错误，
+此 future 将返回错误。</p>
+<p>在 Unix 平台上，如果达到系统进程上限（包括系统上正在运行的其它应用程序），
+此方法将以 <code>std::io::ErrorKind::WouldBlock</code> 失败。</p>
 <h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -252,30 +229,26 @@ command.arg(<span class="string">"/path/to/repo"</span>);
         .status()
         .<span class="kw">await
         </span>.expect(<span class="string">"ls command failed to run"</span>)
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.output" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1065-1072">Source</a><h4 class="code-header">pub fn <a href="#method.output" class="fn">output</a>(&amp;mut self) -&gt; impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a>&lt;Output = <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Output.html" title="struct std::process::Output">Output</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>作为子进程执行命令，等待其完成并收集其所有输出。</p>
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.output" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1065-1072">Source</a><h4 class="code-header">pub fn <a href="#method.output" class="fn">output</a>(&amp;mut self) -&gt; impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a>&lt;Output = <a class="type" href="https://doc.rust-lang.org/1.95.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/process/struct.Output.html" title="struct std::process::Output">Output</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>将命令作为子进程执行，等待其完成并收集其全部输出。</p>
 <blockquote>
-<p><strong>注意</strong>：与标准库不同，此方法会
-无条件地将 stdout/stderr 句柄配置为管道，
-即使它们之前已经配置过。如果不需要这种行为，
-则应将 <code>spawn</code> 方法与 child 上的
-<code>wait_with_output</code> 方法结合使用。</p>
+<p><strong>注意</strong>：与标准库不同，
+此方法会无条件地将 stdout/stderr 句柄配置为管道，
+即使它们之前已被配置。
+如果不需要此行为，应使用 <code>spawn</code> 方法，
+并在子进程上结合使用 <code>wait_with_output</code> 方法。</p>
 </blockquote>
-<p>此方法将返回一个 future，表示
-收集子进程的 stdout/stderr。它将解析
-为标准库中的 <code>Output</code> 类型，包含 <code>stdout</code> 和
-<code>stderr</code> 作为 <code>Vec&lt;u8&gt;</code>，以及表示进程退出方式的
-<code>ExitStatus</code>。</p>
-<p>此子进程执行的所有 I/O 都将与
-当前默认事件循环关联。</p>
-<p>如果 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a> 设置为 true，
-此函数返回的 future 的析构函数
-将杀死子进程。</p>
-<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>错误</h5>
-<p>如果无法生成子进程，或者
-在等待其状态时发生错误，则此 future
-将返回错误。</p>
-<p>在 Unix 平台上，如果达到系统进程限制（包括系统上运行的其他应用程序），
-此方法将失败并返回 <code>std::io::ErrorKind::WouldBlock</code>。</p>
+<p>此方法将返回一个 future，表示对子进程 stdout/stderr 的收集。
+它将解析为标准库中的 <code>Output</code> 类型，
+其中包含 <code>stdout</code> 和 <code>stderr</code>（作为 <code>Vec&lt;u8&gt;</code>），
+以及表示进程退出方式的 <code>ExitStatus</code>。</p>
+<p>该子进程的所有 I/O 都将关联到当前默认的事件循环。</p>
+<p>如果 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>kill_on_drop</code></a> 被设置为 true，
+则此函数返回的 future 的析构函数将终止子进程。</p>
+<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>Errors</h5>
+<p>如果无法派生子进程，或在等待其状态时发生错误，
+此 future 将返回错误。</p>
+<p>在 Unix 平台上，如果达到系统进程上限（包括系统上正在运行的其它应用程序），
+此方法将以 <code>std::io::ErrorKind::WouldBlock</code> 失败。</p>
 <h5 id="examples-13"><a class="doc-anchor" href="#examples-13">§</a>示例</h5>
 <p>基本用法：</p>
 
@@ -287,9 +260,9 @@ command.arg(<span class="string">"/path/to/repo"</span>);
         .<span class="kw">await
         </span>.expect(<span class="string">"ls command failed to run"</span>);
     <span class="macro">println!</span>(<span class="string">"stderr of ls: {:?}"</span>, output.stderr);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_kill_on_drop" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1090-1092">Source</a><h4 class="code-header">pub fn <a href="#method.get_kill_on_drop" class="fn">get_kill_on_drop</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>返回之前由 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a> 设置的布尔值。</p>
-<p>请注意，如果你之前没有调用 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a>，
-则此处将返回默认值 <code>false</code>。</p>
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_kill_on_drop" class="method"><a class="src rightside" href="../../src/tokio/process/mod.rs.html#1090-1092">Source</a><h4 class="code-header">pub fn <a href="#method.get_kill_on_drop" class="fn">get_kill_on_drop</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>返回先前由 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a> 设置的布尔值。</p>
+<p>注意，如果您之前没有调用过 <a href="struct.Command.html#method.kill_on_drop" title="method tokio::process::Command::kill_on_drop"><code>Command::kill_on_drop</code></a>，
+此处将返回默认值 <code>false</code>。</p>
 <h5 id="examples-14"><a class="doc-anchor" href="#examples-14">§</a>示例</h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::process::Command;
 
@@ -303,7 +276,7 @@ cmd.kill_on_drop(<span class="bool-val">true</span>);
     T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">Source</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">Source</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from-1" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">Source</a><a href="#method.from-1" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回传入的参数。</p>
 </div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">Source</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
     U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">Source</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
-<p>That is, this conversion is whatever the implementation of
+<p>也就是说，此转换的具体行为取决于
 <code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 的实现方式。</p>
 </div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">Source</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
     U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">Source</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">Source</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">Source</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
