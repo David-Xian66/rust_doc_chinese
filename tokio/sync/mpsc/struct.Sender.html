@@ -1,394 +1,396 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="向关联的 Receiver 发送值。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/sync/mpsc/struct.Sender.html"><meta property="og:type" content="article"><meta property="og:title" content="Sender in tokio::sync::mpsc - tokio"><meta property="og:description" content="向关联的 Receiver 发送值。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/sync/mpsc/struct.Sender.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Sender in tokio::sync::mpsc - tokio"><meta name="twitter:description" content="向关联的 Receiver 发送值。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>Sender in tokio::sync::mpsc - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Sender</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/sync/mpsc/struct.Sender.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Sender</a></h2><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.blocking_send" title="blocking_send">blocking_send</a></li><li><a href="#method.capacity" title="capacity">capacity</a></li><li><a href="#method.closed" title="closed">closed</a></li><li><a href="#method.downgrade" title="downgrade">downgrade</a></li><li><a href="#method.is_closed" title="is_closed">is_closed</a></li><li><a href="#method.max_capacity" title="max_capacity">max_capacity</a></li><li><a href="#method.reserve" title="reserve">reserve</a></li><li><a href="#method.reserve_many" title="reserve_many">reserve_many</a></li><li><a href="#method.reserve_owned" title="reserve_owned">reserve_owned</a></li><li><a href="#method.same_channel" title="same_channel">same_channel</a></li><li><a href="#method.send" title="send">send</a></li><li><a href="#method.send_timeout" title="send_timeout">send_timeout</a></li><li><a href="#method.strong_count" title="strong_count">strong_count</a></li><li><a href="#method.try_reserve" title="try_reserve">try_reserve</a></li><li><a href="#method.try_reserve_many" title="try_reserve_many">try_reserve_many</a></li><li><a href="#method.try_reserve_owned" title="try_reserve_owned">try_reserve_owned</a></li><li><a href="#method.try_send" title="try_send">try_send</a></li><li><a href="#method.weak_count" title="weak_count">weak_count</a></li></ul><h3><a href="#trait-implementations">trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-Sender%3CT%3E" title="Clone">Clone</a></li><li><a href="#impl-Debug-for-Sender%3CT%3E" title="Debug">Debug</a></li></ul><h3><a href="#synthetic-implementations">自动 trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Sender%3CT%3E" title="Freeze">Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Sender%3CT%3E" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Sender%3CT%3E" title="Send">Send</a></li><li><a href="#impl-Sync-for-Sender%3CT%3E" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Sender%3CT%3E" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Sender%3CT%3E" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-Sender%3CT%3E" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-CloneToUninit-for-T" title="CloneToUninit">CloneToUninit</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-ToOwned-for-T" title="ToOwned">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync::<wbr>mpsc</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a>::<wbr><a href="index.html">mpsc</a></div><h1>结构体 <span class="struct">Sender</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync\mpsc/bounded.rs.html#22-24">源代码</a> </span></div><pre class="rust item-decl"><code>pub struct Sender&lt;T&gt; { <span class="comment">/* 私有字段 */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>向关联的 <code>Receiver</code> 发送值。</p>
-<p>实例由 <a href="fn.channel.html" title="fn tokio::sync::mpsc::channel"><code>channel</code></a> 函数创建。</p>
-<p>若要将 <code>Sender</code> 转换为 <code>Sink</code> 或在 poll 函数中使用它，可以使用 <a href="https://docs.rs/tokio-util/latest/tokio_util/sync/struct.PollSender.html"><code>PollSender</code></a> 工具。</p>
-</div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#752-1598">源代码</a><a href="#impl-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#816-824">源代码</a><h4 class="code-header">pub async fn <a href="#method.send" class="fn">send</a>(&amp;self, value: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>发送一个值，一直等待直到有可用容量。</p>
-<p>当确定通道的另一端尚未挂起时，发送成功。不成功的发送指的是相应的接收端已被关闭的情况。请注意，返回 <code>Err</code> 意味着数据将永远不会被接收，但返回 <code>Ok</code> 并不意味着数据一定会被接收。完全有可能在此函数返回 <code>Ok</code> 后，相应的接收端立即挂起。</p>
-<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>错误</h5>
-<p>如果通道的接收半部分已关闭（无论是由于调用了 <a href="struct.Receiver.html#method.close" title="method tokio::sync::mpsc::Receiver::close"><code>close</code></a>，还是由于 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 句柄被 drop），则函数返回错误。错误中包含传递给 <code>send</code> 的值。</p>
-<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>取消安全性</h5>
-<p>如果在 <a href="crate::select"><code>tokio::select!</code></a> 语句中将 <code>send</code> 用作事件，并且其他某个分支先完成，那么可以保证该消息未被发送。<strong>但是，在这种情况下，消息会被丢弃并丢失。</strong></p>
-<p>为避免消息丢失，请使用 <a href="struct.Sender.html#method.reserve" title="method tokio::sync::mpsc::Sender::reserve"><code>reserve</code></a> 预留容量，然后使用返回的 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 发送消息。</p>
-<p>此通道使用一个队列来确保对 <code>send</code> 和 <code>reserve</code> 的调用按其请求顺序完成。取消对 <code>send</code> 的调用会使你失去在队列中的位置。</p>
-<h5 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h5>
-<p>在以下示例中，每次调用 <code>send</code> 都会阻塞，直到先前发送的值被接收。</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-tokio::spawn(<span class="kw">async move </span>{
-    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(<span class="kw">_</span>) = tx.send(i).<span class="kw">await </span>{
-            <span class="macro">println!</span>(<span class="string">"receiver dropped"</span>);
-            <span class="kw">return</span>;
-        }
-    }
-});
-
-<span class="kw">while let </span><span class="prelude-val">Some</span>(i) = rx.recv().<span class="kw">await </span>{
-    <span class="macro">println!</span>(<span class="string">"got = {}"</span>, i);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.closed" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#862-864">源代码</a><h4 class="code-header">pub async fn <a href="#method.closed" class="fn">closed</a>(&amp;self)</h4></section></summary><div class="docblock"><p>当 receiver 被 drop 时完成。</p>
-<p>这允许生产者在对所产生值的兴趣被取消时收到通知，并立即停止工作。</p>
-<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>取消安全性</h5>
-<p>此方法可安全取消。一旦通道关闭，它将永远保持关闭状态，并且所有对 <code>closed</code> 的未来调用都将立即返回。</p>
-<h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx1, rx) = mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
-<span class="kw">let </span>tx2 = tx1.clone();
-<span class="kw">let </span>tx3 = tx1.clone();
-<span class="kw">let </span>tx4 = tx1.clone();
-<span class="kw">let </span>tx5 = tx1.clone();
-tokio::spawn(<span class="kw">async move </span>{
-    drop(rx);
-});
-
-<span class="macro">futures::join!</span>(
-    tx1.closed(),
-    tx2.closed(),
-    tx3.closed(),
-    tx4.closed(),
-    tx5.closed()
-);
-<span class="macro">println!</span>(<span class="string">"Receiver dropped"</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#924-934">源代码</a><h4 class="code-header">pub fn <a href="#method.try_send" class="fn">try_send</a>(&amp;self, message: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在此 <code>Sender</code> 上立即发送一条消息。</p>
-<p>此方法与 <a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> 的区别在于：如果通道的缓冲区已满或没有接收者等待获取数据，则会立即返回。与 <a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> 相比，此函数有两种失败情况而不是一种（一种表示断开连接，一种表示缓冲区已满）。</p>
-<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>错误</h5>
-<p>如果已达到通道容量，即通道有 <code>n</code> 个已缓冲的值，其中 <code>n</code> 是传递给 <a href="fn.channel.html" title="fn tokio::sync::mpsc::channel"><code>channel</code></a> 的参数，则会返回一个错误。</p>
-<p>如果通道的接收半部分已关闭（无论是由于调用了 <a href="struct.Receiver.html#method.close" title="method tokio::sync::mpsc::Receiver::close"><code>close</code></a>，还是由于 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 句柄被 drop），则函数返回错误。错误中包含传递给 <code>send</code> 的值。</p>
-<h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="comment">// 创建一个缓冲区大小为 1 的通道
-</span><span class="kw">let </span>(tx1, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-<span class="kw">let </span>tx2 = tx1.clone();
-
-tokio::spawn(<span class="kw">async move </span>{
-    tx1.send(<span class="number">1</span>).<span class="kw">await</span>.unwrap();
-    tx1.send(<span class="number">2</span>).<span class="kw">await</span>.unwrap();
-    <span class="comment">// 任务会一直等待直到接收端接收到值。
-</span>});
-
-tokio::spawn(<span class="kw">async move </span>{
-    <span class="comment">// 如果缓冲区已满，这会返回错误
-    // 并且不发送任何消息。
-    </span><span class="kw">let _ </span>= tx2.try_send(<span class="number">3</span>);
-});
-
-<span class="kw">let </span><span class="kw-2">mut </span>msg;
-msg = rx.recv().<span class="kw">await</span>.unwrap();
-<span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg);
-
-msg = rx.recv().<span class="kw">await</span>.unwrap();
-<span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg);
-
-<span class="comment">// 第三条消息可能从未被发送
-</span><span class="kw">match </span>rx.recv().<span class="kw">await </span>{
-    <span class="prelude-val">Some</span>(msg) =&gt; <span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg),
-    <span class="prelude-val">None </span>=&gt; <span class="macro">println!</span>(<span class="string">"the third message was never sent"</span>),
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.send_timeout" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#988-1005">源代码</a><h4 class="code-header">pub async fn <a href="#method.send_timeout" class="fn">send_timeout</a>(
-    &amp;self,
-    value: T,
-    timeout: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a>,
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="enum" href="error/enum.SendTimeoutError.html" title="enum tokio::sync::mpsc::error::SendTimeoutError">SendTimeoutError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>发送一个值，一直等待直到有可用容量，但仅限于有限的时间。</p>
-<p>与 <a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> 共享相同的成功和错误条件，并增加了一个不成功发送的条件：当所提供的超时已过且没有可用容量时。</p>
-<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>错误</h5>
-<p>如果通道的接收端已关闭——无论是由于调用了 <a href="struct.Receiver.html#method.close" title="method tokio::sync::mpsc::Receiver::close"><code>close</code></a> 还是 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 被 drop——函数都会返回一个错误。该错误包含传递给 <code>send</code> 的值。</p>
-<h5 id="panics"><a class="doc-anchor" href="#panics">§</a>恐慌</h5>
-<p>如果在没有启用时间功能的 Tokio 运行时上下文之外调用此函数，则会发生 panic。</p>
-<h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
-<p>在以下示例中，每次调用 <code>send_timeout</code> 都会阻塞，直到先前发送的值被接收，除非超时已过。</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-<span class="kw">use </span>tokio::time::{sleep, Duration};
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-tokio::spawn(<span class="kw">async move </span>{
-    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = tx.send_timeout(i, Duration::from_millis(<span class="number">100</span>)).<span class="kw">await </span>{
-            <span class="macro">println!</span>(<span class="string">"send error: #{:?}"</span>, e);
-            <span class="kw">return</span>;
-        }
-    }
-});
-
-<span class="kw">while let </span><span class="prelude-val">Some</span>(i) = rx.recv().<span class="kw">await </span>{
-    <span class="macro">println!</span>(<span class="string">"got = {}"</span>, i);
-    sleep(Duration::from_millis(<span class="number">200</span>)).<span class="kw">await</span>;
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.blocking_send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1046-1048">源代码</a><h4 class="code-header">pub fn <a href="#method.blocking_send" class="fn">blocking_send</a>(&amp;self, value: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>用于在异步上下文之外调用的阻塞发送。</p>
-<p>此方法适用于从同步代码向异步代码发送数据的用例，即使接收端未使用 <a href="struct.Receiver.html#method.blocking_recv" title="method tokio::sync::mpsc::Receiver::blocking_recv"><code>blocking_recv</code></a> 来接收消息也能正常工作。</p>
-<h5 id="panics-1"><a class="doc-anchor" href="#panics-1">§</a>恐慌</h5>
-<p>如果在异步执行上下文中调用，此函数会发生 panic。</p>
-<h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::thread;
-<span class="kw">use </span>tokio::runtime::Runtime;
-<span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">fn </span>main() {
-    <span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel::&lt;u8&gt;(<span class="number">1</span>);
-
-    <span class="kw">let </span>sync_code = thread::spawn(<span class="kw">move </span>|| {
-        tx.blocking_send(<span class="number">10</span>).unwrap();
-    });
-
-    Runtime::new().unwrap().block_on(<span class="kw">async move </span>{
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">10</span>), rx.recv().<span class="kw">await</span>);
-    });
-    sync_code.join().unwrap()
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.is_closed" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1068-1070">源代码</a><h4 class="code-header">pub fn <a href="#method.is_closed" class="fn">is_closed</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>检查通道是否已关闭。当 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 被 drop 时，或调用 <a href="struct.Receiver.html#method.close" title="method tokio::sync::mpsc::Receiver::close"><code>Receiver::close</code></a> 方法时，会发生这种情况。</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>(tx, rx) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">42</span>);
-<span class="macro">assert!</span>(!tx.is_closed());
-
-<span class="kw">let </span>tx2 = tx.clone();
-<span class="macro">assert!</span>(!tx2.is_closed());
-
-drop(rx);
-<span class="macro">assert!</span>(tx.is_closed());
-<span class="macro">assert!</span>(tx2.is_closed());</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1116-1119">源代码</a><h4 class="code-header">pub async fn <a href="#method.reserve" class="fn">reserve</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit">Permit</a>&lt;'_, T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量。一旦有一个消息的发送容量可用，就会为调用者预留。</p>
-<p>如果通道已满，此函数会等待未接收消息的数量小于通道容量。发送一个消息的容量将为调用者预留。返回一个 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 来跟踪已预留的容量。<a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 上的 <a href="struct.Permit.html#method.send" title="method tokio::sync::mpsc::Permit::send"><code>send</code></a> 函数会消费预留的容量。</p>
-<p>在不发送消息的情况下 drop <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 会将容量释放回通道。</p>
-<h5 id="cancel-safety-2"><a class="doc-anchor" href="#cancel-safety-2">§</a>取消安全性</h5>
-<p>此通道使用一个队列来确保对 <code>send</code> 和 <code>reserve</code> 的调用按其请求顺序完成。取消对 <code>reserve</code> 的调用会使你失去在队列中的位置。</p>
-<h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-<span class="comment">// 预留容量
-</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 在 permit 上发送成功
-</span>permit.send(<span class="number">456</span>);
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve_many" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1177-1183">源代码</a><h4 class="code-header">pub async fn <a href="#method.reserve_many" class="fn">reserve_many</a>(
-    &amp;self,
-    n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator">PermitIterator</a>&lt;'_, T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量。一旦有发送 <code>n</code> 条消息的容量可用，就会为调用者预留。</p>
-<p>如果通道已满或可用许可少于 <code>n</code> 个，函数会等待未接收消息的数量小于通道容量 <code>n</code> 个。发送 <code>n</code> 条消息的容量随后将为调用者预留。</p>
-<p>返回一个 <a href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator"><code>PermitIterator</code></a> 来跟踪已预留的容量。你可以调用此 <a href="https://doc.rust-lang.org/1.95.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator"><code>Iterator</code></a> 直到它耗尽，以获取一个 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a>，然后调用 <a href="struct.Permit.html#method.send" title="method tokio::sync::mpsc::Permit::send"><code>Permit::send</code></a>。此函数类似于 <a href="struct.Sender.html#method.try_reserve_many" title="method tokio::sync::mpsc::Sender::try_reserve_many"><code>try_reserve_many</code></a>，不同之处在于它会等待槽位变为可用。</p>
-<p>如果通道已关闭，此函数将返回 <a href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError"><code>SendError</code></a>。</p>
-<p>在不完整消费的情况下 drop <a href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator"><code>PermitIterator</code></a> 会将剩余的许可释放回通道。</p>
-<h5 id="cancel-safety-3"><a class="doc-anchor" href="#cancel-safety-3">§</a>取消安全性</h5>
-<p>此通道使用一个队列来确保对 <code>send</code> 和 <code>reserve_many</code> 的调用按其请求顺序完成。取消对 <code>reserve_many</code> 的调用会使你失去在队列中的位置。</p>
-<h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">2</span>);
-
-<span class="comment">// 预留容量
-</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.reserve_many(<span class="number">2</span>).<span class="kw">await</span>.unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 使用 permit 迭代器发送成功
-</span>permit.next().unwrap().send(<span class="number">456</span>);
-permit.next().unwrap().send(<span class="number">457</span>);
-
-<span class="comment">// 迭代器现在应已耗尽
-</span><span class="macro">assert!</span>(permit.next().is_none());
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
-<span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">457</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve_owned" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1265-1270">源代码</a><h4 class="code-header">pub async fn <a href="#method.reserve_owned" class="fn">reserve_owned</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit">OwnedPermit</a>&lt;T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量，移动 <code>Sender</code> 并返回一个拥有的 permit。一旦有一个消息的发送容量可用，就会为调用者预留。</p>
-<p>此方法按值移动 sender，并返回一个可用于向通道发送消息的拥有的 permit。与 <a href="struct.Sender.html#method.reserve" title="method tokio::sync::mpsc::Sender::reserve"><code>Sender::reserve</code></a> 不同，此方法可用于 permit 必须对 <code>'static</code> 生命周期有效的场景。<code>Sender</code> 可以廉价地克隆（<code>Sender::clone</code> 本质上是一个引用计数增加，可与 <a href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html#method.clone" title="method alloc::sync::Arc::clone"><code>Arc::clone</code></a> 媲美），因此在需要多个 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 或无法移动 <code>Sender</code> 时，可以在调用 <code>reserve_owned</code> 之前对其进行克隆。</p>
-<p>如果通道已满，此函数会等待未接收消息的数量小于通道容量。发送一个消息的容量将为调用者预留。返回一个 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 来跟踪已预留的容量。<a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 上的 <a href="struct.OwnedPermit.html#method.send" title="method tokio::sync::mpsc::OwnedPermit::send"><code>send</code></a> 函数会消费预留的容量。</p>
-<p>在不发送消息的情况下 drop <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 会将容量释放回通道。</p>
-<h5 id="cancel-safety-4"><a class="doc-anchor" href="#cancel-safety-4">§</a>取消安全性</h5>
-<p>此通道使用一个队列来确保对 <code>send</code> 和 <code>reserve</code> 的调用按其请求顺序完成。取消对 <code>reserve_owned</code> 的调用会使你失去在队列中的位置。</p>
-<h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
-<p>使用 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 发送消息：</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-<span class="comment">// 预留容量，同时移动发送端。
-</span><span class="kw">let </span>permit = tx.reserve_owned().<span class="kw">await</span>.unwrap();
-
-<span class="comment">// 发送一条消息，消耗 permit 并返回
-// 移动后的发送端。
-</span><span class="kw">let </span>tx = permit.send(<span class="number">123</span>);
-
-<span class="comment">// 通过 permit 发送的值已被接收。
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">123</span>);
-
-<span class="comment">// 现在可以再次使用该发送端。
-</span>tx.send(<span class="number">456</span>).<span class="kw">await</span>.unwrap();</code></pre></div>
-<p>当需要多个 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a>，或者 sender 无法按值移动时，可以在调用 <code>reserve_owned</code> 之前廉价地克隆它：</p>
-
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-<span class="comment">// 克隆发送端并预留容量。
-</span><span class="kw">let </span>permit = tx.clone().reserve_owned().<span class="kw">await</span>.unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 在 permit 上发送成功。
-</span>permit.send(<span class="number">456</span>);
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1327-1335">源代码</a><h4 class="code-header">pub fn <a href="#method.try_reserve" class="fn">try_reserve</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit">Permit</a>&lt;'_, T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取一个槽位，而不会等待槽位变为可用。</p>
-<p>如果通道已满，此函数将返回 <a href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError"><code>TrySendError</code></a>；否则，如果有可用槽位，它将返回一个 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a>，从而允许你在保证有槽位的情况下在通道上 <a href="struct.Permit.html#method.send" title="method tokio::sync::mpsc::Permit::send"><code>send</code></a>。此函数类似于 <a href="struct.Sender.html#method.reserve" title="method tokio::sync::mpsc::Sender::reserve"><code>reserve</code></a>，不同之处在于它不会等待槽位变为可用。</p>
-<p>在不发送消息的情况下 drop <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a> 会将容量释放回通道。</p>
-<h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-<span class="comment">// 预留容量
-</span><span class="kw">let </span>permit = tx.try_reserve().unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 在 `tx` 上尝试预留额外的槽位会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
-
-<span class="comment">// 在 permit 上发送成功
-</span>permit.send(<span class="number">456</span>);
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
-</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve_many" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1405-1420">源代码</a><h4 class="code-header">pub fn <a href="#method.try_reserve_many" class="fn">try_reserve_many</a>(
-    &amp;self,
-    n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator">PermitIterator</a>&lt;'_, T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取 <code>n</code> 个槽位，而不会等待槽位变为可用。</p>
-<p>返回一个 <a href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator"><code>PermitIterator</code></a> 来跟踪已预留的容量。你可以调用此 <a href="https://doc.rust-lang.org/1.95.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator"><code>Iterator</code></a> 直到它耗尽，以获取一个 <a href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit"><code>Permit</code></a>，然后调用 <a href="struct.Permit.html#method.send" title="method tokio::sync::mpsc::Permit::send"><code>Permit::send</code></a>。此函数类似于 <a href="struct.Sender.html#method.reserve_many" title="method tokio::sync::mpsc::Sender::reserve_many"><code>reserve_many</code></a>，不同之处在于它不会等待槽位变为可用。</p>
-<p>如果通道上可用许可少于 <code>n</code> 个，则此函数将返回 <a href="error/enum.TrySendError.html#variant.Full" title="variant tokio::sync::mpsc::error::TrySendError::Full"><code>TrySendError::Full</code></a>。如果通道已关闭，此函数将返回 <a href="error/enum.TrySendError.html#variant.Closed" title="variant tokio::sync::mpsc::error::TrySendError::Closed"><code>TrySendError::Closed</code></a>。</p>
-<p>在不完整消费的情况下 drop <a href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator"><code>PermitIterator</code></a> 会将剩余的许可释放回通道。</p>
-<h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">2</span>);
-
-<span class="comment">// 预留容量
-</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.try_reserve_many(<span class="number">2</span>).unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 在 `tx` 上尝试预留额外的槽位会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
-
-<span class="comment">// 使用 permit 迭代器发送成功
-</span>permit.next().unwrap().send(<span class="number">456</span>);
-permit.next().unwrap().send(<span class="number">457</span>);
-
-<span class="comment">// 迭代器现在应已耗尽
-</span><span class="macro">assert!</span>(permit.next().is_none());
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
-<span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">457</span>);
-
-<span class="comment">// 以 0 调用 try_reserve_many 将返回空迭代器
-</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.try_reserve_many(<span class="number">0</span>).unwrap();
-<span class="macro">assert!</span>(permit.next().is_none());
-
-<span class="comment">// 以大于通道容量的数字调用 try_reserve_many
-// 将返回错误
-</span><span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">3</span>);
-<span class="macro">assert!</span>(permit.is_err());
-
-<span class="comment">// 在已关闭的通道上调用 try_reserve_many 将返回错误
-</span>drop(rx);
-<span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">1</span>);
-<span class="macro">assert!</span>(permit.is_err());
-
-<span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">0</span>);
-<span class="macro">assert!</span>(permit.is_err());</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve_owned" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1477-1487">源代码</a><h4 class="code-header">pub fn <a href="#method.try_reserve_owned" class="fn">try_reserve_owned</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit">OwnedPermit</a>&lt;T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;Self&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取一个槽位，而不会等待槽位变为可用，并返回一个拥有的 permit。</p>
-<p>此方法按值移动 sender，并返回一个可用于向通道发送消息的拥有的 permit。与 <a href="struct.Sender.html#method.try_reserve" title="method tokio::sync::mpsc::Sender::try_reserve"><code>Sender::try_reserve</code></a> 不同，此方法可用于 permit 必须对 <code>'static</code> 生命周期有效的场景。<code>Sender</code> 可以廉价地克隆（<code>Sender::clone</code> 本质上是一个引用计数增加，可与 <a href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html#method.clone" title="method alloc::sync::Arc::clone"><code>Arc::clone</code></a> 媲美），因此在需要多个 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 或无法移动 <code>Sender</code> 时，可以在调用 <code>try_reserve_owned</code> 之前对其进行克隆。</p>
-<p>如果通道已满，此函数将返回 <a href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError"><code>TrySendError</code></a>。由于 sender 是按值获取的，因此在这种情况下返回的 <code>TrySendError</code> 包含 sender，以便可以再次使用。否则，如果有可用槽位，此方法将返回一个 <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a>，然后可用于在保证有槽位的情况下在通道上 <a href="struct.OwnedPermit.html#method.send" title="method tokio::sync::mpsc::OwnedPermit::send"><code>send</code></a>。此函数类似于 <a href="struct.Sender.html#method.reserve_owned" title="method tokio::sync::mpsc::Sender::reserve_owned"><code>reserve_owned</code></a>，不同之处在于它不会等待槽位变为可用。</p>
-<p>在不发送消息的情况下 drop <a href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit"><code>OwnedPermit</code></a> 会将容量释放回通道。</p>
-<h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
-
-<span class="comment">// 预留容量
-</span><span class="kw">let </span>permit = tx.clone().try_reserve_owned().unwrap();
-
-<span class="comment">// 直接在 `tx` 上发送会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
-
-<span class="comment">// 在 `tx` 上尝试预留额外的槽位会失败，
-// 因为没有可用容量。
-</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
-
-<span class="comment">// 在 permit 上发送成功
-</span>permit.send(<span class="number">456</span>);
-
-<span class="comment">// 接收在 permit 上发送的值
-</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
-</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.same_channel" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1501-1503">源代码</a><h4 class="code-header">pub fn <a href="#method.same_channel" class="fn">same_channel</a>(&amp;self, other: &amp;Self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>如果这些 sender 属于同一个通道，则返回 <code>true</code>。</p>
-<h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>(tx, rx) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
-<span class="kw">let  </span>tx2 = tx.clone();
-<span class="macro">assert!</span>(tx.same_channel(<span class="kw-2">&amp;</span>tx2));
-
-<span class="kw">let </span>(tx3, rx3) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
-<span class="macro">assert!</span>(!tx3.same_channel(<span class="kw-2">&amp;</span>tx2));</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.capacity" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1538-1540">源代码</a><h4 class="code-header">pub fn <a href="#method.capacity" class="fn">capacity</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回通道的当前容量。</p>
-<p>容量在通过调用 <a href="struct.Sender.html#method.send" title="method tokio::sync::mpsc::Sender::send"><code>send</code></a> 发送值或通过 <a href="struct.Sender.html#method.reserve" title="method tokio::sync::mpsc::Sender::reserve"><code>reserve</code></a> 预留容量时减少。容量在 <a href="struct.Receiver.html" title="struct tokio::sync::mpsc::Receiver"><code>Receiver</code></a> 接收值时增加。这与 <a href="struct.Sender.html#method.max_capacity" title="method tokio::sync::mpsc::Sender::max_capacity"><code>max_capacity</code></a> 不同，后者始终返回最初调用 <a href="fn.channel.html" title="fn tokio::sync::mpsc::channel"><code>channel</code></a> 时指定的缓冲区容量。</p>
-<h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel::&lt;()&gt;(<span class="number">5</span>);
-
-<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);
-
-<span class="comment">// 进行一次预留会使容量减一。
-</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
-<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">4</span>);
-
-<span class="comment">// 发送和接收一个值会让容量加一。
-</span>permit.send(());
-rx.recv().<span class="kw">await</span>.unwrap();
-<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.downgrade" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1547-1551">源代码</a><h4 class="code-header">pub fn <a href="#method.downgrade" class="fn">downgrade</a>(&amp;self) -&gt; <a class="struct" href="struct.WeakSender.html" title="struct tokio::sync::mpsc::WeakSender">WeakSender</a>&lt;T&gt;</h4></section></summary><div class="docblock"><p>将 <code>Sender</code> 转换为 <a href="struct.WeakSender.html" title="struct tokio::sync::mpsc::WeakSender"><code>WeakSender</code></a>，该 <code>WeakSender</code> 不计入 RAII 语义，即如果通道的所有 <code>Sender</code> 实例都已 drop，仅剩 <code>WeakSender</code> 实例，则通道将关闭。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.max_capacity" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1585-1587">源代码</a><h4 class="code-header">pub fn <a href="#method.max_capacity" class="fn">max_capacity</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回通道的最大缓冲区容量。</p>
-<p>最大容量是最初调用 <a href="fn.channel.html" title="fn tokio::sync::mpsc::channel"><code>channel</code></a> 时指定的缓冲区容量。这与 <a href="struct.Sender.html#method.capacity" title="method tokio::sync::mpsc::Sender::capacity"><code>capacity</code></a> 不同，后者返回<em>当前</em>可用的缓冲区容量：随着消息的发送和接收，<a href="struct.Sender.html#method.capacity" title="method tokio::sync::mpsc::Sender::capacity"><code>capacity</code></a> 返回的值会上下波动，而 <a href="struct.Sender.html#method.max_capacity" title="method tokio::sync::mpsc::Sender::max_capacity"><code>max_capacity</code></a> 返回的值则保持不变。</p>
-<h5 id="examples-13"><a class="doc-anchor" href="#examples-13">§</a>示例</h5>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
-
-<span class="kw">let </span>(tx, _rx) = mpsc::channel::&lt;()&gt;(<span class="number">5</span>);
-
-<span class="comment">// 起初最大容量和当前容量相同
-</span><span class="macro">assert_eq!</span>(tx.max_capacity(), <span class="number">5</span>);
-<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);
-
-<span class="comment">// 进行一次预留不会改变最大容量。
-</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
-<span class="macro">assert_eq!</span>(tx.max_capacity(), <span class="number">5</span>);
-<span class="comment">// 但当前容量会减一
-</span><span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">4</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.strong_count" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1590-1592">源代码</a><h4 class="code-header">pub fn <a href="#method.strong_count" class="fn">strong_count</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回 <a href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender"><code>Sender</code></a> 句柄的数量。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.weak_count" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1595-1597">源代码</a><h4 class="code-header">pub fn <a href="#method.weak_count" class="fn">weak_count</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回 <a href="struct.WeakSender.html" title="struct tokio::sync::mpsc::WeakSender"><code>WeakSender</code></a> 句柄的数量。</p>
-</div></details></div></details></div><h2 id="trait-implementations" class="section-header">trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Clone-for-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1600-1606">源代码</a><a href="#impl-Clone-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone" class="method trait-impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1601-1605">源代码</a><a href="#method.clone" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone" class="fn">clone</a>(&amp;self) -&gt; Self</h4></section></summary><div class='docblock'>返回值的副本。 <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone">更多信息</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_from" class="method trait-impl"><span class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span> · <a class="src" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#245-247">源代码</a></span><a href="#method.clone_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from" class="fn">clone_from</a>(&amp;mut self, source: &amp;Self)</h4></section></summary><div class='docblock'>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1608-1614">源代码</a><a href="#impl-Debug-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1609-1613">源代码</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, fmt: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details></div><h2 id="synthetic-implementations" class="section-header">自动 trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Sender%3CT%3E" class="impl"><a href="#impl-Freeze-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-RefUnwindSafe-for-Sender%3CT%3E" class="impl"><a href="#impl-RefUnwindSafe-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-Send-for-Sender%3CT%3E" class="impl"><a href="#impl-Send-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;<div class="where">where
-    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,</div></h3></section><section id="impl-Sync-for-Sender%3CT%3E" class="impl"><a href="#impl-Sync-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;<div class="where">where
-    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,</div></h3></section><section id="impl-Unpin-for-Sender%3CT%3E" class="impl"><a href="#impl-Unpin-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-UnsafeUnpin-for-Sender%3CT%3E" class="impl"><a href="#impl-UnsafeUnpin-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-UnwindSafe-for-Sender%3CT%3E" class="impl"><a href="#impl-UnwindSafe-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></div><h2 id="blanket-implementations" class="section-header">blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">源代码</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
-    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">源代码</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">源代码</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
-    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">源代码</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">源代码</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
-    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">源代码</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-CloneToUninit-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#547">源代码</a><a href="#impl-CloneToUninit-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html" title="trait core::clone::CloneToUninit">CloneToUninit</a> for T<div class="where">where
-    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone_to_uninit" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#549">源代码</a><a href="#method.clone_to_uninit" class="anchor">§</a><h4 class="code-header">unsafe fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit" class="fn">clone_to_uninit</a>(&amp;self, dest: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>)</h4></section></summary><span class="item-info"><div class="stab unstable"><span class="emoji">🔬</span><span>This is a nightly-only experimental API. (<code>clone_to_uninit</code>)</span></div></span><div class='docblock'>Performs copy-assignment from <code>self</code> to <code>dest</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">源代码</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">源代码</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回参数。</p>
-</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">源代码</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">源代码</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
-<p>也就是说，此转换是 <code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 实现选择执行的操作。</p>
-</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-ToOwned-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#72-74">源代码</a><a href="#impl-ToOwned-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html" title="trait alloc::borrow::ToOwned">ToOwned</a> for T<div class="where">where
-    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Owned" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#76">源代码</a><a href="#associatedtype.Owned" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#associatedtype.Owned" class="associatedtype">Owned</a> = T</h4></section></summary><div class='docblock'>获得所有权后的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.to_owned" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#77">源代码</a><a href="#method.to_owned" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned" class="fn">to_owned</a>(&amp;self) -&gt; T</h4></section></summary><div class='docblock'>Creates owned data from borrowed data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned">更多信息</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#81">源代码</a><a href="#method.clone_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into" class="fn">clone_into</a>(&amp;self, target: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a>)</h4></section></summary><div class='docblock'>Uses borrowed data to replace owned data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">源代码</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">源代码</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">源代码</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">源代码</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">源代码</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">源代码</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Sends values to the associated `Receiver`."><title>Sender in tokio::sync::mpsc - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Sender</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Sender</a></h2><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.blocking_send" title="blocking_send">blocking_send</a></li><li><a href="#method.capacity" title="capacity">capacity</a></li><li><a href="#method.closed" title="closed">closed</a></li><li><a href="#method.downgrade" title="downgrade">downgrade</a></li><li><a href="#method.is_closed" title="is_closed">is_closed</a></li><li><a href="#method.max_capacity" title="max_capacity">max_capacity</a></li><li><a href="#method.reserve" title="reserve">reserve</a></li><li><a href="#method.reserve_many" title="reserve_many">reserve_many</a></li><li><a href="#method.reserve_owned" title="reserve_owned">reserve_owned</a></li><li><a href="#method.same_channel" title="same_channel">same_channel</a></li><li><a href="#method.send" title="send">send</a></li><li><a href="#method.send_timeout" title="send_timeout">send_timeout</a></li><li><a href="#method.strong_count" title="strong_count">strong_count</a></li><li><a href="#method.try_reserve" title="try_reserve">try_reserve</a></li><li><a href="#method.try_reserve_many" title="try_reserve_many">try_reserve_many</a></li><li><a href="#method.try_reserve_owned" title="try_reserve_owned">try_reserve_owned</a></li><li><a href="#method.try_send" title="try_send">try_send</a></li><li><a href="#method.weak_count" title="weak_count">weak_count</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-Sender%3CT%3E" title="Clone">Clone</a></li><li><a href="#impl-Debug-for-Sender%3CT%3E" title="Debug">Debug</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Sender%3CT%3E" title="Freeze">Freeze</a></li><li><a href="#impl-RefUnwindSafe-for-Sender%3CT%3E" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Sender%3CT%3E" title="Send">Send</a></li><li><a href="#impl-Sync-for-Sender%3CT%3E" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Sender%3CT%3E" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Sender%3CT%3E" title="UnsafeUnpin">UnsafeUnpin</a></li><li><a href="#impl-UnwindSafe-for-Sender%3CT%3E" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-CloneToUninit-for-T" title="CloneToUninit">CloneToUninit</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-ToOwned-for-T" title="ToOwned">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync::<wbr>mpsc</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">tokio</a>::<wbr><a href="../index.html">sync</a>::<wbr><a href="index.html">mpsc</a></div><h1>结构体 <span class="struct">Sender</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/tokio/sync\mpsc/bounded.rs.html#22-24">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Sender&lt;T&gt; { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>向关联的 <code>Receiver</code> 发送值。</p>
+<p>Instances are created by the <a href="fn.channel.html" title="fn tokio::sync::mpsc::channel"><code>channel</code></a> function.</p>
+<p>To convert the <code>Sender</code> into a <code>Sink</code> or use it in a poll function, you can
+use the <a href="https://docs.rs/tokio-util/latest/tokio_util/sync/struct.PollSender.html"><code>PollSender</code></a> utility.</p>
+</div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#752-1598">Source</a><a href="#impl-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#816-824">Source</a><h4 class="code-header">pub async fn <a href="#method.send" class="fn">send</a>(&amp;self, value: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>发送一个值，等待直到有可用容量。</p>
+<p>当确定通道的另一端尚未挂起时，发送成功。发送失败的情况是对应的接收者已被关闭。请注意，返回 Err 意味着数据将永远不会被接收，但返回 Ok 并不意味着数据一定会被接收。对应的接收者可能在此函数返回 Ok 之后立即挂起。</p>
+<h5 id="errors"><a class="doc-anchor" href="#errors">§</a>Errors</h5>
+<p>如果通道的接收半部已关闭（无论是因为调用了 close 还是 Receiver 句柄已被丢弃），此函数返回错误。错误包含传递给 send 的值。</p>
+<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>Cancel safety</h5>
+<p>如果 send 在 tokio::select! 语句中作为事件使用，并且其他分支首先完成，则可以保证该消息未被发送。但是，在这种情况下，消息会被丢弃并丢失。</p>
+<p>为避免丢失消息，请使用 reserve 预留容量，然后使用返回的 Permit 发送消息。</p>
+<p>此通道使用队列来确保 send 和 reserve 调用按请求顺序完成。取消对 send 的调用会丢失在队列中的位置。</p>
+<h5 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h5>
+<p>在下面的示例中，每次调用 send 都会阻塞，直到先前发送的值被接收。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+tokio::spawn(<span class="kw">async move </span>{
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(<span class="kw">_</span>) = tx.send(i).<span class="kw">await </span>{
+            <span class="macro">println!</span>(<span class="string">"receiver dropped"</span>);
+            <span class="kw">return</span>;
+        }
+    }
+});
+
+<span class="kw">while let </span><span class="prelude-val">Some</span>(i) = rx.recv().<span class="kw">await </span>{
+    <span class="macro">println!</span>(<span class="string">"got = {}"</span>, i);
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.closed" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#862-864">Source</a><h4 class="code-header">pub async fn <a href="#method.closed" class="fn">closed</a>(&amp;self)</h4></section></summary><div class="docblock"><p>当接收者已丢弃时完成。</p>
+<p>这允许生产者在对所产生值的兴趣被取消时收到通知，并立即停止工作。</p>
+<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>Cancel safety</h5>
+<p>此方法是取消安全的。一旦通道关闭，它将永远保持关闭状态，所有后续对 closed 的调用都将立即返回。</p>
+<h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx1, rx) = mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
+<span class="kw">let </span>tx2 = tx1.clone();
+<span class="kw">let </span>tx3 = tx1.clone();
+<span class="kw">let </span>tx4 = tx1.clone();
+<span class="kw">let </span>tx5 = tx1.clone();
+tokio::spawn(<span class="kw">async move </span>{
+    drop(rx);
+});
+
+<span class="macro">futures::join!</span>(
+    tx1.closed(),
+    tx2.closed(),
+    tx3.closed(),
+    tx4.closed(),
+    tx5.closed()
+);
+<span class="macro">println!</span>(<span class="string">"Receiver dropped"</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#924-934">Source</a><h4 class="code-header">pub fn <a href="#method.try_send" class="fn">try_send</a>(&amp;self, message: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试立即通过此 Sender 发送一条消息。</p>
+<p>此方法与 send 的不同之处在于，如果通道缓冲区已满或没有接收者等待获取数据，则会立即返回。与 send 相比，此函数有两种失败情况（一种表示断开连接，一种表示缓冲区已满）。</p>
+<h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>Errors</h5>
+<p>如果已达到通道容量，即通道已缓冲 n 个值（其中 n 是传递给 channel 的参数），则返回错误。</p>
+<p>如果通道的接收半部已关闭（无论是因为调用了 close 还是 Receiver 句柄已被丢弃），此函数返回错误。错误包含传递给 send 的值。</p>
+<h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="comment">// Create a channel with buffer size 1
+</span><span class="kw">let </span>(tx1, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+<span class="kw">let </span>tx2 = tx1.clone();
+
+tokio::spawn(<span class="kw">async move </span>{
+    tx1.send(<span class="number">1</span>).<span class="kw">await</span>.unwrap();
+    tx1.send(<span class="number">2</span>).<span class="kw">await</span>.unwrap();
+    <span class="comment">// task waits until the receiver receives a value.
+</span>});
+
+tokio::spawn(<span class="kw">async move </span>{
+    <span class="comment">// This will return an error and send
+    // no message if the buffer is full
+    </span><span class="kw">let _ </span>= tx2.try_send(<span class="number">3</span>);
+});
+
+<span class="kw">let </span><span class="kw-2">mut </span>msg;
+msg = rx.recv().<span class="kw">await</span>.unwrap();
+<span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg);
+
+msg = rx.recv().<span class="kw">await</span>.unwrap();
+<span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg);
+
+<span class="comment">// Third message may have never been sent
+</span><span class="kw">match </span>rx.recv().<span class="kw">await </span>{
+    <span class="prelude-val">Some</span>(msg) =&gt; <span class="macro">println!</span>(<span class="string">"message {} received"</span>, msg),
+    <span class="prelude-val">None </span>=&gt; <span class="macro">println!</span>(<span class="string">"the third message was never sent"</span>),
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.send_timeout" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#988-1005">Source</a><h4 class="code-header">pub async fn <a href="#method.send_timeout" class="fn">send_timeout</a>(
+    &amp;self,
+    value: T,
+    timeout: <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a>,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="enum" href="error/enum.SendTimeoutError.html" title="enum tokio::sync::mpsc::error::SendTimeoutError">SendTimeoutError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>发送一个值，等待直到有可用容量，但仅限一段有限的时间。</p>
+<p>与 send 共享相同的成功和错误条件，但增加了一个额外的失败条件：提供的超时已过且仍没有可用容量。</p>
+<h5 id="errors-2"><a class="doc-anchor" href="#errors-2">§</a>Errors</h5>
+<p>如果通道的接收半部已关闭（无论是因为调用了 close 还是 Receiver 已被丢弃），此函数返回错误。错误包含传递给 send 的值。</p>
+<h5 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h5>
+<p>如果在未启用 time 特性的 Tokio 运行时上下文之外调用此函数，会触发 panic。</p>
+<h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
+<p>在下面的示例中，每次调用 send_timeout 都会阻塞，直到先前发送的值被接收（除非超时已过）。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+<span class="kw">use </span>tokio::time::{sleep, Duration};
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+tokio::spawn(<span class="kw">async move </span>{
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">10 </span>{
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = tx.send_timeout(i, Duration::from_millis(<span class="number">100</span>)).<span class="kw">await </span>{
+            <span class="macro">println!</span>(<span class="string">"send error: #{:?}"</span>, e);
+            <span class="kw">return</span>;
+        }
+    }
+});
+
+<span class="kw">while let </span><span class="prelude-val">Some</span>(i) = rx.recv().<span class="kw">await </span>{
+    <span class="macro">println!</span>(<span class="string">"got = {}"</span>, i);
+    sleep(Duration::from_millis(<span class="number">200</span>)).<span class="kw">await</span>;
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.blocking_send" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1046-1048">Source</a><h4 class="code-header">pub fn <a href="#method.blocking_send" class="fn">blocking_send</a>(&amp;self, value: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;T&gt;&gt;</h4></section></summary><div class="docblock"><p>在异步上下文之外调用的阻塞发送。</p>
+<p>此方法用于从同步代码向异步代码发送的场景，即使接收者未使用 blocking_recv 接收消息也能工作。</p>
+<h5 id="panics-1"><a class="doc-anchor" href="#panics-1">§</a>Panics</h5>
+<p>如果在异步执行上下文中调用此函数会触发 panic。</p>
+<h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::thread;
+<span class="kw">use </span>tokio::runtime::Runtime;
+<span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel::&lt;u8&gt;(<span class="number">1</span>);
+
+    <span class="kw">let </span>sync_code = thread::spawn(<span class="kw">move </span>|| {
+        tx.blocking_send(<span class="number">10</span>).unwrap();
+    });
+
+    Runtime::new().unwrap().block_on(<span class="kw">async move </span>{
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">10</span>), rx.recv().<span class="kw">await</span>);
+    });
+    sync_code.join().unwrap()
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.is_closed" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1068-1070">Source</a><h4 class="code-header">pub fn <a href="#method.is_closed" class="fn">is_closed</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>检查通道是否已关闭。当 Receiver 被丢弃时或调用 Receiver::close 方法时会发生这种情况。</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>(tx, rx) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">42</span>);
+<span class="macro">assert!</span>(!tx.is_closed());
+
+<span class="kw">let </span>tx2 = tx.clone();
+<span class="macro">assert!</span>(!tx2.is_closed());
+
+drop(rx);
+<span class="macro">assert!</span>(tx.is_closed());
+<span class="macro">assert!</span>(tx2.is_closed());</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1116-1119">Source</a><h4 class="code-header">pub async fn <a href="#method.reserve" class="fn">reserve</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit">Permit</a>&lt;'_, T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量。一旦有可发送一条消息的容量，就为调用方预留。</p>
+<p>如果通道已满，此函数将等待未接收消息的数量小于通道容量。为调用方预留一条消息的容量。返回 Permit 以跟踪预留的容量。Permit 上的 send 函数会消费预留的容量。</p>
+<p>丢弃 Permit 而不发送消息会将容量释放回通道。</p>
+<h5 id="cancel-safety-2"><a class="doc-anchor" href="#cancel-safety-2">§</a>Cancel safety</h5>
+<p>此通道使用队列来确保 send 和 reserve 调用按请求顺序完成。取消对 reserve 的调用会丢失在队列中的位置。</p>
+<h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+<span class="comment">// Reserve capacity
+</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Sending on the permit succeeds
+</span>permit.send(<span class="number">456</span>);
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve_many" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1177-1183">Source</a><h4 class="code-header">pub async fn <a href="#method.reserve_many" class="fn">reserve_many</a>(
+    &amp;self,
+    n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator">PermitIterator</a>&lt;'_, T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量。一旦有可发送 n 条消息的容量，就为调用方预留。</p>
+<p>如果通道已满或可用许可证少于 n 个，此函数将等待未接收消息的数量小于通道容量 n。然后为调用方预留 n 条消息的容量。</p>
+<p>返回 PermitIterator 以跟踪预留的容量。可以调用此 Iterator 直到耗尽以获得 Permit，然后调用 Permit::send。此函数与 try_reserve_many 类似，但它会等待槽位变为可用。</p>
+<p>如果通道已关闭，此函数返回 SendError。</p>
+<p>丢弃 PermitIterator 而不将其完全消费会将剩余许可证释放回通道。</p>
+<h5 id="cancel-safety-3"><a class="doc-anchor" href="#cancel-safety-3">§</a>Cancel safety</h5>
+<p>此通道使用队列来确保 send 和 reserve_many 调用按请求顺序完成。取消对 reserve_many 的调用会丢失在队列中的位置。</p>
+<h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">2</span>);
+
+<span class="comment">// Reserve capacity
+</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.reserve_many(<span class="number">2</span>).<span class="kw">await</span>.unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Sending with the permit iterator succeeds
+</span>permit.next().unwrap().send(<span class="number">456</span>);
+permit.next().unwrap().send(<span class="number">457</span>);
+
+<span class="comment">// The iterator should now be exhausted
+</span><span class="macro">assert!</span>(permit.next().is_none());
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
+<span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">457</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.reserve_owned" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1265-1270">Source</a><h4 class="code-header">pub async fn <a href="#method.reserve_owned" class="fn">reserve_owned</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit">OwnedPermit</a>&lt;T&gt;, <a class="struct" href="error/struct.SendError.html" title="struct tokio::sync::mpsc::error::SendError">SendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>等待通道容量，移动 Sender 并返回拥有的许可证。一旦有可发送一条消息的容量，就为调用方预留。</p>
+<p>此方法按值移动 sender，并返回可用于向通道发送消息的拥有的许可证。与 Sender::reserve 不同，此方法可用于许可证必须对 'static 生命周期有效的情况。Sender 可以廉价地克隆（Sender::clone 本质上是引用计数递增，类似于 Arc::clone），因此当需要多个 OwnedPermit 或无法移动 Sender 时，可以在调用 reserve_owned 之前对其进行克隆。</p>
+<p>如果通道已满，此函数将等待未接收消息的数量小于通道容量。为调用方预留一条消息的容量。返回 OwnedPermit 以跟踪预留的容量。OwnedPermit 上的 send 函数会消费预留的容量。</p>
+<p>丢弃 OwnedPermit 而不发送消息会将容量释放回通道。</p>
+<h5 id="cancel-safety-4"><a class="doc-anchor" href="#cancel-safety-4">§</a>Cancel safety</h5>
+<p>此通道使用队列来确保 send 和 reserve 调用按请求顺序完成。取消对 reserve_owned 的调用会丢失在队列中的位置。</p>
+<h5 id="examples-7"><a class="doc-anchor" href="#examples-7">§</a>示例</h5>
+<p>使用 OwnedPermit 发送消息：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+<span class="comment">// Reserve capacity, moving the sender.
+</span><span class="kw">let </span>permit = tx.reserve_owned().<span class="kw">await</span>.unwrap();
+
+<span class="comment">// Send a message, consuming the permit and returning
+// the moved sender.
+</span><span class="kw">let </span>tx = permit.send(<span class="number">123</span>);
+
+<span class="comment">// The value sent on the permit is received.
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">123</span>);
+
+<span class="comment">// The sender can now be used again.
+</span>tx.send(<span class="number">456</span>).<span class="kw">await</span>.unwrap();</code></pre></div>
+<p>当需要多个 OwnedPermit 或无法按值移动 sender 时，可以在调用 reserve_owned 之前廉价地克隆它：</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+<span class="comment">// Clone the sender and reserve capacity.
+</span><span class="kw">let </span>permit = tx.clone().reserve_owned().<span class="kw">await</span>.unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Sending on the permit succeeds.
+</span>permit.send(<span class="number">456</span>);
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1327-1335">Source</a><h4 class="code-header">pub fn <a href="#method.try_reserve" class="fn">try_reserve</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Permit.html" title="struct tokio::sync::mpsc::Permit">Permit</a>&lt;'_, T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取一个槽位，而无需等待该槽位变为可用。</p>
+<p>如果通道已满，此函数返回 TrySendError；否则如果有可用槽位，它将返回一个 Permit，使您能够在保证有槽位的情况下向通道发送消息。此函数与 reserve 类似，只是它不会等待槽位变为可用。</p>
+<p>丢弃 Permit 而不发送消息会将容量释放回通道。</p>
+<h5 id="examples-8"><a class="doc-anchor" href="#examples-8">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+<span class="comment">// Reserve capacity
+</span><span class="kw">let </span>permit = tx.try_reserve().unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Trying to reserve an additional slot on the `tx` will
+// fail because there is no capacity.
+</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
+
+<span class="comment">// Sending on the permit succeeds
+</span>permit.send(<span class="number">456</span>);
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
+</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve_many" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1405-1420">Source</a><h4 class="code-header">pub fn <a href="#method.try_reserve_many" class="fn">try_reserve_many</a>(
+    &amp;self,
+    n: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PermitIterator.html" title="struct tokio::sync::mpsc::PermitIterator">PermitIterator</a>&lt;'_, T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.unit.html">()</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取 n 个槽位，而无需等待这些槽位变为可用。</p>
+<p>返回 PermitIterator 以跟踪预留的容量。可以调用此 Iterator 直到耗尽以获得 Permit，然后调用 Permit::send。此函数与 reserve_many 类似，只是它不会等待槽位变为可用。</p>
+<p>如果通道上可用许可证少于 n 个，则此函数返回 TrySendError::Full。如果通道已关闭，此函数返回 TrySendError::Closed。</p>
+<p>丢弃 PermitIterator 而不将其完全消费会将剩余许可证释放回通道。</p>
+<h5 id="examples-9"><a class="doc-anchor" href="#examples-9">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">2</span>);
+
+<span class="comment">// Reserve capacity
+</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.try_reserve_many(<span class="number">2</span>).unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Trying to reserve an additional slot on the `tx` will
+// fail because there is no capacity.
+</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
+
+<span class="comment">// Sending with the permit iterator succeeds
+</span>permit.next().unwrap().send(<span class="number">456</span>);
+permit.next().unwrap().send(<span class="number">457</span>);
+
+<span class="comment">// The iterator should now be exhausted
+</span><span class="macro">assert!</span>(permit.next().is_none());
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
+<span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">457</span>);
+
+<span class="comment">// Trying to call try_reserve_many with 0 will return an empty iterator
+</span><span class="kw">let </span><span class="kw-2">mut </span>permit = tx.try_reserve_many(<span class="number">0</span>).unwrap();
+<span class="macro">assert!</span>(permit.next().is_none());
+
+<span class="comment">// Trying to call try_reserve_many with a number greater than the channel
+// capacity will return an error
+</span><span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">3</span>);
+<span class="macro">assert!</span>(permit.is_err());
+
+<span class="comment">// Trying to call try_reserve_many on a closed channel will return an error
+</span>drop(rx);
+<span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">1</span>);
+<span class="macro">assert!</span>(permit.is_err());
+
+<span class="kw">let </span>permit = tx.try_reserve_many(<span class="number">0</span>);
+<span class="macro">assert!</span>(permit.is_err());</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.try_reserve_owned" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1477-1487">Source</a><h4 class="code-header">pub fn <a href="#method.try_reserve_owned" class="fn">try_reserve_owned</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.OwnedPermit.html" title="struct tokio::sync::mpsc::OwnedPermit">OwnedPermit</a>&lt;T&gt;, <a class="enum" href="error/enum.TrySendError.html" title="enum tokio::sync::mpsc::error::TrySendError">TrySendError</a>&lt;Self&gt;&gt;</h4></section></summary><div class="docblock"><p>尝试在通道中获取一个槽位，而无需等待该槽位变为可用，并返回拥有的许可证。</p>
+<p>此方法按值移动 sender，并返回可用于向通道发送消息的拥有的许可证。与 Sender::try_reserve 不同，此方法可用于许可证必须对 'static 生命周期有效的情况。Sender 可以廉价地克隆（Sender::clone 本质上是引用计数递增，类似于 Arc::clone），因此当需要多个 OwnedPermit 或无法移动 Sender 时，可以在调用 try_reserve_owned 之前对其进行克隆。</p>
+<p>如果通道已满，此函数返回 TrySendError。由于 sender 是按值获取的，此情况下返回的 TrySendError 包含 sender，以便可以再次使用。否则，如果有可用槽位，此方法将返回一个 OwnedPermit，可在保证有槽位的情况下向通道发送消息。此函数与 reserve_owned 类似，只是它不会等待槽位变为可用。</p>
+<p>丢弃 OwnedPermit 而不发送消息会将容量释放回通道。</p>
+<h5 id="examples-10"><a class="doc-anchor" href="#examples-10">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel(<span class="number">1</span>);
+
+<span class="comment">// Reserve capacity
+</span><span class="kw">let </span>permit = tx.clone().try_reserve_owned().unwrap();
+
+<span class="comment">// Trying to send directly on the `tx` will fail due to no
+// available capacity.
+</span><span class="macro">assert!</span>(tx.try_send(<span class="number">123</span>).is_err());
+
+<span class="comment">// Trying to reserve an additional slot on the `tx` will
+// fail because there is no capacity.
+</span><span class="macro">assert!</span>(tx.try_reserve().is_err());
+
+<span class="comment">// Sending on the permit succeeds
+</span>permit.send(<span class="number">456</span>);
+
+<span class="comment">// The value sent on the permit is received
+</span><span class="macro">assert_eq!</span>(rx.recv().<span class="kw">await</span>.unwrap(), <span class="number">456</span>);
+</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.same_channel" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1501-1503">Source</a><h4 class="code-header">pub fn <a href="#method.same_channel" class="fn">same_channel</a>(&amp;self, other: &amp;Self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>如果发送者属于同一通道则返回 true。</p>
+<h5 id="examples-11"><a class="doc-anchor" href="#examples-11">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>(tx, rx) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
+<span class="kw">let  </span>tx2 = tx.clone();
+<span class="macro">assert!</span>(tx.same_channel(<span class="kw-2">&amp;</span>tx2));
+
+<span class="kw">let </span>(tx3, rx3) = tokio::sync::mpsc::channel::&lt;()&gt;(<span class="number">1</span>);
+<span class="macro">assert!</span>(!tx3.same_channel(<span class="kw-2">&amp;</span>tx2));</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.capacity" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1538-1540">Source</a><h4 class="code-header">pub fn <a href="#method.capacity" class="fn">capacity</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回通道的当前容量。</p>
+<p>当通过调用 send 或通过 reserve 预留容量来发送值时，容量下降。当值被 Receiver 接收时，容量上升。这与 max_capacity 不同，后者总是返回最初调用 channel 时指定的缓冲区容量。</p>
+<h5 id="examples-12"><a class="doc-anchor" href="#examples-12">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, <span class="kw-2">mut </span>rx) = mpsc::channel::&lt;()&gt;(<span class="number">5</span>);
+
+<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);
+
+<span class="comment">// Making a reservation drops the capacity by one.
+</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
+<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">4</span>);
+
+<span class="comment">// Sending and receiving a value increases the capacity by one.
+</span>permit.send(());
+rx.recv().<span class="kw">await</span>.unwrap();
+<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.downgrade" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1547-1551">Source</a><h4 class="code-header">pub fn <a href="#method.downgrade" class="fn">downgrade</a>(&amp;self) -&gt; <a class="struct" href="struct.WeakSender.html" title="struct tokio::sync::mpsc::WeakSender">WeakSender</a>&lt;T&gt;</h4></section></summary><div class="docblock"><p>将 Sender 转换为 WeakSender，它不计入 RAII 语义——也就是说，如果通道的所有 Sender 实例都已被丢弃且仅剩 WeakSender 实例，则通道被关闭。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.max_capacity" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1585-1587">Source</a><h4 class="code-header">pub fn <a href="#method.max_capacity" class="fn">max_capacity</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回通道的最大缓冲区容量。</p>
+<p>最大容量是最初调用 channel 时指定的缓冲区容量。这与 capacity 不同，后者返回当前可用的缓冲区容量：随着消息的发送和接收，capacity 返回的值会上升或下降，而 max_capacity 返回的值将保持不变。</p>
+<h5 id="examples-13"><a class="doc-anchor" href="#examples-13">§</a>示例</h5>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::mpsc;
+
+<span class="kw">let </span>(tx, _rx) = mpsc::channel::&lt;()&gt;(<span class="number">5</span>);
+
+<span class="comment">// both max capacity and capacity are the same at first
+</span><span class="macro">assert_eq!</span>(tx.max_capacity(), <span class="number">5</span>);
+<span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">5</span>);
+
+<span class="comment">// Making a reservation doesn't change the max capacity.
+</span><span class="kw">let </span>permit = tx.reserve().<span class="kw">await</span>.unwrap();
+<span class="macro">assert_eq!</span>(tx.max_capacity(), <span class="number">5</span>);
+<span class="comment">// but drops the capacity by one
+</span><span class="macro">assert_eq!</span>(tx.capacity(), <span class="number">4</span>);</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.strong_count" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1590-1592">Source</a><h4 class="code-header">pub fn <a href="#method.strong_count" class="fn">strong_count</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回 Sender 句柄的数量。</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.weak_count" class="method"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1595-1597">Source</a><h4 class="code-header">pub fn <a href="#method.weak_count" class="fn">weak_count</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>返回 WeakSender 句柄的数量。</p>
+</div></details></div></details></div><h2 id="trait-implementations" class="section-header">Trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Clone-for-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1600-1606">Source</a><a href="#impl-Clone-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone" class="method trait-impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1601-1605">Source</a><a href="#method.clone" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone" class="fn">clone</a>(&amp;self) -&gt; Self</h4></section></summary><div class='docblock'>返回值的副本。 <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#tymethod.clone">更多信息</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_from" class="method trait-impl"><span class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span> · <a class="src" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#245-247">Source</a></span><a href="#method.clone_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from" class="fn">clone_from</a>(&amp;mut self, source: &amp;Self)</h4></section></summary><div class='docblock'>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html#method.clone_from">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Sender%3CT%3E" class="impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1608-1614">Source</a><a href="#impl-Debug-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../../src/tokio/sync\mpsc/bounded.rs.html#1609-1613">Source</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, fmt: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details></div><h2 id="synthetic-implementations" class="section-header">自动 Trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Sender%3CT%3E" class="impl"><a href="#impl-Freeze-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-RefUnwindSafe-for-Sender%3CT%3E" class="impl"><a href="#impl-RefUnwindSafe-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-Send-for-Sender%3CT%3E" class="impl"><a href="#impl-Send-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,</div></h3></section><section id="impl-Sync-for-Sender%3CT%3E" class="impl"><a href="#impl-Sync-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,</div></h3></section><section id="impl-Unpin-for-Sender%3CT%3E" class="impl"><a href="#impl-Unpin-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-UnsafeUnpin-for-Sender%3CT%3E" class="impl"><a href="#impl-UnsafeUnpin-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section><section id="impl-UnwindSafe-for-Sender%3CT%3E" class="impl"><a href="#impl-UnwindSafe-for-Sender%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Sender.html" title="struct tokio::sync::mpsc::Sender">Sender</a>&lt;T&gt;</h3></section></div><h2 id="blanket-implementations" class="section-header">Blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">Source</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">Source</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">Source</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">Source</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">Source</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">Source</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-CloneToUninit-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#547">Source</a><a href="#impl-CloneToUninit-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html" title="trait core::clone::CloneToUninit">CloneToUninit</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.clone_to_uninit" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/clone.rs.html#549">Source</a><a href="#method.clone_to_uninit" class="anchor">§</a><h4 class="code-header">unsafe fn <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit" class="fn">clone_to_uninit</a>(&amp;self, dest: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.pointer.html">*mut </a><a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.u8.html">u8</a>)</h4></section></summary><span class="item-info"><div class="stab unstable"><span class="emoji">🔬</span><span>This is a nightly-only experimental API. (<code>clone_to_uninit</code>)</span></div></span><div class='docblock'>Performs copy-assignment from <code>self</code> to <code>dest</code>. <a href="https://doc.rust-lang.org/1.95.0/core/clone/trait.CloneToUninit.html#tymethod.clone_to_uninit">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">Source</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">Source</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回传入的参数。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">Source</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">Source</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
+<p>也就是说，此转换的具体行为取决于
+<code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 的实现方式。</p>
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-ToOwned-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#72-74">Source</a><a href="#impl-ToOwned-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html" title="trait alloc::borrow::ToOwned">ToOwned</a> for T<div class="where">where
+    T: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Owned" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#76">Source</a><a href="#associatedtype.Owned" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#associatedtype.Owned" class="associatedtype">Owned</a> = T</h4></section></summary><div class='docblock'>获得所有权后的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.to_owned" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#77">Source</a><a href="#method.to_owned" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned" class="fn">to_owned</a>(&amp;self) -&gt; T</h4></section></summary><div class='docblock'>Creates owned data from borrowed data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#tymethod.to_owned">更多信息</a></div></details><details class="toggle method-toggle" open><summary><section id="method.clone_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/alloc/borrow.rs.html#81">Source</a><a href="#method.clone_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into" class="fn">clone_into</a>(&amp;self, target: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a>)</h4></section></summary><div class='docblock'>Uses borrowed data to replace owned data, usually by cloning. <a href="https://doc.rust-lang.org/1.95.0/alloc/borrow/trait.ToOwned.html#method.clone_into">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">Source</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">Source</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">Source</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">Source</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">Source</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">Source</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div></section></div></main></body></html>

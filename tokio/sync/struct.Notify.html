@@ -1,223 +1,736 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="通知单个任务唤醒。"><link rel="canonical" href="https://rustdoc.p-cat.fun/tokio/sync/struct.Notify.html"><meta property="og:type" content="article"><meta property="og:title" content="Notify in tokio::sync - tokio"><meta property="og:description" content="通知单个任务唤醒。"><meta property="og:url" content="https://rustdoc.p-cat.fun/tokio/sync/struct.Notify.html"><meta property="og:site_name" content="Rust 文档中文翻译"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Notify in tokio::sync - tokio"><meta name="twitter:description" content="通知单个任务唤醒。"><meta name="keywords" content="Rust,异步,运行时,tokio,async,await,网络,定时器"><title>Notify in tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="/static.files/minisearch.min.js"></script><script src="/static.files/chinese-search-3aa25361.js"></script><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"><style id="rustdoc-cn-nav-style">.rustdoc-cn-nav-check{}</style><style>.rustdoc-cn-toggle{position:fixed;top:8px;left:calc(var(--cn-sidebar-w, 200px) + 14px);z-index:calc(var(--desktop-sidebar-z-index) + 1);width:28px;height:28px;display:flex;align-items:center;justify-content:center;background-color:var(--main-background-color);border:1px solid var(--border-color);border-radius:4px;cursor:pointer;color:var(--main-color);text-decoration:none;line-height:0;padding:0;transition:left .18s ease,background-color .15s ease,border-color .15s ease}.rustdoc-cn-toggle:hover,.rustdoc-cn-toggle:focus{background-color:var(--sidebar-background-color);border-color:var(--settings-button-border-focus);outline:none}.rustdoc-cn-toggle svg{display:block;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.rustdoc-cn-toggle .icon-collapse{display:block}.rustdoc-cn-toggle .icon-expand{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-collapse{display:none}html.hide-sidebar .rustdoc-cn-toggle .icon-expand{display:block}html.hide-sidebar .rustdoc-cn-toggle{left:8px}@media (max-width:700px){.rustdoc-cn-toggle{display:none}}.sidebar-home-link{padding:6px 16px;margin-bottom:8px}.sidebar-home-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-home-link a:hover{text-decoration:underline}.sidebar-home-link svg{flex-shrink:0}.sidebar-docsrs-link{padding:6px 16px;margin-bottom:8px}.sidebar-docsrs-link a{display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1}.sidebar-docsrs-link a:hover{text-decoration:underline}.sidebar-docsrs-link svg{flex-shrink:0}.rustdoc .sidebar{transition:flex-basis .18s ease,width .18s ease,opacity .18s ease}.rustdoc .sidebar-resizer{transition:margin-left .18s ease,opacity .18s ease}@media (min-width:701px){html.hide-sidebar .sidebar{flex:0 0 0 !important;width:0;overflow:hidden;opacity:0;pointer-events:none}html.hide-sidebar .sidebar-resizer{display:none !important}html.hide-sidebar main{padding-left:24px !important;padding-right:24px !important}html.hide-sidebar .width-limiter{margin-left:0 !important;margin-right:auto !important}}#sidebar-button{display:none !important}</style></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持，很可能会显示异常内容。</div><![endif]--><rustdoc-topbar><h2><a href="#">Notify</a></h2><div class="search-menu"><a id="search-button" href="?search#">搜索</a></div></rustdoc-topbar><button class="rustdoc-cn-toggle" type="button" aria-label="折叠/展开侧边栏" title="折叠/展开侧边栏 (\ 键)" data-show-title="展开侧边栏 (\ 键)" data-hide-title="折叠侧边栏 (\ 键)"><svg class="icon-collapse" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg><svg class="icon-expand" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button><nav class="sidebar"><div class="sidebar-github-link" style="padding:6px 16px;border-bottom:1px solid #ddd;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://github.com/David-Xian66/rust_doc_chinese" target="_blank" rel="noopener noreferrer" title="访问我们的 GitHub 仓库" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>GitHub 仓库</span></a></div><div class="sidebar-home-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="/index.html" title="返回 crate 列表" aria-label="返回 crate 列表" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>crate 列表</span></a></div><div class="sidebar-docsrs-link" style="padding:6px 16px;margin-bottom:8px;display:flex;align-items:center;gap:6px"><a href="https://docs.rs/tokio/latest/tokio/sync/struct.Notify.html" target="_blank" rel="noopener noreferrer" title="在 docs.rs 上查看" aria-label="在 docs.rs 上查看" style="display:inline-flex;align-items:center;gap:6px;color:#333;text-decoration:none;font-size:14px;line-height:1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>docs.rs</span></a></div><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Notify</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="示例">示例</a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.const_new" title="const_new">const_new</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.notified" title="notified">notified</a></li><li><a href="#method.notified_owned" title="notified_owned">notified_owned</a></li><li><a href="#method.notify_last" title="notify_last">notify_last</a></li><li><a href="#method.notify_one" title="notify_one">notify_one</a></li><li><a href="#method.notify_waiters" title="notify_waiters">notify_waiters</a></li></ul><h3><a href="#trait-implementations">trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Notify" title="Debug">Debug</a></li><li><a href="#impl-Default-for-Notify" title="Default">默认值</a></li><li><a href="#impl-RefUnwindSafe-for-Notify" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Notify" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#synthetic-implementations">自动 trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Notify" title="!Freeze">!Freeze</a></li><li><a href="#impl-Send-for-Notify" title="Send">Send</a></li><li><a href="#impl-Sync-for-Notify" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Notify" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Notify" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="拖动以调整侧边栏宽度"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">sync</a></div><h1>结构体 <span class="struct">Notify</span>&nbsp;<button id="copy-path" title="复制项目路径到剪贴板">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/notify.rs.html#202-215">源代码</a> </span></div><pre class="rust item-decl"><code>pub struct Notify { <span class="comment">/* 私有字段 */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>通知单个任务唤醒。</p>
-<p><code>Notify</code> 提供了一种用于向单个任务通知事件的基本机制。<code>Notify</code> 本身不携带任何数据。相反，它用于向另一个任务发出执行操作的信号。</p>
-<p>可以将 <code>Notify</code> 视为一个以 0 个许可开始的 <a href="struct.Semaphore.html" title="struct tokio::sync::Semaphore"><code>Semaphore</code></a>。<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>notified().await</code></a> 方法等待许可变为可用，而 <a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code>notify_one()</code></a> <strong>在当前没有可用许可时</strong>设置一个许可。</p>
-<p><code>Notify</code> 的同步细节类似于 std 中的 <a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.park.html" title="fn std::thread::functions::park"><code>thread::park</code></a> 和 <a href="https://doc.rust-lang.org/1.95.0/std/thread/thread/struct.Thread.html#method.unpark" title="method std::thread::thread::Thread::unpark"><code>Thread::unpark</code></a>。<a href="struct.Notify.html" title="struct tokio::sync::Notify"><code>Notify</code></a> 值包含单个许可。<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>notified().await</code></a> 等待许可可用，消费该许可，然后恢复运行。<a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code>notify_one()</code></a> 设置许可，如果有挂起的任务则唤醒它。</p>
-<p>如果在 <code>notified().await</code> <strong>之前</strong>调用 <code>notify_one()</code>，则下一次调用 <code>notified().await</code> 将立即完成，消费该许可。对 <code>notified().await</code> 的任何后续调用都将等待新的许可。</p>
-<p>如果在 <code>notified().await</code> 之前<strong>多次</strong>调用 <code>notify_one()</code>，则仅存储<strong>单个</strong>许可。下一次调用 <code>notified().await</code> 将立即完成，但再下一次调用将等待新的许可。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="通知单个 task 唤醒。"><title>Notify in tokio::sync - tokio</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-b7b9f40b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.95.0 (59807616e 2026-04-14)" data-channel="1.95.0" data-search-js="search-63369b7b.js" data-stringdex-js="stringdex-b897f86f.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">跳到主要内容</a><!--[if lte IE 11]><div class="warning">此旧版浏览器不受支持 and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Notify</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../tokio/index.html">tokio</a><span class="version">1.52.3</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Notify</a></h2><h3><a href="#">章节</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">示例</a></li></ul><h3><a href="#implementations">方法</a></h3><ul class="block method"><li><a href="#method.const_new" title="const_new">const_new</a></li><li><a href="#method.new" title="new">new</a></li><li><a href="#method.notified" title="notified">notified</a></li><li><a href="#method.notified_owned" title="notified_owned">notified_owned</a></li><li><a href="#method.notify_last" title="notify_last">notify_last</a></li><li><a href="#method.notify_one" title="notify_one">notify_one</a></li><li><a href="#method.notify_waiters" title="notify_waiters">notify_waiters</a></li></ul><h3><a href="#trait-implementations">Trait 实现</a></h3><ul class="block trait-implementation"><li><a href="#impl-Debug-for-Notify" title="Debug">Debug</a></li><li><a href="#impl-Default-for-Notify" title="Default">Default</a></li><li><a href="#impl-RefUnwindSafe-for-Notify" title="RefUnwindSafe">RefUnwindSafe</a></li><li><a href="#impl-UnwindSafe-for-Notify" title="UnwindSafe">UnwindSafe</a></li></ul><h3><a href="#synthetic-implementations">自动 Trait 实现</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-Freeze-for-Notify" title="!Freeze">!Freeze</a></li><li><a href="#impl-Send-for-Notify" title="Send">Send</a></li><li><a href="#impl-Sync-for-Notify" title="Sync">Sync</a></li><li><a href="#impl-Unpin-for-Notify" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Notify" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket 实现</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">在 tokio 中::<wbr>sync</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">tokio</a>::<wbr><a href="index.html">sync</a></div><h1>结构体 <span class="struct">Notify</span>&nbsp;<button id="copy-path" title="复制项目路径 to clipboard">复制项目路径</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/tokio/sync/notify.rs.html#202-215">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Notify { <span class="comment">/* private fields */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>展开描述</span></summary><div class="docblock"><p>通知单个 task 唤醒。</p>
+
+
+<p><code><code>Notify</code></code> provides a basic mechanism to notify a single task of an event.
+
+
+<code><code>Notify</code></code> itself does not carry any data. Instead, it is to be used to signal
+
+
+another task to perform an operation.</p>
+
+
+<p>A <code><code>Notify</code></code> can be thought of as a <a href="struct.Semaphore.html" title="struct tokio::sync::Semaphore"><code><code>Semaphore</code></code></a> starting with 0 permits. The
+
+
+<a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a> method waits for a permit to become available, and
+
+
+<a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a> sets a permit <strong>if there currently are no available
+
+
+permits</strong>.</p>
+
+
+<p>The synchronization details of <code><code>Notify</code></code> are similar to
+
+
+<a href="https://doc.rust-lang.org/1.95.0/std/thread/functions/fn.park.html" title="fn std::thread::functions::park"><code><code>thread::park</code></code></a> and <a href="https://doc.rust-lang.org/1.95.0/std/thread/thread/struct.Thread.html#method.unpark" title="method std::thread::thread::Thread::unpark"><code><code>Thread::unpark</code></code></a> from std. A <a href="struct.Notify.html" title="struct tokio::sync::Notify"><code><code>Notify</code></code></a>
+
+
+value contains a single permit. <a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code><code>notified().await</code></code></a> waits for the permit to
+
+
+be made available, consumes the permit, and resumes.  <a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code><code>notify_one()</code></code></a> sets
+
+
+the permit, waking a pending task if there is one.</p>
+
+
+<p>If <code><code>notify_one()</code></code> is called <strong>before</strong> <code><code>notified().await</code></code>, then the next
+
+
+call to <code><code>notified().await</code></code> will complete immediately, consuming the permit.
+
+
+Any subsequent calls to <code><code>notified().await</code></code> will wait for a new permit.</p>
+
+
+<p>If <code><code>notify_one()</code></code> is called <strong>multiple</strong> times before <code><code>notified().await</code></code>,
+
+
+only a <strong>single</strong> permit is stored. The next call to <code><code>notified().await</code></code> will
+
+
+complete immediately, but the one after will wait for a new permit.</p>
+
+
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>示例</h2>
-<p>基本用法。</p>
+
+
+<p>Basic usage.</p>
+
+
+
+
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
+
+
 <span class="kw">use </span>std::sync::Arc;
 
+
+
+
+
 <span class="kw">let </span>notify = Arc::new(Notify::new());
+
+
 <span class="kw">let </span>notify2 = notify.clone();
 
+
+
+
+
 <span class="kw">let </span>handle = tokio::spawn(<span class="kw">async move </span>{
+
+
     notify2.notified().<span class="kw">await</span>;
+
+
     <span class="macro">println!</span>(<span class="string">"received notification"</span>);
+
+
 });
 
+
+
+
+
 <span class="macro">println!</span>(<span class="string">"sending notification"</span>);
+
+
 notify.notify_one();
 
-<span class="comment">// 等待任务接收通知。
+
+
+
+
+<span class="comment">// Wait for task to receive notification.
+
+
 </span>handle.<span class="kw">await</span>.unwrap();</code></pre></div>
-<p>无界多生产者单消费者 (mpsc) 通道。</p>
-<p>使用此通道时不会丢失任何唤醒，因为对 <code>notify_one()</code> 的调用会将许可存储在 <code>Notify</code> 中，随后的 <code>notified()</code> 调用将消费该许可。</p>
+
+
+<p>Unbound multi-producer single-consumer (mpsc) channel.</p>
+
+
+<p>No wakeups can be lost when using this channel because the call to
+
+
+<code><code>notify_one()</code></code> will store a permit in the <code><code>Notify</code></code>, which the following call
+
+
+to <code><code>notified()</code></code> will consume.</p>
+
+
+
+
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
 
+
+
+
+
 <span class="kw">use </span>std::collections::VecDeque;
+
+
 <span class="kw">use </span>std::sync::Mutex;
 
+
+
+
+
 <span class="kw">struct </span>Channel&lt;T&gt; {
+
+
     values: Mutex&lt;VecDeque&lt;T&gt;&gt;,
+
+
     notify: Notify,
+
+
 }
 
+
+
+
+
 <span class="kw">impl</span>&lt;T&gt; Channel&lt;T&gt; {
+
+
     <span class="kw">pub fn </span>send(<span class="kw-2">&amp;</span><span class="self">self</span>, value: T) {
+
+
         <span class="self">self</span>.values.lock().unwrap()
+
+
             .push_back(value);
 
-        <span class="comment">// 通知消费者有值可用
+
+
+
+
+        <span class="comment">// Notify the consumer a value is available
+
+
         </span><span class="self">self</span>.notify.notify_one();
+
+
     }
 
-    <span class="comment">// 这是单消费者通道，因此不允许对 `recv` 进行
-    // 多次并发调用。
+
+
+
+
+    <span class="comment">// This is a single-consumer channel, so several concurrent calls to
+
+
+    // `recv` are not allowed.
+
+
     </span><span class="kw">pub async fn </span>recv(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; T {
+
+
         <span class="kw">loop </span>{
-            <span class="comment">// 排空值
+
+
+            <span class="comment">// Drain values
+
+
             </span><span class="kw">if let </span><span class="prelude-val">Some</span>(value) = <span class="self">self</span>.values.lock().unwrap().pop_front() {
+
+
                 <span class="kw">return </span>value;
+
+
             }
 
-            <span class="comment">// 等待值可用
+
+
+
+
+            <span class="comment">// Wait for values to be available
+
+
             </span><span class="self">self</span>.notify.notified().<span class="kw">await</span>;
+
+
         }
+
+
     }
+
+
 }</code></pre></div>
-<p>无界多生产者多消费者 (mpmc) 通道。</p>
-<p>调用 <a href="futures/struct.Notified.html#method.enable" title="method tokio::sync::futures::Notified::enable"><code>enable</code></a> 很重要，因为否则如果你并行调用两个 <code>recv</code> 和两个 <code>send</code>，则可能会发生以下情况：</p>
+
+
+<p>Unbound multi-producer multi-consumer (mpmc) channel.</p>
+
+
+<p>The call to <a href="futures/struct.Notified.html#method.enable" title="method tokio::sync::futures::Notified::enable"><code><code>enable</code></code></a> is important because otherwise if you have two
+
+
+calls to <code><code>recv</code></code> and two calls to <code><code>send</code></code> in parallel, the following could
+
+
+happen:</p>
+
+
 <ol>
+
+
 <li>Both calls to <code>try_recv</code> return <code>None</code>.</li>
+
+
 <li>Both new elements are added to the vector.</li>
+
+
 <li>The <code>notify_one</code> method is called twice, adding only a single
+
+
 permit to the <code>Notify</code>.</li>
+
+
 <li>Both calls to <code>recv</code> reach the <code>Notified</code> future. One of them
+
+
 consumes the permit, and the other sleeps forever.</li>
+
+
 </ol>
-<p>如果在 <code>try_recv</code> 之前通过调用 <code>enable</code> 将 <code>Notified</code> future 添加到列表中，则第三步中的 <code>notify_one</code> 调用会从列表中移除这些 future 并将它们标记为已通知，而不是向 <code>Notify</code> 添加许可。这确保了两个 future 都会被唤醒。</p>
-<p>请注意，只有在存在两个对 <code>recv</code> 的并发调用时才会发生此失败。这就是为什么上面的 mpsc 示例不需要调用 <code>enable</code>。</p>
+
+
+<p>By adding the <code><code>Notified</code></code> futures to the list by calling <code><code>enable</code></code> before
+
+
+<code><code>try_recv</code></code>, the <code><code>notify_one</code></code> calls in step three would remove the
+
+
+futures from the list and mark them notified instead of adding a permit
+
+
+to the <code><code>Notify</code></code>. This ensures that both futures are woken.</p>
+
+
+<p>Notice that this failure can only happen if there are two concurrent calls
+
+
+to <code><code>recv</code></code>. This is why the mpsc example above does not require a call to
+
+
+<code><code>enable</code></code>.</p>
+
+
+
+
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
+
+
+
+
 
 <span class="kw">use </span>std::collections::VecDeque;
+
+
 <span class="kw">use </span>std::sync::Mutex;
 
+
+
+
+
 <span class="kw">struct </span>Channel&lt;T&gt; {
+
+
     messages: Mutex&lt;VecDeque&lt;T&gt;&gt;,
+
+
     notify_on_sent: Notify,
+
+
 }
+
+
+
+
 
 <span class="kw">impl</span>&lt;T&gt; Channel&lt;T&gt; {
+
+
     <span class="kw">pub fn </span>send(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: T) {
+
+
         <span class="kw">let </span><span class="kw-2">mut </span>locked_queue = <span class="self">self</span>.messages.lock().unwrap();
+
+
         locked_queue.push_back(msg);
+
+
         drop(locked_queue);
 
-        <span class="comment">// 向当前正在调用 `recv` 的
-        // 其中一个调用发送通知。
+
+
+
+
+        <span class="comment">// Send a notification to one of the calls currently
+
+
+        // waiting in a call to `recv`.
+
+
         </span><span class="self">self</span>.notify_on_sent.notify_one();
+
+
     }
+
+
+
+
 
     <span class="kw">pub fn </span>try_recv(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+
+
         <span class="kw">let </span><span class="kw-2">mut </span>locked_queue = <span class="self">self</span>.messages.lock().unwrap();
+
+
         locked_queue.pop_front()
+
+
     }
+
+
+
+
 
     <span class="kw">pub async fn </span>recv(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; T {
+
+
         <span class="kw">let </span>future = <span class="self">self</span>.notify_on_sent.notified();
+
+
         <span class="macro">tokio::pin!</span>(future);
 
+
+
+
+
         <span class="kw">loop </span>{
-            <span class="comment">// 确保即使 `try_recv` 返回 `None`，
-            // 也不会丢失唤醒。
+
+
+            <span class="comment">// Make sure that no wakeup is lost if we get
+
+
+            // `None` from `try_recv`.
+
+
             </span>future.as_mut().enable();
 
+
+
+
+
             <span class="kw">if let </span><span class="prelude-val">Some</span>(msg) = <span class="self">self</span>.try_recv() {
+
+
                 <span class="kw">return </span>msg;
+
+
             }
 
-            <span class="comment">// 等待 `notify_one` 的调用。
+
+
+
+
+            <span class="comment">// Wait for a call to `notify_one`.
+
+
             //
-            // 这里使用 `.as_mut()` 是为了避免消费 future，
-            // 从而可以在下面调用 `Pin::set`。
+
+
+            // This uses `.as_mut()` to avoid consuming the future,
+
+
+            // which lets us call `Pin::set` below.
+
+
             </span>future.as_mut().<span class="kw">await</span>;
 
-            <span class="comment">// 重置 future，以防另一次 `try_recv` 调用
-            // 在我们之前获取到消息。
+
+
+
+
+            <span class="comment">// Reset the future in case another call to
+
+
+            // `try_recv` got the message before us.
+
+
             </span>future.set(<span class="self">self</span>.notify_on_sent.notified());
+
+
         }
+
+
     }
-}</code></pre></div></div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#473-833">源代码</a><a href="#impl-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#483-488">源代码</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class="docblock"><p>创建一个新的 <code>Notify</code>，初始化时没有许可。</p>
+
+
+}</code></pre></div></div></details><h2 id="implementations" class="section-header">实现<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#473-833">Source</a><a href="#impl-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#483-488">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class="docblock"><p>创建一个新的 <code>Notify</code>，初始化时没有许可证。</p>
+
+
 <h5 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
 
-<span class="kw">let </span>notify = Notify::new();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.const_new" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#508-513">源代码</a><h4 class="code-header">pub const fn <a href="#method.const_new" class="fn">const_new</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class="docblock"><p>创建一个新的 <code>Notify</code>，初始化时没有许可。</p>
-<p>当使用 <code>tracing</code> <a href="../index.html#unstable-features" title="mod tokio">不稳定特性</a>时，使用 <code>const_new</code> 创建的 <code>Notify</code> 将不会被检测。因此，它将不会出现在 <a href="https://github.com/tokio-rs/console"><code>tokio-console</code></a> 中。如果需要，应改用 <a href="struct.Notify.html#method.new" title="associated function tokio::sync::Notify::new"><code>Notify::new</code></a> 创建一个已检测的对象。</p>
+
+
+
+
+<span class="kw">let </span>notify = Notify::new();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.const_new" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#508-513">Source</a><h4 class="code-header">pub const fn <a href="#method.const_new" class="fn">const_new</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class="docblock"><p>创建一个新的 <code>Notify</code>，初始化时没有许可证。</p>
+
+
+<p>使用 <code>tracing</code> 不稳定特性时，通过 <code>const_new</code> 创建的 <code>Notify</code> 不会被插桩。因此，它不会出现在 <code>tokio-console</code> 中。如有需要，请改用 <code>Notify::new</code> 来创建可插桩的对象。</p>
+
+
 <h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
 
-<span class="kw">static </span>NOTIFY: Notify = Notify::const_new();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notified" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#565-575">源代码</a><h4 class="code-header">pub fn <a href="#method.notified" class="fn">notified</a>(&amp;self) -&gt; <a class="struct" href="futures/struct.Notified.html" title="struct tokio::sync::futures::Notified">Notified</a>&lt;'_&gt; <a href="#" class="tooltip" data-notable-ty="Notified&lt;&#39;_&gt;">ⓘ</a></h4></section></summary><div class="docblock"><p>等待通知。</p>
-<p>等效于：</p>
+
+
+
+
+<span class="kw">static </span>NOTIFY: Notify = Notify::const_new();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notified" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#565-575">Source</a><h4 class="code-header">pub fn <a href="#method.notified" class="fn">notified</a>(&amp;self) -&gt; <a class="struct" href="futures/struct.Notified.html" title="struct tokio::sync::futures::Notified">Notified</a>&lt;'_&gt; <a href="#" class="tooltip" data-notable-ty="Notified&lt;&#39;_&gt;">ⓘ</a></h4></section></summary><div class="docblock"><p>等待通知。</p>
+
+
+<p>等价于：</p>
+
+
+
+
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">async fn </span>notified(<span class="kw-2">&amp;</span><span class="self">self</span>);</code></pre></div>
-<p>每个 <code>Notify</code> 值都持有一个许可。如果通过先前调用 <a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code>notify_one()</code></a> 已有可用许可，则 <code>notified().await</code> 将立即完成，消费该许可。否则，<code>notified().await</code> 将等待通过下一次调用 <code>notify_one()</code> 提供许可。</p>
-<p>如果 <code>Notified</code> future 尚未被 poll，则不能保证它会收到来自对 <code>notify_one()</code> 调用的唤醒。有关更多详细信息，请参阅 <a href="futures/struct.Notified.html#method.enable" title="method tokio::sync::futures::Notified::enable"><code>Notified::enable()</code></a> 的文档。</p>
-<p><code>Notified</code> future 保证在创建后立即就能收到来自 <code>notify_waiters()</code> 的唤醒，即使它尚未被 poll。</p>
-<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>取消安全性</h5>
-<p>此方法使用一个队列来按请求顺序公平地分发通知。取消对 <code>notified</code> 的调用会使你失去在队列中的位置。</p>
+
+
+<p>每个 <code>Notify</code> 值持有一个许可证。如果之前调用 <code>notify_one()</code> 后还有可用的许可证，那么 <code>notified().await</code> 会立即完成并消费该许可证。否则，<code>notified().await</code> 等待下一次调用 <code>notify_one()</code> 来提供许可证。</p>
+
+
+<p>如果 <code>Notified</code> future 还未被 poll，则不能保证它能收到 <code>notify_one()</code> 调用的唤醒。详见 <code>Notified::enable()</code> 的文档。</p>
+
+
+<p><code>Notified</code> future 一旦被创建就能保证收到 <code>notify_waiters()</code> 的唤醒，即使它还未被 poll。</p>
+
+
+<h5 id="cancel-safety"><a class="doc-anchor" href="#cancel-safety">§</a>Cancel safety</h5>
+
+
+<p>此方法使用队列按请求顺序公平分发通知。取消对 <code>notified</code> 的调用会丢失在队列中的位置。</p>
+
+
 <h5 id="examples-3"><a class="doc-anchor" href="#examples-3">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
+
+
 <span class="kw">use </span>std::sync::Arc;
 
+
+
+
+
 <span class="kw">let </span>notify = Arc::new(Notify::new());
+
+
 <span class="kw">let </span>notify2 = notify.clone();
 
+
+
+
+
 tokio::spawn(<span class="kw">async move </span>{
+
+
     notify2.notified().<span class="kw">await</span>;
+
+
     <span class="macro">println!</span>(<span class="string">"received notification"</span>);
+
+
 });
 
+
+
+
+
 <span class="macro">println!</span>(<span class="string">"sending notification"</span>);
-notify.notify_one();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notified_owned" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#613-623">源代码</a><h4 class="code-header">pub fn <a href="#method.notified_owned" class="fn">notified_owned</a>(self: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;) -&gt; <a class="struct" href="futures/struct.OwnedNotified.html" title="struct tokio::sync::futures::OwnedNotified">OwnedNotified</a> <a href="#" class="tooltip" data-notable-ty="OwnedNotified">ⓘ</a></h4></section></summary><div class="docblock"><p>使用拥有的 <code>Future</code> 等待通知。</p>
-<p>与返回绑定到 <code>Notify</code> 生命周期的 future 的 <a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>Self::notified</code></a> 不同，<code>notified_owned</code> 创建了一个拥有其通知状态的独立 future，使其可以在线程之间安全移动。</p>
-<p>有关更多详细信息，请参阅 <a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>Self::notified</code></a>。</p>
-<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>取消安全性</h5>
-<p>此方法使用一个队列来按请求顺序公平地分发通知。取消对 <code>notified_owned</code> 的调用会使你失去在队列中的位置。</p>
+
+
+notify.notify_one();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notified_owned" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#613-623">Source</a><h4 class="code-header">pub fn <a href="#method.notified_owned" class="fn">notified_owned</a>(self: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;) -&gt; <a class="struct" href="futures/struct.OwnedNotified.html" title="struct tokio::sync::futures::OwnedNotified">OwnedNotified</a> <a href="#" class="tooltip" data-notable-ty="OwnedNotified">ⓘ</a></h4></section></summary><div class="docblock"><p>使用拥有的 <code>Future</code> 等待通知。</p>
+
+
+<p>与 <code>Self::notified</code> 返回绑定到 <code>Notify</code> 生命周期的 future 不同，<code>notified_owned</code> 创建一个独立的 future，它拥有自己的通知状态，因此可以安全地在线程间移动。</p>
+
+
+<p>详见 <code>Self::notified</code>。</p>
+
+
+<h5 id="cancel-safety-1"><a class="doc-anchor" href="#cancel-safety-1">§</a>Cancel safety</h5>
+
+
+<p>此方法使用队列按请求顺序公平分发通知。取消对 <code>notified_owned</code> 的调用会丢失在队列中的位置。</p>
+
+
 <h5 id="examples-4"><a class="doc-anchor" href="#examples-4">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::sync::Arc;
+
+
 <span class="kw">use </span>tokio::sync::Notify;
 
+
+
+
+
 <span class="kw">let </span>notify = Arc::new(Notify::new());
+
+
+
+
 
 <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10 </span>{
+
+
     <span class="kw">let </span>notified = notify.clone().notified_owned();
+
+
     tokio::spawn(<span class="kw">async move </span>{
+
+
         notified.<span class="kw">await</span>;
+
+
         <span class="macro">println!</span>(<span class="string">"received notification"</span>);
+
+
     });
+
+
 }
 
+
+
+
+
 <span class="macro">println!</span>(<span class="string">"sending notification"</span>);
-notify.notify_waiters();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notify_one" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#660-662">源代码</a><h4 class="code-header">pub fn <a href="#method.notify_one" class="fn">notify_one</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知第一个等待任务。</p>
-<p>如果有任务当前正在等待，则会通知该任务。否则，许可将存储在此 <code>Notify</code> 值中，并且<strong>下一次</strong>调用 <a href="struct.Notify.html#method.notified" title="method tokio::sync::Notify::notified"><code>notified().await</code></a> 将立即完成，消费此次调用 <code>notify_one()</code> 提供的许可。</p>
-<p><code>Notify</code> 最多可以存储一个许可。对 <code>notify_one</code> 的多次顺序调用将导致存储单个许可。下一次调用 <code>notified().await</code> 将立即完成，但再下一次调用将等待。</p>
+
+
+notify.notify_waiters();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notify_one" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#660-662">Source</a><h4 class="code-header">pub fn <a href="#method.notify_one" class="fn">notify_one</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知第一个等待的任务。</p>
+
+
+<p>如果当前有任务正在等待，该任务将被通知。否则，一个许可证会存储到此 <code>Notify</code> 值中，下一次调用 <code>notified().await</code> 将立即完成并消费本次 <code>notify_one()</code> 调用所提供的许可证。</p>
+
+
+<p><code>Notify</code> 最多只能存储一个许可证。多次连续调用 <code>notify_one</code> 只会存储一个许可证。下一次调用 <code>notified().await</code> 会立即完成，但再下一次则会等待。</p>
+
+
 <h5 id="examples-5"><a class="doc-anchor" href="#examples-5">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
+
+
 <span class="kw">use </span>std::sync::Arc;
 
+
+
+
+
 <span class="kw">let </span>notify = Arc::new(Notify::new());
+
+
 <span class="kw">let </span>notify2 = notify.clone();
+
+
+
+
 
 tokio::spawn(<span class="kw">async move </span>{
+
+
     notify2.notified().<span class="kw">await</span>;
+
+
     <span class="macro">println!</span>(<span class="string">"received notification"</span>);
+
+
 });
+
+
+
+
 
 <span class="macro">println!</span>(<span class="string">"sending notification"</span>);
-notify.notify_one();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notify_last" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#673-675">源代码</a><h4 class="code-header">pub fn <a href="#method.notify_last" class="fn">notify_last</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知最后一个等待任务。</p>
-<p>此函数的行为类似于 <code>notify_one</code>。唯一的区别是它唤醒最近添加的等待者，而不是最早的等待者。</p>
-<p>有关更多信息和示例，请参阅 <a href="struct.Notify.html#method.notify_one" title="method tokio::sync::Notify::notify_one"><code>notify_one()</code></a> 文档。</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.notify_waiters" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#743-745">源代码</a><h4 class="code-header">pub fn <a href="#method.notify_waiters" class="fn">notify_waiters</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知所有等待任务。</p>
-<p>如果有任务当前正在等待，则会通知该任务。与 <code>notify_one()</code> 不同，此方法不会存储许可供下一次调用 <code>notified().await</code> 使用。此方法的目的是通知所有已注册的等待者。通过调用 <code>notified()</code> 获取 <code>Notified</code> future 实例即可完成通知注册。</p>
+
+
+notify.notify_one();</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.notify_last" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#673-675">Source</a><h4 class="code-header">pub fn <a href="#method.notify_last" class="fn">notify_last</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知最后一个等待的任务。</p>
+
+
+<p>此函数行为与 <code>notify_one</code> 类似。唯一区别是它唤醒最近添加的等待者而不是最早添加的。</p>
+
+
+<p>请参阅 <code>notify_one()</code> 的文档以获取更多信息和示例。</p>
+
+
+</div></details><details class="toggle method-toggle" open><summary><section id="method.notify_waiters" class="method"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#743-745">Source</a><h4 class="code-header">pub fn <a href="#method.notify_waiters" class="fn">notify_waiters</a>(&amp;self)</h4></section></summary><div class="docblock"><p>通知所有等待的任务。</p>
+
+
+<p>如果当前有任务正在等待，该任务将被通知。与 <code>notify_one()</code> 不同的是，此方法不会存储许可证供下一次 <code>notified().await</code> 使用。此方法的目的是通知所有已注册的等待者。注册的通过调用 <code>notified()</code> 获取 <code>Notified</code> future 实例完成。</p>
+
+
 <h5 id="examples-6"><a class="doc-anchor" href="#examples-6">§</a>示例</h5>
+
+
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>tokio::sync::Notify;
+
+
 <span class="kw">use </span>std::sync::Arc;
 
+
+
+
+
 <span class="kw">let </span>notify = Arc::new(Notify::new());
+
+
 <span class="kw">let </span>notify2 = notify.clone();
 
+
+
+
+
 <span class="kw">let </span>notified1 = notify.notified();
+
+
 <span class="kw">let </span>notified2 = notify.notified();
 
+
+
+
+
 <span class="kw">let </span>handle = tokio::spawn(<span class="kw">async move </span>{
+
+
     <span class="macro">println!</span>(<span class="string">"sending notifications"</span>);
+
+
     notify2.notify_waiters();
+
+
 });
 
+
+
+
+
 notified1.<span class="kw">await</span>;
+
+
 notified2.<span class="kw">await</span>;
-<span class="macro">println!</span>(<span class="string">"received notifications"</span>);</code></pre></div></div></details></div></details></div><h2 id="trait-implementations" class="section-header">trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#201">源代码</a><a href="#impl-Debug-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#201">源代码</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Default-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#835-839">源代码</a><a href="#impl-Default-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html" title="trait core::default::Default">默认值</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.default" class="method trait-impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#836-838">源代码</a><a href="#method.default" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html#tymethod.default" class="fn">default</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class='docblock'>Returns the “default value” for a type. <a href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html#tymethod.default">更多信息</a></div></details></div></details><section id="impl-RefUnwindSafe-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#842">源代码</a><a href="#impl-RefUnwindSafe-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-UnwindSafe-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#841">源代码</a><a href="#impl-UnwindSafe-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></div><h2 id="synthetic-implementations" class="section-header">自动 trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Notify" class="impl"><a href="#impl-Freeze-for-Notify" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Send-for-Notify" class="impl"><a href="#impl-Send-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Sync-for-Notify" class="impl"><a href="#impl-Sync-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Unpin-for-Notify" class="impl"><a href="#impl-Unpin-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-UnsafeUnpin-for-Notify" class="impl"><a href="#impl-UnsafeUnpin-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></div><h2 id="blanket-implementations" class="section-header">blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">源代码</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
-    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">源代码</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">源代码</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
-    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">源代码</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">源代码</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
-    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">源代码</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">源代码</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">源代码</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回参数。</p>
-</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">源代码</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">源代码</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code>U::from(self)</code>。</p>
-<p>也就是说，此转换是 <code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 实现选择执行的操作。</p>
-</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">源代码</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">源代码</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">源代码</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">源代码</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
-    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">源代码</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">源代码</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div><script type="text/json" id="notable-traits-data">{"Notified<'_>":"<h3>Notable traits for <code><a class=\"struct\" href=\"futures/struct.Notified.html\" title=\"struct tokio::sync::futures::Notified\">Notified</a>&lt;'_&gt;</code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"futures/struct.Notified.html\" title=\"struct tokio::sync::futures::Notified\">Notified</a>&lt;'_&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.95.0/std/primitive.unit.html\">()</a>;</div>","OwnedNotified":"<h3>Notable traits for <code><a class=\"struct\" href=\"futures/struct.OwnedNotified.html\" title=\"struct tokio::sync::futures::OwnedNotified\">OwnedNotified</a></code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"futures/struct.OwnedNotified.html\" title=\"struct tokio::sync::futures::OwnedNotified\">OwnedNotified</a></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.95.0/std/primitive.unit.html\">()</a>;</div>"}</script></section></div></main><script defer id="rustdoc-cn-nav-script">(function(){var BTN=".rustdoc-cn-toggle",STORAGE="rustdoc-cn-sidebar-hidden";var SHOW_TITLE="展开侧边栏 (\ 键)";var HIDE_TITLE="折叠侧边栏 (\ 键)";function isDesktop(){return window.matchMedia&&window.matchMedia("(min-width: 701px)").matches;}function applyHidden(hidden){document.documentElement.classList[hidden?"add":"remove"]("hide-sidebar");var btn=document.querySelector(BTN);if(btn){btn.setAttribute("title",hidden?SHOW_TITLE:HIDE_TITLE);btn.setAttribute("aria-label",hidden?SHOW_TITLE:HIDE_TITLE);}try{localStorage.setItem(STORAGE,hidden?"true":"false");}catch(e){}}function toggle(){if(isDesktop()){var hidden=!document.documentElement.classList.contains("hide-sidebar");applyHidden(hidden);}else{var s=document.getElementsByClassName("sidebar")[0];if(s){if(s.classList.contains("shown")){s.classList.remove("shown");}else{s.classList.add("shown");}}}}document.addEventListener("DOMContentLoaded",function(){var btn=document.querySelector(BTN);if(!btn){return;}var sidebar=document.querySelector(".sidebar");var cnW=200;try{var s=localStorage.getItem("desktop-sidebar-width");if(s)cnW=parseInt(s,10);}catch(e){}document.documentElement.style.setProperty("--cn-sidebar-w",cnW+"px");if(sidebar&&window.ResizeObserver){var updateW=function(){if(document.documentElement.classList.contains("hide-sidebar"))return;var w=sidebar.getBoundingClientRect().width;if(w>=50){document.documentElement.style.setProperty("--cn-sidebar-w",w+"px");}};var ro=new ResizeObserver(updateW);ro.observe(sidebar);updateW();}var initialHidden=false;try{initialHidden=localStorage.getItem(STORAGE)==="true";}catch(e){}if(isDesktop()&&initialHidden){applyHidden(true);}else{applyHidden(false);}btn.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();toggle();});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT"||e.target.isContentEditable){return;}if(e.key==="Escape"&&isDesktop()&&!document.documentElement.classList.contains("hide-sidebar")){e.preventDefault();applyHidden(true);return;}if((e.key==="\\"||e.key==="[")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.shiftKey){e.preventDefault();toggle();return;}});});})();</script></body></html>
+
+
+<span class="macro">println!</span>(<span class="string">"received notifications"</span>);</code></pre></div></div></details></div></details></div><h2 id="trait-implementations" class="section-header">Trait 实现<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Debug-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#201">Source</a><a href="#impl-Debug-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.fmt" class="method trait-impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#201">Source</a><a href="#method.fmt" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href="https://doc.rust-lang.org/1.95.0/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></h4></section></summary><div class='docblock'>使用给定的格式化器格式化此值。 <a href="https://doc.rust-lang.org/1.95.0/core/fmt/trait.Debug.html#tymethod.fmt">更多信息</a></div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Default-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#835-839">Source</a><a href="#impl-Default-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.default" class="method trait-impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#836-838">Source</a><a href="#method.default" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html#tymethod.default" class="fn">default</a>() -&gt; <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h4></section></summary><div class='docblock'>Returns the “default value” for a type. <a href="https://doc.rust-lang.org/1.95.0/core/default/trait.Default.html#tymethod.default">更多信息</a></div></details></div></details><section id="impl-RefUnwindSafe-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#842">Source</a><a href="#impl-RefUnwindSafe-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title="trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-UnwindSafe-for-Notify" class="impl"><a class="src rightside" href="../../src/tokio/sync/notify.rs.html#841">Source</a><a href="#impl-UnwindSafe-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/panic/unwind_safe/trait.UnwindSafe.html" title="trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></div><h2 id="synthetic-implementations" class="section-header">自动 Trait 实现<a href="#synthetic-implementations" class="anchor">§</a></h2><div id="synthetic-implementations-list"><section id="impl-Freeze-for-Notify" class="impl"><a href="#impl-Freeze-for-Notify" class="anchor">§</a><h3 class="code-header">impl !<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Freeze.html" title="trait core::marker::Freeze">Freeze</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Send-for-Notify" class="impl"><a href="#impl-Send-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Sync-for-Notify" class="impl"><a href="#impl-Sync-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-Unpin-for-Notify" class="impl"><a href="#impl-Unpin-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section><section id="impl-UnsafeUnpin-for-Notify" class="impl"><a href="#impl-UnsafeUnpin-for-Notify" class="anchor">§</a><h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.UnsafeUnpin.html" title="trait core::marker::UnsafeUnpin">UnsafeUnpin</a> for <a class="struct" href="struct.Notify.html" title="struct tokio::sync::Notify">Notify</a></h3></section></div><h2 id="blanket-implementations" class="section-header">Blanket 实现<a href="#blanket-implementations" class="anchor">§</a></h2><div id="blanket-implementations-list"><details class="toggle implementors-toggle"><summary><section id="impl-Any-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#141">Source</a><a href="#impl-Any-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html" title="trait core::any::Any">Any</a> for T<div class="where">where
+
+
+    T: 'static + ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.type_id" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/any.rs.html#142">Source</a><a href="#method.type_id" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id" class="fn">type_id</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.95.0/core/any/struct.TypeId.html" title="struct core::any::TypeId">TypeId</a></h4></section></summary><div class='docblock'>Gets the <code>TypeId</code> of <code>self</code>. <a href="https://doc.rust-lang.org/1.95.0/core/any/trait.Any.html#tymethod.type_id">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Borrow%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#212">Source</a><a href="#impl-Borrow%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow">Borrow</a>&lt;T&gt; for T<div class="where">where
+
+
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#214">Source</a><a href="#method.borrow" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow" class="fn">borrow</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;T</a></h4></section></summary><div class='docblock'>Immutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.Borrow.html#tymethod.borrow">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-BorrowMut%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#221">Source</a><a href="#impl-BorrowMut%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html" title="trait core::borrow::BorrowMut">BorrowMut</a>&lt;T&gt; for T<div class="where">where
+
+
+    T: ?<a class="trait" href="https://doc.rust-lang.org/1.95.0/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.borrow_mut" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/borrow.rs.html#222">Source</a><a href="#method.borrow_mut" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut" class="fn">borrow_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.reference.html">&amp;mut T</a></h4></section></summary><div class='docblock'>Mutably borrows from an owned value. <a href="https://doc.rust-lang.org/1.95.0/core/borrow/trait.BorrowMut.html#tymethod.borrow_mut">更多信息</a></div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-From%3CT%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#785">Source</a><a href="#impl-From%3CT%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for T</h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#788">Source</a><a href="#method.from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(t: T) -&gt; T</h4></section></summary><div class="docblock"><p>原样返回传入的参数。</p>
+
+
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-Into%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#767-769">Source</a><a href="#impl-Into%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;U&gt; for T<div class="where">where
+
+
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#777">Source</a><a href="#method.into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html#tymethod.into" class="fn">into</a>(self) -&gt; U</h4></section></summary><div class="docblock"><p>调用 <code><code>U::from(self)</code></code>。</p>
+
+
+<p>也就是说，此转换的具体行为取决于
+
+
+<code><a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;T&gt; for U</code> 的实现方式。</p>
+
+
+</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryFrom%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#827-829">Source</a><a href="#impl-TryFrom%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt; for T<div class="where">where
+
+
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error-1" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#831">Source</a><a href="#associatedtype.Error-1" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" class="associatedtype">Error</a> = <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/convert/enum.Infallible.html" title="enum core::convert::Infallible">Infallible</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_from" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#834">Source</a><a href="#method.try_from" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#tymethod.try_from" class="fn">try_from</a>(value: U) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, &lt;T as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;U&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details><details class="toggle implementors-toggle"><summary><section id="impl-TryInto%3CU%3E-for-T" class="impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#811-813">Source</a><a href="#impl-TryInto%3CU%3E-for-T" class="anchor">§</a><h3 class="code-header">impl&lt;T, U&gt; <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html" title="trait core::convert::TryInto">TryInto</a>&lt;U&gt; for T<div class="where">where
+
+
+    U: <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;,</div></h3></section></summary><div class="impl-items"><details class="toggle" open><summary><section id="associatedtype.Error" class="associatedtype trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#815">Source</a><a href="#associatedtype.Error" class="anchor">§</a><h4 class="code-header">type <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#associatedtype.Error" class="associatedtype">Error</a> = &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a></h4></section></summary><div class='docblock'>转换出错时返回的类型。</div></details><details class="toggle method-toggle" open><summary><section id="method.try_into" class="method trait-impl"><a class="src rightside" href="https://doc.rust-lang.org/1.95.0/src/core/convert/mod.rs.html#818">Source</a><a href="#method.try_into" class="anchor">§</a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryInto.html#tymethod.try_into" class="fn">try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;U, &lt;U as <a class="trait" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html" title="trait core::convert::TryFrom">TryFrom</a>&lt;T&gt;&gt;::<a class="associatedtype" href="https://doc.rust-lang.org/1.95.0/core/convert/trait.TryFrom.html#associatedtype.Error" title="type core::convert::TryFrom::Error">Error</a>&gt;</h4></section></summary><div class='docblock'>执行转换。</div></details></div></details></div><script type="text/json" id="notable-traits-data">{"Notified<'_>":"<h3>Notable traits for <code><a class=\"struct\" href=\"futures/struct.Notified.html\" title=\"struct tokio::sync::futures::Notified\">Notified</a>&lt;'_&gt;</code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"futures/struct.Notified.html\" title=\"struct tokio::sync::futures::Notified\">Notified</a>&lt;'_&gt;</div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.95.0/std/primitive.unit.html\">()</a>;</div>","OwnedNotified":"<h3>Notable traits for <code><a class=\"struct\" href=\"futures/struct.OwnedNotified.html\" title=\"struct tokio::sync::futures::OwnedNotified\">OwnedNotified</a></code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html\" title=\"trait core::future::future::Future\">Future</a> for <a class=\"struct\" href=\"futures/struct.OwnedNotified.html\" title=\"struct tokio::sync::futures::OwnedNotified\">OwnedNotified</a></div><div class=\"where\">    type <a href=\"https://doc.rust-lang.org/1.95.0/core/future/future/trait.Future.html#associatedtype.Output\" class=\"associatedtype\">Output</a> = <a class=\"primitive\" href=\"https://doc.rust-lang.org/1.95.0/std/primitive.unit.html\">()</a>;</div>"}</script></section></div></main></body></html>
